@@ -1,0 +1,28 @@
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 0 10px 1px gray;
+}
+
+.form-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-field {
+    margin-left: 10px;
+    border: none;
+    border-bottom: 1px solid gray;
+    padding: 6px 10px 4px;
+    outline: none;
+    font-size: 12px;
+    letter-spacing: '1px';
+    width: 150px;
+    transition: .4s width;
+}
+.search-field:focus {
+    width: 200px;
+}
