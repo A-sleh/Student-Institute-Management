@@ -6,8 +6,8 @@
     min-height: 100vh;
     position: relative;
     background: var(--main-color) ;
-    overflow: hidden;
-
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .lists {
@@ -116,6 +116,7 @@
     margin-left: 7px;
     overflow: hidden;
     margin-top: 10px;
+    margin-bottom: 10px;
     position: relative;
     transform: scaleY(0);
     transform-origin: top ;
