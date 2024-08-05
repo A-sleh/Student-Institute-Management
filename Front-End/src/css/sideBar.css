@@ -1,0 +1,133 @@
+:root {
+    --main-color:  #066599;
+}
+
+.side-bar-container {
+    min-height: 100vh;
+    position: relative;
+    background: var(--main-color) ;
+    overflow: hidden;
+
+}
+
+.lists {
+    position: absolute;
+    list-style: none;
+    padding-left: 8px;
+    top: 10%;
+    width: 100%;
+}
+
+.lists .list,
+.lists .main-list {
+    position: relative;
+    padding: 12px 0px;
+    display: flex;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-weight: 400;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.lists i {
+    position: relative;
+    font-size: 15px;
+    line-height: 25px;
+    margin: 0 15px;
+    pointer-events: none;
+}
+
+.lists  p {
+    position: relative;
+    font-size: 15px;
+    line-height: 25px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    color: white;
+    pointer-events: none;
+    text-wrap: nowrap;
+}
+
+.lists .list.active ,
+.lists .main-list.active {
+    font-weight: 600;
+    background-color: white;
+    color: black;
+}
+
+.lists .list.active p , 
+.lists .main-list.active p {
+    color: black;
+}
+
+.lists .list.active b:nth-child(1) ,
+.lists .main-list.active b:nth-child(1) {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    width: 100%;
+    top: -20%;
+    height: 10px;
+
+}
+
+.lists .list.active b:nth-child(2) , 
+.lists .main-list.active b:nth-child(2) {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    width: 100%;
+    bottom: -20%;
+    height: 10px;
+    transition: 0;
+
+}
+
+.lists .main-list.active .down-arrow {
+    color: white;
+}
+
+.lists .list.active b:nth-child(1)::before , 
+.lists .main-list.active b:nth-child(1)::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    top: -20%;
+    height: 12px;
+    border-bottom-right-radius: 25px;
+    background-color: var(--main-color);
+
+}
+
+.lists .list.active b:nth-child(2)::before , 
+.lists .main-list.active b:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    bottom: -20%;
+    height: 12px;
+    border-top-right-radius: 25px;
+    background-color: var(--main-color);
+
+}
+
+.sub-list {
+    position: relative;
+    margin-left: 7px;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+    transform: scaleY(0);
+    transform-origin: top ;
+    height: 0;
+    transition: .4s;
+}
+
+.lists .main-list.active + ul {
+    height: 100%;
+    transform: scale(1);
+}
+
+.lists  li span>i {
+    font-size: 20px;
+}
