@@ -1,0 +1,11 @@
+MiniAPI
+.vs
+bin
+obj
+UserDB.dbmdl
+UserDB.sqlproj
+UserDB.sqlproj.user
+*.csprojg
+UserDB.jfm
+*.sln
+MiniAPI.vs
