@@ -9,15 +9,13 @@ import LinkOfSidebar from "./LinkOfSidebar";
 export default function NavBar() {
 
   const currentLink = useRef(null);
+
   const handleLinkClicked = (link) => {
-    if (currentLink.current != null) {
-      console.log("inside if");
-      console.log(currentLink.current);
-      currentLink.current.classList.remove("active");
-    }
+
     currentLink.current = link;
-    currentLink.current.classList.add("active");
+    currentLink.current.classList.toggle("active");
   };
+
   return (
     <div className="side-bar-container">
       <ul className="lists">
@@ -42,7 +40,7 @@ export default function NavBar() {
                     paddingRight: "10px",
                   }}
                 >
-                  <p>{link.title}</p>{" "}
+                  <p>{link.title}</p>
                   {link.subLinks.length != 0 ? <i className="bi bi-caret-down down-arrow"></i> : ''}
                 </p>
               </span>
