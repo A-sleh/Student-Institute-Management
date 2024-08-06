@@ -8,15 +8,15 @@ This file will contain the progress in build the main interfaces :
              
     -- optional -- [] Put a field to search in current page
 - SideBar section : 
-    - [] create all links to mobility between pages
-    - [] Routing between the pages using react-router
+    - [X] create all links to mobility between pages
+    - [X] Routing between the pages using react-router
     Note : -- Links Like that : 
-        1 - [x] statistics : 
+        1 - [X] statistics : 
         2 - [X] students : 
-            1 - [x] add new student And chose the class if available
-            2 - [x] show student details ( marks ) 
-        3 - [x] Teachers :
-            1 - [x] add new teacher
+            1 - [X] add new student And chose the class if available
+            2 - [X] show student details ( marks ) 
+        3 - [X] Teachers :
+            1 - [X] add new teacher
             2 - [x] link and delete teacher with class 
             3 - [x] show and update teacher details
         4 - [x] Bill :

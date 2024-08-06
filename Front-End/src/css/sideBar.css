@@ -7,8 +7,10 @@
     position: relative;
     background: var(--main-color) ;
     overflow: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
 }
+
 
 .lists {
     position: absolute;
