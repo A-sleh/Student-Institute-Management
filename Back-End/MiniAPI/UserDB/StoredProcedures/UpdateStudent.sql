@@ -13,13 +13,13 @@ BEGIN
 	UPDATE student
 	set 
 	name = @Name,
-	last_name = @LastName,
-	father_name = @FatherName,
+	lastName = @LastName,
+	fatherName = @FatherName,
 	birthdate = @Birthdate,
 	phone = @Phone,
-	class_id = @ClassId,
-	missed_days = @MissedDays,
-	bill_required = @BillRequired
+	classId = @ClassId,
+	missedDays = @MissedDays,
+	billRequired = @BillRequired
 	where id = @Id
 END
 

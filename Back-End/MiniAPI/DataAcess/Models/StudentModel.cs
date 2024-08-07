@@ -22,15 +22,16 @@ public class StudentModel
     {
         
     }
-    public StudentModel(int Id,
-                        string Name,
-                        string LastName,
-                        string FatherName,
-                        int MissedDays,
-                        string Birthdate,
-                        string Phone,
-                        int ClassId,
-                        decimal BillRequired)
+    public StudentModel(
+        int Id,
+        string Name,
+        string LastName,
+        string FatherName,
+        string Birthdate,
+        string Phone,
+        int ClassId,
+        int MissedDays,
+        decimal BillRequired)
     {
         this.Id = Id;
         this.Name = Name;
