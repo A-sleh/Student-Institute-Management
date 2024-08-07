@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[AddStudent]
-	@name VARCHAR(30),
-	@last_name VARCHAR(30),
-	@father_name VARCHAR(30),
-	@birthdate DATE,
-	@phone CHAR(15),
-	@class_id INT,
-	@missed_days INT,
-	@bill_required INT
+	@Name VARCHAR(30),
+	@LastName VARCHAR(30),
+	@FatherName VARCHAR(30),
+	@Birthdate DATE,
+	@Phone CHAR(15),
+	@ClassId INT,
+	@MissedDays INT,
+	@BillRequired INT
 AS
 BEGIN
 	INSERT INTO student(
@@ -20,13 +20,13 @@ BEGIN
 		bill_required
 	) 
 	VALUES(
-		@name,
-		@last_name,
-		@father_name,
-		@birthdate,
-		@phone,
-		@class_id,
-		@missed_days,
-		@bill_required
+		@Name,
+		@LastName,
+		@FatherName,
+		@Birthdate,
+		@Phone,
+		@ClassId,
+		@MissedDays,
+		@BillRequired
 	)
 END

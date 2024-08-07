@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[GetStudent]
-	@id int = 0
+	@Id int
 AS
 BEGIN
 	SELECT * FROM student
-	WHERE id = @id
+	WHERE id = @Id
 END

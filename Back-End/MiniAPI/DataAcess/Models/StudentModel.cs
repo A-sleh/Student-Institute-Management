@@ -11,23 +11,35 @@ public class StudentModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Last_Name { get; set; }
-    public string Father_Name { get; set; }
+    public string LastName { get; set; }
+    public string FatherName { get; set; }
     public string Birthdate { get; set; }
     public string Phone { get; set; }
-    public int Missed_Days { get; set; }
-    public double Bill_Required { get; set; }
-    public int Class_Id { get; set; }
-
-    public StudentModel(int Id, string Name, string Last_Name, string Father_Name, string Birthdate, string Phone, int Missed_Days, double Bill_Required)
+    public int MissedDays { get; set; }
+    public decimal BillRequired { get; set; }
+    public int ClassId { get; set; }
+    public StudentModel()
+    {
+        
+    }
+    public StudentModel(int Id,
+                        string Name,
+                        string LastName,
+                        string FatherName,
+                        int MissedDays,
+                        string Birthdate,
+                        string Phone,
+                        int ClassId,
+                        decimal BillRequired)
     {
         this.Id = Id;
         this.Name = Name;
-        this.Last_Name = Last_Name;
-        this.Father_Name = Father_Name;
+        this.LastName = LastName;
+        this.FatherName = FatherName;
         this.Birthdate = Birthdate;
         this.Phone = Phone;
-        this.Missed_Days = Missed_Days;
-        this.Bill_Required = Bill_Required;
+        this.MissedDays = MissedDays;
+        this.BillRequired = BillRequired;
+        this.ClassId = ClassId;
     }
 }
