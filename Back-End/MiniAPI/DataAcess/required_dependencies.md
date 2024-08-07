@@ -1,0 +1,3 @@
+﻿Dapper
+Microsoft.Extentions.Configuration
+System.Data.SqlClient
