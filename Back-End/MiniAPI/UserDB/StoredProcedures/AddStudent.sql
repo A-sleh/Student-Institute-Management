@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[AddStudent]
+	@Id int,
 	@Name VARCHAR(30),
 	@LastName VARCHAR(30),
 	@FatherName VARCHAR(30),
@@ -11,14 +12,14 @@ AS
 BEGIN
 	INSERT INTO student(
 		name,
-		last_name,
-		father_name,
+		lastName,
+		fatherName,
 		birthdate,
 		phone,
-		class_id,
-		missed_days,
-		bill_required
-	) 
+		classId,
+		missedDays,
+		billRequired
+	)
 	VALUES(
 		@Name,
 		@LastName,
