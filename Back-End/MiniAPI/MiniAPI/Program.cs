@@ -17,6 +17,14 @@ namespace MiniAPI
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddSingleton<IStudentData, StudentData>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    );
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,8 +33,14 @@ namespace MiniAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("CorsPolicy");
+
+            app.UseAuthorization();
             app.ConfigureAPI();
 
             app.Run();

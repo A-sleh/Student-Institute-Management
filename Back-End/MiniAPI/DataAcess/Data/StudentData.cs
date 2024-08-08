@@ -24,11 +24,12 @@ public class StudentData : IStudentData
     public async Task<StudentModel?> GetStudentByID(int id)
     {
         var res = await _db.LoadData<StudentModel, dynamic>("dbo.GetStudent", new { Id = id });
-        return res ??;
+        return res.FirstOrDefault();
     }
 
     public Task InsertStudent(StudentModel student) =>
-        _db.SaveData("dbo.AddStudent", new {
+        _db.SaveData("dbo.AddStudent", new
+        {
             student.Id,
             student.Name,
             student.LastName,
@@ -40,7 +41,8 @@ public class StudentData : IStudentData
             student.BillRequired
         });
     public Task UpdateStudent(StudentModel student) =>
-        _db.SaveData("dbo.UpdateStudent", new {
+        _db.SaveData("dbo.UpdateStudent", new
+        {
             student.Id,
             student.Name,
             student.LastName,
@@ -51,5 +53,8 @@ public class StudentData : IStudentData
             student.MissedDays,
             student.BillRequired
         });
+
+    public Task DeleteStudent(int id) =>
+        _db.SaveData("dbo.DeleteStudent", new { Id = id });
 }
 
