@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar/NavBar.jsx";
 import SidBar from "./components/SideBar/SidBar.jsx";
-import { Routes , Route} from 'react-router-dom' ;
+import { Routes, Route } from "react-router-dom";
 import Statistics from "./components/Statistics/Statistics";
 import NewStudent from "./components/Students/NewStudent.jsx";
 import StudentsDetails from "./components/Students/StudentsDetails.jsx";
@@ -19,40 +19,48 @@ import ManageClasses from "./components/Classes/ManageClasses.jsx";
 import ClassesDetails from "./components/Classes/ClassesDetails.jsx";
 import Subject from "./components/Subjects/Subject.jsx";
 
+const urlPath = [
+  { path : "NewStudent" , component: <NewStudent />},
+  { path : "StudentsDetails" , component: <StudentsDetails/>},
+  { path : "StudentsDetails" , component: <StudentsDetails />},
+  { path : "NewTeacher" , component: <NewTeacher />},
+  { path : "TeachersDetails" , component: <TeacherDetails />},
+  { path : "ManageTeacher" , component: <ManageTeacher />},
+  { path : "StudentsPays" , component: <StudentsPays />},
+  { path : "TeachersSalaries" , component: <TeachersSalaries />},
+  { path : "ExternalPays" , component: <ExternalPays />},
+  { path : "AllBillDetails" , component: <AllBillDetails />},
+  { path : "CreateTest" , component: <CreateTest/>},
+  { path : "TestDetails" , component: <TestDetails/>},
+  { path : "CreateReport" , component: <CreateReport />},
+  { path : "estDetails" , component: <estDetails />},
+  { path : "NewClass" , component: <NewClass />},
+  { path : "ManageClasses" , component: <ManageClasses />},
+  { path : "ClassesDetails" , component: <ClassesDetails />},
+  { path : "Subject" , component: <Subject/>},
+];
+
+
+const renderAllRoute = urlPath.map((route, index) => {
+  return <Route path={"/" + route.path } element={ route.component} key={index} />;
+});
 
 export default function App() {
-
   return (
     <div
       style={{
         display: "flex",
       }}
     >
-      <aside style={{width : '20%' , transition: '0.3s'}}>
+      <aside style={{ width: "20%", transition: "0.3s" }}>
         <SidBar />
       </aside>
-      <main style={{ flex : '1'}}>
+      <main style={{ flex: "1" }}>
         <NavBar />
-        <div style={{paddingTop: '20px',paddingLeft: '20px'}}>
-          <Routes >
-            <Route path="/" element={<Statistics />}  />    
-            <Route path="/NewStudent" element={<NewStudent />} />
-            <Route path="/StudentsDetails" element={<StudentsDetails />} />
-            <Route path="/StudentsDetails" element={<StudentsDetails />} />
-            <Route path="/NewTeacher" element={<NewTeacher />} />
-            <Route path="/ManageTeacher" element={<ManageTeacher />} />
-            <Route path="/TeachersDetails" element={<TeacherDetails />} />
-            <Route path="/StudentsPays" element={<StudentsPays />} />
-            <Route path="/TeachersSalaries" element={<TeachersSalaries />} />
-            <Route path="/ExternalPays" element={<ExternalPays />} />
-            <Route path="/AllBillDetails" element={<AllBillDetails />} />
-            <Route path="/CreateTest" element={<CreateTest />} />
-            <Route path="/CreateReport" element={<CreateReport />} />
-            <Route path="/TestDetails" element={<TestDetails />} />
-            <Route path="/NewClass" element={<NewClass />} />
-            <Route path="/ManageClasses" element={<ManageClasses />} />
-            <Route path="/ClassesDetails" element={<ClassesDetails />} />
-            <Route path="/Subject" element={<Subject />} />
+        <div style={{ paddingTop: "20px", paddingLeft: "20px" }}>
+          <Routes>
+            <Route path="/" element={<Statistics />} />
+            {renderAllRoute}
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </div>

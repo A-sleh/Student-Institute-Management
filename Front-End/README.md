@@ -36,3 +36,11 @@ This file will contain the progress in build the main interfaces :
             1 - [x] (Add , delete , update) subject dependent on classification 
 
 -- [] create Redux toolkit to manage the states
+
+
+
+
+
+-- My Data connection : 
+
+"Data Source=DESKTOP-U4CIS1T;Initial Catalog=test;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
