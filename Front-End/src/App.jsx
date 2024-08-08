@@ -19,7 +19,9 @@ import ManageClasses from "./components/Classes/ManageClasses.jsx";
 import ClassesDetails from "./components/Classes/ClassesDetails.jsx";
 import Subject from "./components/Subjects/Subject.jsx";
 
+
 export default function App() {
+
   return (
     <div
       style={{
