@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[ClassGetAll]
+AS
+BEGIN
+	SELECT * FROM class
+END

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[GetStudent]
+﻿CREATE PROCEDURE [dbo].[StudentGet]
 	@Id int
 AS
 BEGIN

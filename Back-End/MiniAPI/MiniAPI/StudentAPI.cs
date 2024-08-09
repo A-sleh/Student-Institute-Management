@@ -5,9 +5,9 @@ using System.Net.NetworkInformation;
 
 namespace MiniAPI
 {
-    public static class Api
+    public static class StudentAPI
     {
-        public static void ConfigureAPI(this WebApplication app)
+        public static void ConfigureStudentAPI(this WebApplication app)
         {
             //end points mapping
             app.MapGet("/Student/{id}", GetStudent);
@@ -21,9 +21,9 @@ namespace MiniAPI
         {
             try
             {
-                var result = Results.Ok(await data.GetStudentByID(id));
-                if(result == null) return Results.NotFound();
-                return Results.Ok(result);
+                var res = Results.Ok(await data.GetStudentByID(id));
+                if(res == null) return Results.NotFound();
+                return Results.Ok(res);
             }
             catch (Exception ex){
                 return Results.Problem(ex.Message);
@@ -62,7 +62,8 @@ namespace MiniAPI
                 await data.UpdateStudent(student);
                 return Results.Ok();
             }
-            catch( Exception ex) { 
+            catch(Exception ex) 
+            { 
                 return Results.Problem(ex.Message);
             }
         }

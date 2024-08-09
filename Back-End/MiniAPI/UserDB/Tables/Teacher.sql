@@ -1,0 +1,6 @@
+﻿CREATE TABLE teacher(
+Id INT PRIMARY KEY IDENTITY(1,1),
+Name VARCHAR(30),
+LastName VARCHAR(30),
+Phone VARCHAR(15)
+);

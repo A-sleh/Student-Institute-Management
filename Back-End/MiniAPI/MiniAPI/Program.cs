@@ -17,6 +17,7 @@ namespace MiniAPI
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddSingleton<IStudentData, StudentData>();
+            builder.Services.AddSingleton<IClassData, ClassData>();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -41,7 +42,9 @@ namespace MiniAPI
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
-            app.ConfigureAPI();
+
+            app.ConfigureStudentAPI();
+            app.ConfigureClassAPI();
 
             app.Run();
         }
