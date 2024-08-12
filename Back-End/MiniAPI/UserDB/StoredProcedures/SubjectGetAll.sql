@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [dbo].[SubjectGetAll]
+AS
+BEGIN
+	SELECT * FROM Subject;
+END

@@ -1,27 +1,29 @@
 ﻿using DataAcess.Data;
 using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.NetworkInformation;
 
 namespace MiniAPI
 {
-    public static class Api
+    public static class StudentAPI
     {
-        public static void ConfigureAPI(this WebApplication app)
+        public static void ConfigureStudentAPI(this WebApplication app)
         {
             //end points mapping
             app.MapGet("/Student/{id}", GetStudent);
             app.MapGet("/Student", GetStudents);
-            app.MapPut("/UpdateStudent", UpdateStudent);
-            app.MapPost("/InsertStudent", InsertStudent);
+            app.MapPut("/Student", UpdateStudent);
+            app.MapPost("/Student", InsertStudent);
+            app.MapDelete("/Student/{id}", DeleteStudent); 
         }
         
         private static async Task<IResult> GetStudent(IStudentData data, int id)
         {
             try
             {
-                var result = Results.Ok(await data.GetStudentByID(id));
-                if(result == null) return Results.NotFound();
-                return Results.Ok(result);
+                var res = Results.Ok(await data.GetStudentByID(id));
+                if(res == null) return Results.NotFound();
+                return Results.Ok(res);
             }
             catch (Exception ex){
                 return Results.Problem(ex.Message);
@@ -60,7 +62,21 @@ namespace MiniAPI
                 await data.UpdateStudent(student);
                 return Results.Ok();
             }
-            catch( Exception ex) { 
+            catch(Exception ex) 
+            { 
+                return Results.Problem(ex.Message);
+            }
+        }
+
+        private static async Task<IResult> DeleteStudent(IStudentData data, int id)
+        {
+            try
+            {
+                await data.DeleteStudent(id);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
                 return Results.Problem(ex.Message);
             }
         }

@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace DataAcess.Models
 {
-    internal class ClassModel
+    public class ClassModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public int Capacity { get; set; }
         public string Grade { get; set; }
         public string Gender { get; set; }
+        public ClassModel()
+        {
+            
+        }
         public ClassModel(int Id,  string Title, int Capacity, string Grade, string Gender)
         {
             this.Id = Id;

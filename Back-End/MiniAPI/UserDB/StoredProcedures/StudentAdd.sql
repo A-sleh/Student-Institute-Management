@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[AddStudent]
+﻿CREATE PROCEDURE [dbo].[StudentAdd]
 	@Id int,
 	@Name VARCHAR(30),
 	@LastName VARCHAR(30),
