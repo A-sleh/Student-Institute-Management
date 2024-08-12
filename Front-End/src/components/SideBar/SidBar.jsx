@@ -1,6 +1,6 @@
 // import { useRef } from "react";
 
-import { links } from "../../Data/SideBarLinks.js";
+import { links } from "../../Data/static/SideBarLinks.js";
 import { useRef } from "react";
 import "../../css/sideBar.css";
 import LinkOfSidebar from "./LinkOfSidebar";

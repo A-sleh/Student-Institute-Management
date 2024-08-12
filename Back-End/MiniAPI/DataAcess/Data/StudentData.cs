@@ -24,7 +24,7 @@ public class StudentData : IStudentData
     public async Task<StudentModel?> GetStudentByID(int id)
     {
         var res = await _db.LoadData<StudentModel, dynamic>("dbo.GetStudent", new { Id = id });
-        return res ??;
+        return res.FirstOrDefault();
     }
 
     public Task InsertStudent(StudentModel student) =>

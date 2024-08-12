@@ -42,10 +42,11 @@ const urlPath = [
 
 
 const renderAllRoute = urlPath.map((route, index) => {
-  return <Route path={"/" + route.path } element={ route.component} key={index} />;
+  return <Route path={"/" + route.path } element={ route.component} key={index}  />;
 });
 
 export default function App() {
+
   return (
     <div
       style={{
@@ -57,7 +58,7 @@ export default function App() {
       </aside>
       <main style={{ flex: "1" }}>
         <NavBar />
-        <div style={{ paddingTop: "20px", paddingLeft: "20px" }}>
+        <div style={{ padding: "20px" }}>
           <Routes>
             <Route path="/" element={<Statistics />} />
             {renderAllRoute}
