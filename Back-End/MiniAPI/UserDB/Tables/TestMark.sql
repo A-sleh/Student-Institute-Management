@@ -4,7 +4,6 @@
 	[StudentId] INT,
 	[TestId] INT,
 	[Mark] INT,
-	[CorrectionDate] DATE,
 	CONSTRAINT TestMark_Student_Fk FOREIGN KEY(StudentId) REFERENCES Student(Id),
 	CONSTRAINT TestMark_Test_Fk FOREIGN KEY(TestId) REFERENCES Test(Id)
 )

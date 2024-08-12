@@ -1,6 +1,5 @@
 using DataAcess.Data;
 using DataAcess.DBAccess;
-using DataAcess.Models;
 namespace MiniAPI
 {
     public class Program

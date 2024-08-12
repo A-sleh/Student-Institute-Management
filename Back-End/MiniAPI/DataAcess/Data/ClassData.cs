@@ -11,12 +11,10 @@ namespace DataAcess.Data
     public class ClassData : IClassData
     {
         private readonly ISqlDataAccess _db;
-
         public ClassData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
-
         public Task<IEnumerable<ClassModel>> GetClasses() =>
             _db.LoadData<ClassModel, dynamic>("dbo.ClassGetAll", new { });
         public async Task<ClassModel?> GetClass(int id)
