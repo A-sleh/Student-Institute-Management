@@ -120,15 +120,15 @@
     margin-top: 10px;
     margin-bottom: 10px;
     position: relative;
-    transform: scaleY(0);
+    /* transform: scaleY(0); */
     transform-origin: top ;
     height: 0;
-    transition: .4s;
+    /* transition: .4s; */
 }
 
 .lists .main-list.active + ul {
     height: 100%;
-    transform: scale(1);
+    /* transform: scale(1); */
 }
 
 .lists  li span>i {

@@ -1,10 +1,16 @@
+
 import logo from "../../assets/logo.png";
 import "../../css/navBar.css";
 
-export default function NavBar() {
+export default function NavBar(props) {
+   const {openSideBare,setOpenSideBare} = props ; 
+  
   return (
     <div className="navBar">
-      <i className="fa-solid fa-bars burger-menu" ></i>
+      <i className="bi bi-list" onClick={() => setOpenSideBare(!openSideBare)} style={{
+        cursor: "pointer" , 
+        fontSize : '27px'
+      }}></i>
       <img
         src={logo}
         alt="logo"

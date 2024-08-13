@@ -18,34 +18,38 @@ import NewClass from "./components/Classes/NewClass.jsx";
 import ManageClasses from "./components/Classes/ManageClasses.jsx";
 import ClassesDetails from "./components/Classes/ClassesDetails.jsx";
 import Subject from "./components/Subjects/Subject.jsx";
+import { useState } from "react";
 
 const urlPath = [
-  { path : "NewStudent" , component: <NewStudent />},
-  { path : "StudentsDetails" , component: <StudentsDetails/>},
-  { path : "StudentsDetails" , component: <StudentsDetails />},
-  { path : "NewTeacher" , component: <NewTeacher />},
-  { path : "TeachersDetails" , component: <TeacherDetails />},
-  { path : "ManageTeacher" , component: <ManageTeacher />},
-  { path : "StudentsPays" , component: <StudentsPays />},
-  { path : "TeachersSalaries" , component: <TeachersSalaries />},
-  { path : "ExternalPays" , component: <ExternalPays />},
-  { path : "AllBillDetails" , component: <AllBillDetails />},
-  { path : "CreateTest" , component: <CreateTest/>},
-  { path : "TestDetails" , component: <TestDetails/>},
-  { path : "CreateReport" , component: <CreateReport />},
-  { path : "estDetails" , component: <estDetails />},
-  { path : "NewClass" , component: <NewClass />},
-  { path : "ManageClasses" , component: <ManageClasses />},
-  { path : "ClassesDetails" , component: <ClassesDetails />},
-  { path : "Subject" , component: <Subject/>},
+  { path: "NewStudent", component: <NewStudent /> },
+  { path: "StudentsDetails", component: <StudentsDetails /> },
+  { path: "StudentsDetails", component: <StudentsDetails /> },
+  { path: "NewTeacher", component: <NewTeacher /> },
+  { path: "TeachersDetails", component: <TeacherDetails /> },
+  { path: "ManageTeacher", component: <ManageTeacher /> },
+  { path: "StudentsPays", component: <StudentsPays /> },
+  { path: "TeachersSalaries", component: <TeachersSalaries /> },
+  { path: "ExternalPays", component: <ExternalPays /> },
+  { path: "AllBillDetails", component: <AllBillDetails /> },
+  { path: "CreateTest", component: <CreateTest /> },
+  { path: "TestDetails", component: <TestDetails /> },
+  { path: "CreateReport", component: <CreateReport /> },
+  { path: "estDetails", component: <estDetails /> },
+  { path: "NewClass", component: <NewClass /> },
+  { path: "ManageClasses", component: <ManageClasses /> },
+  { path: "ClassesDetails", component: <ClassesDetails /> },
+  { path: "Subject", component: <Subject /> },
 ];
 
-
 const renderAllRoute = urlPath.map((route, index) => {
-  return <Route path={"/" + route.path } element={ route.component} key={index}  />;
+  return (
+    <Route path={"/" + route.path} element={route.component} key={index} />
+  );
 });
 
 export default function App() {
+
+  const [openSideBare,setOpenSideBare] = useState(true) ;
 
   return (
     <div
@@ -53,13 +57,13 @@ export default function App() {
         display: "flex",
       }}
     >
-      <aside style={{ width: "20%", transition: "0.3s" }}>
+      <aside style={{ width: openSideBare ? '20%' : '54px', transition: "0.5s" }}>
         <SidBar />
       </aside>
       <main style={{ flex: "1" }}>
-        <NavBar />
+        <NavBar setOpenSideBare = {setOpenSideBare} openSideBare={openSideBare} />
         <div style={{ padding: "20px" }}>
-          <Routes>
+          <Routes >
             <Route path="/" element={<Statistics />} />
             {renderAllRoute}
             <Route path="*" element={<h1>Not Found</h1>} />
