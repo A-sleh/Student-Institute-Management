@@ -1,6 +1,6 @@
 
 import logo from "../../assets/logo.png";
-import "../../css/navBar.css";
+import "./navBar.css";
 
 export default function NavBar(props) {
    const {openSideBare,setOpenSideBare} = props ; 

@@ -2,7 +2,7 @@
 
 import { links } from "../../Data/static/SideBarLinks.js";
 import { useRef } from "react";
-import "../../css/sideBar.css";
+import "./sideBar.css";
 import LinkOfSidebar from "./LinkOfSidebar";
 
 export default function NavBar() {
