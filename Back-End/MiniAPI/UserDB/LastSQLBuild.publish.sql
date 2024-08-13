@@ -11,7 +11,7 @@ SET ANSI_NULLS, ANSI_PADDING, ANSI_WARNINGS, ARITHABORT, CONCAT_NULL_YIELDS_NULL
 
 SET NUMERIC_ROUNDABORT OFF;
 
-/*
+
 GO
 :setvar DatabaseName "LastSQLBuild"
 :setvar DefaultFilePrefix "LastSQLBuild"
@@ -20,13 +20,13 @@ GO
 
 GO
 :on error exit
-GO*/
+GO
 /*
 Detect SQLCMD mode and disable script execution if SQLCMD mode is not supported.
 To re-enable the script after enabling SQLCMD mode, execute the following:
 SET NOEXEC OFF; 
 */
---:setvar __IsSqlCmdEnabled "True"
+:setvar __IsSqlCmdEnabled "True"
 GO
 IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
     BEGIN
