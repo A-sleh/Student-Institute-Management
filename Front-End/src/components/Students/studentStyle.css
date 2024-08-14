@@ -38,8 +38,7 @@ table td:not(:first-child) {
 form {
     min-width:580px;
     margin-right: 10px;
-    padding: 20px;
-    padding-bottom: 20px;
+    padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 0 6px -1px gray;
 }
@@ -47,6 +46,7 @@ form {
 form .row .input {
     display: flex;
     flex-direction: column;
+    height: 78px;
 }
 
 form .row div.input:last-child {
@@ -72,13 +72,22 @@ form .row .input input:focus,
 }
 
 
+form .row .input input.error,
+.selector select.error {
+    border-bottom-color: red;
+}
+
 form .sub-title {
     margin-bottom: 10px;
     color: #0e0b0b;
     font-size: 1.3em;
 }
 
-
+form span {
+    margin-top: 4px;
+    font-size: 11px;
+    color: red;
+}
 form label {
     text-transform: capitalize;
     font-weight: 500;
@@ -89,7 +98,7 @@ form label {
 
 .row {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
 }
 
 .check-box {
