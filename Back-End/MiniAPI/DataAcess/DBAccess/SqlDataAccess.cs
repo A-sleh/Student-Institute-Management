@@ -13,6 +13,8 @@ namespace DataAcess.DBAccess
         {
             _cofing = config;
         }
+
+        // simple mapping
         public async Task<IEnumerable<T>> LoadData<T, U>(
             string storedProcedure,
             U parameters,
@@ -21,6 +23,21 @@ namespace DataAcess.DBAccess
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
+
+        //one to many relation data mapping using this method
+        public async Task<IEnumerable<T>> LoadData<T, U, V>(
+            string storedProcedure,
+            U parameters,
+            Func<T, V, T> x,
+            string splitOn,
+            string connectionString = "Default"
+            )
+        {
+            using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
+            return await connection.QueryAsync<T, V, T>(storedProcedure, param: parameters, map: x, commandType: CommandType.StoredProcedure, splitOn: splitOn);
+        }
+
+        // excution only
         public async Task SaveData<T>(
             string storedProcedure,
             T parameters,
@@ -29,5 +46,6 @@ namespace DataAcess.DBAccess
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
+
     }
 }

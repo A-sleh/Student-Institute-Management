@@ -10,24 +10,10 @@ namespace MiniAPI
         public static void ConfigureClassAPI(this WebApplication app)
         {
             app.MapGet("/Class", GetClasses);
-            app.MapGet("/Class/{id}", GetClass);
+            app.MapGet("/Class/{id}", GetClassByID);
             app.MapPost("/Class", InsertClass);
             app.MapPut("/Class", UpdateClass);
             app.MapDelete("/Class/{id}", DeleteClass);
-        }
-
-        private static async Task<IResult> GetClass(IClassData data, int id)
-        {
-            try
-            {
-                var res = Results.Ok(await data.GetClass(id));
-                if (res == null) return Results.NotFound();
-                return Results.Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
         }
 
         private static async Task<IResult> GetClasses(IClassData data)
@@ -79,6 +65,19 @@ namespace MiniAPI
             {
                 return Results.Problem(ex.Message);
             }
+        }
+        
+        private static async Task<IResult> GetClassByID(int id , IClassData data)
+        {
+            try
+            {
+                return Results.Ok(await data.GetClassDetails(id));
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+            
         }
     }
 }

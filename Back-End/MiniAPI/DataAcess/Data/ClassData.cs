@@ -2,6 +2,8 @@
 using DataAcess.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,17 +17,75 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        public Task<IEnumerable<ClassModel>> GetClasses() =>
-            _db.LoadData<ClassModel, dynamic>("dbo.ClassGetAll", new { });
-        public async Task<ClassModel?> GetClass(int id)
+        public async Task<IEnumerable<ClassModel>> GetClasses()
         {
-            var res = await _db.LoadData<ClassModel, dynamic>("dbo.ClassGet", new { Id = id });
-            return res.FirstOrDefault();
+            var dic = new Dictionary<int, ClassModel>();
+            var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
+                "dbo.ClassGetAll",
+                new { },
+                (Class, Student) =>
+                {
+                    if (dic.TryGetValue(Class.Id, out var ExistClass))
+                    {
+                        Class = ExistClass;
+                    }
+                    else
+                    {
+                        dic.Add(Class.Id, Class);
+                    }
+                    Class.Students.Add(Student);
+                    return Class;
+                },
+                splitOn: "id"
+            );
+            return res.Distinct();
+        }
+        public async Task<ClassModel?> GetClassDetails(int id)
+        {
+            var dic = new Dictionary<int, ClassModel>();
+            var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
+                "dbo.ClassGetDetails",
+                new { Id = id },
+                (Class, Student) =>
+                {
+                    if (dic.TryGetValue(Class.Id, out var ExistClass))
+                    {
+                        Class = ExistClass;
+                    }
+                    else
+                    {
+                        dic.Add(Class.Id, Class);
+                    }
+                    if (Class != null)
+                    {
+                        Class.Students.Add(Student);
+                        return Class;
+                    }
+                    else throw new Exception("NO VALUE");
+                },
+                splitOn: "Id"
+            );
+            var Class = dic[id];
+            return Class;
         }
         public Task InsertClass(ClassModel classModel) =>
-            _db.SaveData<ClassModel>("dbo.ClassAdd", classModel);
+            _db.SaveData("dbo.ClassAdd", new
+            {
+                classModel.Id,
+                classModel.Title,
+                classModel.Capacity,
+                classModel.Gender,
+                classModel.Grade
+            });
         public Task UpdateClass(ClassModel classModel) =>
-            _db.SaveData<ClassModel>("dbo.ClassUpdate", classModel);
+            _db.SaveData("dbo.ClassUpdate", new
+            {
+                classModel.Id,
+                classModel.Title,
+                classModel.Capacity,
+                classModel.Gender,
+                classModel.Grade
+            });
         public Task DeleteClass(int id) =>
             _db.SaveData("dbo.ClassDelete", new { Id = id });
     }
