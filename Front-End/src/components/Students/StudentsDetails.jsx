@@ -3,6 +3,7 @@ import DataServices from "../../Data/dynamic/DataServices";
 import { COLUMNS } from "./TableStructuer/Columns";
 import { useTable } from "react-table";
 import './studentStyle.css'
+import Title from "../Global/Title";
 
 export default function StudentsDetails() {
   const [studentInfo, setstudentInfo] = useState([]);
@@ -26,7 +27,8 @@ export default function StudentsDetails() {
     useTable({ data: studentInfo, columns: column });
 
   return (
-    <>
+    <div>
+      <Title title={window.location.pathname} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup , index ) => (
@@ -50,6 +52,6 @@ export default function StudentsDetails() {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }

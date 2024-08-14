@@ -1,3 +1,6 @@
+
+import {format} from 'date-fns'
+
 export const  COLUMNS = [
     {
         Header : 'ID' , 
@@ -9,11 +12,12 @@ export const  COLUMNS = [
     },
     {
         Header : 'Father Name' , 
-        accessor : 'father_name' ,
+        accessor : 'fatherName' ,
     },
     {
         Header : 'Birth Date' , 
-        accessor : 'birth_date' ,
+        accessor : 'birthdate' ,
+        Cell : ({value}) => { return format(new Date(value) , 'yyyy / MM / dd')}
     },
     {
         Header : 'Phone' , 
@@ -21,14 +25,14 @@ export const  COLUMNS = [
     },
     {
         Header : 'Class Id' , 
-        accessor : 'class_id' ,
+        accessor : 'classId' ,
     },
     {
         Header : 'Missed Days' , 
-        accessor : 'missed_days' ,
+        accessor : 'missedDays' ,
     },
     {
         Header : 'Missed Days' , 
-        accessor : 'bill_required' ,
+        accessor : 'billRequired' ,
     }
 ]

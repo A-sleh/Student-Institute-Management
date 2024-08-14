@@ -1,11 +1,11 @@
 :root {
-    --main-color:  #066599;
+    --main-color: #066599;
 }
 
 .side-bar-container {
     min-height: 100vh;
     position: relative;
-    background: var(--main-color) ;
+    background: var(--main-color);
     overflow: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -30,6 +30,7 @@
     color: white;
     cursor: pointer;
     text-decoration: none;
+    width: 100%;
 }
 
 .lists i {
@@ -40,7 +41,7 @@
     pointer-events: none;
 }
 
-.lists  p {
+.lists p {
     position: relative;
     font-size: 14px;
     line-height: 25px;
@@ -49,21 +50,29 @@
     color: white;
     pointer-events: none;
     text-wrap: nowrap;
+    margin-left: 5px;
 }
 
-.lists .list.active ,
+.lists li span p {
+    margin-left: 0px;
+}
+.lists li.list i {
+    font-size: 16px !important;
+}
+
+.lists .list.active,
 .lists .main-list.active {
     font-weight: 600;
     background-color: white;
     color: black;
 }
 
-.lists .list.active p , 
+.lists .list.active p,
 .lists .main-list.active p {
     color: black;
 }
 
-.lists .list.active b:nth-child(1) ,
+.lists .list.active b:nth-child(1),
 .lists .main-list.active b:nth-child(1) {
     background-color: rgb(255, 255, 255);
     position: absolute;
@@ -73,7 +82,7 @@
 
 }
 
-.lists .list.active b:nth-child(2) , 
+.lists .list.active b:nth-child(2),
 .lists .main-list.active b:nth-child(2) {
     background-color: rgb(255, 255, 255);
     position: absolute;
@@ -88,7 +97,7 @@
     color: white;
 }
 
-.lists .list.active b:nth-child(1)::before , 
+.lists .list.active b:nth-child(1)::before,
 .lists .main-list.active b:nth-child(1)::before {
     content: '';
     position: absolute;
@@ -100,7 +109,7 @@
 
 }
 
-.lists .list.active b:nth-child(2)::before , 
+.lists .list.active b:nth-child(2)::before,
 .lists .main-list.active b:nth-child(2)::before {
     content: '';
     position: absolute;
@@ -120,17 +129,23 @@
     margin-bottom: 10px;
     position: relative;
     /* transform: scaleY(0); */
-    transform-origin: top ;
+    transform-origin: top;
     height: 0;
     /* transition: .4s; */
 }
 
 .lists .main-list.active + ul {
-    height: 100%;
+    height: 100%; 
     margin-top: 12px;
     /* transform: scale(1); */
 }
+.lists .main-list.active:first-child {
+    margin-top: 18px;
+}
 
-.lists  li span>i {
-    font-size: 20px;
+.lists li span>i {
+    font-size: 16px;
+}
+.lists li span>p {
+    margin-left: 5px;
 }

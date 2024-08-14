@@ -57,7 +57,7 @@ export default function App() {
         display: "flex",
       }}
     >
-      <aside style={{ width: openSideBare ? '20%' : '54px', transition: "0.5s" }}>
+      <aside style={{ width: openSideBare ? '250px' : '60px', transition: "0.5s" }}>
         <SidBar />
       </aside>
       <main style={{ flex: "1" }}>

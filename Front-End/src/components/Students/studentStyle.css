@@ -8,6 +8,7 @@ table {
 table td,
 table th {
     border-top: 1px solid #ddd;
+    text-align: center;
     padding: 8px;
 }
 
@@ -27,6 +28,173 @@ tfoot td {
     background-color: #2677a3;
     color: white;
 }
+
 table td:not(:first-child) {
     border-left: 1px solid #ddd;
+}
+
+/* NewStudent page */
+
+form {
+    min-width:580px;
+    margin-right: 10px;
+    padding: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px -1px gray;
+}
+
+form .row .input {
+    display: flex;
+    flex-direction: column;
+}
+
+form .row div.input:last-child {
+    margin-left: 2em;
+}
+
+form .row .input input,
+.selector select {
+    padding: 5px 10px;
+    min-width: 350px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    background-color: #dddddd85;
+    box-shadow: 0 0 10px -5px gray inset;
+    outline: none;
+    transition: .3s;
+}
+
+form .row .input input:focus,
+.selector select:focus {
+    border-bottom-color: #066599;
+}
+
+
+form .sub-title {
+    margin-bottom: 10px;
+    color: #0e0b0b;
+    font-size: 1.3em;
+}
+
+
+form label {
+    text-transform: capitalize;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: gray;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.check-box {
+    display: flex;
+    margin-left: 2em;
+    gap: 2em;
+}
+
+.check-box label:first-child {
+    color: #066599;
+}
+
+.check-box .info label {
+    margin-left: 6px;
+    margin-right: 2px;
+}
+
+.check-box div {
+    min-width: 5em;
+}
+
+.check-box-gender {
+    display: flex;
+    flex-direction: column;
+}
+
+.check-box-gender .info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 0;
+}
+
+.selector {
+    display: flex;
+    flex-direction: column;
+}
+
+.selector select {
+    width: 100%;
+}
+
+input[type='submit'] {
+    padding: 5px 35px;
+    background-color: #066599;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    margin-top: 20px;   
+    font-weight: bold;
+    color: white;
+    transition: .4s;
+}
+input[type='submit']:hover {
+    background-color: white;
+    color: #066599;
+    box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438) ;
+}
+
+.selector option {
+    border: none;
+}
+/* student Card */
+
+.icon {
+    font-size: 200px;
+    color: rgba(128, 128, 128, 0.623);
+    line-height: 150px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+.student-card {
+    box-shadow: 0 0 6px -1px gray;
+    border-radius: 10px;
+    padding: 20px 20px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+}
+
+.student-card h3 {
+    color: #066599;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.student-card h3 span {
+    margin-bottom: 5px;
+    color: black;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.student-card main {
+    padding: 15px;
+    padding-right: 0;
+    overflow: hidden;
+    max-width: 240px;
+    border-radius: 10px;
+    text-wrap: nowrap;
+    background-color: #dddddd85;
 }
