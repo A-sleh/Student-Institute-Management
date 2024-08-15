@@ -3,10 +3,6 @@ import {format} from 'date-fns'
 
 export const  COLUMNS = [
     {
-        Header : 'ID' , 
-        accessor : 'id' ,
-    } ,
-    {
         Header : 'Name' , 
         accessor : 'full_name' ,
     },

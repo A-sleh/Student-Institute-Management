@@ -14,12 +14,13 @@ export default function NavBar() {
   };
 
   return (
-    <div className="side-bar-container">
+    <div
+      className="side-bar-container"
+      style={{ position: "sticky", top: "0" }}
+    >
       <ul className="lists">
-        <li  className="list">
-          
-            <LinkOfSidebar data={links[0]} />
-          
+        <li className="list">
+          <LinkOfSidebar data={links[0]} />
         </li>
         {links
           .filter((link) => {
@@ -64,7 +65,7 @@ export default function NavBar() {
             );
           })}
         <li className="list">
-            <LinkOfSidebar data={links[links.length - 1]} />
+          <LinkOfSidebar data={links[links.length - 1]} />
         </li>
       </ul>
     </div>

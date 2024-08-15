@@ -2,7 +2,6 @@ table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
-
 }
 
 table td,
@@ -10,6 +9,12 @@ table th {
     border-top: 1px solid #ddd;
     text-align: center;
     padding: 8px;
+}
+
+table th {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding-left: 0;
 }
 
 table tr:nth-child(even) {
@@ -35,25 +40,25 @@ table td:not(:first-child) {
 
 /* NewStudent page */
 
-form {
-    min-width:580px;
+form.student-info {
+    min-width: 580px;
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 0 6px -1px gray;
 }
 
-form .row .input {
+form.student-info .row .input {
     display: flex;
     flex-direction: column;
     height: 78px;
 }
 
-form .row div.input:last-child {
+form.student-info .row div.input:last-child {
     margin-left: 2em;
 }
 
-form .row .input input,
+form.student-info .row .input input,
 .selector select {
     padding: 5px 10px;
     min-width: 350px;
@@ -66,29 +71,30 @@ form .row .input input,
     transition: .3s;
 }
 
-form .row .input input:focus,
+form.student-info .row .input input:focus,
 .selector select:focus {
     border-bottom-color: #066599;
 }
 
 
-form .row .input input.error,
+form.student-info .row .input input.error,
 .selector select.error {
     border-bottom-color: red;
 }
 
-form .sub-title {
+form.student-info .sub-title {
     margin-bottom: 10px;
     color: #0e0b0b;
     font-size: 1.3em;
 }
 
-form span {
+form.student-info span {
     margin-top: 4px;
     font-size: 11px;
     color: red;
 }
-form label {
+
+form.student-info label {
     text-transform: capitalize;
     font-weight: 500;
     margin-bottom: 6px;
@@ -150,20 +156,22 @@ input[type='submit'] {
     outline: none;
     border: none;
     border-radius: 3px;
-    margin-top: 20px;   
+    margin-top: 20px;
     font-weight: bold;
     color: white;
     transition: .4s;
 }
+
 input[type='submit']:hover {
     background-color: white;
     color: #066599;
-    box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438) ;
+    box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438);
 }
 
 .selector option {
     border: none;
 }
+
 /* student Card */
 
 .icon {
@@ -206,4 +214,38 @@ input[type='submit']:hover {
     border-radius: 10px;
     text-wrap: nowrap;
     background-color: #dddddd85;
+}
+
+
+/*  TableHeader */
+
+input[type='search'] {
+    outline: none;
+    border: none;
+    font-size: 14px;
+}
+
+/* Table Controal Section */
+.next-btn,
+.previos-btn {
+    cursor: pointer;
+    padding: 2px 20px;
+    border: none;
+    background-color: #2677a3;
+    color: white;
+    font-weight: 400;
+    border-radius: 2px;
+    margin: 0 10px;
+}
+
+.current-page {
+    font-weight: 600;
+    margin: 0 5px;
+}
+
+.jump-btn {
+    padding: 2px 6px;
+    margin: 0 5px;
+    font-size: 18px;
+    cursor: pointer;
 }

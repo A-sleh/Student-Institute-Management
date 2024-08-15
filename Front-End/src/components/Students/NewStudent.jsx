@@ -3,8 +3,10 @@ import Title from "../Global/Title";
 import DataServices from "../../Data/dynamic/DataServices.js";
 import "./studentStyle.css";
 import StudentCard from "./StudentCard.jsx";
+import Notification from "../Global/Notification.jsx";
 
 export default function NewStudent() {
+  const [success,setSuccess] = useState(false) ;
   const [validation, setValidation] = useState({
     name: false,
     lastName: false,
@@ -127,7 +129,7 @@ export default function NewStudent() {
       lastName: lastName === "",
       fatherName: fatherName === "",
       birthdate: birthdate === "",
-      phone: phone === "" || phone.length != 10,
+      phone: phone === "" || phone.length != 10 || phone.match(/[^0-9]/),
       missedDays: missedDays < 0,
       billRequired: billRequired <= 0,
       classId: classId <= 0,
@@ -144,7 +146,8 @@ export default function NewStudent() {
       phone.length != 10 ||
       missedDays < 0 ||
       billRequired <= 0 ||
-      classId <= 0
+      classId <= 0 ||
+      phone.match(/[^0-9]/)
     );
   }
 
@@ -162,9 +165,11 @@ export default function NewStudent() {
 
   return (
     <div>
+      <Notification title={"Add New Student Successfully"} type={'success'} state={success} /> 
       <Title title={window.location.pathname} />
       <section style={{ display: "flex", justifyContent: "space-around" }}>
         <form
+          className="student-info"
           onSubmit={(e) => {
             e.preventDefault();
 
@@ -173,7 +178,8 @@ export default function NewStudent() {
             if (!flag) {
               try {
                 DataServices.AddNewStudent(studentDetails);
-                alert("done");
+                setTimeout(() => { setSuccess(false) } , 1500 )
+                setSuccess(true) ;
               } catch (error) {
                 alert.log(error);
               }
@@ -185,7 +191,7 @@ export default function NewStudent() {
             <div className="input">
               <label>First Name</label>
               <input
-                className={validation.name ? 'error' : ''}
+                className={validation.name ? "error" : ""}
                 type="text"
                 value={studentDetails.name}
                 onChange={(e) =>
@@ -195,13 +201,13 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.name && <span>Pleas Enter The First Name</span>}
+              {validation.name && <span>Pleas Enter The First Name</span>}
             </div>
             <div className="input">
               <label>Last Name</label>
               <input
                 type="text"
-                className={validation.lastName ? 'error' : ''}
+                className={validation.lastName ? "error" : ""}
                 value={studentDetails.lastName}
                 onChange={(e) =>
                   setStudentDetails({
@@ -210,7 +216,7 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.lastName && <span>Pleas Enter The Last Name</span>}
+              {validation.lastName && <span>Pleas Enter The Last Name</span>}
             </div>
           </div>
 
@@ -219,7 +225,7 @@ export default function NewStudent() {
               <label>Father Name</label>
               <input
                 type="text"
-                className={validation.fatherName ? 'error' : ''}
+                className={validation.fatherName ? "error" : ""}
                 value={studentDetails.fatherName}
                 onChange={(e) =>
                   setStudentDetails({
@@ -228,13 +234,15 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.fatherName && <span>Pleas Enter The Father Name</span>}
+              {validation.fatherName && (
+                <span>Pleas Enter The Father Name</span>
+              )}
             </div>
             <div className="input">
               <label>birthdate</label>
               <input
                 type="date"
-                className={validation.birthdate ? 'error' : ''}
+                className={validation.birthdate ? "error" : ""}
                 value={studentDetails.birthdate}
                 onChange={(e) =>
                   setStudentDetails({
@@ -243,7 +251,7 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.birthdate && <span>Pleas Enter The Birth Days</span>}
+              {validation.birthdate && <span>Pleas Enter The Birth Days</span>}
             </div>
           </div>
 
@@ -253,7 +261,7 @@ export default function NewStudent() {
               <input
                 type="text"
                 value={studentDetails.phone}
-                className={validation.phone ? 'error' : ''}
+                className={validation.phone ? "error" : ""}
                 onChange={(e) =>
                   setStudentDetails({
                     ...studentDetails,
@@ -261,13 +269,17 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.phone && <span>The Number Should Be 10 Digite</span>}
+              {validation.phone && (
+                <span>
+                  The Number Should Be 10 Digite ,And With Out Letters
+                </span>
+              )}
             </div>
             <div className="input">
               <label>missed Days</label>
               <input
                 type="number"
-                className={validation.missedDays ? 'error' : ''}
+                className={validation.missedDays ? "error" : ""}
                 value={studentDetails.missedDays}
                 onChange={(e) =>
                   setStudentDetails({
@@ -276,7 +288,9 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.missedDays && <span>The Miss Days Must Be Positive</span>}
+              {validation.missedDays && (
+                <span>The Miss Days Must Be Positive</span>
+              )}
             </div>
           </div>
 
@@ -285,7 +299,7 @@ export default function NewStudent() {
               <label>bill Required</label>
               <input
                 type="number"
-                className={validation.billRequired ? 'error' : ''}
+                className={validation.billRequired ? "error" : ""}
                 value={studentDetails.billRequired}
                 onChange={(e) =>
                   setStudentDetails({
@@ -294,7 +308,9 @@ export default function NewStudent() {
                   })
                 }
               />
-              { validation.billRequired && <span>The Bill Must Be Positive</span>}
+              {validation.billRequired && (
+                <span>The Bill Must Be Positive</span>
+              )}
             </div>
             <div className="check-box">
               <div className="check-box-gender">
@@ -350,7 +366,7 @@ export default function NewStudent() {
             <label>Class Name </label>
             <select
               value={studentDetails.classId}
-              className={validation.classId ? 'error' : ''}
+              className={validation.classId ? "error" : ""}
               onChange={(value) =>
                 setStudentDetails({
                   ...studentDetails,
@@ -369,7 +385,9 @@ export default function NewStudent() {
                 </option>
               ))}
             </select>
-            { validation.classId && <span>Pleas Chose A Class Or Create One If There are no </span>}
+            {validation.classId && (
+              <span>Pleas Chose A Class Or Create One If There are no </span>
+            )}
           </div>
           <input type="submit" value="Add" />
         </form>
