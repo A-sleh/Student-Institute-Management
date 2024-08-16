@@ -36,7 +36,7 @@ namespace DataAcess.Data
                     Class.Students.Add(Student);
                     return Class;
                 },
-                splitOn: "id"
+                splitOn: "Id"
             );
             return res.Distinct();
         }
