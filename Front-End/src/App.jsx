@@ -57,12 +57,12 @@ export default function App() {
         display: "flex",
       }}
     >
-      <aside style={{ width: openSideBare ? '20%' : '54px', transition: "0.5s" }}>
+      <aside style={{ width: openSideBare ? '250px' : '60px', transition: "0.5s" }}>
         <SidBar />
       </aside>
-      <main style={{ flex: "1" }}>
+      <main style={{ flex: "1"}}>
         <NavBar setOpenSideBare = {setOpenSideBare} openSideBare={openSideBare} />
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "20px" , paddingTop: '5px' , position: 'relative' , zIndex: '0' }}>
           <Routes >
             <Route path="/" element={<Statistics />} />
             {renderAllRoute}

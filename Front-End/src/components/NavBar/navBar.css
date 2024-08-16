@@ -4,8 +4,11 @@
     align-items: center;
     width: 100%;
     padding: 2px 10px ;
-    
-    box-shadow: 0 0 10px 1px gray;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px 1px gray;
+    background-color: white;
 }
 
 .burger-menu {
