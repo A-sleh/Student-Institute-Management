@@ -16,5 +16,8 @@ export default {
     },
     showAllCalsses : () => {
         return API.Class.get();
+    },
+    CreateNewClass : (data) => {
+        return API.Class.post(data);
     }
 }

@@ -1,7 +1,9 @@
 import "./studentStyle.css";
 
+
 export default function StudentCard(props) {
   const { studentDetails } = props;
+
   return (
     <div className="student-card">
       <i className="bi bi-person-circle icon"></i>

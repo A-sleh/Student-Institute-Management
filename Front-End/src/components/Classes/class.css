@@ -1,0 +1,89 @@
+form {
+    min-width: 580px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 11px -4px gray
+}
+
+form .row .input {
+    display: flex;
+    flex-direction: column;
+    height: 78px;
+}
+
+form .row div.input:last-child {
+    margin-left: 2em;
+}
+
+form .row .input input,
+.selector select {
+    padding: 5px 10px;
+    min-width: 350px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid transparent;
+    background-color: #dddddd85;
+    box-shadow: 0 0 10px -5px gray inset;
+    outline: none;
+    transition: .3s;
+}
+
+form .row .input input:focus,
+.selector select:focus {
+    border-bottom-color: #066599;
+}
+
+
+form .row .input input.error,
+.selector select.error {
+    border-bottom-color: red;
+}
+
+form .sub-title {
+    margin-bottom: 10px;
+    color: #0e0b0b;
+    font-size: 1.3em;
+}
+
+form span {
+    margin-top: 4px;
+    font-size: 11px;
+    color: red;
+}
+form .selector {
+    margin-bottom: 20px;
+}
+
+form label {
+    text-transform: capitalize;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: gray;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 6px;
+}
+
+input[type='submit'] {
+    padding: 5px 35px;
+    background-color: #066599;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    margin-top: 20px;
+    font-weight: bold;
+    color: white;
+    transition: .4s;
+}
+
+input[type='submit']:hover {
+    background-color: white;
+    color: #066599;
+    box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438);
+}

@@ -365,7 +365,7 @@ export default function StudentForm({
                       checked={ClassType.Gender.Famale}
                       onChange={(e) => handleCheckBoxGender(e.target.checked)}
                     />
-                    <label htmlFor="Famale">Famale</label>
+                    <label htmlFor="Famale">Female</label>
                   </div>
                 </div>
               </div>
@@ -422,12 +422,13 @@ export default function StudentForm({
               <span>Pleas Chose A Class Or Create One If There are no </span>
             )}
           </div>
+          
           <input
             type="submit"
             value={requestType === "POST" ? "Add" : "Update"}
           />
         </form>
-        <StudentCard studentDetails={studentDetails} />
+          <StudentCard studentDetails={studentDetails} />
       </section>
     </div>
   );

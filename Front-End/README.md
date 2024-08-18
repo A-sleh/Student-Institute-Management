@@ -31,7 +31,7 @@ This file will contain the progress in build the main interfaces :
         6 - [x] class :
             1 - [] create new class 
             2 - [] manage the class (add - delete - move ) student
-            3 - [] show class details (students - teachers ) sorted by the bets class dependent on students level
+            3 - [] show class details (students - teachers ) sorted by the best class dependent on students level
         7 - [x] subject : 
             1 - [] (Add , delete , update) subject dependent on classification 
 

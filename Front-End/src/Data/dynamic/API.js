@@ -8,7 +8,7 @@ export default {
       );
     },
     post: (data) => {
-      fetch(`${URL}/Student`, {
+      return fetch(`${URL}/Student`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -17,7 +17,7 @@ export default {
       });
     },
     put: (data) => {
-      fetch(`${URL}/Student`, {
+      return fetch(`${URL}/Student`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -37,7 +37,15 @@ export default {
         response.json()
       );
     },
-    post: () => {},
+    post: (data) => {
+      return fetch(`${URL}/Class`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
     put: () => {},
     delete: () => {},
   },

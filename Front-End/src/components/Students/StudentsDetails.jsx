@@ -24,7 +24,7 @@ export default function StudentsDetails() {
       ...COLUMNS,
       {
         id: "selection",
-        Header: "Setting",
+        Header: "Action",
         Cell: ({ row }) => (
           <div
             style={{

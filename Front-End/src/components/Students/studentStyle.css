@@ -49,7 +49,8 @@ form.student-info {
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 10px;
-    box-shadow: 0 0 11px -4px gray
+    box-shadow: 0 0 11px -4px gray;
+    
 }
 
 form.student-info .row .input {

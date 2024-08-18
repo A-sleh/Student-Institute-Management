@@ -29,7 +29,7 @@ export const COLUMNS = [
     accessor: "missedDays",
   },
   {
-    Header: "Missed Days",
+    Header: "Bill Required",
     accessor: "billRequired",
   }
 ];
