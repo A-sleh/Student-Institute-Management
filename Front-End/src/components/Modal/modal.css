@@ -1,0 +1,50 @@
+
+/* Delete Modal*/
+.delete-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:  100   
+}
+.delete-modal i {
+    line-height: 1px;
+    
+}
+.delete-modal>div {
+    padding: 20px ;
+    background-color: white;
+    border-radius: 10px;
+}
+.delete-modal p {
+    font-size: 14px;
+    margin: 0;
+}
+.delete-modal button {
+    padding: 2px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1.3px solid red;
+    border-radius: 2px;
+    color: red;
+    cursor: pointer;
+}
+.delete-modal button:first-child {
+    background-color: red;
+    color: white;
+    margin-right: 10px;
+}
+.delete-modal div:last-child {
+    margin-top: 10px;
+}
+.delete-modal .content {
+    color: gray;
+    line-height: 18px;
+    font-weight: 500;
+    word-spacing: 2px;
+}

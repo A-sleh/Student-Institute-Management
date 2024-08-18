@@ -16,8 +16,20 @@ export default {
         },
       });
     },
-    put: () => {},
-    delete: () => {},
+    put: (data) => {
+      fetch(`${URL}/Student`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Student/${id || ""}`, {
+        method: "DELETE",
+      });
+    },
   },
   Class: {
     get: (id) => {

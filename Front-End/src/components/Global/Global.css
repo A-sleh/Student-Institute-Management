@@ -29,12 +29,12 @@
 
 /* Notification */ 
 .notification {
-    position: absolute;
+    position: fixed;
     z-index: 100;
     bottom: 20px;
     right: 20px;
     font-weight: 300  ;
-    padding: 10px 15px ;
+    padding: 4px 10px ;
     color: white ;
     border-radius: 3px ;
     transform: scaleX(0);
@@ -43,8 +43,10 @@
 }
 
 .notification.success {
-    background-color: rgba(14, 233, 14, 0.801);
+    background-color: #0ee90e3a;
+    color:#0ee90e ;
 }
 .notification.error {
-    background-color: rgba(233, 14, 14, 0.801);
+    background-color: rgba(233, 14, 14, 0.4);
+    color: rgb(238, 20, 20);
 }

@@ -18,11 +18,13 @@ import NewClass from "./components/Classes/NewClass.jsx";
 import ManageClasses from "./components/Classes/ManageClasses.jsx";
 import ClassesDetails from "./components/Classes/ClassesDetails.jsx";
 import Subject from "./components/Subjects/Subject.jsx";
-import { useState } from "react";
+import { createContext, useState } from "react";
+import UpdateStudent from "./components/Students/UpdateStudent.jsx";
+import StudentInformation from "./components/Students/StudentInformation.jsx";
+import DeleteStudenModal from "./components/Modal/DeleteStudenModal.jsx";
 
 const urlPath = [
   { path: "NewStudent", component: <NewStudent /> },
-  { path: "StudentsDetails", component: <StudentsDetails /> },
   { path: "StudentsDetails", component: <StudentsDetails /> },
   { path: "NewTeacher", component: <NewTeacher /> },
   { path: "TeachersDetails", component: <TeacherDetails /> },
@@ -47,28 +49,58 @@ const renderAllRoute = urlPath.map((route, index) => {
   );
 });
 
-export default function App() {
+export const SharedState = createContext();
 
-  const [openSideBare,setOpenSideBare] = useState(true) ;
+export default function App() {
+  const [openSideBare, setOpenSideBare] = useState(true);
+
+  const [successDeleteStudent, setSuccessDeleteStudent] = useState(false); // sharing state
 
   return (
     <div
       style={{
         display: "flex",
+        position: "relative",
       }}
     >
-      <aside style={{ width: openSideBare ? '250px' : '60px', transition: "0.5s" }}>
+      <aside
+        style={{ width: openSideBare ? "250px" : "60px", transition: "0.5s" }}
+      >
         <SidBar />
       </aside>
-      <main style={{ flex: "1"}}>
-        <NavBar setOpenSideBare = {setOpenSideBare} openSideBare={openSideBare} />
-        <div style={{ padding: "20px" , paddingTop: '5px' , position: 'relative' , zIndex: '0' }}>
-          <Routes >
-            <Route path="/" element={<Statistics />} />
-            {renderAllRoute}
-            <Route path="*" element={<h1>Not Found</h1>} />
-          </Routes>
-        </div>
+      <main style={{ flex: "1" }}>
+        <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
+        <SharedState.Provider
+          value={{ successDeleteStudent, setSuccessDeleteStudent }}
+        >
+          <div
+            style={{
+              padding: "20px",
+              paddingTop: "5px",
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<Statistics />} />
+              {renderAllRoute}
+              <Route path="StudentsDetails" element={<StudentsDetails />}>
+                <Route
+                  path="DeleteStudent/:id"
+                  element={
+                    <DeleteStudenModal
+                      message={`Are You Sure To Delete Student`}
+                    />
+                  }
+                />
+              </Route>
+              <Route
+                path="/StudentInformation/:id"
+                element={<StudentInformation />}
+              />
+              <Route path="/UpdateStudent/:info" element={<UpdateStudent />} />
+              <Route path="*" element={<h1>Not Found</h1>} />
+            </Routes>
+          </div>
+        </SharedState.Provider>
       </main>
     </div>
   );

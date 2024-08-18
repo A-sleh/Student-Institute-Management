@@ -33,6 +33,10 @@ tfoot td {
     background-color: #2677a3;
     color: white;
 }
+table td {
+    font-size: 15px;
+    padding: 2px;
+}
 
 table td:not(:first-child) {
     border-left: 1px solid #ddd;
@@ -45,7 +49,7 @@ form.student-info {
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 10px;
-    box-shadow: 0 0 6px -1px gray;
+    box-shadow: 0 0 11px -4px gray
 }
 
 form.student-info .row .input {
@@ -183,7 +187,7 @@ input[type='submit']:hover {
 }
 
 .student-card {
-    box-shadow: 0 0 6px -1px gray;
+    box-shadow: 0 0 11px -4px gray;
     border-radius: 10px;
     padding: 20px 20px;
     padding-bottom: 10px;

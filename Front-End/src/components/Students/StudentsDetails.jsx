@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import { COLUMNS } from "./TableStructuer/Columns";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   useTable,
   usePagination,
@@ -11,12 +12,60 @@ import "./studentStyle.css";
 import Title from "../Global/Title";
 import TableHeader from "./TableStructuer/TableHeader";
 import TableControalSection from "./TableStructuer/TableControalSection";
+import Notification from "../Global/Notification";
+import { SharedState } from "../../App";
 
 export default function StudentsDetails() {
   const [studentInfo, setstudentInfo] = useState([]);
-  const column = useMemo(() => COLUMNS, []);
+  const {successDeleteStudent, setSuccessDeleteStudent } = useContext(SharedState);
+
+  const column = useMemo(
+    () => [
+      ...COLUMNS,
+      {
+        id: "selection",
+        Header: "Setting",
+        Cell: ({ row }) => (
+          <div
+            style={{
+              justifyContent: "space-evenly",
+              display: "flex",
+              fontSize: "20px",
+              alignItems: "center",
+            }}
+          >
+            <Link
+              to={`/StudentInformation/${row.original.id}`}
+              style={{ color: "gray", cursor: "pointer" }}
+            >
+              <i className="bi bi-person-lines-fill"></i>
+            </Link>
+            <Link
+              to={`/UpdateStudent/${row.original.id}?data=${encodeURIComponent(
+                JSON.stringify(row.original)
+              )}`}
+              style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
+            >
+              <i className="bi bi-person-gear"></i>
+            </Link>
+            <Link
+              to={`DeleteStudent/${row.original.id}?data=${encodeURIComponent(
+                JSON.stringify(row.original)
+              )}`}
+              style={{ color: "#ff0000d9", cursor: "pointer" }}
+            >
+              <i className="bi bi-person-dash"></i>
+            </Link>
+            <Outlet />
+          </div>
+        ),
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
+    console.log("render");
     DataServices.StudentsInformaion().then((StudentsInfo) => {
       setstudentInfo(
         StudentsInfo.map((student) => {
@@ -28,7 +77,7 @@ export default function StudentsDetails() {
         })
       );
     });
-  }, []);
+  }, [successDeleteStudent]);
 
   const {
     getTableProps,
@@ -46,26 +95,31 @@ export default function StudentsDetails() {
     setGlobalFilter,
     pageCount,
   } = useTable(
-    { data: studentInfo, columns: column },
+    {
+      data: studentInfo,
+      columns: column,
+    },
     useGlobalFilter,
     useSortBy,
     usePagination
   );
 
-  console.table(
-    useTable({ data: studentInfo, columns: column }, usePagination)
-  );
-
-  const { globalFilter ,pageIndex } = state;
+  const { globalFilter, pageIndex } = state;
   return (
     <div>
+      <Notification
+        title={"student was deleted"}
+        type={"success"}
+        state={successDeleteStudent}
+        setState={setSuccessDeleteStudent}
+      />
       <Title title={window.location.pathname} />
       <TableHeader
         filter={globalFilter}
         setFilter={setGlobalFilter}
         studentNumber={rows.length}
       />
-      <table {...getTableProps()} >
+      <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup, index) => (
             <tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -113,7 +167,7 @@ export default function StudentsDetails() {
         pageCount={pageCount}
         previousPage={previousPage}
         nextPage={nextPage}
-        canPreviousPage ={canPreviousPage}
+        canPreviousPage={canPreviousPage}
         canNextPage={canNextPage}
         pageIndex={pageIndex}
         gotoPage={gotoPage}

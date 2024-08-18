@@ -61,19 +61,22 @@
 }
 
 .lists .list.active,
-.lists .main-list.active {
+.lists .main-list.active ,
+.lists .main-list:has(+ ul .list.active ) {
     font-weight: 600;
     background-color: white;
     color: black;
 }
 
 .lists .list.active p,
-.lists .main-list.active p {
+.lists .main-list.active p ,
+.lists .main-list:has(+ ul .list.active ) p {
     color: black;
 }
 
 .lists .list.active b:nth-child(1),
-.lists .main-list.active b:nth-child(1) {
+.lists .main-list.active b:nth-child(1)  ,
+.lists .main-list:has(+ ul .list.active ) b:nth-child(1){
     background-color: rgb(255, 255, 255);
     position: absolute;
     width: 100%;
@@ -83,7 +86,8 @@
 }
 
 .lists .list.active b:nth-child(2),
-.lists .main-list.active b:nth-child(2) {
+.lists .main-list.active b:nth-child(2) ,
+.lists .main-list:has(+ ul .list.active ) b:nth-child(2) {
     background-color: rgb(255, 255, 255);
     position: absolute;
     width: 100%;
@@ -93,12 +97,14 @@
 
 }
 
-.lists .main-list.active .down-arrow {
+.lists .main-list.active .down-arrow ,
+.lists .main-list:has(+ ul .list.active ) .down-arrow {
     color: white;
 }
 
 .lists .list.active b:nth-child(1)::before,
-.lists .main-list.active b:nth-child(1)::before {
+.lists .main-list.active b:nth-child(1)::before ,
+.lists .main-list:has(+ ul .list.active ) b:nth-child(1)::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -110,7 +116,8 @@
 }
 
 .lists .list.active b:nth-child(2)::before,
-.lists .main-list.active b:nth-child(2)::before {
+.lists .main-list.active b:nth-child(2)::before ,
+.lists .main-list:has(+ ul .list.active ) b:nth-child(2)::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -134,12 +141,14 @@
     /* transition: .4s; */
 }
 
-.lists .main-list.active + ul {
+.lists .main-list.active + ul ,
+.lists .main-list:has(+ ul .list.active ) + ul {
     height: 100%; 
     margin-top: 12px;
     /* transform: scale(1); */
 }
-.lists .main-list.active:first-child {
+.lists .main-list.active:first-child ,
+.lists .main-list:first-child:has(+ ul .list.active ) {
     margin-top: 18px;
 }
 
@@ -149,3 +158,5 @@
 .lists li span>p {
     margin-left: 5px;
 }
+
+
