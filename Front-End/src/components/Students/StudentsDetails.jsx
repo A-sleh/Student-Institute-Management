@@ -65,7 +65,6 @@ export default function StudentsDetails() {
   );
 
   useEffect(() => {
-    console.log("render");
     DataServices.StudentsInformaion().then((StudentsInfo) => {
       setstudentInfo(
         StudentsInfo.map((student) => {

@@ -41,6 +41,8 @@ const urlPath = [
   { path: "ManageClasses", component: <ManageClasses /> },
   { path: "ClassesDetails", component: <ClassesDetails /> },
   { path: "Subject", component: <Subject /> },
+  { path: "/StudentInformation/:id", component: <StudentInformation /> },
+  { path: "/UpdateStudent/:info", component: <UpdateStudent /> },
 ];
 
 const renderAllRoute = urlPath.map((route, index) => {
@@ -92,11 +94,6 @@ export default function App() {
                   }
                 />
               </Route>
-              <Route
-                path="/StudentInformation/:id"
-                element={<StudentInformation />}
-              />
-              <Route path="/UpdateStudent/:info" element={<UpdateStudent />} />
               <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
           </div>

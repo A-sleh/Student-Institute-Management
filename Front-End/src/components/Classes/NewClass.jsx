@@ -2,15 +2,20 @@ import "./class.css";
 import Title from "../Global/Title";
 import { useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
+import ClassCard from "./ClassCard";
+import Notification from "../Global/Notification";
 
 export default function NewClass() {
-  const [classDetails, setClassDetails] = useState({
+  
+  const initialSatate = {
     title: "",
     capacity: 0,
     grade: "",
     gender: "",
-    students: [],
-  });
+  };
+  const [successCreateClasss, setSuccessCreateClasss] = useState(false);
+
+  const [classDetails, setClassDetails] = useState(initialSatate);
 
   const [validation, setValidation] = useState({
     title: false,
@@ -33,19 +38,36 @@ export default function NewClass() {
   return (
     <>
       <Title title={window.location.pathname} />
-      <div style={{marginTop: '2em'}}>
+      <Notification
+        title={"Create A New Class"}
+        type={"success"}
+        state={successCreateClasss}
+        setState={setSuccessCreateClasss}
+      />
+      <div
+        style={{
+          marginTop: "2em",
+          display: "flex",
+          justifyContent: "space-around",
+        }}
+      >
         <form
+          className="class-form"
           onSubmit={(e) => {
             e.preventDefault();
 
             const flag = validationInputsFeilds();
 
             if (!flag) {
-              DataServices.CreateNewClass(classDetails).then((repsonse) => {
-                console.log(repsonse);
-              })
+              DataServices.CreateNewClass(classDetails).then((_) => {
+                // No Thing to do here
+              });
+              setClassDetails(initialSatate)
+              setSuccessCreateClasss(true);
+              setTimeout(() => {
+                setSuccessCreateClasss(false);
+              }, 2000);
             }
-
           }}
         >
           <h3 className="sub-title">Class Information</h3>
@@ -97,8 +119,9 @@ export default function NewClass() {
                 })
               }
             >
-              <option value={'bachelor'}>bachelor</option>
-              <option value={'ninth'}>ninth</option>
+              <option value={""}></option>
+              <option value={"bachelor"}>bachelor</option>
+              <option value={"ninth"}>ninth</option>
             </select>
           </div>
 
@@ -114,13 +137,15 @@ export default function NewClass() {
                 })
               }
             >
-              <option value={'male'}>male</option>
-              <option value={'female'}>female</option>
+              <option value={""}></option>
+              <option value={"male"}>male</option>
+              <option value={"female"}>female</option>
             </select>
           </div>
 
-          <input type="submit" value={'Submit'}/>
+          <input type="submit" value={"Submit"} />
         </form>
+        <ClassCard classDetails={classDetails} />
       </div>
     </>
   );

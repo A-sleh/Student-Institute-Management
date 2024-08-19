@@ -5,7 +5,7 @@ import { useRef } from "react";
 import "./sideBar.css";
 import LinkOfSidebar from "./LinkOfSidebar";
 
-export default function NavBar() {
+export default function SidBar() {
   const currentLink = useRef(null);
 
   const handleLinkClicked = (link) => {

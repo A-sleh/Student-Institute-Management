@@ -205,6 +205,7 @@ input[type='submit']:hover {
 
 .student-card h3 span {
     margin-bottom: 5px;
+    text-transform: capitalize ;
     color: black;
     font-weight: 600;
     font-size: 16px;
