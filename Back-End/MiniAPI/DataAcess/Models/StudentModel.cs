@@ -17,5 +17,5 @@ public class StudentModel
     public string? Phone { get; set; }
     public int MissedDays { get; set; }
     public decimal BillRequired { get; set; }
-    public int ClassId { get; set; }
+    public ClassModel? Class { get; set; }
 }

@@ -23,8 +23,7 @@ namespace DataAcess.DBAccess
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
-
-        //one to many relation data mapping using this method
+        //one to one/many relation data mapping using this method
         public async Task<IEnumerable<T>> LoadData<T, U, V>(
             string storedProcedure,
             U parameters,

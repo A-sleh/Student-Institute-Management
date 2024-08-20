@@ -8,7 +8,7 @@ namespace DataAcess.Models
 {
     public class ClassModel
     {
-        public int Id { get; set; }
+        public int ClassId { get; set; }
         public string? Title { get; set; }
         public int Capacity { get; set; }
         public string? Grade { get; set; }

@@ -25,13 +25,13 @@ namespace DataAcess.Data
                 new { },
                 (Class, Student) =>
                 {
-                    if (dic.TryGetValue(Class.Id, out var ExistClass))
+                    if (dic.TryGetValue(Class.ClassId, out var ExistClass))
                     {
                         Class = ExistClass;
                     }
                     else
                     {
-                        dic.Add(Class.Id, Class);
+                        dic.Add(Class.ClassId, Class);
                     }
                     Class.Students.Add(Student);
                     return Class;
@@ -48,13 +48,13 @@ namespace DataAcess.Data
                 new { Id = id },
                 (Class, Student) =>
                 {
-                    if (dic.TryGetValue(Class.Id, out var ExistClass))
+                    if (dic.TryGetValue(Class.ClassId, out var ExistClass))
                     {
                         Class = ExistClass;
                     }
                     else
                     {
-                        dic.Add(Class.Id, Class);
+                        dic.Add(Class.ClassId, Class);
                     }
                     if (Class != null)
                     {
@@ -71,7 +71,7 @@ namespace DataAcess.Data
         public Task InsertClass(ClassModel classModel) =>
             _db.SaveData("dbo.ClassAdd", new
             {
-                classModel.Id,
+                classModel.ClassId,
                 classModel.Title,
                 classModel.Capacity,
                 classModel.Gender,
@@ -80,7 +80,7 @@ namespace DataAcess.Data
         public Task UpdateClass(ClassModel classModel) =>
             _db.SaveData("dbo.ClassUpdate", new
             {
-                classModel.Id,
+                classModel.ClassId,
                 classModel.Title,
                 classModel.Capacity,
                 classModel.Gender,
