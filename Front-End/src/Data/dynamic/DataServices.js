@@ -19,5 +19,11 @@ export default {
     },
     CreateNewClass : (data) => {
         return API.Class.post(data);
-    }
+    },
+    DeleteClass: (id) => {
+        return API.Class.delete(id);
+    },
+    UpdateClass : (data) => {
+        return API.Class.put(data) ;
+    } 
 }

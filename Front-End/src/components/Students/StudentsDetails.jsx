@@ -1,7 +1,7 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {  useEffect, useMemo, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import { COLUMNS } from "./TableStructuer/Columns";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import {
   useTable,
   usePagination,
@@ -13,11 +13,26 @@ import Title from "../Global/Title";
 import TableHeader from "./TableStructuer/TableHeader";
 import TableControalSection from "./TableStructuer/TableControalSection";
 import Notification from "../Global/Notification";
-import { SharedState } from "../../App";
+import DeleteModal from "../Modal/DeleteModal";
+
 
 export default function StudentsDetails() {
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [successDeleteStudent,setSuccessDeleteStudent] = useState(false);
+  const [currentStudentInfo, setCurrentStudentInfo] = useState({
+    id: null,
+    name: "",
+  });
+
   const [studentInfo, setstudentInfo] = useState([]);
-  const {successDeleteStudent, setSuccessDeleteStudent } = useContext(SharedState);
+
+  function handleDleteClicked(student) {
+    setCurrentStudentInfo({
+      name: `${student.name} ${student.lastName}`,
+      id: student.id,
+    });
+    setDeleteModal(true);
+  }
 
   const column = useMemo(
     () => [
@@ -49,9 +64,9 @@ export default function StudentsDetails() {
               <i className="bi bi-person-gear"></i>
             </Link>
             <Link
-              to={`DeleteStudent/${row.original.id}?data=${encodeURIComponent(
-                JSON.stringify(row.original)
-              )}`}
+              onClick={() => {
+                handleDleteClicked(row.original);
+              }}
               style={{ color: "#ff0000d9", cursor: "pointer" }}
             >
               <i className="bi bi-person-dash"></i>
@@ -105,72 +120,78 @@ export default function StudentsDetails() {
 
   const { globalFilter, pageIndex } = state;
   return (
-    <div>
-      <Notification
-        title={"student was deleted"}
-        type={"success"}
-        state={successDeleteStudent}
-        setState={setSuccessDeleteStudent}
-      />
-      <Title title={window.location.pathname} />
-      <TableHeader
-        filter={globalFilter}
-        setFilter={setGlobalFilter}
-        studentNumber={rows.length}
-      />
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup, index) => (
-            <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-              {headerGroup.headers.map((column, index) => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  key={index}
-                >
-                  {column.isSorted ? (
-                    <span style={{ fontSize: "12px" }}>
-                      {" "}
-                      {!column.isSortedDesc ? (
-                        <i className="bi bi-arrow-up"></i>
-                      ) : (
-                        <i className="bi bi-arrow-down"></i>
-                      )}{" "}
+    <>
+      { deleteModal && <DeleteModal element={currentStudentInfo.name} type={'student'} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />}
+      <div>
+        <Notification
+          title={"student was deleted"}
+          type={"success"}
+          state={successDeleteStudent}
+          setState={setSuccessDeleteStudent}
+        />
+        <Title title={window.location.pathname} />
+        <TableHeader
+          filter={globalFilter}
+          setFilter={setGlobalFilter}
+          studentNumber={rows.length}
+        />
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup, index) => (
+              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                {headerGroup.headers.map((column, index) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    key={index}
+                  >
+                    {column.isSorted ? (
+                      <span style={{ fontSize: "12px" }}>
+                        {" "}
+                        {!column.isSortedDesc ? (
+                          <i className="bi bi-arrow-up"></i>
+                        ) : (
+                          <i className="bi bi-arrow-down"></i>
+                        )}{" "}
+                      </span>
+                    ) : (
+                      <i
+                        className="bi bi-arrow-up"
+                        style={{ opacity: "0" }}
+                      ></i>
+                    )}
+                    <span style={{ marginLeft: "5px" }}>
+                      {column.render("Header")}
                     </span>
-                  ) : (
-                    <i className="bi bi-arrow-up" style={{ opacity: "0" }}></i>
-                  )}
-                  <span style={{ marginLeft: "5px" }}>
-                    {column.render("Header")}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, index) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()} key={index}>
-                {row.cells.map((cell, index) => (
-                  <td {...cell.getCellProps()} key={index}>
-                    {cell.render("Cell")}
-                  </td>
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <TableControalSection
-        pageCount={pageCount}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        pageIndex={pageIndex}
-        gotoPage={gotoPage}
-      />
-    </div>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row, index) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()} key={index}>
+                  {row.cells.map((cell, index) => (
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <TableControalSection
+          pageCount={pageCount}
+          previousPage={previousPage}
+          nextPage={nextPage}
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          pageIndex={pageIndex}
+          gotoPage={gotoPage}
+        />
+      </div>
+    </>
   );
 }

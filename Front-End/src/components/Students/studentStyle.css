@@ -153,7 +153,8 @@ form.student-info label {
     width: 100%;
 }
 
-input[type='submit'] {
+input[type='submit'] ,
+.update-class-btn {
     padding: 5px 35px;
     background-color: #066599;
     border: none;
