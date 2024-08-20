@@ -2,6 +2,7 @@
 	@Id int
 AS
 BEGIN
-	SELECT * FROM Subject
+	SELECT id as SubjectId, Subject, MaximumMark 
+	FROM Subject
 	WHERE Id = @Id;
 END

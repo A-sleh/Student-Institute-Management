@@ -1,9 +1,17 @@
 using DataAcess.Data;
 using DataAcess.DBAccess;
+using System.Runtime.CompilerServices;
 namespace MiniAPI
 {
     public class Program
     {
+        public static void ConfigureAPI(ref WebApplication app)
+        {
+            app.ConfigureStudentAPI();
+            app.ConfigureClassAPI();
+            app.ConfigureSubjectAPI();
+            app.ConfigureReportAPI();
+        }
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +25,8 @@ namespace MiniAPI
             builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddSingleton<IStudentData, StudentData>();
             builder.Services.AddSingleton<IClassData, ClassData>();
+            builder.Services.AddSingleton<ISubjectData, SubjectData>();
+            builder.Services.AddSingleton<IReportData, ReportData>();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -46,8 +56,7 @@ namespace MiniAPI
 
             app.UseAuthorization();
 
-            app.ConfigureStudentAPI();
-            app.ConfigureClassAPI();
+            ConfigureAPI(ref app);
 
             app.Run();
         }

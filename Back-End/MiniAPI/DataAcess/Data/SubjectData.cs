@@ -23,7 +23,12 @@ namespace DataAcess.Data
             return res.FirstOrDefault();
         }
         public Task InsertSubject(SubjectModel subject) =>
-            _db.SaveData("dbo.SubjectAdd", subject);
+            _db.SaveData("dbo.SubjectAdd", new
+            {
+                subject.SubjectId,
+                subject.Subject,
+                subject.MaximumMark
+            });
         public Task UpdateSubject(SubjectModel subject) =>
             _db.SaveData("dbo.SubjectUpdate", subject);
         public Task DeleteSubject(int id) =>

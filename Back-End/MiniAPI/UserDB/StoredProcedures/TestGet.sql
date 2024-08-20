@@ -2,13 +2,8 @@
 @ReportId int
 AS
 BEGIN
-	SELECT r.ReportTitle as Report,
-		s.Subject as Subject,
-		s.MaximumMark as MaxMark,
-		t.TestType as Type,
-		t.Date as Date
-	FROM Test t left outer join Report r on t.ReportId = r.Id 
-	left outer join Subject s on t.SubjectId = s.Id
-	WHERE r.Id = @ReportId
-	order by r.Id ASC;
+	SELECT r.Id as ReportId, r.ReportTitle, t.Id as TestId, t.TestType, t.Date, t.CorrectionDate, s.Id as SubjectId, s.Subject, s.MaximumMark
+	FROM Test t LEFT OUTER JOIN Report r ON t.ReportId = r.id
+	LEFT OUTER JOIN Subject s ON t.SubjectId = s.Id
+	WHERE t.ReportId = @ReportId;
 END

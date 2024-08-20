@@ -9,7 +9,7 @@ namespace DataAcess.Models
 {
     public class ReportModel
     {
-        public int Id { get; set; }
+        public int ReportId { get; set; }
         public string? ReportTitle { get; set; }
         public string? StartDate { get; set; }
         public string? FinishDate { get; set; }
