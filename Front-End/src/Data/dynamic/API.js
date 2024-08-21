@@ -33,7 +33,7 @@ export default {
   },
   Class: {
     get: (id) => {
-      return fetch(`${URL}/class/${id || ""}`).then((response) =>
+      return fetch(`${URL}/Class/${id || ""}`).then((response) =>
         response.json()
       );
     },
@@ -46,7 +46,19 @@ export default {
         },
       });
     },
-    put: () => {},
-    delete: () => {},
+    put: (data) => {
+      return fetch(`${URL}/Class`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Class/${id || ''}`, {
+        method: "DELETE",
+      });
+    },
   },
 };

@@ -1,6 +1,6 @@
 
 /* Delete Modal*/
-.delete-modal {
+.modal {
     position: fixed;
     left: 0;
     top: 0;
@@ -10,22 +10,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index:  100   
+    z-index:  100   ;
+    text-align: center;
 }
-.delete-modal i {
+.modal i {
     line-height: 1px;
     
 }
-.delete-modal>div {
+.modal>div {
     padding: 20px ;
     background-color: white;
     border-radius: 10px;
 }
-.delete-modal p {
+.modal p {
     font-size: 14px;
     margin: 0;
 }
-.delete-modal button {
+.modal button {
     padding: 2px 15px;
     font-size: 14px;
     font-weight: 500;
@@ -34,17 +35,40 @@
     color: red;
     cursor: pointer;
 }
-.delete-modal button:first-child {
+.modal button:first-child {
     background-color: red;
     color: white;
     margin-right: 10px;
 }
-.delete-modal div:last-child {
-    margin-top: 10px;
+.modal div:last-child {
+    margin-top: 15px;
 }
-.delete-modal .content {
+.modal .modal-content {
     color: gray;
     line-height: 18px;
     font-weight: 500;
     word-spacing: 2px;
+}
+
+/* Student Information */
+
+.modal .student-container h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #066599;
+}
+.modal .student-container span {
+    font-weight: 400 ;
+    font-size: 18px;
+    color: gray;
+}
+.modal .student-container .student-info-btn {
+    margin: 10px;
+    transition: .3s;
+}
+
+
+.modal .student-container .student-info-btn:hover {
+    background-color: red;
+    color: white;
 }

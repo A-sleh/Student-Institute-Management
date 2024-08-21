@@ -1,4 +1,5 @@
-form {
+/* New Class Page Style*/
+.class-form {
     min-width: 580px;
     margin-right: 10px;
     padding: 10px 20px;
@@ -6,17 +7,17 @@ form {
     box-shadow: 0 0 11px -4px gray
 }
 
-form .row .input {
+.class-form .row .input {
     display: flex;
     flex-direction: column;
     height: 78px;
 }
 
-form .row div.input:last-child {
+.class-form .row div.input:last-child {
     margin-left: 2em;
 }
 
-form .row .input input,
+.class-form .row .input input,
 .selector select {
     padding: 5px 10px;
     min-width: 350px;
@@ -29,48 +30,44 @@ form .row .input input,
     transition: .3s;
 }
 
-form .row .input input:focus,
+.class-form .row .input input:focus,
 .selector select:focus {
     border-bottom-color: #066599;
 }
 
 
-form .row .input input.error,
+.class-form .row .input input.error,
 .selector select.error {
     border-bottom-color: red;
 }
 
-form .sub-title {
+.class-form .sub-title {
     margin-bottom: 10px;
     color: #0e0b0b;
     font-size: 1.3em;
 }
 
-form span {
+.class-form span {
     margin-top: 4px;
     font-size: 11px;
     color: red;
 }
-form .selector {
+
+.class-form .selector {
     margin-bottom: 20px;
 }
 
-form label {
-    text-transform: capitalize;
+.class-form label {
+    text-decoration: capitalize;
     font-weight: 500;
     margin-bottom: 6px;
     font-size: 14px;
     color: gray;
 }
 
-.row {
-    display: flex;
-    margin-bottom: 6px;
-}
-
-input[type='submit'] {
+.update-class-btn {
     padding: 5px 35px;
-    background-color: #066599;
+    background-color: red;
     border: none;
     cursor: pointer;
     outline: none;
@@ -79,11 +76,188 @@ input[type='submit'] {
     margin-top: 20px;
     font-weight: bold;
     color: white;
+    margin-left: 10px;
     transition: .4s;
 }
 
-input[type='submit']:hover {
+.update-class-btn:hover {
     background-color: white;
-    color: #066599;
+    color: red;
     box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438);
+}
+/*  Class Card */
+.icon {
+    font-size: 200px;
+    color: rgba(128, 128, 128, 0.623);
+    line-height: 150px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+.class-card {
+    box-shadow: 0 0 11px -4px gray;
+    border-radius: 10px;
+    padding: 20px 20px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+}
+
+.class-card h3 {
+    color: #066599;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.class-card h3 span {
+    margin-bottom: 5px;
+    text-transform: capitalize;
+    color: black;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.class-card main {
+    padding: 15px;
+    padding-right: 0;
+    overflow: hidden;
+    max-width: 240px;
+    border-radius: 10px;
+    text-wrap: nowrap;
+    background-color: #dddddd85;
+}
+
+
+/* Class Details Style */
+
+.class {
+    width: 100%;
+    overflow: hidden;
+    margin: 2em 0;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 11px -5px gray;
+    border-radius: 5px;
+
+    h3 {
+        position: relative;
+        font-weight: 500;
+        font-size: 1.1em;
+        letter-spacing: 0.5px;
+        width: fit-content;
+        color: #066599;
+        margin-bottom: 5px;
+        margin-left: 3px;
+    }
+
+    h3::before {
+        content: '';
+        position: absolute;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent gray;
+        left: -10px;
+        top: 50%;
+        transform: translateY(-60%);
+    }
+
+    .class-title {
+        font-weight: 500;
+        font-size: 25px;
+        margin: 12px 0;
+        margin-top: 0;
+        text-transform: uppercase;
+    }
+
+    .class-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        background-color: #f3f1f1d7;
+        padding: 20px 15px;
+        border-radius: 5px;
+
+        .info-container {
+            justify-content: space-between;
+            position: relative;
+            border-color: transparent;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 200px;
+            background-color: #ffffff;
+
+            i {
+                font-size: 2em;
+            }
+
+            .border-left {
+                position: absolute;
+                width: 7px;
+                height: 100%;
+                left: 0;
+                top: 0;
+            }
+
+            div {
+                text-align: center;
+
+                h4 {
+                    font-size: 13px;
+                    color: rgb(160, 159, 159);
+                    font-weight: 500;
+                }
+
+                span {
+                    font-size: 18px;
+                    font-weight: 600;                    
+                }
+            }
+        }
+    }
+}
+
+.info-container::before {
+    content: '';
+    position: absolute;
+    width: 0.5px;
+    height: 50%;
+    background-color: gray;
+    left: 45%;
+    top: 50%;
+    transform: translate(-45%, -50%);
+}
+
+
+
+.class-body-info .students-info .students-name,
+.teacher-name {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    background-color: #f3f1f1d7;
+    background-color: #f3f1f1d7;
+    padding: 20px 15px;
+    border-radius: 5px;    
+}
+
+.class-body-info .students-info .studnet-tage {
+    padding: 4px 15px;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: .4s;
+    user-select: none;
+}
+.class-body-info .students-info .studnet-tage:hover {
+    background-color: #066599;
+    color: white;
 }

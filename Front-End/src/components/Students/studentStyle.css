@@ -153,7 +153,8 @@ form.student-info label {
     width: 100%;
 }
 
-input[type='submit'] {
+input[type='submit'] ,
+.update-class-btn {
     padding: 5px 35px;
     background-color: #066599;
     border: none;
@@ -205,6 +206,7 @@ input[type='submit']:hover {
 
 .student-card h3 span {
     margin-bottom: 5px;
+    text-transform: capitalize ;
     color: black;
     font-weight: 600;
     font-size: 16px;
