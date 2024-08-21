@@ -150,6 +150,7 @@ export default function StudentForm({
       phone.match(/[^0-9]/)
     );
   }
+  
 
   // fetch classes Details From Data Base
   useEffect(() => {
@@ -166,6 +167,8 @@ export default function StudentForm({
   useEffect(() => {
     FilterClassGnderAndGrade(classDetails);
   }, [classDetails]);
+
+  console.log(classDetails)
 
   return (
     <div>

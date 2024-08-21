@@ -33,7 +33,7 @@ export default {
   },
   Class: {
     get: (id) => {
-      return fetch(`${URL}/class/${id || ""}`).then((response) =>
+      return fetch(`${URL}/Class/${id || ""}`).then((response) =>
         response.json()
       );
     },
