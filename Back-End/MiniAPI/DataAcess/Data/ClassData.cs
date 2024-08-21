@@ -36,7 +36,7 @@ namespace DataAcess.Data
                     Class.Students.Add(Student);
                     return Class;
                 },
-                splitOn: "Id"
+                splitOn: "StudentId"
             );
             return res.Distinct();
         }
@@ -63,7 +63,7 @@ namespace DataAcess.Data
                     }
                     else throw new Exception("NO VALUE");
                 },
-                splitOn: "Id"
+                splitOn: "StudentId"
             );
             var Class = dic[id];
             return Class;

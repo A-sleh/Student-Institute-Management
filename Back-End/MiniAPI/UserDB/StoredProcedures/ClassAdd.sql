@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[ClassAdd]
-	@Id int,
+	@ClassId int,
 	@Title VARCHAR(50),
 	@Capacity INT,
 	@Gender VARCHAR(10),
