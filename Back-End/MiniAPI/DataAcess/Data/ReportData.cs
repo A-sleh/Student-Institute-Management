@@ -11,6 +11,10 @@ namespace DataAcess.Data
     public class ReportData : IReportData
     {
         private readonly ISqlDataAccess _db;
+        public ReportData()
+        {
+            
+        }
         public ReportData(ISqlDataAccess _db)
         {
             this._db = _db;

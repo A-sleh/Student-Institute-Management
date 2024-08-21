@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[ReportUpdate]
-	@Id int,
+	@ReportId int,
 	@ReportTitle VARCHAR(100),
 	@StartDate Date,
 	@FinishDate Date
@@ -8,5 +8,5 @@ AS
 	SET ReportTitle = @ReportTitle,
 		StartDate = @StartDate,
 		FinishDate = @FinishDate
-	WHERE Id = @Id;
+	WHERE Id = @ReportId;
 RETURN 0

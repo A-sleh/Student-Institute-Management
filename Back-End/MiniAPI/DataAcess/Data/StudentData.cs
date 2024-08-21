@@ -12,6 +12,10 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
+    public StudentData()
+    {
+
+    }
     public StudentData(ISqlDataAccess db)
     {
         this._db = db;
@@ -45,26 +49,26 @@ public class StudentData : IStudentData
     public Task InsertStudent(StudentModel student) =>
         _db.SaveData("dbo.StudentAdd", new
         {
-            student.Id,
+            student.StudentId,
             student.Name,
             student.LastName,
             student.FatherName,
             student.Birthdate,
             student.Phone,
-            ClassId = student.Class?.ClassId,
+            student.Class?.ClassId,
             student.MissedDays,
             student.BillRequired
         });
     public Task UpdateStudent(StudentModel student) =>
         _db.SaveData("dbo.StudentUpdate", new
         {
-            student.Id,
+            student.StudentId,
             student.Name,
             student.LastName,
             student.FatherName,
             student.Birthdate,
             student.Phone,
-            ClassId = student.Class?.ClassId,
+            student.Class?.ClassId,
             student.MissedDays,
             student.BillRequired
         });

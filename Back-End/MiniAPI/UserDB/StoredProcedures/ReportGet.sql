@@ -2,6 +2,7 @@
 	@Id int
 AS
 BEGIN
-	SELECT * FROM Report
+	SELECT id as ReportId, ReportTitle, StartDate, FinishDate
+	FROM Report 
 	WHERE Id = @Id;
 END
