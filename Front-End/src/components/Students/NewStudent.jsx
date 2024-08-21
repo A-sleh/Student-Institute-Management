@@ -9,7 +9,7 @@ export default function NewStudent() {
     phone: "",
     missedDays: 0,
     billRequired: 0,
-    classId: 0,
+    class: null,
   };
   return <StudentForm title={window.location.pathname} requestType={"POST"} studentInformation={studentInfo} />;
 }

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
 
@@ -24,6 +24,11 @@ export default function DeleteModal(props) {
           break;
         case "class":
           DataServices.DeleteClass(id).then((_) => {
+            handleSuccessDelete();
+          });
+          break;
+        case "Subject":
+          DataServices.DeleteSubject(id).then((_) => {
             handleSuccessDelete();
           });
           break;

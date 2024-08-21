@@ -83,7 +83,7 @@ export default function StudentForm({
       FilterClassGnderAndGrade(classDetails, nextState);
 
       // I reSet The state in order to the empty option
-      setStudentDetails({ ...studentDetails, classId: 0 });
+      setStudentDetails({ ...studentDetails, class: {...studentDetails.class,classId: 0} });
     }
   }
 
@@ -196,30 +196,30 @@ export default function StudentForm({
           className="student-info"
           onSubmit={(e) => {
             e.preventDefault();
+            console.log(studentDetails)
+            // const flag = validationInputsFeilds();
 
-            const flag = validationInputsFeilds();
-
-            if (!flag) {
-              try {
-                if (requestType === "POST") {
-                  DataServices.AddNewStudent(studentDetails);
-                  setStudentDetails(studentInformation); // reset The Input Field
-                  setTimeout(() => {
-                    setSuccessAdd(false);
-                  }, 2000);
-                  setSuccessAdd(true);
-                } else {
-                  DataServices.UpdateStudent(studentDetails);
-                  setSuccessUpdate(true);
-                  setTimeout(() => {
-                    setSuccessAdd(false);
-                    previousPage(-1);
-                  }, 2000);
-                }
-              } catch (error) {
-                alert.log(error);
-              }
-            }
+            // if (!flag) {
+            //   try {
+            //     if (requestType === "POST") {
+            //       DataServices.AddNewStudent(studentDetails);
+            //       setStudentDetails(studentInformation); // reset The Input Field
+            //       setTimeout(() => {
+            //         setSuccessAdd(false);
+            //       }, 2000);
+            //       setSuccessAdd(true);
+            //     } else {
+            //       DataServices.UpdateStudent(studentDetails);
+            //       setSuccessUpdate(true);
+            //       setTimeout(() => {
+            //         setSuccessAdd(false);
+            //         previousPage(-1);
+            //       }, 2000);
+            //     }
+            //   } catch (error) {
+            //     alert.log(error);
+            //   }
+            // }
           }}
         >
           <h3 className="sub-title">Student Details</h3>
@@ -399,14 +399,17 @@ export default function StudentForm({
           </div>
 
           <div className="selector">
-            <label>Class Name </label>
+            <label>Class Name</label>
             <select
-              value={studentDetails.classId}
+              value={studentDetails?.class?.classId}
               className={validation.classId ? "error" : ""}
               onChange={(value) =>
                 setStudentDetails({
                   ...studentDetails,
-                  classId: value.target.value,
+                  class:{
+                    ...studentDetails?.class ,
+                    classId: value.target.value,
+                  } 
                 })
               }
             >

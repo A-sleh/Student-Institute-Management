@@ -61,4 +61,34 @@ export default {
       });
     },
   },
+  Subject: {
+    get: (id) => {
+      return fetch(`${URL}/Subject/${id || ""}`).then((response) =>
+        response.json()
+      );
+    },
+    post: (data) => {
+      return fetch(`${URL}/Subject`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put: (data) => {
+      return fetch(`${URL}/Subject`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Subject/${id || ''}`, {
+        method: "DELETE",
+      });
+    },
+  },
 };
