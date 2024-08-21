@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[ClassGetAll]
 AS
 BEGIN
-	SELECT * 
-	FROM class c join student s ON c.id = s.classId;
+	SELECT c.id as ClassId, c.title, c.capacity, c.gender, c.grade,
+	s.id as StudentId, s.name, s.lastName, s.fatherName, s.birthdate, s.phone, s.missedDays, s.billRequired
+	FROM class c LEFT OUTER JOIN student s ON c.id = s.classId;
 END
