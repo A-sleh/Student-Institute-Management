@@ -27,9 +27,10 @@ export default function StudentsDetails() {
   const [studentInfo, setstudentInfo] = useState([]);
 
   function handleDleteClicked(student) {
+    console.log(student)
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
-      id: student.id,
+      id: student.studentId,
     });
     setDeleteModal(true);
   }
@@ -86,6 +87,7 @@ export default function StudentsDetails() {
           const { name, lastName } = student;
           return {
             ...student,
+            className: student.class.title,
             full_name: name + " " + lastName,
           };
         })
@@ -93,7 +95,7 @@ export default function StudentsDetails() {
     });
   }, [successDeleteStudent]);
 
-  console.log(studentInfo)
+  // console.log(studentInfo)
 
   const {
     getTableProps,

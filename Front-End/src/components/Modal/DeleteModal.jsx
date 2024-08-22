@@ -1,9 +1,7 @@
-
 import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
 
 export default function DeleteModal(props) {
-  
   const { element, type, id, setDeleteModal, setSuccessDelete } = props;
 
   function handleSuccessDelete() {
@@ -28,9 +26,10 @@ export default function DeleteModal(props) {
           });
           break;
         case "Subject":
-          DataServices.DeleteSubject(id).then((_) => {
+          DataServices.DeleteSubject(id).then((repsonse) => {
             handleSuccessDelete();
           });
+
           break;
         default:
           // UnValid Type
@@ -56,7 +55,7 @@ export default function DeleteModal(props) {
           <b style={{ color: "#2b2121" }}>{element}</b>.
         </p>
         <p className="modal-content">You can not undo this action</p>
-        <div >
+        <div>
           <button onClick={handleDeletClicked}>Yes, delete </button>
           <button
             onClick={() => {

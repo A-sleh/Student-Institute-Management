@@ -21,8 +21,8 @@ export const COLUMNS = [
     accessor: "phone",
   },
   {
-    Header: "Class Id",
-    accessor: "classId",
+    Header: "Class",
+    accessor: "className",
   },
   {
     Header: "Missed Days",

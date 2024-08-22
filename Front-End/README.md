@@ -48,3 +48,8 @@ Day 1 :
     - [X] Refcator The Notification 
     - [X] Complete build The Delete Student Logic
     - [X] Restyle The Table In Show Student Details
+Day 2 : 
+    - [] Maping UpdateSubject to conver to action ( update and create )
+    - [] solve class object in create student request 
+    - [] solve class object in show student details 
+    

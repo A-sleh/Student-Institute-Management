@@ -15,6 +15,8 @@ export default function StudentForm({
 
   const [successAdd, setSuccessAdd] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
+  const [classDetails, setCalssDetails] = useState([]);
+  const [newClassDetails, setNewClassDetails] = useState([]);
 
   const [validation, setValidation] = useState({
     name: false,
@@ -24,7 +26,6 @@ export default function StudentForm({
     phone: false,
     missedDays: false,
     billRequired: false,
-    classId: false,
   });
 
   const [studentDetails, setStudentDetails] = useState(studentInformation);
@@ -40,9 +41,8 @@ export default function StudentForm({
     },
   });
 
-  const [classDetails, setCalssDetails] = useState([]);
+  
 
-  const [newClassDetails, setNewClassDetails] = useState([]);
 
   function FilterClassGnderAndGrade(data, liveState) {
     let Gender, Grade;
@@ -62,7 +62,7 @@ export default function StudentForm({
 
     setNewClassDetails(filteringClasses);
   }
-
+  
   function handleCheckBoxGender(value) {
     if (value) {
       const nextState = {
@@ -121,7 +121,6 @@ export default function StudentForm({
       phone,
       missedDays,
       billRequired,
-      classId,
     } = studentDetails;
 
     const nextStateValid = {
@@ -132,7 +131,6 @@ export default function StudentForm({
       phone: phone === "" || phone.length != 10 || phone.match(/[^0-9]/),
       missedDays: missedDays < 0,
       billRequired: billRequired <= 0,
-      classId: classId <= 0,
     };
 
     setValidation(nextStateValid);
@@ -146,7 +144,6 @@ export default function StudentForm({
       phone.length != 10 ||
       missedDays < 0 ||
       billRequired <= 0 ||
-      classId <= 0 ||
       phone.match(/[^0-9]/)
     );
   }
@@ -167,8 +164,6 @@ export default function StudentForm({
   useEffect(() => {
     FilterClassGnderAndGrade(classDetails);
   }, [classDetails]);
-
-  console.log(classDetails)
 
   return (
     <div>
@@ -197,29 +192,29 @@ export default function StudentForm({
           onSubmit={(e) => {
             e.preventDefault();
             console.log(studentDetails)
-            // const flag = validationInputsFeilds();
+            const flag = validationInputsFeilds();
 
-            // if (!flag) {
-            //   try {
-            //     if (requestType === "POST") {
-            //       DataServices.AddNewStudent(studentDetails);
-            //       setStudentDetails(studentInformation); // reset The Input Field
-            //       setTimeout(() => {
-            //         setSuccessAdd(false);
-            //       }, 2000);
-            //       setSuccessAdd(true);
-            //     } else {
-            //       DataServices.UpdateStudent(studentDetails);
-            //       setSuccessUpdate(true);
-            //       setTimeout(() => {
-            //         setSuccessAdd(false);
-            //         previousPage(-1);
-            //       }, 2000);
-            //     }
-            //   } catch (error) {
-            //     alert.log(error);
-            //   }
-            // }
+            if (!flag) {
+              try {
+                if (requestType === "POST") {
+                  DataServices.AddNewStudent(studentDetails);
+                  setStudentDetails(studentInformation); // reset The Input Field
+                  setTimeout(() => {
+                    setSuccessAdd(false);
+                  }, 2000);
+                  setSuccessAdd(true);
+                } else {
+                  DataServices.UpdateStudent(studentDetails);
+                  setSuccessUpdate(true);
+                  setTimeout(() => {
+                    setSuccessAdd(false);
+                    previousPage(-1);
+                  }, 2000);
+                }
+              } catch (error) {
+                alert.log(error);
+              }
+           }
           }}
         >
           <h3 className="sub-title">Student Details</h3>
@@ -402,7 +397,6 @@ export default function StudentForm({
             <label>Class Name</label>
             <select
               value={studentDetails?.class?.classId}
-              className={validation.classId ? "error" : ""}
               onChange={(value) =>
                 setStudentDetails({
                   ...studentDetails,
@@ -416,7 +410,7 @@ export default function StudentForm({
               <option value={0}></option>
               {newClassDetails.map((currentClass, index) => (
                 <option
-                  value={currentClass.id}
+                  value={currentClass.classId}
                   key={index}
                   style={{ padding: "20px" }}
                 >
@@ -424,9 +418,6 @@ export default function StudentForm({
                 </option>
               ))}
             </select>
-            {validation.classId && (
-              <span>Pleas Chose A Class Or Create One If There are no </span>
-            )}
           </div>
           
           <input

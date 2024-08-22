@@ -27,7 +27,8 @@ export default {
         return API.Class.put(data) ;
     },
     DeleteSubject: (id) => {
-        return API.Subject.delete(id);
+        API.Subject.delete(id); 
+        
     },
     ShowAllSubject: () => {
         return API.Subject.get();

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
-import Notification from "../Global/Notification";
 
 export default function UpdateSubject(props) {
+  
   const [subject, setSubject] = useState(props.subject);
-  const [successUpdate, setSuccessUpdate] = useState(false);
+  const setSuccessUpdate = props.setSuccessUpdate ;
+  const setUpdateBtn = props.setUpdateBtn;
   const [validation, setValidation] = useState({
     subjectMarke: false,
   });
 
-  const setUpdateBtn = props.setUpdateBtn;
 
   function Validation() {
     setValidation({
@@ -18,11 +18,13 @@ export default function UpdateSubject(props) {
 
     return subject.maximumMark <= 0;
   }
+
   function handleSubmitClicked() {
+
     const flag = Validation();
 
     if (!flag) {
-      DataServices.UpdateStudent(subject).then((_) => {
+      DataServices.UpdateSubject(subject).then((_) => {
         setSuccessUpdate(true);
         setTimeout(() => {
           setSuccessUpdate(false);
@@ -32,20 +34,12 @@ export default function UpdateSubject(props) {
   }
 
   return (
-    <>
-      {successUpdate && (
-        <Notification
-          title={"Update The Subject"}
-          type={"success"}
-          state={successUpdate}
-          setState={setSuccessUpdate}
-        />
-      )}
-      <div className="update-card">
-        <div className="sub-header">Subject</div>
+      <div className="update-card" style={{boxShadow:'box-shadow: 0 0 10px -5px gray'}}>
+        <div className="sub-header" style={{borderTopLeftRadius: '5px' , borderTopRightRadius: '5px'}}>Subject</div>
         <form
           className="subject-info"
           onSubmit={(e) => {
+            e.preventDefault();
             handleSubmitClicked();
           }}
         >
@@ -84,21 +78,20 @@ export default function UpdateSubject(props) {
               The Value Must Be Positive
             </span>
           )}
-          <div style={{ padding: "0 10px", marginTop: "10px" }}>
+          <div style={{ marginTop: "10px" }}>
             <button className="update-btn" type="submit">
               Apply
             </button>
-            <button
+            <span
               className="delete-btn"
               onClick={() => {
                 setUpdateBtn(false);
               }}
             >
               Cancel
-            </button>
+            </span>
           </div>
         </form>
       </div>
-    </>
   );
 }

@@ -3,7 +3,7 @@ import "./studentStyle.css";
 
 export default function StudentCard(props) {
   const { studentDetails } = props;
-
+  
   return (
     <div className="student-card">
       <i className="bi bi-person-circle icon"></i>
@@ -14,7 +14,7 @@ export default function StudentCard(props) {
         <h3>phone : <span> {studentDetails.phone} </span></h3>
         <h3>Bill Required : <span> {studentDetails.billRequired} </span></h3>
         <h3>Missed Days : <span> {studentDetails.missedDays} </span></h3>
-        <h3>Class Id : <span> {studentDetails.classId} </span></h3>
+        <h3>Class Id : <span> {studentDetails?.class?.classId} </span></h3>
       </main>
     </div>
   );

@@ -5,4 +5,7 @@
   font-family: "Hind Siliguri", sans-serif;
   user-select: none;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 

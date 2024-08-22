@@ -35,7 +35,7 @@ export default function SubjectCard(props) {
         />
       )}
       <div className="flip-card">
-        <div className="flip-card-inner" style={{transform: updateBtn ? 'rotateY(180deg)' : 'rotateY(0deg)'}}>
+        <div className="flip-card-inner" style={{transform: updateBtn ? 'rotateY(180deg)' : 'rotateY(0deg)'}} >
           <div className="subject-card">
             <div className="sub-header">Subject</div>
             <div className="subject-info">
@@ -67,7 +67,7 @@ export default function SubjectCard(props) {
               </button>
             </div>
           </div>
-          <UpdateSubject subject={props.subject} setUpdateBtn={setUpdateBtn} />
+          <UpdateSubject subject={props.subject} setUpdateBtn={setUpdateBtn} setSuccessUpdate={props.setSuccessUpdate}/>
         </div>
       </div>
     </>

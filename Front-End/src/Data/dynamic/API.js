@@ -26,7 +26,8 @@ export default {
       });
     },
     delete: (id) => {
-      return fetch(`${URL}/Student/${id || ""}`, {
+      console.log(id)
+      return fetch(`${URL}/Student/${id}`, {
         method: "DELETE",
       });
     },
@@ -86,7 +87,7 @@ export default {
       });
     },
     delete: (id) => {
-      return fetch(`${URL}/Subject/${id || ''}`, {
+      return fetch(`${URL}/Subject/${id}`, {
         method: "DELETE",
       });
     },
