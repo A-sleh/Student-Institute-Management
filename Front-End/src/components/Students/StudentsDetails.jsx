@@ -93,6 +93,8 @@ export default function StudentsDetails() {
     });
   }, [successDeleteStudent]);
 
+  console.log(studentInfo)
+
   const {
     getTableProps,
     getTableBodyProps,

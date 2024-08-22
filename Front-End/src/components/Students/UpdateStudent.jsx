@@ -9,7 +9,7 @@ export default function UpdateStudent() {
     const jsonString = decodeURIComponent(encodeData) ;
     const studentInfo = JSON.parse(jsonString) ; 
     const mapingStudentInfo = {...studentInfo ,birthdate : format(new Date(studentInfo.birthdate),'yyyy/MM/dd') , phone : studentInfo.phone.trim()}
-    
+    console.table(mapingStudentInfo)
   return (
     <>
       <StudentForm title={'Student : ' +  studentInfo.name + ' ' + studentInfo.lastName} requestType={'PUT'} studentInformation={mapingStudentInfo} />
