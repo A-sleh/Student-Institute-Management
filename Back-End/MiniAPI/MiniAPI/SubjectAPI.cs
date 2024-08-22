@@ -12,6 +12,7 @@ namespace MiniAPI
             app.MapGet("/Subject/{id}", GetSubject);
             app.MapDelete("/Subject/{id}", DeleteSubject);
             app.MapPost("/Subject", InsertSubject);
+            app.MapPut("/Subject", UpdateSubject);
         }
         private static async Task<IResult> GetSubjects(ISubjectData data)
         {
@@ -53,6 +54,19 @@ namespace MiniAPI
             }
         }
 
+        private static async Task<IResult> UpdateSubject(ISubjectData data, SubjectModel subject)
+        {
+            try
+            {
+                await data.UpdateSubject(subject);
+                return Results.Ok("Update Success");
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+                throw;
+            }
+        }
         private static async Task<IResult> DeleteSubject(ISubjectData data, int id)
         {
             try
