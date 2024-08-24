@@ -26,6 +26,7 @@ export default function UpdateSubject(props) {
     if (!flag) {
       DataServices.UpdateSubject(subject).then((_) => {
         setSuccessUpdate(true);
+        setUpdateBtn(false)
         setTimeout(() => {
           setSuccessUpdate(false);
         }, 2000);

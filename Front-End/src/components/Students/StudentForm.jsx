@@ -191,7 +191,7 @@ export default function StudentForm({
           className="student-info"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(studentDetails)
+  
             const flag = validationInputsFeilds();
 
             if (!flag) {

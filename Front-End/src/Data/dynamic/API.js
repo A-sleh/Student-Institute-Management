@@ -26,7 +26,6 @@ export default {
       });
     },
     delete: (id) => {
-      console.log(id)
       return fetch(`${URL}/Student/${id}`, {
         method: "DELETE",
       });

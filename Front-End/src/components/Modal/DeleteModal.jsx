@@ -26,7 +26,7 @@ export default function DeleteModal(props) {
           });
           break;
         case "Subject":
-          DataServices.DeleteSubject(id).then((repsonse) => {
+          DataServices.DeleteSubject(id).then((_) => {
             handleSuccessDelete();
           });
 

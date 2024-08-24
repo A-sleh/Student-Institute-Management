@@ -27,14 +27,16 @@ export default {
         return API.Class.put(data) ;
     },
     DeleteSubject: (id) => {
-        API.Subject.delete(id); 
-        
+        return API.Subject.delete(id); 
     },
     ShowAllSubject: () => {
         return API.Subject.get();
     },
     UpdateSubject: (data) => {
         return API.Subject.put(data);
+    },
+    CreateSubject : (data) => {
+        return API.Subject.post(data)
     }
 
 }

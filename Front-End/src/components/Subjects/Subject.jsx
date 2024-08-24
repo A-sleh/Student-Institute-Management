@@ -4,20 +4,29 @@ import DataServices from "../../Data/dynamic/DataServices";
 import SubjectCard from "./SubjectCard";
 import "./subject.css";
 import Notification from "../Global/Notification";
-import UpdateSubject from "../Modal/UpdateSubject";
+import CreateSubject from "./CreateSubject";
+import DeleteModal from "../Modal/DeleteModal";
+
+
+export const initailSubjectState = {
+  subjectId: 0,
+  subject: "",
+  maximumMark: 0,
+};
 
 export default function Subject() {
   const [Subjects, setSubject] = useState([]);
   const [successDelete, setSuccesDelete] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
-  const [createBtn,setCreateBtn] = useState(false)
-
+  const [successCreate, setSuccessCreate] = useState(false);
+  const [createBtn, setCreateBtn] = useState(false);
 
   useEffect(() => {
     DataServices.ShowAllSubject().then((subjects) => {
       setSubject(subjects);
     });
-  }, [successDelete,successUpdate]);
+  }, [successUpdate, successCreate, successDelete]);
+
 
   return (
     <>
@@ -29,24 +38,57 @@ export default function Subject() {
           setState={setSuccessUpdate}
         />
       )}
+      {successCreate && (
+        <Notification
+          title={"Create The Subject"}
+          type={"success"}
+          state={successCreate}
+          setState={setSuccessCreate}
+        />
+      )}
+      {successDelete && (
+        <Notification
+          title={"Delete The Subject"}
+          type={"success"}
+          state={successDelete}
+          setState={setSuccesDelete}
+        />
+      )}
       <Title title={window.location.pathname} />
       <div className="subject-container">
         {Subjects.map((subject, index) => {
           return (
-            <SubjectCard
-              subject={subject}
-              successDelete={successDelete}
-              setSuccesDelete={setSuccesDelete}
-              setSuccessUpdate={setSuccessUpdate}
-              key={index}
-            />
+            <SubjectCard Subject={subject} setSuccessUpdate={setSuccessUpdate} setSuccesDelete={setSuccesDelete} key={index}/>
           );
         })}
-        <div className="empty-subject-card" onClick={()=>{setCreateBtn(true)}}>
-          { !createBtn && <i className="bi bi-plus-lg"></i>}
-          { createBtn && <UpdateSubject />}
+        <div className="empty-subject-card" style={{ position: "relative" }}>
+          {createBtn ? (
+            <CreateSubject
+              setCreateBtn={setCreateBtn}
+              setSuccessCreate={setSuccessCreate}
+            />
+          ) : (
+            <i
+              className="bi bi-plus-lg"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setCreateBtn(true);
+              }}
+            ></i>
+          )}
         </div>
       </div>
     </>
   );
 }
+
+/* 
+
+  <SubjectCard
+    subject={subject}
+    successDelete={successDelete}
+    setSuccesDelete={setSuccesDelete}
+    setSuccessUpdate={setSuccessUpdate}
+    key={index}
+  />
+*/

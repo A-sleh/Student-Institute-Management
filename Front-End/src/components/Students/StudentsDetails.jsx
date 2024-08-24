@@ -27,7 +27,7 @@ export default function StudentsDetails() {
   const [studentInfo, setstudentInfo] = useState([]);
 
   function handleDleteClicked(student) {
-    console.log(student)
+    
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
       id: student.studentId,
@@ -93,9 +93,6 @@ export default function StudentsDetails() {
         })
       );
     });
-  }, [successDeleteStudent]);
-
-  // console.log(studentInfo)
 
   const {
     getTableProps,

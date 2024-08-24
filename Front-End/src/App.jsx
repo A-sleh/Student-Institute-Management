@@ -63,7 +63,7 @@ export default function App() {
       }}
     >
       <aside
-        style={{ width: openSideBare ? "250px" : "60px", transition: "0.5s" }}
+        style={{ width: openSideBare ? "250px" : "58px", transition: "0.5s" }}
       >
         <SidBar />
       </aside>

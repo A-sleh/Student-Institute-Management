@@ -30,7 +30,7 @@
 /* Notification */ 
 .notification {
     position: fixed;
-    z-index: 100;
+    z-index: 300;
     bottom: 20px;
     right: 20px;
     font-weight: 300  ;
