@@ -1,7 +1,7 @@
 .subject-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
     margin-top: 2em;
     justify-content: flex-start;

@@ -1,6 +1,6 @@
 import UpdateSubject from "./UpdateSubject";
 import ShowSubjectFace from "./ShowSubjectFace";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import DeleteModal from "../Modal/DeleteModal";
 
 export default function SubjectCard({
@@ -11,6 +11,17 @@ export default function SubjectCard({
   const [updateBtn, setUpdateBtn] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const { subject, subjectId, maximumMark } = Subject;
+  const MemoShowSubjectFace = useMemo(
+    () => (
+      <ShowSubjectFace
+        subjec={Subject}
+        setUpdateBtn={setUpdateBtn}
+        setSuccesDelete={setSuccesDelete}
+        setDeleteModal={setDeleteModal}
+      />
+    ),
+    []
+  );
 
   return (
     <>
@@ -28,12 +39,7 @@ export default function SubjectCard({
           className="flip-card-inner"
           style={{ transform: updateBtn ? "rotateY(180deg)" : "rotateY(0deg)" }}
         >
-          <ShowSubjectFace
-            subjec={Subject}
-            setUpdateBtn={setUpdateBtn}
-            setSuccesDelete={setSuccesDelete}
-            setDeleteModal={setDeleteModal}
-          />
+          {MemoShowSubjectFace}
           <UpdateSubject
             subject={Subject}
             setUpdateBtn={setUpdateBtn}

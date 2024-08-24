@@ -1,4 +1,4 @@
-import {  useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import { COLUMNS } from "./TableStructuer/Columns";
 import { Link, Outlet } from "react-router-dom";
@@ -15,10 +15,9 @@ import TableControalSection from "./TableStructuer/TableControalSection";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 
-
 export default function StudentsDetails() {
   const [deleteModal, setDeleteModal] = useState(false);
-  const [successDeleteStudent,setSuccessDeleteStudent] = useState(false);
+  const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
@@ -27,7 +26,6 @@ export default function StudentsDetails() {
   const [studentInfo, setstudentInfo] = useState([]);
 
   function handleDleteClicked(student) {
-    
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
       id: student.studentId,
@@ -93,6 +91,7 @@ export default function StudentsDetails() {
         })
       );
     });
+  });
 
   const {
     getTableProps,
@@ -122,7 +121,15 @@ export default function StudentsDetails() {
   const { globalFilter, pageIndex } = state;
   return (
     <>
-      { deleteModal && <DeleteModal element={currentStudentInfo.name} type={'student'} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />}
+      {deleteModal && (
+        <DeleteModal
+          element={currentStudentInfo.name}
+          type={"student"}
+          id={currentStudentInfo.id}
+          setDeleteModal={setDeleteModal}
+          setSuccessDelete={setSuccessDeleteStudent}
+        />
+      )}
       <div>
         <Notification
           title={"student was deleted"}
