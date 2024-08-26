@@ -9,6 +9,10 @@ namespace DataAcess.DBAccess
     public class SqlDataAccess : ISqlDataAccess
     {
         private readonly IConfiguration _cofing;
+        public SqlDataAccess()
+        {
+            
+        }
         public SqlDataAccess(IConfiguration config)
         {
             _cofing = config;
@@ -34,6 +38,18 @@ namespace DataAcess.DBAccess
         {
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             return await connection.QueryAsync<T, V, T>(storedProcedure, param: parameters, map: x, commandType: CommandType.StoredProcedure, splitOn: splitOn);
+        }
+        // multimapping
+        public async Task<IEnumerable<T>> LoadData<U, T, V, X>(
+            string storedProcedure,
+            U parameters,
+            Func<T, V, X, T> x,
+            string splitOn,
+            string connectionString = "Default"
+            )
+        {
+            using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
+            return await connection.QueryAsync<T, V, X, T>(storedProcedure, param: parameters, map: x, commandType: CommandType.StoredProcedure, splitOn: splitOn);
         }
 
         // excution only
