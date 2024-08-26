@@ -7,6 +7,7 @@ export default function SubjectCard({
   Subject,
   setSuccessUpdate,
   setSuccesDelete,
+  successUpdate
 }) {
   const [updateBtn, setUpdateBtn] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -20,7 +21,7 @@ export default function SubjectCard({
         setDeleteModal={setDeleteModal}
       />
     ),
-    []
+    [successUpdate]
   );
 
   return (

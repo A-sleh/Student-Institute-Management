@@ -58,7 +58,7 @@ export default function Subject() {
       <div className="subject-container">
         {Subjects.map((subject, index) => {
           return (
-            <SubjectCard Subject={subject} setSuccessUpdate={setSuccessUpdate} setSuccesDelete={setSuccesDelete} key={index}/>
+            <SubjectCard Subject={subject} setSuccessUpdate={setSuccessUpdate} setSuccesDelete={setSuccesDelete} successUpdate={successUpdate} key={index}/>
           );
         })}
         <div className="empty-subject-card" style={{ position: "relative" }}>
