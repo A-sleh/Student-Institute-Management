@@ -91,8 +91,8 @@ export default function StudentsDetails() {
         })
       );
     });
-  });
-
+  },[successDeleteStudent]);
+  
   const {
     getTableProps,
     getTableBodyProps,

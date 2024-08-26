@@ -211,12 +211,13 @@
                 h4 {
                     font-size: 13px;
                     color: rgb(160, 159, 159);
-                    font-weight: 500;
+                    font-weight: 400;
+                    margin-bottom: 5px;
                 }
 
                 span {
                     font-size: 18px;
-                    font-weight: 600;                    
+                    font-weight: 500;                    
                 }
             }
         }
@@ -260,4 +261,30 @@
 .class-body-info .students-info .studnet-tage:hover {
     background-color: #066599;
     color: white;
+}
+
+/* Class Managment section   */
+
+.students-info .btns-control {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+
+}
+
+.students-info .btns-control button {
+    padding: 4px 15px;
+    border-radius: 2px ;
+    cursor: pointer;
+    border: none ; 
+    outline: none ;    
+    font-size: 12px;
+    color: white;
+    font-weight: 500;
+}
+.students-info .btns-control button:first-child {
+    background-color: red ;
+}
+.students-info .btns-control button:last-child {
+    background-color: #066599;
 }
