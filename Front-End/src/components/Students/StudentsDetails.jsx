@@ -85,7 +85,7 @@ export default function StudentsDetails() {
           const { name, lastName } = student;
           return {
             ...student,
-            className: student.class.title,
+            className: student.class?.title,
             full_name: name + " " + lastName,
           };
         })

@@ -9,7 +9,6 @@ export default function ShowSubjectFace({
     setDeleteModal(true);
   }
 
-  console.log('render-child-ShowSubject')
   return (
     <>
       <div className="subject-card">

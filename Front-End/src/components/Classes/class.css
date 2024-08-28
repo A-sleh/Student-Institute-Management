@@ -85,6 +85,7 @@
     color: red;
     box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438);
 }
+
 /*  Class Card */
 .icon {
     font-size: 200px;
@@ -217,7 +218,7 @@
 
                 span {
                     font-size: 18px;
-                    font-weight: 500;                    
+                    font-weight: 500;
                 }
             }
         }
@@ -245,7 +246,7 @@
     background-color: #f3f1f1d7;
     background-color: #f3f1f1d7;
     padding: 20px 15px;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 .class-body-info .students-info .studnet-tage {
@@ -258,6 +259,7 @@
     transition: .4s;
     user-select: none;
 }
+
 .class-body-info .students-info .studnet-tage:hover {
     background-color: #066599;
     color: white;
@@ -272,19 +274,88 @@
 
 }
 
-.students-info .btns-control button {
+.students-info .btns-control button,
+.add-btn {
     padding: 4px 15px;
-    border-radius: 2px ;
+    border-radius: 2px;
     cursor: pointer;
-    border: none ; 
-    outline: none ;    
+    border: none;
+    outline: none;
     font-size: 12px;
     color: white;
     font-weight: 500;
 }
+
 .students-info .btns-control button:first-child {
-    background-color: red ;
+    background-color: red;
 }
-.students-info .btns-control button:last-child {
+
+.students-info .btns-control button:last-child,
+.add-btn {
     background-color: #066599;
+}
+
+.add-btn {
+    padding: 0px 10px;
+}
+
+
+/* insert new studnet style */
+.insert-new-student span b {
+    margin: 0 5px;
+}
+
+.insert-new-student .buttons-controal {
+    margin: 10px 0;
+
+    button {
+        padding: 4px 20px;
+        cursor: pointer;
+        border: none;
+        color: white;
+        border-radius: 4px;
+    }
+}
+
+.insert-new-student .table {
+    background-color: white; 
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.insert-new-student .buttons-controal button:first-child {
+    background-color: #066599;
+}
+
+.insert-new-student .buttons-controal button:last-child {
+    margin-left: 5px;
+    background-color: red;
+}
+.insert-new-student .table.class-full input[type='checkBox']:not(:checked) {
+    pointer-events: none;
+}
+
+.table .thead .thead-row th {
+    background-color: white;
+    border-bottom: 1px solid gray;
+    text-transform: uppercase;
+    color: #066599;
+    font-weight: bold;
+    padding: 4px 10px;
+}
+
+.table .tbody td {
+    padding: 3px;
+    border-color: rgba(128, 128, 128, 0.562);
+    border: none;
+}
+
+.table .thead .tbody-cell {
+    border: none;
+}
+
+.table .tbody .check-box {
+    display: block;
+    margin: auto;
 }

@@ -14,7 +14,6 @@ export default function StudentCard(props) {
         <h3>phone : <span> {studentDetails.phone} </span></h3>
         <h3>Bill Required : <span> {studentDetails.billRequired} </span></h3>
         <h3>Missed Days : <span> {studentDetails.missedDays} </span></h3>
-        <h3>Class Id : <span> {studentDetails?.class?.classId} </span></h3>
       </main>
     </div>
   );

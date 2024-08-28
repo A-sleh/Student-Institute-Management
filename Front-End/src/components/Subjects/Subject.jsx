@@ -7,7 +7,6 @@ import Notification from "../Global/Notification";
 import CreateSubject from "./CreateSubject";
 import DeleteModal from "../Modal/DeleteModal";
 
-
 export const initailSubjectState = {
   subjectId: 0,
   subject: "",
@@ -27,38 +26,40 @@ export default function Subject() {
     });
   }, [successUpdate, successCreate, successDelete]);
 
-
   return (
     <>
-      {successUpdate && (
-        <Notification
-          title={"Update The Subject"}
-          type={"success"}
-          state={successUpdate}
-          setState={setSuccessUpdate}
-        />
-      )}
-      {successCreate && (
-        <Notification
-          title={"Create The Subject"}
-          type={"success"}
-          state={successCreate}
-          setState={setSuccessCreate}
-        />
-      )}
-      {successDelete && (
-        <Notification
-          title={"Delete The Subject"}
-          type={"success"}
-          state={successDelete}
-          setState={setSuccesDelete}
-        />
-      )}
+      <Notification
+        title={"Update The Subject"}
+        type={"success"}
+        state={successUpdate}
+        setState={setSuccessUpdate}
+      />
+
+      <Notification
+        title={"Create The Subject"}
+        type={"success"}
+        state={successCreate}
+        setState={setSuccessCreate}
+      />
+
+      <Notification
+        title={"Delete The Subject"}
+        type={"success"}
+        state={successDelete}
+        setState={setSuccesDelete}
+      />
+
       <Title title={window.location.pathname} />
       <div className="subject-container">
         {Subjects.map((subject, index) => {
           return (
-            <SubjectCard Subject={subject} setSuccessUpdate={setSuccessUpdate} setSuccesDelete={setSuccesDelete} successUpdate={successUpdate} key={index}/>
+            <SubjectCard
+              Subject={subject}
+              setSuccessUpdate={setSuccessUpdate}
+              setSuccesDelete={setSuccesDelete}
+              successUpdate={successUpdate}
+              key={index}
+            />
           );
         })}
         <div className="empty-subject-card" style={{ position: "relative" }}>

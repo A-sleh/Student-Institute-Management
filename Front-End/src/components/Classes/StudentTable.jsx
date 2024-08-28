@@ -1,12 +1,22 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { COLUMNS } from "./TableTools/Columns.js";
 import { useTable, useRowSelect } from "react-table";
 import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification.jsx";
+import { RemoveStudentContext } from "./ManageClasses.jsx";
 
-export default function StudentTable() {
-  const [studentDetails, setstudentInfo] = useState([]);
-  const [changeStudent,setChangeStudent] = useState(false)
+export default function StudentTable({ students }) {
+  const classStudent = students?.map((student) => {
+    const { name, lastName } = student;
+    return {
+      ...student,
+      full_name: name + " " + lastName,
+    };
+  });
+
+  const { setSuccessRemoveStudent } = useContext(RemoveStudentContext);
+  const [studentDetails, setstudentInfo] = useState([...classStudent]);
+  const [changeStudent, setChangeStudent] = useState(false);
   const columns = useMemo(
     () => [
       ...COLUMNS,
@@ -19,21 +29,6 @@ export default function StudentTable() {
     ],
     []
   );
-
-  useEffect(() => {
-    DataServices.StudentsInformaion().then((StudentsInfo) => {
-      setstudentInfo(
-        StudentsInfo.map((student) => {
-          const { name, lastName } = student;
-          return {
-            ...student,
-            className: student.class.title,
-            full_name: name + " " + lastName,
-          };
-        })
-      );
-    });
-  }, []);
 
   const {
     getTableProps,
@@ -50,51 +45,66 @@ export default function StudentTable() {
   );
 
   const SelectedRows = () => {
-    return (selectedFlatRows.length != 0);
+    return selectedFlatRows.length != 0;
   };
+
+  function removeStudentsFromClass() {
+    return new Promise((resolve) => {
+      selectedFlatRows.map((studentInfo, index) => {
+        const student = studentInfo.original;
+
+        const removeClassId = {
+          ...student,
+          class: {
+            ...student.class,
+            classId: null,
+          },
+        };
+        DataServices.UpdateStudent(removeClassId);
+        if (index == selectedFlatRows.length - 1) {
+          resolve();
+        }
+      });
+    });
+  }
 
   const handleRemoveClicked = () => {
     if (!SelectedRows()) {
-      setChangeStudent(true) ; 
+      setChangeStudent(true);
       setTimeout(() => {
-        setChangeStudent(false)
-      } , 3000 )
+        setChangeStudent(false);
+      }, 3000);
       return;
     }
 
-    selectedFlatRows.map((studentInfo) => {
-      const student = studentInfo.original;
-      console.log(student);
-      const removeClassId = {
-        ...student,
-        class: {
-          ...student.class,
-          classId: null,
-        },
-      };
-      console.log(removeClassId);
-      DataServices.UpdateStudent(removeClassId).then((res) => {
-        console.log(res);
-      });
+    removeStudentsFromClass().then(() => {
+      setSuccessRemoveStudent(true);
+      setTimeout(() => {
+        setSuccessRemoveStudent(false);
+      }, 2000);
     });
   };
 
   const handleMoveToClicked = () => {
-    if (!SelectedRows()){
+    if (!SelectedRows()) {
       if (!SelectedRows()) {
-        setChangeStudent(true) ; 
+        setChangeStudent(true);
         setTimeout(() => {
-          setChangeStudent(false)
-        } , 3000 )
+          setChangeStudent(false);
+        }, 3000);
         return;
-      }  
+      }
     }
-
   };
 
   return (
     <>
-    { changeStudent && <Notification  title={'Please ,Selcet Any Student'} type={'error'} state ={changeStudent} setState={setChangeStudent}/>}
+      <Notification
+        title={"Please ,Selcet Any Student"}
+        type={"error"}
+        state={changeStudent}
+        setState={setChangeStudent}
+      />
       <div
         style={{
           display: "flex",

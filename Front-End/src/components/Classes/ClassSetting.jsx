@@ -1,18 +1,23 @@
-import { useState } from "react";
+import React, { useState, useContext, lazy, Suspense } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./class.css";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 import ClassForm from "./ClassForm";
-import StudentTable from "./StudentTable";
 import ShowClassDetails from "./ShowClassDetails";
 
-export default function ClassSetting({ classDetails, setDeleteClass }) {
+export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
+  
+  const StudentTable = lazy(() => import("./StudentTable"));
   const [updateBtnClicked, setUpdateBtnClicked] = useState(false);
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
   const [NotDeletClass, setNotDeleteClass] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const gotoInsertNewStudent = useNavigate();
 
   const { classId, title, capacity, gender, grade, students } = classDetails;
+
+  console.log("render-class" + classId);
 
   const totalStudentsNumber =
     students?.length - (students != undefined && students[0] == null); // if the class don't contain any studnet will return an array with length one so we remove it useing this condition
@@ -27,6 +32,10 @@ export default function ClassSetting({ classDetails, setDeleteClass }) {
     }
     setDeleteModal(true);
   }
+
+  const handleAddNewStudentClicked = () => {
+    gotoInsertNewStudent("InsertNewStudent", { state: classDetails });
+  };
 
   return (
     <>
@@ -150,7 +159,26 @@ export default function ClassSetting({ classDetails, setDeleteClass }) {
             </div>
 
             <div className="students-info">
-              <h3>Students</h3>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  margin: "10px 0",
+                }}
+              >
+                <h3>Students</h3>
+                <button
+                  className="add-btn"
+                  onClick={handleAddNewStudentClicked}
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <i
+                    className="bi bi-plus-lg"
+                    style={{ lineHeight: "-10px" }}
+                  ></i>
+                  <span>Add New Student </span>
+                </button>
+              </div>
               <div className="students-name">
                 {totalStudentsNumber == 0 ? (
                   <p
@@ -163,7 +191,9 @@ export default function ClassSetting({ classDetails, setDeleteClass }) {
                     There are no students yet ...
                   </p>
                 ) : (
-                  <StudentTable />
+                  <Suspense >
+                    <StudentTable students={classDetails?.students} />
+                  </Suspense>
                 )}
               </div>
             </div>
@@ -180,4 +210,4 @@ export default function ClassSetting({ classDetails, setDeleteClass }) {
       )}
     </>
   );
-}
+})

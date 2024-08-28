@@ -21,6 +21,7 @@ import Subject from "./components/Subjects/Subject.jsx";
 import UpdateStudent from "./components/Students/UpdateStudent.jsx";
 import StudentInformation from "./components/Students/StudentInformation.jsx";
 import { useState } from "react";
+import InsertNewStudent from "./components/Classes/InsertNewStudent.jsx";
 
 
 const urlPath = [
@@ -39,10 +40,11 @@ const urlPath = [
   { path: "estDetails", component: <estDetails /> },
   { path: "NewClass", component: <NewClass /> },
   { path: "ManageClasses", component: <ManageClasses /> },
-  { path: "ClassesDetails", component: <ClassesDetails /> },
+  { path: "ClassesDetails", component: <ClassesDetails /> },  
   { path: "Subject", component: <Subject /> },
   { path: "/StudentInformation/:id", component: <StudentInformation /> },
   { path: "/UpdateStudent/:info", component: <UpdateStudent /> },
+  { path: "/ManageClasses/InsertNewStudent", component: <InsertNewStudent /> },
 ];
 
 const renderAllRoute = urlPath.map((route, index) => {
@@ -79,7 +81,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Statistics />} />
             {renderAllRoute}
-            <Route path="StudentsDetails" element={<StudentsDetails />} />
+            
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </div>

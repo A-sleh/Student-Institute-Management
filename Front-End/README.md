@@ -49,7 +49,19 @@ Day 1 :
     - [X] Complete build The Delete Student Logic
     - [X] Restyle The Table In Show Student Details
 Day 2 : 
-    - [] Maping UpdateSubject to conver to action ( update and create )
+    - [X] Maping UpdateSubject to conver to action ( update and create )
     - [X] solve class object in create student request 
     - [X] solve class object in show student details 
+Day 3 : 
+    - [X] fix re-render class details when remove a students from class
+    - [X] prevente user from select any students to add them in class when the class is full {
+        
+        - current class student number (done)
+        - clac how many studnets can added them in to class (dnoe)
+        - handle the number of selected student form pending studnet  (done)
+
+    }
+    - [] optemize the re-render class setting when do any changes on one of the class (to ignore more re-render we don't needed it)
+    - [] Fix display the insertStudent page
+  
     
