@@ -2,7 +2,7 @@ import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
 
 export default function DeleteModal(props) {
-  const { element, type, id, setDeleteModal, setSuccessDelete } = props;
+  const { element, type, id, setDeleteModal, setSuccessDelete  } = props;
 
   function handleSuccessDelete() {
     setDeleteModal(false);

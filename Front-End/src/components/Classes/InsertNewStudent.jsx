@@ -1,14 +1,16 @@
-import { AllStudentColumns } from "./TableTools/AllStudentColumns";
+import { COL } from "./TableTools/AllStudentColumns";
 import Title from "../Global/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTable, useRowSelect} from "react-table";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
+import Notification from "../Global/Notification";
 
 
 export default function InsertNewStudent() {
 
   const gotoThePreviousPage = useNavigate(); // this is important to move to previous page
+  const [successAddStudent,setSuccessAddStudent] = useState(false) ;
   const classDetails = useLocation().state; // this is important ==> to get class details  
   const { classId, title, capacity, students } = classDetails; // this is important
   const [studentDetails, setStudentDetails] = useState([]); // this important ==> to Data of table
@@ -18,7 +20,7 @@ export default function InsertNewStudent() {
   
   const ALLSTUDENTCOLUMNS = useMemo(
     () => [
-      ...AllStudentColumns,
+      ...COL,
       {
         id: "selection",
         Header: "select",
@@ -35,7 +37,7 @@ export default function InsertNewStudent() {
         },
       },
     ],
-    []
+    [successAddStudent]
   );
   
   const {
@@ -68,7 +70,7 @@ export default function InsertNewStudent() {
         });
       setStudentDetails(filterStudents);
     });
-  }, []);
+  }, [successAddStudent]);
 
   function handleCheckBoxToggle(checkbox) {
     boxWasChecked.current += ( checkbox ? +1 : -1 ) ;
@@ -108,6 +110,7 @@ function changeStudentsClass(studentSelected) {
   return (
     <>
       <Title title={window.location.pathname + `To Class - ${title}`} />
+      <Notification title={'Add Studnets to the Class'} type={'success'} state ={successAddStudent} setState={setSuccessAddStudent} />
       <div className="insert-new-student">
         <NaveBar
           capacity={capacity}

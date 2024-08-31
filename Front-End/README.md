@@ -30,10 +30,10 @@ This file will contain the progress in build the main interfaces :
             3 - [] show the last ( quiz - exam - final  - revision ) and assign the mark
         6 - [x] class :
             1 - [X] create new class 
-            2 - [] manage the class (add - delete - move ) student
+            2 - [X] manage the class (add - delete - move ) student
             3 - [X] show class details (students - teachers ) sorted by the best class dependent on students level
         7 - [x] subject : 
-            1 - [] (Add , delete , update) subject dependent on classification 
+            1 - [X] (Add , delete , update) subject dependent on classification 
 
 -- [] create Redux toolkit to manage the states
 
@@ -61,7 +61,10 @@ Day 3 :
         - handle the number of selected student form pending studnet  (done)
 
     }
-    - [] optemize the re-render class setting when do any changes on one of the class (to ignore more re-render we don't needed it)
+    - [X] optemize the re-render class setting when do any changes on one of the class (to ignore more re-render we don't needed it)
     - [] Fix display the insertStudent page
   
+Day 4 : 
+    - [X] fix re-render classes when delete any of class 
+    - [X] ensure re-render the class componenet when update it 
     

@@ -1,23 +1,37 @@
-import React, { useState, useContext, lazy, Suspense } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useState, useContext, lazy, Suspense, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./class.css";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 import ClassForm from "./ClassForm";
 import ShowClassDetails from "./ShowClassDetails";
+import DataServices from "../../Data/dynamic/DataServices";
+import Test from "./Test";
+import StudentTable from "./StudentTable";
 
-export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
-  
-  const StudentTable = lazy(() => import("./StudentTable"));
-  const [updateBtnClicked, setUpdateBtnClicked] = useState(false);
+export default function ClassSetting({ ClassId, setDeleteClass }) {
+
+  console.log("re-render class Setting component");
+
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
-  const [NotDeletClass, setNotDeleteClass] = useState(false);
+  const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [updateBtnClicked, setUpdateBtnClicked] = useState(false);
+  const [NotDeletClass, setNotDeleteClass] = useState(false);
+  const [classDetails, setClassDetails] = useState({isEmpty: true});
   const gotoInsertNewStudent = useNavigate();
+
+  useEffect(() => {
+    console.log('from full depndecy')
+    if (SuccessUpdateClasss || successRemoveStudent) return;
+    DataServices.showCalsses(ClassId).then((response) => {
+      setClassDetails({...response,isEmpty : false});
+    });
+  }, [SuccessUpdateClasss, successRemoveStudent]);
 
   const { classId, title, capacity, gender, grade, students } = classDetails;
 
-  console.log("render-class" + classId);
+  console.log("render class : " + classId);
 
   const totalStudentsNumber =
     students?.length - (students != undefined && students[0] == null); // if the class don't contain any studnet will return an array with length one so we remove it useing this condition
@@ -39,6 +53,12 @@ export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
 
   return (
     <>
+      <Notification
+        title={"Updata Class Details"}
+        type={"success"}
+        state={successRemoveStudent}
+        setState={setSuccessRemoveStudent}
+      />
       {deleteModal && (
         <DeleteModal
           element={title}
@@ -46,6 +66,7 @@ export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
           type={"class"}
           setDeleteModal={setDeleteModal}
           setSuccessDelete={setDeleteClass}
+          classId={classId}
         />
       )}
       <Notification
@@ -60,8 +81,10 @@ export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
         state={SuccessUpdateClasss}
         setState={setSuccessUpdateClasss}
       />
+
       {!updateBtnClicked && (
         <div className="class">
+          <Test length={students?.length - 1} />
           <div
             className="title-header"
             style={{
@@ -191,9 +214,12 @@ export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
                     There are no students yet ...
                   </p>
                 ) : (
-                  <Suspense >
-                    <StudentTable students={classDetails?.students} />
-                  </Suspense>
+                   classDetails.isEmpty == false ? 
+                        <StudentTable
+                          students={classDetails.students}
+                          setSuccessRemoveStudent={setSuccessRemoveStudent}
+                        />
+                    : ('')
                 )}
               </div>
             </div>
@@ -210,4 +236,4 @@ export const  ClassSetting = React.memo( ({ classDetails, setDeleteClass }) => {
       )}
     </>
   );
-})
+}

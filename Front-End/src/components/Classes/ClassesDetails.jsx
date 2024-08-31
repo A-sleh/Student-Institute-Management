@@ -10,7 +10,7 @@ export default function ClassesDetails() {
   const [classesDetails,setClassesDetails] = useState([]) ;
 
   useEffect(() => {
-    DataServices.showAllCalsses().then( response => {
+    DataServices.showCalsses().then( response => {
       setClassesDetails(response)
     });
   },[]);

@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-export const AllStudentColumns = [
+export const COL = [
   {
     Header: "Name",
     accessor: "full_name",

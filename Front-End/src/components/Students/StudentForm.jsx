@@ -152,7 +152,7 @@ export default function StudentForm({
   // fetch classes Details From Data Base
   useEffect(() => {
     try {
-      DataServices.showAllCalsses().then((data) => {
+      DataServices.showCalsses().then((data) => {
         setCalssDetails(data);
       });
     } catch (error) {

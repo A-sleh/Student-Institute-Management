@@ -1,22 +1,28 @@
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { COLUMNS } from "./TableTools/Columns.js";
 import { useTable, useRowSelect } from "react-table";
 import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification.jsx";
-import { RemoveStudentContext } from "./ManageClasses.jsx";
 
-export default function StudentTable({ students }) {
-  const classStudent = students?.map((student) => {
-    const { name, lastName } = student;
-    return {
-      ...student,
-      full_name: name + " " + lastName,
-    };
-  });
+export default function StudentTable({
+  students,
+  setSuccessRemoveStudent,
+}) {
 
-  const { setSuccessRemoveStudent } = useContext(RemoveStudentContext);
-  const [studentDetails, setstudentInfo] = useState([...classStudent]);
+  console.log("re-render Student Table component : " ,students );
+
   const [changeStudent, setChangeStudent] = useState(false);
+
+  const studentDetails = students != undefined ? students.map((student) => {
+          const { name, lastName } = student;
+          return {
+            ...student,
+            full_name: name + " " + lastName,
+          };
+        })
+      : '';
+
+
   const columns = useMemo(
     () => [
       ...COLUMNS,
@@ -68,7 +74,7 @@ export default function StudentTable({ students }) {
     });
   }
 
-  const handleRemoveClicked = () => {
+  function handleRemoveClicked() {
     if (!SelectedRows()) {
       setChangeStudent(true);
       setTimeout(() => {

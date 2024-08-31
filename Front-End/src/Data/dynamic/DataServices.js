@@ -13,8 +13,8 @@ export default {
   DeleteSutent: (id) => {
     return API.Student.delete(id);
   },
-  showAllCalsses: () => {
-    return API.Class.get();
+  showCalsses: (id) => {
+    return API.Class.get(id);
   },
   CreateNewClass: (data) => {
     return API.Class.post(data);
