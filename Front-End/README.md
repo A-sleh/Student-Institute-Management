@@ -4,7 +4,7 @@ This file will contain the progress in build the main interfaces :
 - Navbar section : [X]
     - [X] Add the logo of institute
     - [X] Add Burger menu to switch the sideBar section 
-        -- Note : [] The Burger menu needed to link with State to close and open the sidebar section
+        -- Note : [X] The Burger menu needed to link with State to close and open the sidebar section
              
     -- optional -- [] Put a field to search in current page
 - SideBar section : 
