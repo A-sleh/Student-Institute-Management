@@ -8,46 +8,76 @@ using System.Threading.Tasks;
 
 namespace DataAcess.Data
 {
-    public class TeacherData
+    public class TeacherData : ITeacherData
     {
         private readonly ISqlDataAccess _db;
+        public TeacherData()
+        {
+
+        }
         public TeacherData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
 
-        public async Task<TeacherModel?> GetTeacherById(int id)
+        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
-            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetById",
-                new { id });
-            return res.FirstOrDefault();
+            var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
+                parameters: new { TeacherId },
+                x:
+                (TS, Subject) =>
+                {
+                    TS.Subject = Subject;
+                    return TS;
+                },
+                splitOn: "SubjectId"
+                );
+            return res;
         }
 
-        public async Task<TeacherModel?> GetTeacherBySubject(int subId)
+        public async Task<IEnumerable<TeacherModel>> GetTeachersBySubject(int subId)
         {
-            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetBySubId",new { subId });
-            return res.FirstOrDefault();
+            var res = await _db.LoadData<TeacherModel, dynamic>(
+                "dbo.TeacherGetAllBySubId",
+                parameters: new { SubjectId = subId }
+                );
+            return res;
         }
 
         public async Task<IEnumerable<TeacherModel>> GetAllTeachers()
         {
-            return await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll", new { });
+            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll",
+                parameters: new { }
+                );
+            return res;
         }
 
         public async Task UpdateTeacher(TeacherModel model)
         {
-            await _db.SaveData("dbo.Teacher", new {model});
+            await _db.SaveData("dbo.TeacherUpdate", new
+            {
+                model.TeacherId,
+                model.Name,
+                model.LastName,
+                model.Phone
+            });
 
         }
+
         public async Task InsertTeacher(TeacherModel model)
         {
-            await _db.SaveData("dbo.TeacherInsert", new { 
-                model
+            await _db.SaveData("dbo.TeacherInsert", new
+            {
+                model.TeacherId,
+                model.Name,
+                model.LastName,
+                model.Phone
             });
         }
-        public async Task DeleteTeacher(int id)
+
+        public async Task DeleteTeacher(int TeacherId)
         {
-            await _db.SaveData("dbo.TeacherDelete", new { id });
+            await _db.SaveData("dbo.TeacherDelete", new { TeacherId });
         }
     }
 }

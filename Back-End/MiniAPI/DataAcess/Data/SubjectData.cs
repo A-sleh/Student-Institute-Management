@@ -11,6 +11,9 @@ namespace DataAcess.Data
     public class SubjectData : ISubjectData
     {
         private readonly ISqlDataAccess _db;
+        public SubjectData()
+        { 
+        }
         public SubjectData(ISqlDataAccess _db)
         {
             this._db = _db;

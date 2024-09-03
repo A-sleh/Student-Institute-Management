@@ -13,13 +13,17 @@ namespace DataAcess.Data
     public class ClassData : IClassData
     {
         private readonly ISqlDataAccess _db;
+        public ClassData()
+        {
+            
+        }
         public ClassData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
         public async Task<IEnumerable<ClassModel>> GetClasses()
         {
-            var dic = new Dictionary<int?, ClassModel>();
+            var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetAll",
                 new { },
@@ -42,7 +46,7 @@ namespace DataAcess.Data
         }
         public async Task<ClassModel?> GetClassDetails(int id)
         {
-            var dic = new Dictionary<int?, ClassModel>();
+            var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetDetails",
                 new { Id = id },
