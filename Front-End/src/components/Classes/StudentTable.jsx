@@ -3,24 +3,25 @@ import { COLUMNS } from "./TableTools/Columns.js";
 import { useTable, useRowSelect } from "react-table";
 import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentTable({
   students,
   setSuccessRemoveStudent,
+  classID
 }) {
 
-  console.log("re-render Student Table component : " ,students );
-
   const [changeStudent, setChangeStudent] = useState(false);
-
-  const studentDetails = students != undefined ? students.map((student) => {
+  const gotoMoveingStudentsPage = useNavigate() ;
+  const studentDetails = useMemo(()=> students != undefined ? students.map((student) => {
           const { name, lastName } = student;
           return {
             ...student,
             full_name: name + " " + lastName,
           };
         })
-      : '';
+      : ''
+  ,[students.length]);
 
 
   const columns = useMemo(
@@ -101,6 +102,12 @@ export default function StudentTable({
         return;
       }
     }
+    const studentsSelectd =  selectedFlatRows.map(student => {
+      return student.original ;
+    })
+    console.log(studentsSelectd)
+    gotoMoveingStudentsPage(`/MoveStudentsToAnotherClass/${classID}`,{ replace: true , state: studentsSelectd });
+
   };
 
   return (

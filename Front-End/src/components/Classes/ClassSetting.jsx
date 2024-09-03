@@ -6,12 +6,9 @@ import DeleteModal from "../Modal/DeleteModal";
 import ClassForm from "./ClassForm";
 import ShowClassDetails from "./ShowClassDetails";
 import DataServices from "../../Data/dynamic/DataServices";
-import Test from "./Test";
 import StudentTable from "./StudentTable";
 
 export default function ClassSetting({ ClassId, setDeleteClass }) {
-
-  console.log("re-render class Setting component");
 
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
   const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
@@ -22,16 +19,12 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
   const gotoInsertNewStudent = useNavigate();
 
   useEffect(() => {
-    console.log('from full depndecy')
-    if (SuccessUpdateClasss || successRemoveStudent) return;
     DataServices.showCalsses(ClassId).then((response) => {
       setClassDetails({...response,isEmpty : false});
     });
   }, [SuccessUpdateClasss, successRemoveStudent]);
 
   const { classId, title, capacity, gender, grade, students } = classDetails;
-
-  console.log("render class : " + classId);
 
   const totalStudentsNumber =
     students?.length - (students != undefined && students[0] == null); // if the class don't contain any studnet will return an array with length one so we remove it useing this condition
@@ -54,7 +47,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
   return (
     <>
       <Notification
-        title={"Updata Class Details"}
+        title={"Students were removed"}
         type={"success"}
         state={successRemoveStudent}
         setState={setSuccessRemoveStudent}
@@ -84,7 +77,6 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
 
       {!updateBtnClicked && (
         <div className="class">
-          <Test length={students?.length - 1} />
           <div
             className="title-header"
             style={{
@@ -217,6 +209,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
                    classDetails.isEmpty == false ? 
                         <StudentTable
                           students={classDetails.students}
+                          classID={classId}
                           setSuccessRemoveStudent={setSuccessRemoveStudent}
                         />
                     : ('')

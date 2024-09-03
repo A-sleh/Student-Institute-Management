@@ -67,4 +67,10 @@ Day 3 :
 Day 4 : 
     - [X] fix re-render classes when delete any of class 
     - [X] ensure re-render the class componenet when update it 
-    
+
+Day 5 : 
+    -[X] build concept the Move Studnets To Another Class
+Day 6 : 
+    -[X] show a error message when delete the subject which has a teacher who use it 
+    -[X] fix the bug : when remove student from a class the message of notification are wrong    
+     

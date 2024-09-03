@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router-dom";
 import StudentInfo from "../Modal/StudentInfo";
 import ShowClassDetails from "./ShowClassDetails";
 import { useState } from "react";
@@ -6,21 +7,16 @@ import { useState } from "react";
 export default function ClassInfo({ classDetails }) {
 
   const { title, capacity, gender, grade, students } = classDetails;
-  const [renderModal,setRenderModal] = useState({run : false , data : {} })
+  const gotoStudentDetails = useNavigate() ;
 
   const totalStudentsNumber =
     students?.length - (students != undefined && students[0] == null); // if the class don't contain any studnet will return an array with length one so we remove it useing this condition
 
-  function handleStudentCicked(student_1) {
-    setRenderModal({
-      run: true ,
-      data : student_1
-    })
-    
+  function handleStudentCicked(student) {
+    gotoStudentDetails(`/StudentInformation/${student.studentId}`)
   }
   return (
     <>
-     { renderModal.run && <StudentInfo student={renderModal.data} setRendarModal={setRenderModal} />}
       <div className="class">
         <h1 className="class-title">{title}</h1>
         <div className="class-header-info">

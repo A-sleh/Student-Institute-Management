@@ -1,14 +1,26 @@
 import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
+import { useState } from "react";
 
 export default function DeleteModal(props) {
   const { element, type, id, setDeleteModal, setSuccessDelete  } = props;
+  
 
   function handleSuccessDelete() {
     setDeleteModal(false);
     setSuccessDelete(true);
     setTimeout(() => {
       setSuccessDelete(false);
+    }, 2000);
+  }
+  
+  function handleUnSuccessDelete() {
+    const {setUnSuccessDelete} = props ;
+    
+    setDeleteModal(false);
+    setUnSuccessDelete(true);
+    setTimeout(() => {
+      setUnSuccessDelete(false)
     }, 2000);
   }
 
@@ -26,8 +38,11 @@ export default function DeleteModal(props) {
           });
           break;
         case "Subject":
-          DataServices.DeleteSubject(id).then((_) => {
-            handleSuccessDelete();
+          DataServices.DeleteSubject(id).then((response) => {
+            if(response.status > 299 ) {
+              handleUnSuccessDelete()
+            } 
+            else handleSuccessDelete();
           });
 
           break;
@@ -41,6 +56,7 @@ export default function DeleteModal(props) {
   }
 
   return (
+  
     <div className="modal">
       <div>
         <i

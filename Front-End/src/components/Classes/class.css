@@ -327,7 +327,6 @@
 .insert-new-student .buttons-controal button:first-child {
     background-color: #066599;
 }
-
 .insert-new-student .buttons-controal button:last-child {
     margin-left: 5px;
     background-color: red;
@@ -358,4 +357,16 @@
 .table .tbody .check-box {
     display: block;
     margin: auto;
+}
+
+/* move student to another class page */
+
+.remove-student-btn {
+    font-size: 13px;
+    cursor: pointer;
+    transition: .3s ; 
+}
+
+.remove-student-btn:hover {
+    color: red;
 }

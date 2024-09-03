@@ -11,13 +11,9 @@ export default function ManageClasses() {
 
   const [classesId, setClassesId] = useState([null]);
   const [deleteClass, setDeleteClass] = useState(false);
-  //const [successAddStudent, setSuccessAddStudent] = useState(false);
-  //const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
-  //const [successMoveStudent, setSuccessMoveStudent] = useState(false);
-
+  
   useEffect(() => {
-    if (deleteClass) return;
-
+  
     DataServices.showCalsses().then((response) => {
       const ClassesIds = response.map((res) => {
         return res.classId;

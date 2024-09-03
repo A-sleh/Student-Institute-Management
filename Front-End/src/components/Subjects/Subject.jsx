@@ -5,7 +5,6 @@ import SubjectCard from "./SubjectCard";
 import "./subject.css";
 import Notification from "../Global/Notification";
 import CreateSubject from "./CreateSubject";
-import DeleteModal from "../Modal/DeleteModal";
 
 export const initailSubjectState = {
   subjectId: 0,

@@ -22,6 +22,7 @@ import UpdateStudent from "./components/Students/UpdateStudent.jsx";
 import StudentInformation from "./components/Students/StudentInformation.jsx";
 import { useState } from "react";
 import InsertNewStudent from "./components/Classes/InsertNewStudent.jsx";
+import MoveStudentsToAnotherClass from "./components/Classes/MoveStudentsToAnotherClass.jsx";
 
 
 const urlPath = [
@@ -45,6 +46,7 @@ const urlPath = [
   { path: "/StudentInformation/:id", component: <StudentInformation /> },
   { path: "/UpdateStudent/:info", component: <UpdateStudent /> },
   { path: "/ManageClasses/InsertNewStudent", component: <InsertNewStudent /> },
+  { path: "/MoveStudentsToAnotherClass/:classId", component: <MoveStudentsToAnotherClass /> },
 ];
 
 const renderAllRoute = urlPath.map((route, index) => {
