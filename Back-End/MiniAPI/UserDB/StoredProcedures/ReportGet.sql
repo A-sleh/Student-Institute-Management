@@ -3,6 +3,6 @@
 AS
 BEGIN
 	SELECT id as ReportId, ReportTitle, StartDate, FinishDate
-	FROM Report 
+	FROM report 
 	WHERE Id = @Id;
 END

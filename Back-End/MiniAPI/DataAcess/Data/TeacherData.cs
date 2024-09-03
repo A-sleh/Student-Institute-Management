@@ -38,7 +38,7 @@ namespace DataAcess.Data
         public async Task<IEnumerable<TeacherModel>> GetTeachersBySubject(int subId)
         {
             var res = await _db.LoadData<TeacherModel, dynamic>(
-                "dbo.TeacherGetAllBySubId",
+                "dbo.TeachersGetAllBySubId",
                 parameters: new { SubjectId = subId }
                 );
             return res;

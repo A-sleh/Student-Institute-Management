@@ -7,6 +7,6 @@ AS
 	UPDATE Teacher SET
 	Name = @Name,
 	LastName = @LastName,
-	Phone = @Phone
+	phone = @Phone
 	WHERE Id = @TeacherId
 RETURN 0

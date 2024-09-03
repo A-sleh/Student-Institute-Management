@@ -5,7 +5,7 @@
 	@Gender VARCHAR(10),
 	@Grade VARCHAR(10)
 AS
-	UPDATE Class
+	UPDATE class
 	SET title = @Title, capacity = @Capacity, gender = @Gender, grade = @Grade
 	WHERE id = @ClassId;
 RETURN 0

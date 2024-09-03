@@ -101,6 +101,7 @@ namespace MiniAPI
         {
             try
             {
+                model.TeacherId = TeacherId;
                 await data.InsertTeacherSubjects(model);
                 return Results.Ok("Insert Success");
             }

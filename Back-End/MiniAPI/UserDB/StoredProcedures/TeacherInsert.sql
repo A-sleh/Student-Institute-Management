@@ -4,6 +4,6 @@
 	@LastName varchar(30),
 	@Phone varchar(15)
 AS
-	INSERT INTO Teacher(Name, LastName, Phone)
+	INSERT INTO Teacher(Name, LastName, phone)
 	VALUES (@Name, @LastName, @Phone);
 RETURN 0
