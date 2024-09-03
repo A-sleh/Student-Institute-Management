@@ -11,33 +11,28 @@ namespace DataAcess.Data
     public class TeacherData : ITeacherData
     {
         private readonly ISqlDataAccess _db;
+        public TeacherData()
+        {
+
+        }
         public TeacherData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
 
-        public async Task<TeacherModel?> GetTeacherById(int id)
+        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
-            var dic = new Dictionary<int, TeacherModel>();
-            var res = await _db.LoadData<TeacherModel, dynamic, SubjectModel>("dbo.TeacherGetById",
-                parameters: new { id },
+            var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
+                parameters: new { TeacherId },
                 x:
-                (Teacher, Subject) =>
+                (TS, Subject) =>
                 {
-                    if (dic.TryGetValue(Teacher.TeacherId, out var CurrTeacher))
-                    {
-                        Teacher = CurrTeacher;
-                    }
-                    else
-                    {
-                        dic.Add(Teacher.TeacherId, Teacher);
-                    }
-                    Teacher.Subjects.Add(Subject);
-                    return Teacher;
+                    TS.Subject = Subject;
+                    return TS;
                 },
                 splitOn: "SubjectId"
                 );
-            return res.FirstOrDefault();
+            return res;
         }
 
         public async Task<IEnumerable<TeacherModel>> GetTeachersBySubject(int subId)
@@ -51,25 +46,10 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<TeacherModel>> GetAllTeachers()
         {
-            var dic = new Dictionary<int, TeacherModel>();
-            var res = await _db.LoadData<TeacherModel, dynamic, SubjectModel>("dbo.TeacherGetAll",
-                parameters: new { },
-                (Teacher, Subject) =>
-                {
-                    if (dic.TryGetValue(Teacher.TeacherId, out var CurrTeacher))
-                    {
-                        Teacher = CurrTeacher;
-                    }
-                    else
-                    {
-                        dic.Add(Teacher.TeacherId, Teacher);
-                    }
-                    Teacher.Subjects.Add(Subject);
-                    return Teacher;
-                },
-                splitOn: "SubjectId"
+            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll",
+                parameters: new { }
                 );
-            return res.Distinct();
+            return res;
         }
 
         public async Task UpdateTeacher(TeacherModel model)
@@ -83,6 +63,7 @@ namespace DataAcess.Data
             });
 
         }
+
         public async Task InsertTeacher(TeacherModel model)
         {
             await _db.SaveData("dbo.TeacherInsert", new
@@ -93,13 +74,10 @@ namespace DataAcess.Data
                 model.Phone
             });
         }
-        public async Task AddSubjectToTeacher(List<TeacherSubjectModel> TSML)
+
+        public async Task DeleteTeacher(int TeacherId)
         {
-            throw new NotImplementedException();
-        }
-        public async Task DeleteTeacher(int id)
-        {
-            await _db.SaveData("dbo.TeacherDelete", new { id });
+            await _db.SaveData("dbo.TeacherDelete", new { TeacherId });
         }
     }
 }

@@ -31,6 +31,7 @@ namespace MiniAPI
             builder.Services.AddSingleton<IReportData, ReportData>();
             builder.Services.AddSingleton<ITestData, TestData>();
             builder.Services.AddSingleton<ITeacherData, TeacherData>();
+            builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

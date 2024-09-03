@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[TeacherSubjectInsert]
 	@TeacherId int,
 	@SubjectId int,
-	@Amount int
+	@Salary int
 AS
 	INSERT INTO TeacherSubject(TeacherId,SubjectId,Salary)
-	VALUES (@TeacherId, @SubjectId, @Amount);
+	VALUES (@TeacherId, @SubjectId, @Salary);
 RETURN 0

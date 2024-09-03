@@ -9,10 +9,13 @@ namespace MiniAPI
         {
             app.MapGet("/Teacher", GetAllTeachers);
             app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
-            app.MapGet("/Teacher/{id}", GetTeacher);
+            app.MapGet("/Teacher/{TeacherId}/Subject", GetTeacherSubject);
             app.MapPut("/Teacher", UpdateTeacher);
             app.MapPost("/Teacher", InsertTeacher);
             app.MapDelete("/Teacher/{id}", DeleteTeacher);
+            app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
+            app.MapPut("/Teacher/{TeacherId}/Subject", UpdateSubjectInTeacher);
+            app.MapDelete("/Teacher/Subject/{id}", DeleteSubjectFromTeacher);
         }
 
         private static async Task<IResult> GetAllTeachers(ITeacherData data)
@@ -54,11 +57,11 @@ namespace MiniAPI
             }
         }
 
-        private static async Task<IResult> GetTeacher(ITeacherData data, int id)
+        private static async Task<IResult> GetTeacherSubject(ITeacherData data, int TeacherId)
         {
             try
             {
-                var res = await data.GetTeacherById(id);
+                var res = await data.GetTeacherSubjectsById(TeacherId);
                 return Results.Ok(res);
             }
             catch (Exception)
@@ -85,6 +88,48 @@ namespace MiniAPI
             try
             {
                 await data.DeleteTeacher(id);
+                return Results.Ok("Delete Success");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static async Task<IResult> InsertSubjectToTeacher(ITeacherSubjectData data, TeacherSubjectModel model, int TeacherId)
+        {
+            try
+            {
+                await data.InsertTeacherSubjects(model);
+                return Results.Ok("Insert Success");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private static async Task<IResult> UpdateSubjectInTeacher(ITeacherSubjectData data, TeacherSubjectModel model, int TeacherId)
+        {
+            try
+            {
+                model.TeacherId = TeacherId;
+                await data.UpdateTeacherSubject(model);
+                return Results.Ok("Update Success");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static async Task<IResult> DeleteSubjectFromTeacher(ITeacherSubjectData data, int id)
+        {
+            try
+            {
+                await data.DeleteSubjectForTeacher(id);
                 return Results.Ok("Delete Success");
             }
             catch (Exception)

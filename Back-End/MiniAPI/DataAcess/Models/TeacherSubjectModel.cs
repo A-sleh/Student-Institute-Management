@@ -9,9 +9,9 @@ namespace DataAcess.Models
     public class TeacherSubjectModel
     {
         public int TeacherSubjectId {  get; set; }
-        public TeacherModel? TeacherId {  get; set; }
+        public int TeacherId {  get; set; }
         public SubjectModel? Subject {  get; set; }
         public int Salary {  get; set; }
-        List<ClassModel?> Classes { get; set; } = [];
+        public List<ClassModel?> Classes { get; set; } = [];
     }
 }

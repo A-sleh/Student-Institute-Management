@@ -12,6 +12,6 @@ namespace DataAcess.Models
         public string? Name { get; set; }
         public string? LastName {  get; set; }
         public string? Phone {  get; set; }
-        public List<SubjectModel?> Subjects { get; set; } = [];
+        public List<TeacherSubjectModel?> TeacherSubjects { get; set; } = [];
     }
 }
