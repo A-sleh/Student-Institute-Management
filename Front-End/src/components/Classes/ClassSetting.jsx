@@ -7,8 +7,12 @@ import ClassForm from "./ClassForm";
 import ShowClassDetails from "./ShowClassDetails";
 import DataServices from "../../Data/dynamic/DataServices";
 import StudentTable from "./StudentTable";
+import { useDispatch } from "react-redux";
+import { UPDATESUTENDSNUMBER } from "../../Redux/actions/type"; // test case 
 
 export default function ClassSetting({ ClassId, setDeleteClass }) {
+
+  const dispatch = useDispatch();// test
 
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
   const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
@@ -41,6 +45,10 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
   }
 
   const handleAddNewStudentClicked = () => {
+    dispatch({ // test case 
+      type: UPDATESUTENDSNUMBER , // test case 
+      payload: totalStudentsNumber// test case 
+    })// test case 
     gotoInsertNewStudent("InsertNewStudent", { state: classDetails });
   };
 

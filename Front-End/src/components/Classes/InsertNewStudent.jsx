@@ -5,9 +5,14 @@ import { useTable, useRowSelect} from "react-table";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification";
-
+import { useSelector, useDispatch } from "react-redux"; // test case 
+import { INCREAMENTSTUDENTSNUMBER } from "../../Redux/actions/type";
 
 export default function InsertNewStudent() {
+
+  const {studentNumber} = useSelector(state => state) // test case 
+  const dispatch = useDispatch() ;// test case 
+  
 
   const gotoThePreviousPage = useNavigate(); // this is important to move to previous page
   const [successAddStudent,setSuccessAddStudent] = useState(false) ;
@@ -105,6 +110,10 @@ function changeStudentsClass(studentSelected) {
         setSuccessAddStudent(false);
       } ,2000 )
     })
+    dispatch({ // test case 
+      type: INCREAMENTSTUDENTSNUMBER ,// test case 
+      payload: studentSelected.length// test case 
+    })// test case 
   }
 
   return (
@@ -115,7 +124,7 @@ function changeStudentsClass(studentSelected) {
         <NaveBar
           capacity={capacity}
           selectedFlatRows={selectedFlatRows}
-          currentStudents={currentStudents}
+          currentStudents={studentNumber}
           allStudentsWithSelected={capacity - ( currentStudents + selectedFlatRows.length)}
         />
         <div

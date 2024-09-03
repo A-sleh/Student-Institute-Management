@@ -1,11 +1,11 @@
-import { DECREMENT, INCREAMENT } from "../actions/type";
+import { INCREAMENTSTUDENTSNUMBER, UPDATESUTENDSNUMBER } from "../actions/type";
 
-const testReducer = ( state = {count : 0 } , action) => {
+const testReducer = ( state = {studentNumber : 0 } , action) => {
     switch(action.type) {
-        case INCREAMENT :
-            return { ...state , count: state.count + 1 } ;
-        case DECREMENT : 
-            return { ... state , count : state.count - 1 } ; 
+        case UPDATESUTENDSNUMBER :
+            return {studentNumber: action.payload }
+        case INCREAMENTSTUDENTSNUMBER :
+            return {studentNumber: state.studentNumber + action.payload }
         default : 
             return state ;
     }
