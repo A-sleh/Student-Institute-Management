@@ -35,7 +35,7 @@ This file will contain the progress in build the main interfaces :
         7 - [x] subject : 
             1 - [X] (Add , delete , update) subject dependent on classification 
 
--- [] create Redux toolkit to manage the states
+-- [X] create Redux toolkit to manage the states
 
 
 -- My Data connection : 
@@ -45,7 +45,7 @@ This file will contain the progress in build the main interfaces :
 Tasks : 
 
 Day 1 : 
-    - [X] Refcator The Notification 
+    - [X] Refactor The Notification 
     - [X] Complete build The Delete Student Logic
     - [X] Restyle The Table In Show Student Details
 Day 2 : 
@@ -62,7 +62,7 @@ Day 3 :
 
     }
     - [X] optemize the re-render class setting when do any changes on one of the class (to ignore more re-render we don't needed it)
-    - [] Fix display the insertStudent page
+    - [X] Fix display the insertStudent page
   
 Day 4 : 
     - [X] fix re-render classes when delete any of class 

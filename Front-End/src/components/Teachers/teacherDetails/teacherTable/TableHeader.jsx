@@ -1,4 +1,4 @@
-export default function TableHeader({filter,setFilter,teachersNumber}) {
+export default function TableHeader({filter,setFilter,studentNumber}) {
   return (
     <section
       style={{
@@ -12,7 +12,7 @@ export default function TableHeader({filter,setFilter,teachersNumber}) {
       <div
         style={{ fontSize: "22px", fontWeight: "bold", marginRight: "10px", alignSelf: 'flex-end' }}
       >
-        Total Teachers Number : <span style={{fontSize: '20px' , fontWeight: '500'}}>{teachersNumber}</span>
+        Total Student Number : <span style={{fontSize: '20px' , fontWeight: '500'}}>{studentNumber}</span>
       </div>
       <form
         action=""

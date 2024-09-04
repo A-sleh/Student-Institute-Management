@@ -4,9 +4,9 @@ import { Routes, Route } from "react-router-dom";
 import Statistics from "./components/Statistics/Statistics";
 import NewStudent from "./components/Students/NewStudent.jsx";
 import StudentsDetails from "./components/Students/StudentsDetails.jsx";
-import NewTeacher from "./components/Teachers/NewTeacher.jsx";
+import NewTeacher from "./components/Teachers/newTeacher/NewTeacher.jsx";
 import ManageTeacher from "./components/Teachers/ManageTeacher.jsx";
-import TeacherDetails from "./components/Teachers/TeachersDetails.jsx";
+import TeachersDetails from "./components/Teachers/teacherDetails/TeachersDetails.jsx"; 
 import StudentsPays from "./components/Bills/StudentsPays.jsx";
 import TeachersSalaries from "./components/Bills/TeachersSalaries.jsx";
 import ExternalPays from "./components/Bills/ExternalPays.jsx";
@@ -23,14 +23,16 @@ import StudentInformation from "./components/Students/StudentInformation.jsx";
 import { useState } from "react";
 import InsertNewStudent from "./components/Classes/InsertNewStudent.jsx";
 import MoveStudentsToAnotherClass from "./components/Classes/MoveStudentsToAnotherClass.jsx";
+import UpdateTeacher from "./components/Teachers/teacherDetails/UpdateTeacher.jsx";
 
 
 const urlPath = [
   { path: "NewStudent", component: <NewStudent /> },
   { path: "StudentsDetails", component: <StudentsDetails /> },
   { path: "NewTeacher", component: <NewTeacher /> },
-  { path: "TeachersDetails", component: <TeacherDetails /> },
+  { path: "TeachersDetails", component: <TeachersDetails /> },
   { path: "ManageTeacher", component: <ManageTeacher /> },
+  { path: "/UpdateTeacher/:info", component: <UpdateTeacher /> },
   { path: "StudentsPays", component: <StudentsPays /> },
   { path: "TeachersSalaries", component: <TeachersSalaries /> },
   { path: "ExternalPays", component: <ExternalPays /> },
