@@ -2,5 +2,5 @@
 AS
 BEGIN
 	SELECT id as SubjectId, Subject, MaximumMark 
-	FROM Subject
+	FROM subject
 END

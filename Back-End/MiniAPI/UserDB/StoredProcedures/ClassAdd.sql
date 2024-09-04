@@ -5,6 +5,6 @@
 	@Gender VARCHAR(10),
 	@Grade VARCHAR(10)
 AS
-	INSERT INTO Class(title, capacity, gender, grade)
+	INSERT INTO class(title, capacity, gender, grade)
 	VALUES (@Title, @Capacity, @Gender, @Grade);
 RETURN 0
