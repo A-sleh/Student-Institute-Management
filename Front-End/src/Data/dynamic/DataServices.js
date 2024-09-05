@@ -8,7 +8,7 @@ export default {
     return API.Student.post(data);
   },
   UpdateStudent: (data) => {
-    return API.Student.put(data);
+    return API.Student.put(data)
   },
   DeleteSutent: (id) => {
     return API.Student.delete(id);
@@ -37,4 +37,16 @@ export default {
   CreateSubject: (data) => {
     return API.Subject.post(data);
   },
+  AddNewTeacher : (data) => {
+    return API.Teacher.post(data)
+  },
+  TeacherInformaion : (id) => {
+    return API.Teacher.get(id)
+  },
+  DeleteTeacher : (id) => {
+    return API.Teacher.delete(id)
+  },
+  UpdateTeacherInfo : (data) => {
+    return API.Teacher.put(data)
+  }
 };

@@ -62,10 +62,7 @@ export default function StudentTable({
 
         const removeClassId = {
           ...student,
-          class: {
-            ...student.class,
-            classId: null,
-          },
+          class: null,
         };
         DataServices.UpdateStudent(removeClassId);
         if (index == selectedFlatRows.length - 1) {

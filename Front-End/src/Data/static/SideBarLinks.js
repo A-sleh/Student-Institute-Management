@@ -17,8 +17,8 @@ export const links = [
       iconPath: "bi bi-person-circle",
       subLinks: [
         { title: "New Teacher", iconPath: "bi bi-person-fill-add" },
-        { title: "Manage Teacher", iconPath: "bi bi-person-gear" },
         { title: "Teachers Details", iconPath: "bi bi-person-video2" },
+        { title: "Manage Teacher", iconPath: "bi bi-person-gear" },
       ],
     },
     {

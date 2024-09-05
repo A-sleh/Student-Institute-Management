@@ -25,6 +25,7 @@ export default function StudentsDetails() {
 
   const [studentInfo, setstudentInfo] = useState([]);
 
+
   function handleDleteClicked(student) {
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
@@ -138,11 +139,13 @@ export default function StudentsDetails() {
           setState={setSuccessDeleteStudent}
         />
         <Title title={window.location.pathname} />
+
         <TableHeader
           filter={globalFilter}
           setFilter={setGlobalFilter}
           studentNumber={rows.length}
         />
+
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -190,6 +193,7 @@ export default function StudentsDetails() {
             })}
           </tbody>
         </table>
+
         <TableControalSection
           pageCount={pageCount}
           previousPage={previousPage}

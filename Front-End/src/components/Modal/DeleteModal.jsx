@@ -44,7 +44,14 @@ export default function DeleteModal(props) {
             } 
             else handleSuccessDelete();
           });
-
+          break;
+        case "Teacher":
+          DataServices.DeleteTeacher(id).then((response) => {
+            if(response.status > 299 ) {
+              handleUnSuccessDelete()
+            } 
+            else handleSuccessDelete();
+          });
           break;
         default:
           // UnValid Type
