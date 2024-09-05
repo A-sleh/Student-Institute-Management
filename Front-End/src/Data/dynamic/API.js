@@ -123,7 +123,7 @@ export default {
   },
   TeacherSubject : {
     get: (id) => {
-      return fetch(`${URL}/Teacher/${id}/Subject`).then((response) =>
+      return fetch(`${URL}/Teacher/${id}/Class`).then((response) =>
         response.json()
       );
     },

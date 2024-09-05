@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react"
 import DataServices from "../../../Data/dynamic/DataServices";
 
+export const thStyle = {
+    backgroundColor: 'white',
+    borderBottom: '1px solid #ddd',
+    textTransform: 'uppercase',
+    color: '#066599',
+    fontWeight: 'bold',
+    padding: '4px 10px',
+    fontSize : '14px'
+}
+export const tBStyle = {
+    fontWeight: 'bold',
+    padding: '4px 10px',
+    fontSize : '13px',
+    backgroundColor: 'white',
+    borderLeftColor : 'white'
+}
+
 export default function TeacherSubjects({teacherId}) {
-
-    const thStyle = {
-        backgroundColor: 'white',
-        borderBottom: '1px solid #ddd',
-        textTransform: 'uppercase',
-        color: '#066599',
-        fontWeight: 'bold',
-        padding: '4px 10px',
-        fontSize : '14px'
-    }
-    const tBStyle = {
-        fontWeight: 'bold',
-        padding: '4px 10px',
-        fontSize : '13px',
-        backgroundColor: 'white',
-        borderLeftColor : 'white'
-    }
-
 
     const [teacherSubjects , setTeacherSubjects] = useState([]) ; 
     useEffect(() => {
@@ -38,7 +37,9 @@ export default function TeacherSubjects({teacherId}) {
                             <th style={thStyle}>Number</th>
                             <th style={thStyle}>subject</th>
                             <th style={thStyle}>maximumMark</th>
+                            <th style={thStyle}>Number of classes</th>
                             <th style={thStyle}>salary</th>
+                            <th style={thStyle}>total salary</th>
                         </tr>
                     </thead>
                     <tbody >
@@ -49,7 +50,9 @@ export default function TeacherSubjects({teacherId}) {
                                     <td style={tBStyle}>{index + 1}</td>
                                     <td style={tBStyle}>{subject}</td>
                                     <td style={tBStyle}>{maximumMark}</td>
+                                    <td style={tBStyle}>{Subject.classes.length}</td>
                                     <td style={tBStyle}>{Subject.salary}</td>
+                                    <td style={tBStyle}>{Subject.salary * Subject.classes.length}</td>
                                 </tr>
                             })
                         }
