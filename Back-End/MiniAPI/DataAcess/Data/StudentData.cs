@@ -12,10 +12,6 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
-    public StudentData()
-    {
-
-    }
     public StudentData(ISqlDataAccess db)
     {
         this._db = db;

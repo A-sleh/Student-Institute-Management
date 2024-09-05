@@ -3,6 +3,7 @@ using DataAcess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,6 @@ namespace DataAcess.Data
     public class TeacherSubjectData : ITeacherSubjectData
     {
         private readonly ISqlDataAccess _db;
-        public TeacherSubjectData()
-        {
-
-        }
         public TeacherSubjectData(ISqlDataAccess _db)
         {
             this._db = _db;
@@ -67,6 +64,32 @@ namespace DataAcess.Data
         public async Task DeleteTeacherSubject(int TeacherSubjectId)
         {
             await _db.SaveData("dbo.TeacherSubjectDelete", new { TeacherSubjectId });
+        }
+
+        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherClasses(int teacherId)
+        {
+            var dic = new Dictionary<int, TeacherSubjectModel>();
+            var res = await _db.LoadData<dynamic, TeacherSubjectModel, SubjectModel, ClassModel>(
+                "dbo.TeacherGetClassesAndSubjects",
+                parameters:
+                new { teacherId },
+                (TSM, Subject, Class) =>
+                {
+                    TSM.Subject = Subject;
+                    if (dic.TryGetValue(TSM.TeacherSubjectId, out var existTSM))
+                    {
+                        TSM = existTSM;
+                    }
+                    else
+                    {
+                        dic.Add(TSM.TeacherSubjectId, TSM);
+                    }
+                    TSM.Classes.Add(Class);
+                    return TSM;
+                },
+                splitOn: "SubjectId, ClassId"
+                );
+            return res;
         }
     }
 }

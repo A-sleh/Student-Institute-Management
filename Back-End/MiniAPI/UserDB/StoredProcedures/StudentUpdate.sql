@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[StudentUpdate]
-	@StudentId int,
+	@Id int,
 	@Name varchar(30),
 	@LastName varchar(30),
 	@FatherName varchar(30),

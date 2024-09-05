@@ -2,5 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Subject] VARCHAR(50),
-	[MaximumMark] INT NOT NULL
+	[MaximumMark] INT NOT NULL,
+	[Grade] varchar(20),
+	CONSTRAINT Subject_Grade_Enum CHECK (GRADE IN ('bachelor','ninth'))
 )

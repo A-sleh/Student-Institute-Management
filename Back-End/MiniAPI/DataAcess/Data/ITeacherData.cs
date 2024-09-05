@@ -10,5 +10,6 @@ namespace DataAcess.Data
         Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId);
         Task InsertTeacher(TeacherModel model);
         Task UpdateTeacher(TeacherModel model);
+        Task<TeacherModel?> GetTeacherById(int id);
     }
 }

@@ -7,3 +7,5 @@ UserDB.sqlproj.user
 *.csprojg
 UserDB.jfm
 appsettings.json
+SQLQuery1.sql
+.editorconfig
