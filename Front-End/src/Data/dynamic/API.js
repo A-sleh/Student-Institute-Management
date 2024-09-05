@@ -120,5 +120,35 @@ export default {
         method: "DELETE",
       });
     },
+  },
+  TeacherSubject : {
+    get: (id) => {
+      return fetch(`${URL}/Teacher/${id}/Subject`).then((response) =>
+        response.json()
+      );
+    },
+    post: (data) => {
+      return fetch(`${URL}/Teacher`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put: (data) => {
+      return fetch(`${URL}/Teacher`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Teacher/${id}`, {
+        method: "DELETE",
+      });
+    },
   }
 };

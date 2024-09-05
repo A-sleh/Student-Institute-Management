@@ -24,6 +24,7 @@ import { useState } from "react";
 import InsertNewStudent from "./components/Classes/InsertNewStudent.jsx";
 import MoveStudentsToAnotherClass from "./components/Classes/MoveStudentsToAnotherClass.jsx";
 import UpdateTeacher from "./components/Teachers/teacherDetails/UpdateTeacher.jsx";
+import TeacherInformation from "./components/Teachers/teacherInformation/TeacherInformation.jsx";
 
 
 const urlPath = [
@@ -33,6 +34,7 @@ const urlPath = [
   { path: "TeachersDetails", component: <TeachersDetails /> },
   { path: "ManageTeacher", component: <ManageTeacher /> },
   { path: "/UpdateTeacher/:info", component: <UpdateTeacher /> },
+  { path: "/TeacherInformation/:info", component: <TeacherInformation /> },
   { path: "StudentsPays", component: <StudentsPays /> },
   { path: "TeachersSalaries", component: <TeachersSalaries /> },
   { path: "ExternalPays", component: <ExternalPays /> },
@@ -50,6 +52,9 @@ const urlPath = [
   { path: "/ManageClasses/InsertNewStudent", component: <InsertNewStudent /> },
   { path: "/MoveStudentsToAnotherClass/:classId", component: <MoveStudentsToAnotherClass /> },
 ];
+
+
+
 
 const renderAllRoute = urlPath.map((route, index) => {
   return (

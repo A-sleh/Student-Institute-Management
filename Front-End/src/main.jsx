@@ -8,6 +8,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import store  from "./Redux/store.js";
 import {Provider} from 'react-redux'
 
+
+// addEventListener('beforeunload',(e)=> {
+//   e.preventDefault();
+// })
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <Router>
