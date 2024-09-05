@@ -33,8 +33,10 @@ export default function TeachersDetails() {
         })
     },[successDeleteTeacher])
 
+
     function getSubjectsNumber(teacherDetails) {
       return new Promise((resolve) => {
+
         let teacherSubjects = '' ;
         teacherDetails.map( (teacher) => {
           const teacherID = teacher.teacherId
