@@ -58,7 +58,7 @@ public class StudentData : IStudentData
     public Task UpdateStudent(StudentModel student) =>
         _db.SaveData("dbo.StudentUpdate", new
         {
-            student.StudentId,
+            Id = student.StudentId,
             student.Name,
             student.LastName,
             student.FatherName,
