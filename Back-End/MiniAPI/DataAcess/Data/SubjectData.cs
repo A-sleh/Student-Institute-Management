@@ -11,9 +11,6 @@ namespace DataAcess.Data
     public class SubjectData : ISubjectData
     {
         private readonly ISqlDataAccess _db;
-        public SubjectData()
-        { 
-        }
         public SubjectData(ISqlDataAccess _db)
         {
             this._db = _db;
@@ -30,7 +27,8 @@ namespace DataAcess.Data
             {
                 subject.SubjectId,
                 subject.Subject,
-                subject.MaximumMark
+                subject.MaximumMark,
+                subject.Grade
             });
         public Task UpdateSubject(SubjectModel subject) =>
             _db.SaveData("dbo.SubjectUpdate", subject);

@@ -3,9 +3,11 @@
 AS
 BEGIN
 	SELECT 
-	ts.Id as TeacherSubjectId, ts.TeacherId, ts.Salary, 
-	s.Id as SubjectId, s.Subject, s.MaximumMark
-	FROM TeacherSubject ts 
+	t.id as TeacherId,t.Name, t.LastName, t.Phone,
+	ts.Id as TeacherSubjectId ,ts.Salary,
+	ts.SubjectId, s.Subject, s.MaximumMark
+	FROM Teacher t 
+	LEFT OUTER JOIN TeacherSubject ts ON t.Id = ts.TeacherId
 	INNER JOIN Subject s ON ts.SubjectId = s.Id
-	WHERE ts.TeacherId = @TeacherId;
+	WHERE t.Id = @TeacherId;
 END

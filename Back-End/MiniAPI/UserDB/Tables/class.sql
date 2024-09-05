@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[class]
+﻿CREATE TABLE [dbo].[Class]
 (
 	id INT IDENTITY(1,1) PRIMARY KEY,
 	title VARCHAR(50),

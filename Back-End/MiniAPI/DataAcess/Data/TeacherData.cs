@@ -11,15 +11,10 @@ namespace DataAcess.Data
     public class TeacherData : ITeacherData
     {
         private readonly ISqlDataAccess _db;
-        public TeacherData()
-        {
-
-        }
         public TeacherData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
-
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
             var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
@@ -78,6 +73,29 @@ namespace DataAcess.Data
         public async Task DeleteTeacher(int TeacherId)
         {
             await _db.SaveData("dbo.TeacherDelete", new { TeacherId });
+        }
+
+        public async Task<TeacherModel?> GetTeacherById(int TeacherId)
+        {
+            TeacherModel? CurrTeacher = null;
+            var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
+                new { TeacherId },
+                x: (Teacher , TSM, Subject) =>
+                {
+                    TSM.Subject = Subject;
+                    if (CurrTeacher == null)
+                    {
+                        CurrTeacher = Teacher;
+                    }
+                    else
+                    {
+                        Teacher = CurrTeacher;
+                    }
+                    Teacher.TeacherSubjects.Add(TSM);
+                    return Teacher;
+                },
+                splitOn: "TeacherSubjectId, SubjectId"));
+            return res.FirstOrDefault();
         }
     }
 }

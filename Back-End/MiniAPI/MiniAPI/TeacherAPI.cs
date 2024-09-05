@@ -8,13 +8,18 @@ namespace MiniAPI
         public static void ConfigureTeacherAPI(this WebApplication app)
         {
             app.MapGet("/Teacher", GetAllTeachers);
+            app.MapGet("/Teacher/{TeacherId}", GetTeacherById);
+            app.MapGet("/Teacher/{teacherId}/Class", GetTeacherClasses);
             app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
             app.MapGet("/Teacher/{TeacherId}/Subject", GetTeacherSubject);
+
             app.MapPut("/Teacher", UpdateTeacher);
-            app.MapPost("/Teacher", InsertTeacher);
-            app.MapDelete("/Teacher/{id}", DeleteTeacher);
-            app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
             app.MapPut("/Teacher/{TeacherId}/Subject", UpdateSubjectInTeacher);
+
+            app.MapPost("/Teacher", InsertTeacher);
+            app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
+
+            app.MapDelete("/Teacher/{id}", DeleteTeacher);
             app.MapDelete("/Teacher/Subject/{id}", DeleteSubjectFromTeacher);
         }
 
@@ -31,6 +36,19 @@ namespace MiniAPI
             }
         }
 
+        private static async Task<IResult> GetTeacherById(ITeacherData data, int TeacherId)
+        {
+            try
+            {
+                var res = await data.GetTeacherById(TeacherId);
+                return Results.Ok(res);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
         private static async Task<IResult> GetTeachersBySubId(ITeacherData data, int subjectId)
         {
             try
@@ -132,6 +150,19 @@ namespace MiniAPI
             {
                 await data.DeleteSubjectForTeacher(id);
                 return Results.Ok("Delete Success");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static async Task<IResult> GetTeacherClasses(ITeacherSubjectData data, int teacherId)
+        {
+            try
+            { 
+                return Results.Ok(await data.GetTeacherClasses(teacherId));
             }
             catch (Exception)
             {
