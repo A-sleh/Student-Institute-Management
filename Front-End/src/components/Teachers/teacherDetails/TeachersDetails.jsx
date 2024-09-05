@@ -11,7 +11,10 @@ import TableHeader from "../../Students/TableStructuer/TableHeader";
 
 export default function TeachersDetails() {
 
-
+    
+    
+    const [teacherSubjects,setTeacherSubjects] = useState(new Map()) ;
+    
     const [teachersDetails,setTeachersDetails] = useState([]) ;
     const [deleteModal, setDeleteModal] = useState(false);
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
@@ -23,14 +26,37 @@ export default function TeachersDetails() {
     useEffect(() => {
         DataServices.TeacherInformaion().then( teacherDetails => {
             setTeachersDetails(teacherDetails)
+            getSubjectsNumber(teacherDetails).then( res => {
+              console.log(res)
+               setTeacherSubjects( res )
+            }) ;
         })
     },[successDeleteTeacher])
+
+    function getSubjectsNumber(teacherDetails) {
+      return new Promise((resolve) => {
+        let teacherSubjects = '' ;
+        teacherDetails.map( (teacher) => {
+          const teacherID = teacher.teacherId
+          DataServices.ShowAllTeacherSubjects(teacherID).then( subjects => {
+            teacherSubjects = teacherSubjects +  `${teacherID} :${subjects.length || 0} ,`
+          })
+          
+        })
+        resolve(teacherSubjects)
+      })
+    }
+
+   // console.log(teacherSubjects.get(1))
 
     const column = useMemo(() => [
         ...COLUMNS ,
         {
             Header: 'Classes' ,
-            accessor: ''
+            accessor: '' ,
+            Cell : () => {
+              return 'hellos'
+            }
         },
         {
             Header: 'Subjects' ,
@@ -46,10 +72,11 @@ export default function TeachersDetails() {
                   display: "flex",
                   fontSize: "20px",
                   alignItems: "center",
+
                 }}
               >
                 <Link
-                  to={`/StudentInformation/${row.original.id}`}
+                  to={`/TeacherInformation/${row.original.teacherId}`}
                   style={{ color: "gray", cursor: "pointer" }}
                 >
                   <i className="bi bi-person-lines-fill"></i>
@@ -85,6 +112,7 @@ export default function TeachersDetails() {
         canPreviousPage,
         gotoPage,
         page,
+        rows,
         prepareRow,
         state,
         setGlobalFilter,
@@ -105,6 +133,17 @@ export default function TeachersDetails() {
           id: teacher.teacherId,
         });
         setDeleteModal(true);
+    }
+
+
+
+
+    function subjectsNumber(teacher) {
+      return new Promise( async (resolve) => {
+        const teacherId = teacher.teacherId
+        const data = await DataServices.ShowAllTeacherSubjects(teacherId) ; 
+        resolve(data.length )
+      })
     }
 
     const { globalFilter, pageIndex } = state;

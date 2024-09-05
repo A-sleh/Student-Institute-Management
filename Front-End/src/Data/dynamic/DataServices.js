@@ -48,5 +48,8 @@ export default {
   },
   UpdateTeacherInfo : (data) => {
     return API.Teacher.put(data)
+  },
+  ShowAllTeacherSubjects : (id) => {
+    return API.TeacherSubject.get(id);
   }
 };
