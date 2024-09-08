@@ -3,7 +3,7 @@ import DataServices from "../../Data/dynamic/DataServices";
 
 export default function UpdateSubject(props) {
   
-  const [subject, setSubject] = useState(props.subject);
+  const [subject, setSubject] = useState({...props.subject , grade : props.grade});
   const setSuccessUpdate = props.setSuccessUpdate ;
   const setUpdateBtn = props.setUpdateBtn;
   const [validation, setValidation] = useState({

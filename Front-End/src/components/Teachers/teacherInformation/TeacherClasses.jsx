@@ -4,7 +4,8 @@ import DataServices from "../../../Data/dynamic/DataServices";
 
 export default function TeacherClasses({teacherId}) {
 
-    const [teacherSubjects , setTeacherSubjects] = useState([]) ; 
+    const [teacherSubjects , setTeacherSubjects] = useState([]) ;
+    let classCounter = 1 ; 
     useEffect(() => {
         DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
             setTeacherSubjects(subjects) ; 
@@ -18,9 +19,10 @@ export default function TeacherClasses({teacherId}) {
             <table >
                     <thead >                    
                         <tr >
-                            <th style={thStyle}> Title</th>
-                            <th style={thStyle}> grade</th>
-                            <th style={thStyle}> gender</th>
+                            <th style={thStyle}>Number</th>
+                            <th style={thStyle}>Title</th>
+                            <th style={thStyle}>grade</th>
+                            <th style={thStyle}>gender</th>
                             <th style={thStyle}>subject</th>
                         </tr>
                     </thead>
@@ -32,7 +34,7 @@ export default function TeacherClasses({teacherId}) {
                                 return SubjectClass.classes.map( Class => {
                                     const {title,grade,gender} = Class 
                                     return  <tr >
-                                        {/* <td style={tBStyle}>{index + 1}</td> */}
+                                        <td style={tBStyle}>{classCounter ++ }</td>
                                         <td style={tBStyle}>{title}</td>
                                         <td style={tBStyle}>{grade}</td>
                                         <td style={tBStyle}>{gender}</td>

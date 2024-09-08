@@ -9,19 +9,25 @@ import CreateSubject from "./CreateSubject";
 export const initailSubjectState = {
   subjectId: 0,
   subject: "",
+  grade : '',
   maximumMark: 0,
 };
 
 export default function Subject() {
-  const [Subjects, setSubject] = useState([]);
+  const [Subjects, setSubject] = useState({ninth :[] , bachelor : []});
   const [successDelete, setSuccesDelete] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
   const [successCreate, setSuccessCreate] = useState(false);
-  const [createBtn, setCreateBtn] = useState(false);
+  const [createBtn_1, setCreateBtn_1] = useState(false);
+  const [createBtn_2, setCreateBtn_2] = useState(false);
 
   useEffect(() => {
     DataServices.ShowAllSubject().then((subjects) => {
-      setSubject(subjects);
+      console.log('render')
+      const ninthAndBachelorSub = Object.groupBy(subjects,({grade}) => {
+        return grade == 'ninth' ? 'ninth' : 'bachelor'
+      })
+      setSubject({ninth :[] , bachelor : [],...ninthAndBachelorSub})
     });
   }, [successUpdate, successCreate, successDelete]);
 
@@ -49,46 +55,76 @@ export default function Subject() {
       />
 
       <Title title={window.location.pathname} />
+
+      <div style={{padding: '10px 20px' , backgroundColor: '#eee' , borderRadius: '10px' , margin : '10px 0'}}>
+        <h3 style={{fontSize: '18px' , marginBottom: '10px'}}>Bachelor Subjects </h3>
+        <div className="subject-container" style={{margin: '0'}}>
+          {Subjects.bachelor.map((subject, index) => {
+            return (
+              <SubjectCard
+                Subject={subject}
+                setSuccessUpdate={setSuccessUpdate}
+                setSuccesDelete={setSuccesDelete}
+                successUpdate={successUpdate}
+                grade={'bachelor'}
+                key={index}
+              />
+            );
+          })}
+          <div className="empty-subject-card" style={{ position: "relative" }}>
+            {createBtn_1 ? (
+              <CreateSubject
+                setCreateBtn={setCreateBtn_1}
+                setSuccessCreate={setSuccessCreate}
+                grade={'bachelor'}
+              />
+            ) : (
+              <i
+                className="bi bi-plus-lg"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setCreateBtn_1(true);
+                }}
+              ></i>
+            )}
+          </div>
+        </div>
+      </div>
+
+    <div style={{padding: '10px 20px' , backgroundColor: '#eee' , borderRadius: '10px' }}>
+      <h3 style={{fontSize: '18px' , marginBottom: '10px'}}>Ninth Subjects </h3>
       <div className="subject-container">
-        {Subjects.map((subject, index) => {
+        {Subjects.ninth.map((subject, index) => {
           return (
             <SubjectCard
               Subject={subject}
               setSuccessUpdate={setSuccessUpdate}
               setSuccesDelete={setSuccesDelete}
               successUpdate={successUpdate}
+              grade={'ninth'}
               key={index}
             />
           );
         })}
         <div className="empty-subject-card" style={{ position: "relative" }}>
-          {createBtn ? (
+          {createBtn_2 ? (
             <CreateSubject
-              setCreateBtn={setCreateBtn}
+              setCreateBtn={setCreateBtn_2}
               setSuccessCreate={setSuccessCreate}
+              grade={'ninth'}
             />
           ) : (
             <i
               className="bi bi-plus-lg"
               style={{ cursor: "pointer" }}
               onClick={() => {
-                setCreateBtn(true);
+                setCreateBtn_2(true);
               }}
             ></i>
           )}
         </div>
       </div>
+    </div>
     </>
   );
 }
-
-/* 
-
-  <SubjectCard
-    subject={subject}
-    successDelete={successDelete}
-    setSuccesDelete={setSuccesDelete}
-    setSuccessUpdate={setSuccessUpdate}
-    key={index}
-  />
-*/

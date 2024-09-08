@@ -2,16 +2,17 @@ import { useState } from "react";
 import { initailSubjectState } from "./Subject";
 import DataServices from "../../Data/dynamic/DataServices";
 
-export default function CreateSubject({ setCreateBtn, setSuccessCreate }) {
-    
-  const [createSubject, setCreateSubject] = useState(initailSubjectState);
+export default function CreateSubject({ setCreateBtn, setSuccessCreate ,grade}) {
+  
+  const obj = {...initailSubjectState , grade : grade }
+  const [createSubject, setCreateSubject] = useState(obj);
   const [validation,setValidation] = useState(false)
 
   function handleCancelCreateClicked() {
     setCreateBtn(false);
     setCreateSubject(initailSubjectState);
   }
-
+  console.log(createSubject)
   return (
     <div
       className="subject-card"
@@ -29,6 +30,7 @@ export default function CreateSubject({ setCreateBtn, setSuccessCreate }) {
       <form className="subject-info" onSubmit={(e) => {
 
         e.preventDefault() ;
+        console.log(createSubject)
 
         const maximumMarkValid = createSubject.maximumMark <= 0 ;
 
@@ -95,7 +97,6 @@ export default function CreateSubject({ setCreateBtn, setSuccessCreate }) {
             }}
           />
         </div>
-
         <div style={{ display: "flex" }}>
           <button
             style={{ fontSize: "12px", padding: "2px 6px" }}
