@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[SubjectGetAll]
 AS
 BEGIN
-	SELECT id as SubjectId, Subject, MaximumMark, Grade
-	FROM subject
+	SELECT Id as SubjectId, Subject, MaximumMark, Grade
+	FROM Subject
 END

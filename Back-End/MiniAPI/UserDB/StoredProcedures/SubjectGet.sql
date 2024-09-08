@@ -2,7 +2,7 @@
 	@Id int
 AS
 BEGIN
-	SELECT id as SubjectId, Subject, MaximumMark, Grade
-	FROM subject
+	SELECT Id as SubjectId, Subject, MaximumMark, Grade
+	FROM Subject
 	WHERE Id = @Id;
 END

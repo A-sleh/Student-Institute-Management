@@ -10,7 +10,7 @@
 	@BillRequired INT
 AS
 BEGIN
-	INSERT INTO student(
+	INSERT INTO Student(
 		name,
 		lastName,
 		fatherName,

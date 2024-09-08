@@ -24,6 +24,8 @@ namespace MiniAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // data access services
             builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             builder.Services.AddSingleton<IStudentData, StudentData>();
             builder.Services.AddSingleton<IClassData, ClassData>();
@@ -32,6 +34,9 @@ namespace MiniAPI
             builder.Services.AddSingleton<ITestData, TestData>();
             builder.Services.AddSingleton<ITeacherData, TeacherData>();
             builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
+
+            // permissions
+            // Allow all
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -48,13 +53,10 @@ namespace MiniAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            app.UseDefaultFiles()  ;
-            app.UseStaticFiles() ;
-            app.UseCors("CorsPolicy");
-            app.UseAuthorization() ;
+            app.UseAuthorization();
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");

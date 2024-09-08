@@ -7,8 +7,8 @@ Type VARCHAR(3),
 Date DATE,
 Amount INT,
 Note CHAR(300),
-CONSTRAINT Bill_Student_Fk FOREIGN KEY(StudentId) REFERENCES student(Id),
-CONSTRAINT Bill_Teacher_Fk FOREIGN KEY(TeacherId) REFERENCES teacher(Id),
+CONSTRAINT Bill_Student_Fk FOREIGN KEY(StudentId) REFERENCES Student(Id),
+CONSTRAINT Bill_Teacher_Fk FOREIGN KEY(TeacherId) REFERENCES Teacher(Id),
 CONSTRAINT Type_Enum CHECK (type in ('in', 'out')),
 CONSTRAINT Bill_Quick_Validation CHECK((StudentId is null and TeacherId is not null) or
 								(StudentId is not null and TeacherId is null) or 

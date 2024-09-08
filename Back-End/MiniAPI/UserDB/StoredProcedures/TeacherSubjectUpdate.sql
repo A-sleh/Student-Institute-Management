@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[TeacherSubjectUpdate]
-	@TeacherSubjectId int,
+	@TeacherId int,
 	@SubjectId int,
 	@Salary int
 AS
-	UPDATE TeacherSubject SET SubjectId = @SubjectId, Salary = @Salary
-	WHERE id = @TeacherSubjectId;
+	UPDATE TeacherSubject SET Salary = @Salary
+	WHERE TeacherId = @TeacherId AND SubjectId = @SubjectId;
 RETURN 0

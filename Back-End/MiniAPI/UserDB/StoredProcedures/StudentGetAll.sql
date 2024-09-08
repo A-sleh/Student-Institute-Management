@@ -2,5 +2,5 @@
 AS
 begin
 	SELECT s.id as StudentId, name, lastName, fatherName, birthdate, phone, missedDays, billRequired, c.id as ClassId, c.title
-	FROM student s left join class c on s.classId = c.id;
+	FROM Student s left join Class c on s.classId = c.id;
 end
