@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[ReportGetAll]
 AS
 BEGIN
-	SELECT id as ReportId, ReportTitle, StartDate, FinishDate
+	SELECT Id as ReportId, ReportTitle, StartDate, FinishDate
 	FROM Report
 END

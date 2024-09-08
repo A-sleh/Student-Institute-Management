@@ -7,20 +7,28 @@ namespace MiniAPI
     {
         public static void ConfigureTeacherAPI(this WebApplication app)
         {
+            // teacher details
             app.MapGet("/Teacher", GetAllTeachers);
             app.MapGet("/Teacher/{TeacherId}", GetTeacherById);
-            app.MapGet("/Teacher/{teacherId}/Class", GetTeacherClasses);
             app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
+
+            // teacher prop
             app.MapGet("/Teacher/{TeacherId}/Subject", GetTeacherSubject);
+            app.MapGet("/Teacher/{teacherId}/Class", GetTeacherClasses);
+
+            // class prop
+            app.MapGet("/Teacher/class/{classId}", GetClassTeachers);
 
             app.MapPut("/Teacher", UpdateTeacher);
-            app.MapPut("/Teacher/{TeacherId}/Subject", UpdateSubjectInTeacher);
+            app.MapPut("/Teacher/{TeacherId}/Subject/{SubjectId}", UpdateSubjectInTeacher);
 
             app.MapPost("/Teacher", InsertTeacher);
             app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
+            app.MapPost("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", AddTeacherToClass);
 
             app.MapDelete("/Teacher/{id}", DeleteTeacher);
             app.MapDelete("/Teacher/Subject/{id}", DeleteSubjectFromTeacher);
+            app.MapDelete("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", DeleteTeacherFromClass);
         }
 
         private static async Task<IResult> GetAllTeachers(ITeacherData data)
@@ -129,12 +137,15 @@ namespace MiniAPI
             }
         }
 
-        private static async Task<IResult> UpdateSubjectInTeacher(ITeacherSubjectData data, TeacherSubjectModel model, int TeacherId)
+        private static async Task<IResult> UpdateSubjectInTeacher(
+            ITeacherSubjectData data,
+            int SubjectId,
+            int TeacherId,
+            int Salary)
         {
             try
             {
-                model.TeacherId = TeacherId;
-                await data.UpdateTeacherSubject(model);
+                await data.UpdateTeacherSubject(TeacherId, SubjectId, Salary);
                 return Results.Ok("Update Success");
             }
             catch (Exception)
@@ -168,6 +179,45 @@ namespace MiniAPI
             {
 
                 throw;
+            }
+        }
+
+        private static async Task<IResult> GetClassTeachers(ITeacherSubjectData data, int classId)
+        {
+            try
+            {
+                return Results.Ok(await data.GetClassTeachers(classId));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static async Task<IResult> AddTeacherToClass(ITeacherSubjectData data, int TeacherSubjectId, int classId)
+        {
+            try
+            {
+                await data.LinkTeacherWithClass(TeacherSubjectId, classId);
+                return Results.Ok();
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+
+        private static async Task<IResult> DeleteTeacherFromClass(ITeacherSubjectData data, int TeacherSubjectId, int classId)
+        {
+            try
+            {
+                await data.DeleteTeacherFromClass(TeacherSubjectId, classId);
+                return Results.Ok();
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
             }
         }
     }

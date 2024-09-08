@@ -9,7 +9,7 @@ namespace DataAcess.Models
     public class TeacherSubjectClassModel
     {
         public int TSCId { get; set; }
-        public TeacherSubjectModel? TeacherSubjectId {  get; set; }
-        public ClassModel? ClassId {  get; set; }
+        public TeacherSubjectModel? TeacherSubject {  get; set; }
+        public ClassModel? Class {  get; set; }
     }
 }

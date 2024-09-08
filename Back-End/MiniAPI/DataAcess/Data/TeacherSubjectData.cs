@@ -17,53 +17,29 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        public async Task<IEnumerable<TeacherSubjectModel>> GetTeachersSubjectsWithSalary()
+        public async Task<IEnumerable<TeacherModel>> GetClassTeachers(int classId)
         {
-            // NOT COMPLETE
             var dic = new Dictionary<int, TeacherModel>();
-            var res = await _db.LoadData<dynamic, TeacherSubjectModel, TeacherModel, SubjectModel>(
-                    "dbo.TeacherSubjectGetAll",
-                    parameters: new { },
-                    x: (TSM, Teacher, Subject) => {
-
-                        return TSM;
-                    },
-                    splitOn: "TeacherId, SubjectId"
-                    );
-            return res;
-        }
-        public async Task DeleteSubjectForTeacher(int teacherSubjectId)
-        {
-            await _db.SaveData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
-        }
-        public async Task InsertTeacherSubjects(TeacherSubjectModel model)
-        {
-            await _db.SaveData("dbo.TeacherSubjectInsert", new
-            {
-                model.TeacherId,
-                model.Subject?.SubjectId,
-                model.Salary
-            });
-        }
-
-        public async Task UpdateTeacherSubject(TeacherSubjectModel model)
-        {
-            int? TeacherSubjectId =  _db.LoadData<int, dynamic>("dbo.TeacherSubjectGetId",
-                new {
-                    model.TeacherId,
-                    model.Subject?.SubjectId
-                }).Result?.FirstOrDefault();
-            await _db.SaveData("dbo.TeacherSubjectUpdate", new
-            {
-                TeacherSubjectId,
-                model.Subject?.SubjectId,
-                model.Salary
-            });
-        }
-
-        public async Task DeleteTeacherSubject(int TeacherSubjectId)
-        {
-            await _db.SaveData("dbo.TeacherSubjectDelete", new { TeacherSubjectId });
+            var res = await (_db.LoadData<dynamic, TeacherModel, SubjectModel, TeacherSubjectModel>(
+                "dbo.TeacherSubjectGetByClass",
+                new { classId },
+                x: (Teacher, Subject, TSM) =>
+                {
+                    TSM.Subject = Subject;
+                    if (dic.TryGetValue(Teacher.TeacherId, out var model))
+                    {
+                        Teacher = model;
+                    }
+                    else
+                    {
+                        dic.Add(Teacher.TeacherId, Teacher);
+                    }
+                    Teacher.TeacherSubjects.Add(TSM);
+                    return Teacher;
+                },
+                splitOn: "SubjectId, TeacherSubjectId"
+                ));
+            return res.Distinct();
         }
 
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherClasses(int teacherId)
@@ -89,7 +65,42 @@ namespace DataAcess.Data
                 },
                 splitOn: "SubjectId, ClassId"
                 );
-            return res;
+            return res.Distinct();
         }
+
+        public async Task InsertTeacherSubjects(TeacherSubjectModel model)
+            => await _db.SaveData("dbo.TeacherSubjectInsert", new
+            {
+                model.TeacherId,
+                model.Subject?.SubjectId,
+                model.Salary
+            });
+
+        public async Task LinkTeacherWithClass(int teacherSubjectId, int classId)
+            => await _db.SaveData("dbo.TeacherSubjectAddClass",
+                new { teacherSubjectId, classId });
+
+        public async Task UpdateTeacherSubject(int TeacherId, int SubjectId, int Salary)
+            => await _db.SaveData("dbo.TeacherSubjectUpdate", new
+            {
+                TeacherId,
+                SubjectId,
+                Salary
+            });
+
+        public async Task DeleteTeacherSubject(int TeacherSubjectId)
+            => await _db.SaveData("dbo.TeacherSubjectDelete", new { TeacherSubjectId });
+
+        public async Task DeleteSubjectForTeacher(int teacherSubjectId)
+            => await _db.SaveData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
+
+        public async Task DeleteTeacherFromClass(int teacherSubjectId, int classId)
+            => await _db.SaveData("dbo.TeacherSubjectDeleteClass",
+                new
+                {
+                    teacherSubjectId,
+                    classId
+                });
+
     }
 }

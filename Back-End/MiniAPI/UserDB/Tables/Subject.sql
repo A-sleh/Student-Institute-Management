@@ -4,5 +4,5 @@
 	[Subject] VARCHAR(50),
 	[MaximumMark] INT NOT NULL,
 	[Grade] varchar(20),
-	CONSTRAINT Subject_Grade_Enum CHECK (GRADE IN ('bachelor','ninth'))
+	CONSTRAINT Subject_Grade_Enum CHECK (Grade IN ('bachelor','ninth'))
 )

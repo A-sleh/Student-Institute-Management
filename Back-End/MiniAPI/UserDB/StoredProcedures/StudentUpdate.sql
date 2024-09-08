@@ -10,7 +10,7 @@
 	@BillRequired int
 AS
 BEGIN
-	UPDATE student
+	UPDATE Student
 	SET name = @Name,
 		lastName = @LastName,
 		fatherName = @FatherName,

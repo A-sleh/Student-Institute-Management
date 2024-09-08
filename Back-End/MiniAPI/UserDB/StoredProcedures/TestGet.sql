@@ -6,7 +6,7 @@ BEGIN
 	t.Id as TestId, t.TestType, t.Date, t.CorrectionDate, 
 	s.Id as SubjectId, s.Subject, s.MaximumMark
 	FROM Test t 
-	RIGHT OUTER JOIN report r ON t.ReportId = r.id
-	LEFT OUTER JOIN subject s ON t.SubjectId = s.Id
+	RIGHT OUTER JOIN Report r ON t.ReportId = r.id
+	LEFT OUTER JOIN Subject s ON t.SubjectId = s.Id
 	WHERE t.ReportId = @ReportId;
 END

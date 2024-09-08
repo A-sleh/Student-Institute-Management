@@ -3,7 +3,7 @@
 	@SubjectId int
 AS
 BEGIN
-	SELECT ts.id as TeacherSubjectId
+	SELECT ts.Id as TeacherSubjectId
 	FROM TeacherSubject ts
 	WHERE ts.TeacherId = @TeacherId AND ts.SubjectId = @SubjectId;
 END
