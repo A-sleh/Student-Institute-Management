@@ -11,10 +11,6 @@ namespace DataAcess.Data
     public class ReportData : IReportData
     {
         private readonly ISqlDataAccess _db;
-        public ReportData()
-        {
-            
-        }
         public ReportData(ISqlDataAccess _db)
         {
             this._db = _db;
@@ -22,10 +18,21 @@ namespace DataAcess.Data
         public async Task<ReportModel?> GetReport(int id)
         {
             var res = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGet", new { Id = id });
-            return res.FirstOrDefault();
+            if(res == null){
+                throw new Exception("Not Found");
+            }
+            return res.First();
         }
-        public async Task<IEnumerable<ReportModel>> GetReports() =>
-            await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
+        public async Task<IEnumerable<ReportModel>> GetReports()
+        {
+            
+            var result = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
+            if(result == null){
+                throw new Exception("There is no reports");
+            }
+            return result;
+        }
+
         public Task InsertReport(ReportModel report) =>
             _db.SaveData("dbo.ReportAdd", report);
         public Task UpdateReport(ReportModel report) =>

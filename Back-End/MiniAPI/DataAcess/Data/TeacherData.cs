@@ -79,10 +79,9 @@ namespace DataAcess.Data
         {
             TeacherModel? CurrTeacher = null;
             var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
-                new { TeacherId },
+                parameters: new { TeacherId },
                 x: (Teacher , TSM, Subject) =>
                 {
-                    TSM.Subject = Subject;
                     if (CurrTeacher == null)
                     {
                         CurrTeacher = Teacher;
@@ -91,7 +90,12 @@ namespace DataAcess.Data
                     {
                         Teacher = CurrTeacher;
                     }
-                    Teacher.TeacherSubjects.Add(TSM);
+
+                    if(TSM != null)
+                    {
+                        TSM.Subject = Subject;
+                        Teacher.TeacherSubjects.Add(TSM);
+                    }
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId"));

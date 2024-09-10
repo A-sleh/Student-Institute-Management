@@ -28,6 +28,9 @@ public class StudentData : IStudentData
             },
             splitOn: "ClassId"
             );
+        if(res == null){
+            throw new Exception("there is no students");
+        }
         return res;
     }
 
@@ -40,7 +43,10 @@ public class StudentData : IStudentData
             return Student;
         },
             splitOn: "ClassId");
-        return res.FirstOrDefault();
+        if (res == null){
+            throw new Exception("no student has such Id");
+        }
+        return res.First();
     }
     public Task InsertStudent(StudentModel student) =>
         _db.SaveData("dbo.StudentAdd", new

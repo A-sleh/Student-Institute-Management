@@ -8,6 +8,6 @@ BEGIN
 	ts.SubjectId, s.Subject, s.MaximumMark
 	FROM Teacher t 
 	LEFT OUTER JOIN TeacherSubject ts ON t.Id = ts.TeacherId
-	INNER JOIN Subject s ON ts.SubjectId = s.Id
+	LEFT OUTER JOIN Subject s ON ts.SubjectId = s.Id
 	WHERE t.Id = @TeacherId;
 END
