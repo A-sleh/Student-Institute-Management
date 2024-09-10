@@ -2,8 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTable , useRowSelect, useAsyncDebounce} from 'react-table'
 import DataServices from "../../../Data/dynamic/DataServices.js";
 import Notification from "../../Global/Notification.jsx";
+import DeleteModal from "../../Modal/DeleteModal.jsx";
 
-export default function TeacherSubjectsTable({teacherId}) {
+export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject}) {
 
     const salaryInput = useRef(null)    
     const [subjects,setSubjects] = useState([]) ;
@@ -12,6 +13,11 @@ export default function TeacherSubjectsTable({teacherId}) {
     const [errorDeleteSubject,setErrorDeleteSubject] = useState(false)
     const [successDeleteSubject,setSuccessDeleteSubject] = useState(false)
     const [salary,setSalary] = useState('')
+    const [deletModal,setDeleteModal] = useState(false)
+    const [currentSubject,setCurrentSubject] = useState({
+      id : '',
+      title : ""
+    })
     
     useEffect(() => {
         DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
@@ -32,7 +38,7 @@ export default function TeacherSubjectsTable({teacherId}) {
         {    
             accessor: 'salary',
             Cell : ({row}) => {
-             return  updateBtn == row.original.subject.subjectId ? <input type='text' style={{
+             return  updateBtn == row.id ? <input type='text' style={{
                 padding: '2px 6px' ,
                 border: 'none' ,
                 outline: 'none' ,
@@ -47,6 +53,7 @@ export default function TeacherSubjectsTable({teacherId}) {
         {
             id : 'selection' ,
             Cell : ({row}) => {
+
                 return ( 
                     <div style={{
                         display: "flex",
@@ -54,14 +61,14 @@ export default function TeacherSubjectsTable({teacherId}) {
                         justifyContent: 'flex-end' ,
                         paddingRight: '20px'
                     }}>
-                        <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original.teacherSubjectId)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
+                        <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
                         {
-                          updateBtn == row.original.subject.subjectId ?
+                          updateBtn == row.id ?
                             <div style={{display: 'flex' , justifyContent: 'center' , alignItems: 'center' , gap: '5px'}}>
                               <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
                               <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
                             </div>
-                          : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row.original)}}></i>
+                          : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row)}}></i>
                         }
                     </div>
             )}
@@ -94,22 +101,19 @@ export default function TeacherSubjectsTable({teacherId}) {
        })
     }
 
-    function handleDeleteClicked(teacherSubjectId) {
-      DataServices.DeleteTeacherSubject(teacherSubjectId).then(response => {
-        if(response.status > 299 ) {
-          setErrorDeleteSubject(true) ;
-          setTimeout(() => {
-            setErrorDeleteSubject(false)
-          } ,3000)
-        }else {
+    function handleDeleteClicked(teacherSubject) {
 
-        }
-      })
+      setDeleteModal(true) ;
+      const obj = {
+        id: teacherSubject.teacherSubjectId ,
+        title: teacherSubject.subject.subject
+      }
+      setCurrentSubject(obj)
     }
 
-    function handleUpdataBtnClicked(subject) {
-      setSalary(subject.salary)
-      setUpdataBtn(subject.subject.subjectId)
+    function handleUpdataBtnClicked(row) {
+      setSalary(row.original.subject.salary)
+      setUpdataBtn(row.id)
     }
 
     function handleSalaryChange(value) {
@@ -120,6 +124,10 @@ export default function TeacherSubjectsTable({teacherId}) {
 
     return (
       <>
+        {
+          deletModal && 
+          <DeleteModal element={currentSubject.title} type={'TeacherSubject'} id={currentSubject.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteFromSubject} setUnSuccessDelete={setErrorDeleteSubject} />
+        }
         <Notification title={'Updata Subject Salary'} type={'success'} state ={successUpdataSalary} setState={setSuccessUpdataSalary}/>
         <Notification title={'Delete subject'} type={'success'} state ={successDeleteSubject} setState={setSuccessDeleteSubject}/>
         <Notification title={'This subject is taught in one class'} type={'error'} state ={errorDeleteSubject} setState={setErrorDeleteSubject}/>

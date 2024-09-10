@@ -11,6 +11,7 @@ export default function Teacherinfo({teacherId}) {
 
     const [teacherInfo,setTeacherInfo] = useState({})
     const [teacherClasses,setTeacherClasses] = useState([])
+    const [successDeleteFromSubject,setSuccessDeleteFromSubject] = useState(false)
     const [successDeleteFromClass,setSuccessDeleteFromClass] = useState(false)
 
     useEffect(() => {
@@ -24,7 +25,7 @@ export default function Teacherinfo({teacherId}) {
             })
             setTeacherClasses(classesNumber)
         })
-    } ,[])
+    } ,[successDeleteFromSubject,successDeleteFromClass])
 
 
     const { name , lastName , phone , teacherSubjects } = teacherInfo
@@ -34,6 +35,7 @@ export default function Teacherinfo({teacherId}) {
     return(
       <>
         <Notification title={'Delete Teacher From Class'} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
+        <Notification title={'Delete Teacher Subject'} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
         <div style={{ padding : '10px 20px' , margin: '2em 0' , backgroundColor: '#ffffff' , boxShadow: '0 0 11px -5px gray' , borderRadius: '5px'}}>
             <div className="header" style={{display: 'flex' , justifyContent: 'space-between' , alignItems : 'center' , padding : '0 5px'}}>
                 <h1 style={{fontWeight: '500' , fontSize: '20px' , margin: '5px 0' , textTransform: 'uppercase'}}>{name} {lastName}</h1>
@@ -85,7 +87,7 @@ export default function Teacherinfo({teacherId}) {
                   >
                     There are no teachers yet ...
                   </p>: 
-                  <TeacherSubjectsTable teacherId={teacherId}/>
+                  <TeacherSubjectsTable teacherId={teacherId} setSuccessDeleteFromSubject={setSuccessDeleteFromSubject}/>
                 }
               </div>
             </div>
