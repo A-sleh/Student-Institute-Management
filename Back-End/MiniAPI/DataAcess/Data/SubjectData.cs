@@ -15,8 +15,11 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        public async Task<IEnumerable<SubjectModel>> GetSubjects() =>
-            await _db.LoadData<SubjectModel, dynamic>("dbo.SubjectGetAll", new { });
+        public async Task<IEnumerable<SubjectModel>> GetSubjects()
+        {
+            return await _db.LoadData<SubjectModel, dynamic>("dbo.SubjectGetAll", new { });
+        }
+
         public async Task<SubjectModel?> GetSubject(int id)
         {
             var res = await _db.LoadData<SubjectModel, dynamic>("dbo.SubjectGet", new { Id = id });

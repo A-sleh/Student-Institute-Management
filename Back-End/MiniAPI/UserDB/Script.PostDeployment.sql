@@ -24,12 +24,12 @@ END;
 GO
 if not exists (select 1 from [dbo].[Subject])
 BEGIN
-	INSERT INTO Subject(Subject.Subject, MaximumMark)
+	INSERT INTO Subject(Subject.Subject, MaximumMark. Grade)
 	VALUES
-		('B.Math', 600),
-		('N.Math', 600),
-		('B.Arabic', 400),
-		('N.Arabic', 600);
+		('Math', 600, 'bachelor'),
+		('Math', 600, 'ninth'),
+		('Arabic', 400, 'bachelor'),
+		('Arabic', 600, 'ninth');
 END;
 
 GO
