@@ -75,6 +75,12 @@ Day 6 :
     -[X] fix the bug : when remove student from a class the message of notification are wrong    
 
 Day 7 : 
-    - [] create two section in subject page depending on grade 
+    - [X] create two section in subject page depending on grade 
+Day 8 : 
+    - [X] create manage teachers page
+    - [] show and manage teacher subjects 
+        - [] remove delete subject  as an action icon in side subject Tabel
+        - [] update subject salary  as an action icon in side subject Tabel
+        - [] add new subject ==> in new component
         
      

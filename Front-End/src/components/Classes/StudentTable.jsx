@@ -102,7 +102,6 @@ export default function StudentTable({
     const studentsSelectd =  selectedFlatRows.map(student => {
       return student.original ;
     })
-    console.log(studentsSelectd)
     gotoMoveingStudentsPage(`/MoveStudentsToAnotherClass/${classID}`,{ replace: true , state: studentsSelectd });
 
   };

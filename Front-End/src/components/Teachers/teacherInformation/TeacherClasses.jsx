@@ -30,7 +30,6 @@ export default function TeacherClasses({teacherId}) {
                         {
                             teacherSubjects.map((SubjectClass,index) => {
                                 const { subject} = SubjectClass.subject
-                                console.log(SubjectClass)
                                 return SubjectClass.classes.map( Class => {
                                     const {title,grade,gender} = Class 
                                     return  <tr >

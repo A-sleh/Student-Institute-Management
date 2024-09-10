@@ -12,7 +12,7 @@ export default function CreateSubject({ setCreateBtn, setSuccessCreate ,grade}) 
     setCreateBtn(false);
     setCreateSubject(initailSubjectState);
   }
-  console.log(createSubject)
+
   return (
     <div
       className="subject-card"
@@ -30,8 +30,6 @@ export default function CreateSubject({ setCreateBtn, setSuccessCreate ,grade}) 
       <form className="subject-info" onSubmit={(e) => {
 
         e.preventDefault() ;
-        console.log(createSubject)
-
         const maximumMarkValid = createSubject.maximumMark <= 0 ;
 
         setValidation(maximumMarkValid) ; 

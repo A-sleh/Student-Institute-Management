@@ -62,8 +62,6 @@ export default function TeacherForm(props) {
             e.preventDefault();
 
             const flag = validationInputsFeilds();
-
-            console.log(flag)
             if (!flag) {
               switch (type) {
                 case "POST":

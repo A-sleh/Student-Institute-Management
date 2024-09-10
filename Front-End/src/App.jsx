@@ -5,7 +5,7 @@ import Statistics from "./components/Statistics/Statistics";
 import NewStudent from "./components/Students/NewStudent.jsx";
 import StudentsDetails from "./components/Students/StudentsDetails.jsx";
 import NewTeacher from "./components/Teachers/newTeacher/NewTeacher.jsx";
-import ManageTeacher from "./components/Teachers/ManageTeacher.jsx";
+import ManageTeacher from "./components/Teachers/manageTeachers/ManageTeacher.jsx"; 
 import TeachersDetails from "./components/Teachers/teacherDetails/TeachersDetails.jsx"; 
 import StudentsPays from "./components/Bills/StudentsPays.jsx";
 import TeachersSalaries from "./components/Bills/TeachersSalaries.jsx";

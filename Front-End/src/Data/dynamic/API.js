@@ -93,8 +93,10 @@ export default {
   },
   Teacher: {
     get: (id) => {
-      return fetch(`${URL}/Teacher/${id || ""}`).then((response) =>
-        response.json()
+      return  fetch(`${URL}/Teacher/${id || ''}`).then((response) =>{
+        return response.json()
+      }
+
       );
     },
     post: (data) => {
@@ -136,17 +138,28 @@ export default {
         },
       });
     },
-    put: (data) => {
-      return fetch(`${URL}/Teacher`, {
+    put: (teacherId,subjectId ,salary) => {
+      return fetch(`${URL}/Teacher/${teacherId}/Subject/${subjectId}?Salary=${salary}`, {
         method: "PUT",
-        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
     },
-    delete: (id) => {
-      return fetch(`${URL}/Teacher/${id}`, {
+    delete: (teacherSubjectId) => {
+      return fetch(`${URL}/Teacher/Subject/${teacherSubjectId}`, {
+        method: "DELETE",
+      });
+    },
+  },
+  TeacherClass : {
+    get: (id) => {
+      return fetch(`${URL}/Teacher/${id || ""}/class`).then((response) =>
+        response.json()
+      );
+    },
+    delete: (teacherSubjectId,classId) => {
+      return fetch(`${URL}/Teacher/Subject/${teacherSubjectId}/class/${classId}`, {
         method: "DELETE",
       });
     },

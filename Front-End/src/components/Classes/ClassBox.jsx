@@ -52,6 +52,8 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
         }
     ],[numberOfSelectedStudents,resize,capacity])
 
+    
+
     const {
         headerGroups,
         getTableProps,

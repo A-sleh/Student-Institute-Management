@@ -7,7 +7,6 @@ import Notification from "../Global/Notification";
 import InsertNewStudent from "./InsertNewStudent";
 
 export default function ManageClasses() {
-  console.log("render parent");
 
   const [classesId, setClassesId] = useState([null]);
   const [deleteClass, setDeleteClass] = useState(false);

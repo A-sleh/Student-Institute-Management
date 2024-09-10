@@ -1,6 +1,5 @@
 import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
-import { useState } from "react";
 
 export default function DeleteModal(props) {
   const { element, type, id, setDeleteModal, setSuccessDelete  } = props;
@@ -53,6 +52,10 @@ export default function DeleteModal(props) {
             else handleSuccessDelete();
           });
           break;
+          case 'TeacherFromClass' : 
+            DataServices.DeleteTeacherFromClass(id.teacherSubjectId,id.classId)
+            break;  
+            
         default:
           // UnValid Type
           break;

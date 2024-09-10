@@ -23,7 +23,6 @@ export default function Subject() {
 
   useEffect(() => {
     DataServices.ShowAllSubject().then((subjects) => {
-      console.log('render')
       const ninthAndBachelorSub = Object.groupBy(subjects,({grade}) => {
         return grade == 'ninth' ? 'ninth' : 'bachelor'
       })
