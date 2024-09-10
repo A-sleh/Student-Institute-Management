@@ -15,7 +15,6 @@ export default function Teacherinfo({teacherId}) {
 
     useEffect(() => {
         DataServices.TeacherInformaion(teacherId).then( teacherDetails => {
-          console.log(teacherDetails)
             setTeacherInfo(teacherDetails)
         })
         DataServices.ShowTeacherClass(teacherId).then( classes => {
