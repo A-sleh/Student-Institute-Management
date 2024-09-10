@@ -73,4 +73,8 @@ Day 5 :
 Day 6 : 
     -[X] show a error message when delete the subject which has a teacher who use it 
     -[X] fix the bug : when remove student from a class the message of notification are wrong    
+
+Day 7 : 
+    - [] create two section in subject page depending on grade 
+        
      

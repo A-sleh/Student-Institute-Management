@@ -64,7 +64,7 @@ export default function StudentTable({
           ...student,
           class: null,
         };
-        DataServices.UpdateStudent(removeClassId);
+        DataServices.UpdateStudent(removeClassId)
         if (index == selectedFlatRows.length - 1) {
           resolve();
         }

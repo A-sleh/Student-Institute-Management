@@ -8,7 +8,8 @@ export default function SubjectCard({
   Subject,
   setSuccessUpdate,
   setSuccesDelete,
-  successUpdate
+  successUpdate,
+  grade
 }) {
   const [updateBtn, setUpdateBtn] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -49,6 +50,7 @@ export default function SubjectCard({
             subject={Subject}
             setUpdateBtn={setUpdateBtn}
             setSuccessUpdate={setSuccessUpdate}
+            grade={grade}
           />
         </div>
       </div>

@@ -173,11 +173,11 @@
     }
 
     .class-info {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(4,auto);
         flex-wrap: wrap;
         align-items: center;
-        gap: 10px;
+        gap: 20px;
         background-color: #f3f1f1d7;
         padding: 20px 15px;
         border-radius: 5px;
