@@ -11,10 +11,6 @@ namespace DataAcess.Data
     public class TestData : ITestData
     {
         private readonly ISqlDataAccess _db;
-        public TestData()
-        {
-
-        }
         public TestData(ISqlDataAccess _db)
         {
             this._db = _db;

@@ -18,19 +18,13 @@ namespace DataAcess.Data
         public async Task<ReportModel?> GetReport(int id)
         {
             var res = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGet", new { Id = id });
-            if(res == null){
-                throw new Exception("Not Found");
-            }
-            return res.First();
+            return res == null ? throw new Exception("Not Found") : res.First();
         }
         public async Task<IEnumerable<ReportModel>> GetReports()
         {
             
             var result = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
-            if(result == null){
-                throw new Exception("There is no reports");
-            }
-            return result;
+            return result ?? throw new Exception("There is no reports");
         }
 
         public Task InsertReport(ReportModel report) =>

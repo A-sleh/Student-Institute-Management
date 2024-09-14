@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,10 +28,7 @@ public class StudentData : IStudentData
                 return Student;
             },
             splitOn: "ClassId"
-            );
-        if(res == null){
-            throw new Exception("there is no students");
-        }
+            ) ?? throw new Exception("there is no students");
         return res;
     }
 
@@ -43,10 +41,7 @@ public class StudentData : IStudentData
             return Student;
         },
             splitOn: "ClassId");
-        if (res == null){
-            throw new Exception("no student has such Id");
-        }
-        return res.First();
+        return res == null ? throw new Exception("no student has such Id") : res.First();
     }
     public Task InsertStudent(StudentModel student) =>
         _db.SaveData("dbo.StudentAdd", new
