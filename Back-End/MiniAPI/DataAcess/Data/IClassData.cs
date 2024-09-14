@@ -9,6 +9,6 @@ namespace DataAcess.Data
         Task<IEnumerable<ClassModel>> GetClasses();
         Task InsertClass(ClassModel classModel);
         Task UpdateClass(ClassModel classModel);
-        Task<IEnumerable<SubjectModel>> GetClassSubjects(int classId);
+        Task<IEnumerable<dynamic>> GetClassSubjects(int classId);
     }
 }

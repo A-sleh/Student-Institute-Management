@@ -21,15 +21,15 @@ namespace DataAcess.Data
         }
         private void CheckClassAvailability(int classId)
         {
-            if(!(_db.LoadData<ClassModel, dynamic>("dbo.ClassGetById", new { classId }).Result.Any()))
+            var existclass = _db.LoadData<ClassModel, dynamic>("dbo.ClassGetById", new { classId });
+            if (!existclass.Result.Any() || existclass == null)
                 throw ClassNotFoundException;
             return;
         }
-        public async Task<IEnumerable<SubjectModel>> GetClassSubjects(int classId)
+        public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
             CheckClassAvailability(classId);
-            var res = 
-                await _db.LoadData<SubjectModel, dynamic>("dbo.ClassGetSubjects", new { classId });
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });
             if(!res.Any())
                 throw EmptyResultException;
             return res;
@@ -109,7 +109,6 @@ namespace DataAcess.Data
                 classModel.Grade
             });
         }
-
         public Task DeleteClass(int id)
         {
             CheckClassAvailability(id);
