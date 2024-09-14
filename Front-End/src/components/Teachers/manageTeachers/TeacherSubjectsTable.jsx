@@ -3,8 +3,9 @@ import { useTable , useRowSelect, useAsyncDebounce} from 'react-table'
 import DataServices from "../../../Data/dynamic/DataServices.js";
 import Notification from "../../Global/Notification.jsx";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
+import { theadThStyle } from "../../Global/globalStyle.js";
 
-export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject}) {
+export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject,successDeleteFromSubject}) {
 
     const salaryInput = useRef(null)    
     const [subjects,setSubjects] = useState([]) ;
@@ -23,19 +24,23 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
         DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
             setSubjects(subjects)
         })
-    } ,[successUpdataSalary])
+    } ,[successUpdataSalary,successDeleteFromSubject])
 
     const columns = useMemo(() => [
         {
+            Header: 'Subject' ,
             accessor : 'subject.subject'
         },
-        {    
+        {   
+            Header: 'Maximum Mark' ,
             accessor : 'subject.maximumMark'
         },
-        {    
+        {   
+            Header: 'Grade' ,
             accessor : 'subject.grade'
         },
-        {    
+        {   
+            Header: 'Salary' ,
             accessor: 'salary',
             Cell : ({row}) => {
              return  updateBtn == row.id ? <input type='text' style={{
@@ -51,6 +56,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
             }
         },
         {
+            Header : 'Actions' ,
             id : 'selection' ,
             Cell : ({row}) => {
 
@@ -64,9 +70,9 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
                         <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
                         {
                           updateBtn == row.id ?
-                            <div style={{display: 'flex' , justifyContent: 'center' , alignItems: 'center' , gap: '5px'}}>
-                              <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
-                              <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
+                            <div style={{display: 'flex' , justifyContent: 'center' , alignItems: 'center' }}>
+                              <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
+                              <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
                             </div>
                           : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row)}}></i>
                         }
@@ -78,6 +84,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
 
     const {
     getTableProps,
+    headerGroups,
     getTableBodyProps,
     rows,
     prepareRow,
@@ -94,7 +101,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
 
        DataServices.UpdataSubjectSalary(teacherId,details.subject.subjectId,salary).then(res=> {
         setSuccessUpdataSalary(true)
-        setUpdataBtn(false)
+        setUpdataBtn(-1)
         setTimeout(()=>{
           setSuccessUpdataSalary(false)
         },2000)
@@ -112,7 +119,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
     }
 
     function handleUpdataBtnClicked(row) {
-      setSalary(row.original.subject.salary)
+      setSalary(row.original.salary)
       setUpdataBtn(row.id)
     }
 
@@ -140,10 +147,29 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
         }}
       >
         <div
-          style={{  backgroundColor: "white", width: "100%" }}
+          style={{ width: "100%" }}
         >
-          <table {...getTableProps()}>
-            <tbody {...getTableBodyProps()}>
+          <table {...getTableProps() }>
+            <thead >
+              {headerGroups.map((headerGroup, index) => (
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  key={index}
+                >
+                  {headerGroup.headers.map((column, index) => (
+                    <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
+                      <span
+                        style={{ marginLeft: "5px" }}
+                        className="thead-cell"
+                      >
+                        {column.render("Header")}
+                      </span>
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()} style={{backgroundColor: "white"}}>
               {rows.map((row, index) => {
                 prepareRow(row);
                 return (

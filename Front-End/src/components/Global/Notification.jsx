@@ -19,13 +19,13 @@ export default function Notification({ title, type, state , setState}) {
       style={{
         transform: state ? "scaleX(1)" : `scaleX(0) `,
         transformOrigin: state ? "left" : "right",
-        width: '25em' ,
+        minWidth: '25em' ,
         display: 'flex',
         justifyContent: 'space-between' ,
         alignItems: 'center'
       }}
     >
-      <div style={{display: 'flex' , alignItems: 'center' , gap: '5px'}}>
+      <div style={{display: 'flex' , alignItems: 'center' , gap: '5px' }}>
       {lable}<span style={{fontWeight: '600' , fontSize: '14px' , alignSelf: 'top'}}>{title}</span>
       </div>
       <i className="bi bi-x" style={{fontWeight: 'bold' ,fontSize: '20px' , cursor: 'pointer'}} onClick={() =>{setState(false)}}></i>

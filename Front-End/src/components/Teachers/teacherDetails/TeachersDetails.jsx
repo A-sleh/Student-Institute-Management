@@ -15,6 +15,7 @@ export default function TeachersDetails() {
     const [teachersDetails,setTeachersDetails] = useState([]) ;
     const [deleteModal, setDeleteModal] = useState(false);
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
+    const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
     const [currentStudentInfo, setCurrentStudentInfo] = useState({
         id: null,
         name: "",
@@ -138,6 +139,7 @@ export default function TeachersDetails() {
     return(
         <>
             <Notification  title={'Delete Theacer'} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />
+            <Notification  title={'Teacher is teaching in one of the classes.'} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
             {deleteModal && (
                 <DeleteModal
                 element={currentStudentInfo.name}
@@ -145,6 +147,7 @@ export default function TeachersDetails() {
                 id={currentStudentInfo.id}
                 setDeleteModal={setDeleteModal}
                 setSuccessDelete={setSuccessDeleteTeacher}
+                setUnSuccessDelete={setNotDeleteTeacher}
                 />
             )}
             <Title title={window.location.pathname} /> 

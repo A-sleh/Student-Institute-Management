@@ -16,9 +16,9 @@ This file will contain the progress in build the main interfaces :
             1 - [X] add new student And chose the class if available
             2 - [X] show student details ( marks ) 
         3 - [X] Teachers :
-            1 - [] add new teacher
-            2 - [] link and delete teacher with class 
-            3 - [] show and update teacher details
+            1 - [X] add new teacher
+            2 - [X] link and delete teacher with class 
+            3 - [X] show and update teacher details
         4 - [x] Bill :
             1 - [] student pays
             2 - [] teacher salaries
@@ -78,9 +78,25 @@ Day 7 :
     - [X] create two section in subject page depending on grade 
 Day 8 : 
     - [X] create manage teachers page
-    - [] show and manage teacher subjects 
-        - [] remove delete subject  as an action icon in side subject Tabel
-        - [] update subject salary  as an action icon in side subject Tabel
-        - [] add new subject ==> in new component
+    - [X] show and manage teacher subjects 
+        - [X] remove delete subject  as an action icon in side subject Tabel
+        - [X] update subject salary  as an action icon in side subject Tabel
+        - [X] add new subject ==> in new component
+Day 9 :  
+    - [X] must re-render when delete subject
+    - [X] there are bug in update subject salary
+    - [X] create component (add new subject to teacher subjects ) 
+        - [X] show current teacher informations 
+        - [X] show the oldest subjects which taugth it 
         
-     
+    - [X] create component (add new class to teacher classes ) 
+Day 10 : 
+    - [X] Add header to the teacher Subject table and teacher class 
+    - [] make the table which show the teacher class who taught in it paginated
+Day 11 : 
+    - [X] show all subjects which tought by teacher (with select check box)
+    - [X] show all classes we have and we can filter it by ( grade and gender)
+     -- https://localhost:7279/Teacher/class/1
+Day 12 : 
+    - [] Add teacher total salary in teacher details page and remaining salary
+    - []  

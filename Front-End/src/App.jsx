@@ -25,6 +25,8 @@ import InsertNewStudent from "./components/Classes/InsertNewStudent.jsx";
 import MoveStudentsToAnotherClass from "./components/Classes/MoveStudentsToAnotherClass.jsx";
 import UpdateTeacher from "./components/Teachers/teacherDetails/UpdateTeacher.jsx";
 import TeacherInformation from "./components/Teachers/teacherInformation/TeacherInformation.jsx";
+import TeacherNewClass from "./components/Teachers/manageTeachers/TeacherNewClass.jsx";
+import TeacherNewSubject from "./components/Teachers/manageTeachers/TeacherNewSubject.jsx";
 
 
 const urlPath = [
@@ -33,6 +35,8 @@ const urlPath = [
   { path: "NewTeacher", component: <NewTeacher /> },
   { path: "TeachersDetails", component: <TeachersDetails /> },
   { path: "ManageTeacher", component: <ManageTeacher /> },
+  { path: "ManageTeacher/TeacherNewClass/:id", component: <TeacherNewClass /> }, 
+  { path: "ManageTeacher/TeacherNewSubject/:id", component: <TeacherNewSubject /> }, 
   { path: "/UpdateTeacher/:info", component: <UpdateTeacher /> },
   { path: "/TeacherInformation/:info", component: <TeacherInformation /> },
   { path: "StudentsPays", component: <StudentsPays /> },

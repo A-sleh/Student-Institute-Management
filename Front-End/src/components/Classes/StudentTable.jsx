@@ -4,6 +4,7 @@ import { useTable, useRowSelect } from "react-table";
 import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification.jsx";
 import { useNavigate } from "react-router-dom";
+import { theadThStyle } from "../Global/globalStyle.js";
 
 export default function StudentTable({
   students,
@@ -28,6 +29,7 @@ export default function StudentTable({
     () => [
       ...COLUMNS,
       {
+        Header : 'Selete' ,
         id: "selection",
         Cell: ({ row }) => (
           <input type="checkbox" {...row.getToggleRowSelectedProps()} />
@@ -40,6 +42,7 @@ export default function StudentTable({
   const {
     getTableProps,
     getTableBodyProps,
+    headerGroups,
     rows,
     prepareRow,
     selectedFlatRows,
@@ -123,10 +126,30 @@ export default function StudentTable({
         }}
       >
         <div
-          style={{ padding: "10px", backgroundColor: "white", width: "100%" }}
+          style={{ padding: "10px", width: "100%" }}
         >
           <table {...getTableProps()}>
-            <tbody {...getTableBodyProps()}>
+              <thead className="thead">
+                    {headerGroups.map((headerGroup, index) => (
+                        <tr
+                        {...headerGroup.getHeaderGroupProps()}
+                        key={index}
+                        className="thead-row"
+                        >
+                        {headerGroup.headers.map((column, index) => (
+                            <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
+                            <span
+                                style={{ marginLeft: "5px" }}
+                                className="thead-cell"
+                            >
+                                {column.render("Header")}
+                            </span>
+                            </th>
+                        ))}
+                        </tr>
+                    ))}
+              </thead>
+            <tbody {...getTableBodyProps()} style={{ backgroundColor: "white"}}>
               {rows.map((row, index) => {
                 prepareRow(row);
                 return (

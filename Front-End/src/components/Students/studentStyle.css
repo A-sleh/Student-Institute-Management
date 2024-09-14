@@ -169,7 +169,14 @@ input[type='submit'] ,
     color: white;
     transition: .4s;
 }
+.update-class-btn {
+    color: white !important;
+}
 
+.update-class-btn:hover {
+    color: red !important;
+
+}
 input[type='submit']:hover {
     background-color: white;
     color: #066599;

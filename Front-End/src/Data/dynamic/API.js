@@ -129,8 +129,8 @@ export default {
         response.json()
       );
     },
-    post: (data) => {
-      return fetch(`${URL}/Teacher`, {
+    post: (teacherId,data) => {
+      return fetch(`${URL}/Teacher/${teacherId}/Subject`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

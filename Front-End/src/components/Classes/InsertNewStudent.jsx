@@ -139,7 +139,7 @@ function changeStudentsClass(studentSelected) {
             {...getTableProps()}
             className={ canSelectStudent ?  "table": "class-full table" }
           >
-            <thead className="thead">
+            <thead className="thead" >
               {headerGroups.map((headerGroup, index) => (
                 <tr
                   {...headerGroup.getHeaderGroupProps()}
