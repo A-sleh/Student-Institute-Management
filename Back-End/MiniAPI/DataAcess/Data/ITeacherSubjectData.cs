@@ -6,7 +6,6 @@ namespace DataAcess.Data
     {
         Task DeleteSubjectForTeacher(int teacherSubjectId);
         Task DeleteTeacherFromClass(int teacherSubjectId, int classId);
-        Task DeleteTeacherSubject(int TeacherSubjectId);
         Task<IEnumerable<TeacherModel>> GetClassTeachers(int classId);
         Task<IEnumerable<TeacherSubjectModel>> GetTeacherClasses(int teacherId);
         Task InsertTeacherSubjects(TeacherSubjectModel model);

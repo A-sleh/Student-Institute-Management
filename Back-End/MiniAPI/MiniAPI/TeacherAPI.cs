@@ -1,4 +1,6 @@
-﻿using DataAcess.Data;
+﻿using System.Net.Http.Headers;
+using System.Reflection.Metadata.Ecma335;
+using DataAcess.Data;
 using DataAcess.Models;
 
 namespace MiniAPI
@@ -38,9 +40,9 @@ namespace MiniAPI
                 var res = await data.GetAllTeachers();
                 return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -51,9 +53,9 @@ namespace MiniAPI
                 var res = await data.GetTeacherById(TeacherId);
                 return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
         
@@ -64,9 +66,9 @@ namespace MiniAPI
                 var res = await data.GetTeachersBySubject(subjectId);
                 return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -77,9 +79,9 @@ namespace MiniAPI
                 await data.UpdateTeacher(model);
                 return Results.Ok("Update Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -90,9 +92,9 @@ namespace MiniAPI
                 var res = await data.GetTeacherSubjectsById(TeacherId);
                 return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -103,9 +105,9 @@ namespace MiniAPI
                 await data.InsertTeacher(model);
                 return Results.Ok("Insert Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -116,10 +118,11 @@ namespace MiniAPI
                 await data.DeleteTeacher(id);
                 return Results.Ok("Delete Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                if(e.Message.Contains("Not Found"))
+                    return Results.NotFound(e.Message);
+                return Results.Problem(e.Message);
             }
         }
 
@@ -131,9 +134,9 @@ namespace MiniAPI
                 await data.InsertTeacherSubjects(model);
                 return Results.Ok("Insert Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -148,10 +151,9 @@ namespace MiniAPI
                 await data.UpdateTeacherSubject(TeacherId, SubjectId, Salary);
                 return Results.Ok("Update Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -162,10 +164,9 @@ namespace MiniAPI
                 await data.DeleteSubjectForTeacher(id);
                 return Results.Ok("Delete Success");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -173,12 +174,12 @@ namespace MiniAPI
         {
             try
             { 
-                return Results.Ok(await data.GetTeacherClasses(teacherId));
+                var res = await data.GetTeacherClasses(teacherId);
+                return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 
@@ -186,12 +187,12 @@ namespace MiniAPI
         {
             try
             {
-                return Results.Ok(await data.GetClassTeachers(classId));
+                var res = await data.GetClassTeachers(classId);
+                return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Results.Problem(e.Message);
             }
         }
 

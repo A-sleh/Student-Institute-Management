@@ -9,10 +9,22 @@ namespace MiniAPI
     {
         public static void ConfigureClassAPI(this WebApplication app)
         {
+            // Get All Classes Available
             app.MapGet("/Class", GetClasses);
+
+            // Get Sepcific Class Details
             app.MapGet("/Class/{id}", GetClassByID);
+
+            // Get All Subject For Specific Class
+            app.MapGet("/Class/{classId}/Subject", GetClassSubjects);
+
+            // Add Class
             app.MapPost("/Class", InsertClass);
+
+            // Update A Class using query parameter which includes class id already
             app.MapPut("/Class", UpdateClass);
+
+            // Delete a Class Using its Id
             app.MapDelete("/Class/{id}", DeleteClass);
         }
 
@@ -78,6 +90,22 @@ namespace MiniAPI
                 return Results.Problem(e.Message);
             }
             
+        }
+
+        private static async Task<IResult> GetClassSubjects(IClassData data, int classId)
+        {
+            try
+            {
+                var res = await data.GetClassSubjects(classId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                if(e.Message.Contains("Not Found"))
+                    return Results.NotFound(e.Message);
+                return Results.Problem(e.Message);
+                throw;
+            }
         }
     }
 }
