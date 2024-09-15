@@ -66,5 +66,8 @@ export default {
   },
   DeleteTeacherFromClass : (teacherSubjectId,classId) => {
     return API.TeacherClass.delete(teacherSubjectId,classId)
+  },
+  ShowAllCurrentSubjectsInTheClass: (classId) => {
+    return API.ClassSubject.get(classId)
   }
 };

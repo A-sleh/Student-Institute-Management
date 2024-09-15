@@ -159,9 +159,17 @@ export default {
       );
     },
     delete: (teacherSubjectId,classId) => {
+      console.log(teacherSubjectId,classId)
       return fetch(`${URL}/Teacher/Subject/${teacherSubjectId}/class/${classId}`, {
         method: "DELETE",
       });
+    },
+  },
+  ClassSubject : {
+    get: (id) => {
+      return fetch(`${URL}/Class/${id}/Subject`).then((response) =>
+        response.json()
+      );
     },
   }
 };

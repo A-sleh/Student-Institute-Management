@@ -98,5 +98,5 @@ Day 11 :
     - [X] show all classes we have and we can filter it by ( grade and gender)
      -- https://localhost:7279/Teacher/class/1
 Day 12 : 
-    - [] Add teacher total salary in teacher details page and remaining salary
-    - []  
+    - [X] Add teacher total salary in teacher details page and remaining salary <------- needed to fetch bills to subtrackt it from total salary
+  

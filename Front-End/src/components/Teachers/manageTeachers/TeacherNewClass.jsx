@@ -12,6 +12,7 @@ export default function TeacherNewClass() {
     const teacherId = useParams().id ;
 
     const gotoPreviousPage = useNavigate();
+    const [currentSubjectClass,setCurrentSubjectClass] = useState([]) ;
     const [compareGrade,setCompareGrade] = useState(false)
     const [teacherClassAlreadySeleted,setTeacherClassAlreadySeleted] = useState(false)
     const [selectedTeacherClass,setSelectedTeacherClass] = useState([])
@@ -30,6 +31,26 @@ export default function TeacherNewClass() {
         })
         DataServices.showCalsses().then( Classes => {
             setClasses(Classes) ;
+
+            let classSubject = {} ;
+            Classes.map(Class => {
+                DataServices.ShowAllCurrentSubjectsInTheClass(Class.classId).then( subjects => {
+                    if( subjects.status ) return
+                    console.log(subjects)
+                    // const classId = Class.classId
+                    // classSubject[classId] = {}
+                    
+                    // if( subjects?.status > 299 ) {
+                    //     return
+                    // }
+                    // subjects.map( subject => {
+                    //     const key = subject.Subject 
+                    // })
+                })  
+                
+            })
+        
+            console.log(classSubject)
         })
     } ,[])
 
@@ -290,8 +311,8 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass}) {
                     selectedTeacherClass.map( (teacherClass,index) => {
                         const {id,subject,subjectGrade,classTitle} = teacherClass ;
                         return <div style={{padding: '5px 15px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
-                                    <div><b>{index + 1}:</b> <span>{subject} / {subjectGrade} / {classTitle}</span></div>
-                                    <i onClick={()=>{handleDeleteClicked(id)}}className="bi bi-x-lg" style={{color: 'red' , cursor: 'pointer' , fontWeight: 'bold'}}></i>
+                                    <div><b>{index + 1}:</b> <span style={{fontSize: '0.9em'}}>{subject}-{subjectGrade}-{classTitle}</span></div>
+                                    <i onClick={()=>{handleDeleteClicked(id)}}className="bi bi-x-lg" style={{color: 'red' , cursor: 'pointer' , fontWeight: 'bold',fontSize: '0.9em'}}></i>
                                 </div>
                     })
                 }

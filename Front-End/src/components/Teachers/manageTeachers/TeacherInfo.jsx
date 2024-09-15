@@ -15,6 +15,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
 
     const changePageTo = useNavigate() ;
     const [totalSalary,setTotalSalary] = useState(0)
+    const [paindSalary,setPaindSalary] = useState(0) // needed to build
     const [successUpdataTeacher,setSuccessUpdataTeacher] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false);
     const [teacherInfo,setTeacherInfo] = useState({})
@@ -121,10 +122,10 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
                         icon={"bi bi-cash-coin"}
                     />
                     <ShowClassDetails
-                        title={"Total Salary"}
-                        value={totalSalary}
-                        color={"#ff0000"}
-                        icon={"bi bi-cash-coin"}
+                        title={"Remaining Salary"}
+                        value={totalSalary }
+                        color={"#0035ff"}
+                        icon={"bi bi-coin"}
                     />
                 </div>
             </div>
