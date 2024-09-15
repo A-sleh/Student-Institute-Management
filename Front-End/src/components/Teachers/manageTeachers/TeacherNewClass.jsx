@@ -12,7 +12,7 @@ export default function TeacherNewClass() {
     const teacherId = useParams().id ;
 
     const gotoPreviousPage = useNavigate();
-    const [currentSubjectClass,setCurrentSubjectClass] = useState([]) ;
+    const [currentSubjectClass,setCurrentSubjectClass] = useState({}) ;
     const [compareGrade,setCompareGrade] = useState(false)
     const [teacherClassAlreadySeleted,setTeacherClassAlreadySeleted] = useState(false)
     const [selectedTeacherClass,setSelectedTeacherClass] = useState([])
@@ -31,29 +31,35 @@ export default function TeacherNewClass() {
         })
         DataServices.showCalsses().then( Classes => {
             setClasses(Classes) ;
-
-            let classSubject = {} ;
-            Classes.map(Class => {
-                DataServices.ShowAllCurrentSubjectsInTheClass(Class.classId).then( subjects => {
-                    if( subjects.status ) return
-                    console.log(subjects)
-                    // const classId = Class.classId
-                    // classSubject[classId] = {}
-                    
-                    // if( subjects?.status > 299 ) {
-                    //     return
-                    // }
-                    // subjects.map( subject => {
-                    //     const key = subject.Subject 
-                    // })
-                })  
-                
+            classSubjectsStatus(Classes).then( classSubject => {
+                setCurrentSubjectClass(classSubject)
             })
-        
-            console.log(classSubject)
+            
         })
     } ,[])
 
+    
+
+    async function classSubjectsStatus(Classes) {
+        return new Promise((resolve) => {
+            let classSubject = {} ;
+            Classes.map( async (Class ,index )=> {
+                const subjects = await DataServices.ShowAllCurrentSubjectsInTheClass(Class.classId)
+                
+                if( subjects.status ) return
+                const classId = Class.classId
+                classSubject[classId] = {}
+                
+                subjects.map( subject => {
+                    const key = subject.Subject 
+                    classSubject[classId][key] = true 
+                })
+                if(index == ( Classes.length - 2 )){
+                    resolve(classSubject)
+                }
+            })
+        })
+    }
 
     function checkIfTheTeacherClassIsSeleted() {
         let selectedBefore = 0
@@ -80,17 +86,22 @@ export default function TeacherNewClass() {
             } , 3000 )
             return ;
         }
+        const {classId,grade,title,gender} = selectedClass ;
+        const {teacherSubjectId,subject} = selectedSubject ;
+        const Subject = subject.subject
 
         setSelectedTeacherClass(
+            
             [...selectedTeacherClass,{
                 id: selectedTeacherClass.length == 0 ? 1 : selectedTeacherClass[selectedTeacherClass.length - 1].id + 1 , // if the user delete some one and re add it the id will repeate so i use the lastest subject id  added  to aviod this case
-                classId: selectedClass.classId, 
-                classGrade : selectedClass.grade,
-                classTitle : selectedClass.title ,
-                classGender : selectedClass.gender,
-                teacherSubjectId : selectedSubject.teacherSubjectId , 
-                subject: selectedSubject.subject.subject ,
+                classId: classId, 
+                classGrade : grade,
+                classTitle : title ,
+                classGender : gender,
+                teacherSubjectId : teacherSubjectId , 
+                subject: Subject ,
                 subjectGrade : selectedSubject.subject.grade,
+                status :currentSubjectClass[selectedClass.classId][Subject] ==  true 
             }]
         )
     }
@@ -309,8 +320,8 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass}) {
             <div style={{display: 'flex' , flexWrap: 'wrap' , flexDirection: 'column', gap: '5px'}}>
                 {
                     selectedTeacherClass.map( (teacherClass,index) => {
-                        const {id,subject,subjectGrade,classTitle} = teacherClass ;
-                        return <div style={{padding: '5px 15px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
+                        const {id,subject,subjectGrade,classTitle,status} = teacherClass ;
+                        return <div style={{  borderLeftWidth: '3px' , borderLeftStyle: 'solid' , borderLeftColor: status ? 'red': '#00ff00' ,padding: '5px 10px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
                                     <div><b>{index + 1}:</b> <span style={{fontSize: '0.9em'}}>{subject}-{subjectGrade}-{classTitle}</span></div>
                                     <i onClick={()=>{handleDeleteClicked(id)}}className="bi bi-x-lg" style={{color: 'red' , cursor: 'pointer' , fontWeight: 'bold',fontSize: '0.9em'}}></i>
                                 </div>
