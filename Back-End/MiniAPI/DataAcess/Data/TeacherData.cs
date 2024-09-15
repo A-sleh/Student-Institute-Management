@@ -11,20 +11,19 @@ namespace DataAcess.Data
 {
     public class TeacherData : ITeacherData
     {
-        // Teacher Data Exceptions
-        private static readonly Exception ObjectNotFound = new ("Not Found, There is no such object with that id");
-        private static readonly Exception EmptyResult = new ("Result Empty, check parameters and try again");
-        private static readonly Exception NoSubjects = new ("Teacher Did not deal on any subject yet");
-
         private readonly ISqlDataAccess _db;
         public TeacherData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
+
+        public void ValidateId(int teacherId)
+        {
+            if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherGetById", new { teacherId}).Result.Any())
+                throw new Exception("Not Found, No Such teacher With That Id");
+        }
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
-            if(!(_db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetById", new { TeacherId })).Result.Any())
-                throw ObjectNotFound;
             var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
                 parameters: new { TeacherId },
                 x:
@@ -34,22 +33,16 @@ namespace DataAcess.Data
                     return TS;
                 },
                 splitOn: "SubjectId"
-                );    
-            if(!res.Any())
-                throw NoSubjects;
+                );
             return res;
         }
 
         public async Task<IEnumerable<TeacherModel>> GetTeachersBySubject(int subId)
         {
-            if(!(_db.LoadData<SubjectModel, dynamic>("dbo.SubjectGetById", new { subId }).Result.Any()))
-                throw ObjectNotFound;
             var res =  await _db.LoadData<TeacherModel, dynamic>(
                 "dbo.TeachersGetAllBySubId",
                 parameters: new { SubjectId = subId }
                 );
-            if (!res.Any())
-                throw EmptyResult;
             return res;
         }
 
@@ -58,15 +51,12 @@ namespace DataAcess.Data
             var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll",
                 parameters: new { }
                 );
-            if (!res.Any())
-                throw EmptyResult;
             return res;
         }
 
         public async Task UpdateTeacher(TeacherModel model)
         {
-            if (!_db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetById", new {model.TeacherId}).Result.Any())
-                throw ObjectNotFound;
+            ValidateId(model.TeacherId);
             await _db.SaveData("dbo.TeacherUpdate", new
             {
                 model.TeacherId,
@@ -88,17 +78,14 @@ namespace DataAcess.Data
             });
         }
 
-        public async Task DeleteTeacher(int TeacherId)
+        public async Task DeleteTeacher(int teacherId)
         {
-            if (!(_db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetById", new { TeacherId })).Result.Any())
-                throw ObjectNotFound;
-            await _db.SaveData("dbo.TeacherDelete", new { TeacherId });
+            ValidateId(teacherId);
+            await _db.SaveData("dbo.TeacherDelete", new { teacherId });
         }
 
         public async Task<TeacherModel?> GetTeacherById(int TeacherId)
         {
-            if(!(_db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetById", new { TeacherId }).Result.Any()))
-                throw ObjectNotFound;
             TeacherModel? CurrTeacher = null;
             var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
                 parameters: new { TeacherId },
@@ -121,10 +108,7 @@ namespace DataAcess.Data
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId"));
-            if(res.Any())
-                return res.First();
-            else
-                throw ObjectNotFound;
+                return res.FirstOrDefault();
         }
     }
 }

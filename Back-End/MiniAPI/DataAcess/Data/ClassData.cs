@@ -1,38 +1,33 @@
 ﻿using DataAcess.DBAccess;
 using DataAcess.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAcess.Data
 {
-    public class ClassData : IClassData
+    public class ClassData : IClassData, IDisposable
     {
-        private static readonly Exception ClassNotFoundException = new("Not Found, there is no such class with that id");
-        private static readonly Exception EmptyResultException = new("Result Empty, it does not contain any data");
         private readonly ISqlDataAccess _db;
         public ClassData(ISqlDataAccess _db)
         {
             this._db = _db;
         }
-        private void CheckClassAvailability(int classId)
-        {
-            var existclass = _db.LoadData<ClassModel, dynamic>("dbo.ClassGetById", new { classId });
-            if (!existclass.Result.Any() || existclass == null)
-                throw ClassNotFoundException;
-            return;
-        }
         public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
-            CheckClassAvailability(classId);
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });
-            if(!res.Any())
-                throw EmptyResultException;
             return res;
+        }
+        public void ValidateId(int classId)
+        {
+            if(!_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any())
+                throw new Exception("Not Found, No Such class has this id");
         }
         public async Task<IEnumerable<ClassModel>> GetClasses()
         {
@@ -55,13 +50,10 @@ namespace DataAcess.Data
                 },
                 splitOn: "StudentId"
             );
-            if(!res.Any())
-                throw EmptyResultException;
             return res.Distinct();
         }
         public async Task<ClassModel?> GetClassDetails(int id)
         {
-            CheckClassAvailability(id);
             var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetDetails",
@@ -76,12 +68,8 @@ namespace DataAcess.Data
                     {
                         dic.Add(Class.ClassId, Class);
                     }
-                    if (Class != null)
-                    {
-                        Class.Students.Add(Student);
-                        return Class;
-                    }
-                    else throw ClassNotFoundException;
+                    Class.Students.Add(Student);
+                    return Class;
                 },
                 splitOn: "StudentId"
             );
@@ -99,7 +87,7 @@ namespace DataAcess.Data
             });
         public Task UpdateClass(ClassModel classModel)
         {
-            CheckClassAvailability(classModel.ClassId);
+            ValidateId(classModel.ClassId);
             return _db.SaveData("dbo.ClassUpdate", new
             {
                 classModel.ClassId,
@@ -111,8 +99,12 @@ namespace DataAcess.Data
         }
         public Task DeleteClass(int id)
         {
-            CheckClassAvailability(id);
+            ValidateId(id);
             return _db.SaveData("dbo.ClassDelete", new { Id = id });
+        }
+        public void Dispose()
+        {
+            this.Dispose();
         }
     }
 }
