@@ -23,10 +23,22 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        private bool ValidClassAndSubjectId(int teacherSubjectId, int classId)
-            => (_db.LoadData<TeacherSubjectModel, dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any())
+        private bool ValidClassAndSubject(int teacherSubjectId, int classId)
+            => (_db.LoadData<dynamic, dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId })
+                .Result
+                .Any())
                 &&
-                (_db.LoadData<ClassModel, dynamic>("dbo.ClassGetById", new { classId }).Result.Any());
+                (_db.LoadData<dynamic, dynamic>("dbo.ClassGetById", new { classId })
+                .Result
+                .Any());
+        private bool ValidTeacherAndSubject(int TeacherSubjectId)
+            => (_db.LoadData<dynamic, dynamic>("dbo.TeacherSubjectGetById", new { TeacherSubjectId }))
+            .Result
+            .Any();
+        private bool ValidTeacherAndSubject(int teacherId, int subjectId) 
+            => (_db.LoadData<dynamic, dynamic>("dbo.TeacherSubjectGetId", new { teacherId, subjectId }))
+            .Result
+            .Any();
         public async Task<IEnumerable<TeacherModel>> GetClassTeachers(int classId)
         {
             var dic = new Dictionary<int, TeacherModel>();
@@ -92,17 +104,14 @@ namespace DataAcess.Data
 
         public async Task LinkTeacherWithClass(int teacherSubjectId, int classId)
         {
-            if (!ValidClassAndSubjectId(teacherSubjectId, classId))
+            if (!ValidClassAndSubject(teacherSubjectId, classId))
                 throw InvalidParametersException;
             await _db.SaveData("dbo.TeacherSubjectAddClass", new { teacherSubjectId, classId });
         }
 
         public async Task UpdateTeacherSubject(int TeacherId, int SubjectId, int Salary)
         {
-            if (!_db.LoadData<TeacherSubjectModel, dynamic>("dbo.TeacherSubjectGetId", new { TeacherId, SubjectId })
-                .Result
-                .Any())
-                throw InvalidParametersException;
+            ValidTeacherAndSubject(TeacherId, SubjectId);
             await _db.SaveData("dbo.TeacherSubjectUpdate", new
             {
                 TeacherId,
@@ -113,21 +122,21 @@ namespace DataAcess.Data
 
         public async Task DeleteSubjectForTeacher(int teacherSubjectId)
         {
-            if (!_db.LoadData<TeacherSubjectModel, dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any())
-                throw InvalidParametersException;
+            ValidTeacherAndSubject(teacherSubjectId);
             await _db.SaveData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
         }
 
         public async Task DeleteTeacherFromClass(int teacherSubjectId, int classId)
         {
-            if (!ValidClassAndSubjectId(teacherSubjectId, classId))
+            if (!ValidClassAndSubject(teacherSubjectId, classId))
                 throw InvalidParametersException;
-            await _db.SaveData("dbo.TeacherSubjectDeleteClass",
-                        new
-                        {
-                            teacherSubjectId,
-                            classId
-                        });
+            await _db.SaveData(
+                "dbo.TeacherSubjectDeleteClass",
+                new
+                {
+                    teacherSubjectId,
+                    classId
+                });
         }
     }
 }
