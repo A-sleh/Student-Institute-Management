@@ -48,7 +48,7 @@ table td:not(:first-child) {
 /* NewStudent page */
 
 form.student-info {
-    min-width: 580px;
+    flex: 1;
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 10px;
@@ -59,6 +59,7 @@ form.student-info .row .input {
     display: flex;
     flex-direction: column;
     height: 78px;
+    width: 50%;
 }
 
 form.student-info .row div.input:last-child {
@@ -156,8 +157,9 @@ form.student-info label {
 }
 
 input[type='submit'] ,
-.update-class-btn {
-    padding: 5px 35px;
+.update-class-btn,
+.student-info .go-back-btn  {
+    padding: 5px 35px ;
     background-color: #066599;
     border: none;
     cursor: pointer;
@@ -169,6 +171,15 @@ input[type='submit'] ,
     color: white;
     transition: .4s;
 }
+
+.student-info .go-back-btn {
+    background-color: red;
+    padding: 5px 35px !important;
+    color: white !important;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
 .update-class-btn {
     color: white !important;
 }

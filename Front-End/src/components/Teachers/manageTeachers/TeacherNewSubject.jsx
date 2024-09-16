@@ -136,19 +136,7 @@ export default function TeacherNewSubject() {
             <TeacherHeader teacherDetails={teacherDetails}/>
             <div  style={{ backgroundColor: "#dddddd70", padding: "10px 10px 20px 10px",borderRadius: "5px",margin: '10px 0'}}>
                 <h3 style={{margin: '5px 0 10px 0'}}>Choose the subjects you want to add it </h3>
-                <div style={{ width: '100%' , padding: '8px 15px' , color: 'white' , backgroundColor: '#066599' , borderRadius: '5px 5px 0 0' , display: 'flex' , alignItems: 'center' , justifyContent: 'space-between' }}>
-                    <div style={{display: 'flex' , gap: '20px' , alignItems: 'center'}}>
-                        <h3 style={{fontWeight: '500' , letterSpacing: '1px'}}>Filtering by</h3>
-                        <ul style={{}}>
-                            <span onClick={() => {setFilter('all')}} style={{marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'all' ? '600': '300' }}>All</span>
-                            <span onClick={() => {setFilter('ninth')}} style={{marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'ninth'? '600': '300' }}>Ninth</span>
-                            <span onClick={() => {setFilter('bachelor')}} style={{marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'bachelor' ? '600': '300'}}>Bachelor</span>
-                        </ul>
-                    </div>
-                    <div onClick={()=> {setHiddenUsedSubject(c => !c)}} style={{cursor: 'pointer' , fontWeight: hiddenUsedSubject ? '600': '300' }}>
-                        Hide the subjects used
-                    </div>
-                </div>
+                <TableHeaderControal setFilter={setFilter} filter={filter} setHiddenUsedSubject={setHiddenUsedSubject} hiddenUsedSubject={hiddenUsedSubject} hiddenThis={true}/>
                 <table {...getTableProps()} >
                     <thead>
                         {headerGroups.map((headerGroup, index) => (
@@ -253,4 +241,26 @@ function COLUMN() {
             accessor : 'maximumMark'
         }
     ]
+}
+
+export function TableHeaderControal(props) {
+    const {setFilter,filter,setHiddenUsedSubject,hiddenUsedSubject} = props
+    return (
+        <div style={{ width: '100%' , padding: '6px 15px' , color: 'white' , backgroundColor: '#066599' , borderRadius: '5px 5px 0 0' , display: 'flex' , alignItems: 'center' , justifyContent: 'space-between' }}>
+            <div style={{display: 'flex' , gap: '20px' , alignItems: 'center' }}>
+                <h4 style={{fontWeight: '500' , letterSpacing: '1px' , fontSize: '18px'}}>Filtering by</h4>
+                <ul style={{}}>
+                    <span onClick={() => {setFilter('all')}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'all' ? '600': '300' }}>All</span>
+                    <span onClick={() => {setFilter('ninth')}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'ninth'? '600': '300' }}>Ninth</span>
+                    <span onClick={() => {setFilter('bachelor')}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'bachelor' ? '600': '300'}}>Bachelor</span>
+                </ul>
+            </div>
+            {
+                props.hiddenThis &&
+                <div onClick={()=> {setHiddenUsedSubject(c => !c)}} style={{fontSize: '16px',cursor: 'pointer' , fontWeight: hiddenUsedSubject ? '600': '300' }}>
+                    Hide the subjects used
+                </div>
+            }
+        </div>
+    )
 }

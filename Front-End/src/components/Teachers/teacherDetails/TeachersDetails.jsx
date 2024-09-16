@@ -151,7 +151,7 @@ export default function TeachersDetails() {
                 />
             )}
             <Title title={window.location.pathname} /> 
-            <TableHeader  filter={globalFilter} setFilter={setGlobalFilter} teachersNumber={teachersDetails?.length}/>
+            <TableHeader  filter={globalFilter} setFilter={setGlobalFilter} teachersNumber={teachersDetails?.length} type={'teacher'}/>
             <table {...getTableProps()}>
                 <thead >
                     {headerGroups.map((headerGroup, index) => (

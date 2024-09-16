@@ -69,5 +69,8 @@ export default {
   },
   ShowAllCurrentSubjectsInTheClass: (classId) => {
     return API.ClassSubject.get(classId)
+  },
+  AddTeacherToClass : (teacherSubject,classId) => {
+    return API.TeacherClass.post(teacherSubject,classId)
   }
 };

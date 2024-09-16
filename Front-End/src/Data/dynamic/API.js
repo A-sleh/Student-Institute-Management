@@ -158,8 +158,15 @@ export default {
         response.json()
       );
     },
+    post : (teacherSubject,classId) => {
+      return fetch(`${URL}/Teacher/Subject/${teacherSubject}/class/${classId}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
     delete: (teacherSubjectId,classId) => {
-      console.log(teacherSubjectId,classId)
       return fetch(`${URL}/Teacher/Subject/${teacherSubjectId}/class/${classId}`, {
         method: "DELETE",
       });

@@ -99,4 +99,5 @@ Day 11 :
      -- https://localhost:7279/Teacher/class/1
 Day 12 : 
     - [X] Add teacher total salary in teacher details page and remaining salary <------- needed to fetch bills to subtrackt it from total salary
-  
+Day 13 : 
+    -[] 

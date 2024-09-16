@@ -419,11 +419,16 @@ export default function StudentForm({
               ))}
             </select>
           </div>
-          
-          <input
-            type="submit"
-            value={requestType === "POST" ? "Add" : "Update"}
-          />
+          <div>
+            <input
+              type="submit"
+              value={requestType === "POST" ? "Add" : "Update"}
+            />
+            {
+              // requestType == "POT" && 
+              <span onClick={()=>{previousPage('/StudentsDetails',{replace: true})}} className="go-back-btn">Go Back</span>
+            }
+          </div>
         </form>
           <StudentCard studentDetails={studentDetails} />
       </section>

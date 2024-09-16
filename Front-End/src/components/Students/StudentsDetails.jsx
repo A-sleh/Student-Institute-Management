@@ -144,6 +144,7 @@ export default function StudentsDetails() {
           filter={globalFilter}
           setFilter={setGlobalFilter}
           studentNumber={rows.length}
+          type={'student'}
         />
 
         <table {...getTableProps()}>

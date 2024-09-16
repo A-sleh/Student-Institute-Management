@@ -1,6 +1,6 @@
 /* New Class Page Style*/
 .class-form {
-    min-width: 580px;
+    flex: 1;
     margin-right: 10px;
     padding: 10px 20px;
     border-radius: 10px;
@@ -11,6 +11,7 @@
     display: flex;
     flex-direction: column;
     height: 78px;
+    width: 50%;
 }
 
 .class-form .row div.input:last-child {
