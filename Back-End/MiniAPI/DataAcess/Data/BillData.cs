@@ -35,9 +35,9 @@ namespace DataAcess.Data
 
         public async Task<dynamic> GetStudentTotalPays(int studentId)
         {
-            var studentTotalRequired = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGetById", new { studentId })).First().BillRequired;
+            var studentTotalRequired = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGet", new { Id = studentId })).FirstOrDefault()?.BillRequired;
 
-            var paid = (await _db.LoadData<int, dynamic>("dbo.BillGetStudentPays", new { studentId })).First();
+            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetStudentPays", new { studentId })).First();
 
             var res = new
             {
@@ -50,9 +50,9 @@ namespace DataAcess.Data
 
         public async Task<dynamic> GetTeacherTotalPays(int teacherId)
         {
-            var teacherTotalSalary = (await _db.LoadData<int, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First();
+            var teacherTotalSalary = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First();
 
-            var paid = (await _db.LoadData<int, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First();
+            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First();
 
             var res = new
             {
@@ -77,7 +77,7 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<BillModel>> GetBillsByDate(string? date)
         {
-            var Date = ValidationMethods.TryParseDateForSqlQuery(date);
+            var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetByDate",
                 new { Date },
@@ -115,40 +115,41 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<IEnumerable<BillModel>> GetExternalIncome(string? date)
+        public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
         {
-            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type = "in" });
-            if (date != null)
+            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
+            if(date != null && date.Length > 0)
             {
-                var Date = ValidationMethods.TryParseDateForSqlQuery(date);
-                return
-                    res.Where(x =>
+                return res.Where(
+                    x =>
                     {
-                        if (x.Date == null || Date == null)
-                            return false;
-                        else
-                            return x.Date.Contains(Date);
+                        return x.Date.Contains(date);
                     });
-            }
+            } 
             return res;
         }
 
-        public async Task<IEnumerable<BillModel>> GetExternalOutcome(string? date)
+        public async Task AddBill(BillModel bill)
         {
-            var Date = ValidationMethods.TryParseDateForSqlQuery(date);
-            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternalOut", new { Type = "out" });
-
-            if (Date != null)
+            if (bill == null)
+                throw new Exception("Bill Can not be null");
+            bill.Student ??= new StudentModel();
+            bill.Teacher ??= new TeacherModel();
+            await _db.SaveData("dbo.BillAdd", new
             {
-                return res.Where(x =>
-                {
-                    if (x.Date == null || Date == null)
-                        return false;
-                    else
-                        return x.Date.Contains(Date);
-                });
-            }
-            return res;
+                bill.BillNo,
+                bill.Type,
+                bill.Date,
+                bill.Amount,
+                bill.Student.StudentId,
+                bill.Teacher.TeacherId,
+                bill.Note
+            });
+        }
+
+        public async Task DeleteBill(int BillId)
+        {
+            await _db.SaveData("dbo.BillDelete", new { BillId });
         }
     }
 

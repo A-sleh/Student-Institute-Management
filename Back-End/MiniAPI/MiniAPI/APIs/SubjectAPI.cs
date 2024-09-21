@@ -2,7 +2,7 @@
 using DataAcess.Models;
 using System.Runtime.CompilerServices;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class SubjectAPI
     {

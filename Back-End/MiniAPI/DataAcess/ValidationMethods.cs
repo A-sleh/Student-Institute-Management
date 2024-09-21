@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAcess
 {
     public static class ValidationMethods
     {
-        public static string? TryParseDateForSqlQuery(string? date)
+        public static string? TryParseDateForSqlQuery(string? date, string split)
         {
-            var s = date?.Split("-");
+            var s = date?.Split(split);
             string? Date;
             if (s?.Length == 3)
             {
@@ -29,8 +30,7 @@ namespace DataAcess
 
                 Date = s[0].Length == 2 ? "%-" + s[0] + "-%" : "%-0" + s[0] + "-%";
             }
-            else
-                throw new Exception("Invalid Date");
+            else Date = date;
             return Date;
         }
     }

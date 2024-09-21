@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[BillGetTotalIncome]
+﻿CREATE PROCEDURE [dbo].[BillGetTotalByParam]
 	@Type varchar(5)
 AS
 IF(@Type = 'in')

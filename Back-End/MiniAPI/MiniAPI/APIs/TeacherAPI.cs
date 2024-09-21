@@ -3,7 +3,7 @@ using System.Reflection.Metadata.Ecma335;
 using DataAcess.Data;
 using DataAcess.Models;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class TeacherAPI
     {
@@ -17,7 +17,7 @@ namespace MiniAPI
 
             // get teachers that teach a subject by its Id
             app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
-            
+
             // get Subjects Taught by specified teacher by teacher Id
             app.MapGet("/Teacher/{TeacherId}/Subject", GetTeacherSubject);
 
@@ -82,7 +82,7 @@ namespace MiniAPI
                 return Results.Problem(e.Message);
             }
         }
-        
+
         private static async Task<IResult> GetTeachersBySubId(ITeacherData data, int subjectId)
         {
             try
@@ -125,7 +125,7 @@ namespace MiniAPI
         private static async Task<IResult> InsertTeacher(ITeacherData data, TeacherModel model)
         {
             try
-            { 
+            {
                 await data.InsertTeacher(model);
                 return Results.Ok("Insert Success");
             }
@@ -144,7 +144,7 @@ namespace MiniAPI
             }
             catch (Exception e)
             {
-                if(e.Message.Contains("Not Found"))
+                if (e.Message.Contains("Not Found"))
                     return Results.NotFound(e.Message);
                 return Results.Problem(e.Message);
             }
@@ -197,7 +197,7 @@ namespace MiniAPI
         private static async Task<IResult> GetTeacherClasses(ITeacherSubjectData data, int teacherId)
         {
             try
-            { 
+            {
                 var res = await data.GetTeacherClasses(teacherId);
                 return Results.Ok(res);
             }

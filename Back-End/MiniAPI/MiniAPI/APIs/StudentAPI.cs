@@ -1,9 +1,10 @@
 ﻿using DataAcess.Data;
 using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using System.Net.NetworkInformation;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class StudentAPI
     {
@@ -24,19 +25,20 @@ namespace MiniAPI
             app.MapPost("/Student", InsertStudent);
 
             // delete a student using its Id
-            app.MapDelete("/Student/{id}", DeleteStudent); 
+            app.MapDelete("/Student/{id}", DeleteStudent);
         }
-        
+
         private static async Task<IResult> GetStudent(IStudentData data, int id)
         {
+            // test
             try
             {
-                var res = Results.Ok(await data.GetStudentByID(id));
-                if(res == null) return Results.NotFound();
+                var res = await data.GetStudentByID(id);
                 return Results.Ok(res);
             }
-            catch (Exception ex){
-                return Results.Problem(ex.Message);
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -44,11 +46,12 @@ namespace MiniAPI
         {
             try
             {
-                return Results.Ok(await data.GetStudents());
+                var res = await data.GetStudents();
+                return Results.Ok(res);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return Results.Problem(ex.Message);
+                return Results.Problem(e.Message);
             }
         }
 
@@ -59,7 +62,7 @@ namespace MiniAPI
                 await data.InsertStudent(student);
                 return Results.Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Results.Problem(ex.Message);
             }
@@ -72,8 +75,8 @@ namespace MiniAPI
                 await data.UpdateStudent(student);
                 return Results.Ok();
             }
-            catch(Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 return Results.Problem(ex.Message);
             }
         }

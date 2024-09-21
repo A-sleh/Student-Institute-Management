@@ -3,7 +3,7 @@ using DataAcess.DBAccess;
 using DataAcess.Models;
 using System.Data;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class ReportAPI
     {

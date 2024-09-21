@@ -1,7 +1,7 @@
 ﻿using DataAcess.Data;
 using System.Runtime.CompilerServices;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class TestAPI
     {

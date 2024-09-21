@@ -3,7 +3,7 @@
 AS
 BEGIN
 	SELECT 
-	t.id as TeacherId,t.Name, t.LastName, t.Phone,
+	t.Id as TeacherId,t.Name, t.LastName, t.Phone,
 	ts.Id as TeacherSubjectId ,ts.Salary,
 	ts.SubjectId, s.Subject, s.MaximumMark
 	FROM Teacher t 
