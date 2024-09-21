@@ -50,7 +50,7 @@ export default function TeacherSubjects({teacherId}) {
                                     <td style={tBStyle}>{index + 1}</td>
                                     <td style={tBStyle}>{subject}</td>
                                     <td style={tBStyle}>{maximumMark}</td>
-                                    <td style={tBStyle}>{Subject.classes.length}</td>
+                                    <td style={tBStyle}>{Subject.classes.length - (Subject.classes[0] == null) }</td>
                                     <td style={tBStyle}>{Subject.salary}</td>
                                     <td style={tBStyle}>{Subject.salary * Subject.classes.length}</td>
                                 </tr>

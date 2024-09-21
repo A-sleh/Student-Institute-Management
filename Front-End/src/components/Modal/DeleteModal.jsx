@@ -53,8 +53,21 @@ export default function DeleteModal(props) {
           });
           break;
           case 'TeacherFromClass' : 
-            DataServices.DeleteTeacherFromClass(id.teacherSubjectId,id.classId)
+            DataServices.DeleteTeacherFromClass(id.teacherSubjectId,id.classId).then((response) => {
+              if(response.status < 299 ) {
+                handleSuccessDelete();
+              } 
+            });
             break;  
+          case "TeacherSubject" : 
+             DataServices.DeleteTeacherSubject(id).then(response => {
+              if(response.status > 299 ) {
+                handleUnSuccessDelete() ;
+              }else {
+                handleSuccessDelete()
+              }
+            })
+            break;
             
         default:
           // UnValid Type

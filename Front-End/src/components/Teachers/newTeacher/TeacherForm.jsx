@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 export default function TeacherForm(props) {
   const { initialSatate , type ,setSuccessAction} = props;
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
@@ -24,10 +25,10 @@ export default function TeacherForm(props) {
     setValidation({
       name: name === "",
       lastName: lastName === '',
-      phone: phone.match(/[^0-9]/) || phone === ''
+      phone: /[^0-9]/.test(phone) || phone === ''
     });
     
-    return  ( name === "" || lastName === "" || phone === ""  ||  phone.match(/[^0-9]/) );
+    return  ( name === "" || lastName === "" || phone === ""  ||  /[^0-9]/.test(phone));
   }
 
   function handleSuccessRequest() {
@@ -39,12 +40,20 @@ export default function TeacherForm(props) {
     setSuccessAction(true);
     setTimeout(() => {
       setSuccessAction(false);
-
-      if(type === 'PUT') { // if we use form to update teacher informations after that we return to the previous page
-        gotoPreviousPage('/TeachersDetails',{replace: true}) ;
-      }
-
     }, 2000);
+    if( type === 'PUT' ) {
+      if(props.setUpdataBtnClicked == undefined ) {  // if i come from manage teacher page
+        gotoPreviousPage('/TeachersDetails',{replace: true})
+      }
+      else props.setUpdataBtnClicked(false) // if i come from teacher details
+    }
+  }
+
+  function handleBackClicked() {
+    if( props.setUpdataBtnClicked == undefined ) { // if i come from manage teacher page
+      gotoPreviousPage('/TeachersDetails',{replace: true})
+    } 
+    else props.setUpdataBtnClicked(false) // if i come from teacher details
   }
 
   return (
@@ -138,7 +147,7 @@ export default function TeacherForm(props) {
 
 
           <input type="submit" value={type ==='POST' ?  'Submit' : 'Update'} />
-        { type === 'PUT' && <button className="update-class-btn" onClick={()=>{gotoPreviousPage('/TeachersDetails',{replace: true})}} >Back</button> }
+        { type === 'PUT' && <span className="update-class-btn" style={{ fontSize: '14px'}} onClick={()=>{handleBackClicked()}} >Back</span> }
         </form>
         <TeacherCard teacherDetails={teacherDetails} />
       </div>

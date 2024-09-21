@@ -128,7 +128,7 @@ export default function StudentForm({
       lastName: lastName === "",
       fatherName: fatherName === "",
       birthdate: birthdate === "",
-      phone: phone === "" || phone.length != 10 || phone.match(/[^0-9]/),
+      phone: phone === "" || phone.length != 10 || /[^0-9]/.test(phone),
       missedDays: missedDays < 0,
       billRequired: billRequired <= 0,
     };
@@ -144,7 +144,7 @@ export default function StudentForm({
       phone.length != 10 ||
       missedDays < 0 ||
       billRequired <= 0 ||
-      phone.match(/[^0-9]/)
+      /[^0-9]/.test(phone)
     );
   }
   

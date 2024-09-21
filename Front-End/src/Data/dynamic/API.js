@@ -129,8 +129,8 @@ export default {
         response.json()
       );
     },
-    post: (data) => {
-      return fetch(`${URL}/Teacher`, {
+    post: (teacherId,data) => {
+      return fetch(`${URL}/Teacher/${teacherId}/Subject`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -159,9 +159,17 @@ export default {
       );
     },
     delete: (teacherSubjectId,classId) => {
+      console.log(teacherSubjectId,classId)
       return fetch(`${URL}/Teacher/Subject/${teacherSubjectId}/class/${classId}`, {
         method: "DELETE",
       });
+    },
+  },
+  ClassSubject : {
+    get: (id) => {
+      return fetch(`${URL}/Class/${id}/Subject`).then((response) =>
+        response.json()
+      );
     },
   }
 };

@@ -55,6 +55,9 @@ export default {
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
   },
+  AddNewSubjectsForTeacher : (teacherId,data) => {
+    return API.TeacherSubject.post(teacherId,data)
+  },
   UpdataSubjectSalary : (teacherId,subjectId ,salary) => {
     return API.TeacherSubject.put(teacherId,subjectId ,salary)
   },
@@ -63,5 +66,8 @@ export default {
   },
   DeleteTeacherFromClass : (teacherSubjectId,classId) => {
     return API.TeacherClass.delete(teacherSubjectId,classId)
+  },
+  ShowAllCurrentSubjectsInTheClass: (classId) => {
+    return API.ClassSubject.get(classId)
   }
 };

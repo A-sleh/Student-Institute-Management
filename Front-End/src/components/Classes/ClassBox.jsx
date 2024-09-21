@@ -93,7 +93,7 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
     
     function handleApplyClicked(Class) {
 
-        const vaildInput =  capacity.match(/[^0-9]/)
+        const vaildInput = /[^0-9]/.test(capacity)
         setValidation(vaildInput);
         
         if(!vaildInput) {

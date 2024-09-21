@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useTable , useRowSelect} from 'react-table'
 import DataServices from "../../../Data/dynamic/DataServices.js";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
+import { theadThStyle } from "../../Global/globalStyle.js";
 
-export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass}) {
+export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass,successDeleteFromClass}) {
 
     const [classes,setClasses] = useState([]) ;
     const [deletModal,setDeleteModal] = useState(false)
@@ -33,24 +34,29 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
             })
             setClasses(classesMaping)
         })
-    } ,[])
+    } ,[successDeleteFromClass])
 
 
 
     const columns = useMemo(() => [
         {
+            Header : 'Title' ,
             accessor : 'title'
         },
         {    
+            Header : 'Gender' ,
             accessor : 'gender'
         },
-        {    
+        {   
+            Header : 'Grade' , 
             accessor : 'grade'
         },
         {    
+            Header : 'Subject' ,
             accessor : 'subject'
         },
         {
+            Header : 'Actions' ,
             id : 'selection' ,
             Cell : ({row}) => {
                 return ( 
@@ -61,9 +67,7 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
                     }}>
                         <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
                     </div>
-            )
-                        
-            }
+            )}
         }
     ],[])
 
@@ -71,6 +75,7 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
     const {
     getTableProps,
     getTableBodyProps,
+    headerGroups,
     rows,
     prepareRow,
     selectedFlatRows,
@@ -110,23 +115,42 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
         }}
       >
         <div
-          style={{  backgroundColor: "white", width: "100%" }}
+          style={{width: "100%" }}
         >
           <table {...getTableProps()}>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row, index) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()} key={index} >
-                    {row.cells.map((cell, index) => (
-                      <td {...cell.getCellProps()} key={index} style={{padding: '5px' , border: 'none'}} className="resize-width">
-                        {cell.render("Cell")}
-                      </td>
+            <thead >
+                {headerGroups.map((headerGroup, index) => (
+                  <tr
+                    {...headerGroup.getHeaderGroupProps()}
+                    key={index}
+                  >
+                    {headerGroup.headers.map((column, index) => (
+                      <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
+                        <span
+                          style={{ marginLeft: "5px" }}
+                          className="thead-cell"
+                        >
+                          {column.render("Header")}
+                        </span>
+                      </th>
                     ))}
                   </tr>
-                );
-              })}
-            </tbody>
+                ))}
+              </thead>
+              <tbody {...getTableBodyProps()} style={{backgroundColor: "white"}}>
+                {rows.map((row, index) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()} key={index} >
+                      {row.cells.map((cell, index) => (
+                        <td {...cell.getCellProps()} key={index} style={{padding: '5px' , border: 'none'}} className="resize-width">
+                          {cell.render("Cell")}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
           </table>
         </div>
         </div>

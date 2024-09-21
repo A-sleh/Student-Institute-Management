@@ -25,11 +25,12 @@
 
 
 .teachers-info-native {
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(220px,2fr));
     flex-wrap: wrap;
     align-items: center;
-    gap: 40px;
+    gap: 10px;
     background-color: #f3f1f1d7;
     padding: 20px 15px;
     border-radius: 5px;

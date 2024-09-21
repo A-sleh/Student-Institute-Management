@@ -29,7 +29,9 @@ export default function TeacherClasses({teacherId}) {
                     <tbody >
                         {
                             teacherSubjects.map((SubjectClass,index) => {
+                                
                                 const { subject} = SubjectClass.subject
+                                if(SubjectClass.classes[0] == null )return  // if The Class dosn't teaching in any class
                                 return SubjectClass.classes.map( Class => {
                                     const {title,grade,gender} = Class 
                                     return  <tr >
