@@ -3,5 +3,5 @@
 AS
 	SELECT *
 	FROM Class
-	WHERE Id = @ClassId;
+	WHERE id = @ClassId;
 RETURN 0

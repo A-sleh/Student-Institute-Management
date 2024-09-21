@@ -12,5 +12,5 @@ CONSTRAINT Bill_Teacher_Fk FOREIGN KEY(TeacherId) REFERENCES Teacher(Id),
 CONSTRAINT Type_Enum CHECK (type in ('in', 'out')),
 CONSTRAINT Bill_Quick_Validation CHECK((StudentId is null and TeacherId is not null) or
 								(StudentId is not null and TeacherId is null) or 
-								(StudentId is null and TeacherId is null and note is not null))
+								(StudentId is null and TeacherId is null and Note is not null))
 );

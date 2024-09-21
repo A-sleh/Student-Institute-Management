@@ -24,7 +24,7 @@ END;
 GO
 if not exists (select 1 from [dbo].[Subject])
 BEGIN
-	INSERT INTO Subject(Subject.Subject, MaximumMark. Grade)
+	INSERT INTO Subject(Subject.Subject, MaximumMark, Grade)
 	VALUES
 		('Math', 600, 'bachelor'),
 		('Math', 600, 'ninth'),
@@ -83,4 +83,15 @@ BEGIN
 	VALUES
 		(1, 1),
 		(2, 1);
+END;
+
+GO
+if not exists (SELECT 1 FROM [dbo].[Bill])
+BEGIN
+INSERT INTO Bill(BillNo, Type, Amount, Date, StudentId, TeacherId, Note) VALUES
+('A881230040', 'in', 500000, '2024/09/20', 1, null, 'recived by raboo'),
+('A881230041', 'in', 400000, '2024/09/19', 2, null, 'recived by raboo'),
+('A881230042', 'in', 500000, '2024/09/20', 4, null, 'recived by raboo'),
+('B881230040', 'out', 800000, '2024/09/22', null, 1, 'paid by raboo'),
+('', 'out', 200000, '2024/09/21', null, null, 'Bought Essentials Items, By Raboo');
 END;

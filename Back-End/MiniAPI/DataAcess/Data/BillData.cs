@@ -11,15 +11,6 @@ namespace DataAcess.Data
 {
     public class BillData : IBillData
     {
-        // ######################################
-        //
-        // WARNING
-        //
-        // SQL IS NOT READY FOR THIS DATA CLASS
-        //
-        // ######################################
-        private static readonly Exception BillNotFound = new("there is not such bill");
-        private static readonly Exception SpecifiedNotFound = new("there is no value for specified parameters");
         private readonly ISqlDataAccess _db;
 
         public BillData(ISqlDataAccess _db)
@@ -39,82 +30,126 @@ namespace DataAcess.Data
                     return Bill;
                 },
                 splitOn: "StudentId, TeacherId");
-            if (!res.Any())
-            {
-                throw BillNotFound;
-            }
             return res;
         }
 
-        public async Task<int> GetTotalPays(int studentId)
+        public async Task<dynamic> GetStudentTotalPays(int studentId)
         {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetStudentPays", new { studentId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
-            return res.First();
+            var studentTotalRequired = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGet", new { Id = studentId })).FirstOrDefault()?.BillRequired;
+
+            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetStudentPays", new { studentId })).First();
+
+            var res = new
+            {
+                Paid = paid,
+                Required = studentTotalRequired - paid,
+                Total = studentTotalRequired
+            };
+            return res;
         }
 
-        public async Task<int> GetStudentTotalRequired(int studentId)
+        public async Task<dynamic> GetTeacherTotalPays(int teacherId)
         {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetStudentTotalRequired", new { studentId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
-            return res.First();
-        }
+            var teacherTotalSalary = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First();
 
-        public async Task<int> GetTeacherTotalPays(int teacherId)
-        {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetTeacherPays", new { teacherId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
-            return res.First();
-        }
+            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First();
 
-        public async Task<int> GetTeacherTotalRequired(int teacherId)
-        {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetTeacherTotalRequired", new { teacherId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
-            return res.First();
+            var res = new
+            {
+                Paid = paid,
+                Required = teacherTotalSalary - paid,
+                Total = teacherTotalSalary
+            };
+            return res;
         }
 
         public async Task<IEnumerable<BillModel>> GetStudentBills(int studentId)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByStudentId", new { studentId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
             return res;
         }
 
         public async Task<IEnumerable<BillModel>> GetTeacherBills(int teacherId)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
             return res;
         }
 
         public async Task<IEnumerable<BillModel>> GetBillsByDate(string? date)
         {
-            if (!DateTime.TryParse(date, out var realdate))
-                throw new Exception("date incorrect");
-            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByDate", new { Date = realdate });
-            if (!res.Any())
-                throw SpecifiedNotFound;
+            var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
+            var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
+                "dbo.BillGetByDate",
+                new { Date },
+                x: (Bill, Student, Teacher) =>
+                {
+                    Bill.Student = Student;
+                    Bill.Teacher = Teacher;
+                    return Bill;
+                },
+                splitOn: "StudentId, TeacherId");
             return res;
         }
 
         public async Task<dynamic> GetClassTotalPays(int classId)
         {
             var res = await _db.LoadData<(int, int), dynamic>("dbo.BillGetTotalByClass", new { classId });
-            if (!res.Any())
-                throw SpecifiedNotFound;
-            var Details = new { 
-                Total = res.First().Item1, 
+            var Details = new
+            {
+                Total = res.First().Item1,
                 Paid = res.First().Item2,
                 Remaining = res.First().Item1 - res.First().Item2
             };
             return Details;
+        }
+
+        public async Task<dynamic> GetTotalIncome()
+        {
+            var res = new { Income = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "in" })).First() };
+            return res;
+        }
+
+        public async Task<dynamic> GetTotalOutcome()
+        {
+            var res = new { Outcome = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "out" })).First() };
+            return res;
+        }
+
+        public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
+        {
+            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
+            if(date != null && date.Length > 0)
+            {
+                return res.Where(
+                    x =>
+                    {
+                        return x.Date.Contains(date);
+                    });
+            } 
+            return res;
+        }
+
+        public async Task AddBill(BillModel bill)
+        {
+            if (bill == null)
+                throw new Exception("Bill Can not be null");
+            bill.Student ??= new StudentModel();
+            bill.Teacher ??= new TeacherModel();
+            await _db.SaveData("dbo.BillAdd", new
+            {
+                bill.BillNo,
+                bill.Type,
+                bill.Date,
+                bill.Amount,
+                bill.Student.StudentId,
+                bill.Teacher.TeacherId,
+                bill.Note
+            });
+        }
+
+        public async Task DeleteBill(int BillId)
+        {
+            await _db.SaveData("dbo.BillDelete", new { BillId });
         }
     }
 

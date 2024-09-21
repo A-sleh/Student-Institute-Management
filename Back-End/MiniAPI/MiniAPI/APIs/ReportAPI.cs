@@ -3,10 +3,12 @@ using DataAcess.DBAccess;
 using DataAcess.Models;
 using System.Data;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class ReportAPI
     {
+        // demo version
+        // release not completed
         public static void ConfigureReportAPI(this WebApplication app)
         {
             app.MapGet("/Report/{id}", GetReport);

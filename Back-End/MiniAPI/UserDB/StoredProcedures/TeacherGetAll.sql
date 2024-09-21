@@ -2,5 +2,5 @@
 AS
 BEGIN
 	SELECT t.Id as TeacherId, t.Name, t.LastName, t.Phone
-	from teacher t;
+	from Teacher t;
 END
