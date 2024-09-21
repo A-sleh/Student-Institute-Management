@@ -73,9 +73,9 @@ export default function TeacherClasses({teacherId}) {
     state.pageSize = 5 // set the rows table with five row
     
     return(
-        <div style={{width: '100%' , alignSelf: 'stretch' }}>
+        <div style={{width: '100%' , display: 'flex' , flexDirection: 'column' , position: 'relative' }}>
             <span style={{padding: '3px 10px' , borderRadius: '5px 5px 0 0 ' , backgroundColor: '#066599' , color: 'white' , width: '100%' , display: 'block' , marginBottom: '10px'}}>Its Classes</span>
-            <div style={{ padding: '15px 8px 0 8px' , borderRadius: '0 0 5px 5px' , background: '#f3f1f1d7' ,flexShrink: '1'}}>
+            <div style={{ padding: '15px 8px 0 8px' , borderRadius: '0 0 5px 5px' , background: '#f3f1f1d7' ,flex: '1'}}>
                 <table {...getTableProps()}>
                 <thead >
                     {headerGroups.map((headerGroup, index) => (
@@ -111,12 +111,12 @@ export default function TeacherClasses({teacherId}) {
                     })}
                 </tbody>
                 </table>
-                <div style={{display: 'flex' , justifyContent: 'center' , margin: '10px 0'}}>
-                    <button onClick={previousPage} style={{fontSize: '18px', border: 'none' , cursor: 'pointer' , color: '#066599'}}>
+                <div style={{display: 'flex' , margin: '10px 0' ,position: 'absolute' , bottom: '0' , left: '50%' , transform: 'translateX(-50%)'}}>
+                    <button onClick={previousPage} style={{fontSize: '18px', border: 'none' , cursor: 'pointer' , color: '#066599', backgroundColor: 'transparent'}}>
                         <i className="bi bi-caret-left-fill"></i>
                     </button>
                     <span style={{fontSize: '1em' , fontWeight: 'bold'}}>{pageIndex + 1} of {pageCount}</span>
-                    <button onClick={nextPage} style={{ fontSize: '18px',border: 'none' , cursor: 'pointer' , color: '#066599'}}>
+                    <button onClick={nextPage} style={{ fontSize: '18px',border: 'none' , cursor: 'pointer' , color: '#066599' , backgroundColor: 'transparent'}}>
                         <i className="bi bi-caret-right-fill"></i>
                     </button>
                 </div>

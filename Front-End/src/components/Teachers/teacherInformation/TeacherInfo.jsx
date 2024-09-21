@@ -53,9 +53,9 @@ export default function TeacherInfo({teacherId}) {
     const { name , lastName , phone } = teacherDetails ;
 
     return(
-        <div style={{width: '50%' , height: '100%' }}>
+        <div style={{width: '50%' , display: 'flex' , flexDirection: 'column' }}>
             <span style={{padding: '3px 10px' , borderRadius: '5px 5px 0 0 ' , backgroundColor: '#066599' , color: 'white' , width: '100%' , display: 'block' , marginBottom: '10px'}}>Teacher Information</span>
-            <div style={{ padding: '15px 8px' , borderRadius: ' 0 0 5px 5px' , background: '#f3f1f1d7'  }}>
+            <div style={{ padding: '15px 8px' , borderRadius: ' 0 0 5px 5px' , background: '#f3f1f1d7' , flex: '1' }}>
                 <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '1.3em' , backgroundColor: 'white' , padding: '4px 8px'}}>
                     <h4 style={{color: '#066599' , fontSize: '1em'}}>Name :   <span style={{fontSize: '0.8em' , color: 'black' , marginLeft: '1px'}}>{name} {lastName}</span></h4>
                 </div>
@@ -67,6 +67,8 @@ export default function TeacherInfo({teacherId}) {
                 </div>
                 <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '2em' , backgroundColor: 'white' , padding: '4px 8px'}}   >
                     <h4 style={{color: '#066599' , fontSize: '1em'}}>Remaining :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{remainingAmout}</span></h4>
+                </div>
+                <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '2em' , backgroundColor: 'white' , padding: '4px 8px'}}   >
                     <h4 style={{color: '#066599' , fontSize: '1em'}}>Paid :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{paidAmout}</span></h4>
                 </div>
             </div>    
