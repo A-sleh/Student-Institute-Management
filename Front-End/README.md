@@ -92,7 +92,7 @@ Day 9 :
     - [X] create component (add new class to teacher classes ) 
 Day 10 : 
     - [X] Add header to the teacher Subject table and teacher class 
-    - [] make the table which show the teacher class who taught in it paginated
+    - [X] make the table which show the teacher class who taught in it paginated
 Day 11 : 
     - [X] show all subjects which tought by teacher (with select check box)
     - [X] show all classes we have and we can filter it by ( grade and gender)
