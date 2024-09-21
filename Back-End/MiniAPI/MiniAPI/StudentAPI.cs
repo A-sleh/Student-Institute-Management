@@ -7,13 +7,23 @@ namespace MiniAPI
 {
     public static class StudentAPI
     {
+        // not complete
+        // waiting for Test API
         public static void ConfigureStudentAPI(this WebApplication app)
         {
-            //end points mapping
+            // Get Student Object Using Id
             app.MapGet("/Student/{id}", GetStudent);
+
+            // Get All Students
             app.MapGet("/Student", GetStudents);
+
+            // Update A Student using the origin Id passed with the object itself
             app.MapPut("/Student", UpdateStudent);
+
+            // insert a student careless for the Id value
             app.MapPost("/Student", InsertStudent);
+
+            // delete a student using its Id
             app.MapDelete("/Student/{id}", DeleteStudent); 
         }
         

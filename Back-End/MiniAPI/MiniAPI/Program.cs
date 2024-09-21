@@ -15,6 +15,24 @@ namespace MiniAPI
             app.ConfigureTeacherAPI();
             app.ConfigureBillAPI();
         }
+
+        public static void DependancyInjection(ref WebApplicationBuilder builder)
+        {
+            //Data Access Services
+
+            // Main SQL Access using Dapper
+            builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+
+            // Services
+            builder.Services.AddSingleton<IStudentData, StudentData>();
+            builder.Services.AddSingleton<IClassData, ClassData>();
+            builder.Services.AddSingleton<ISubjectData, SubjectData>();
+            builder.Services.AddSingleton<IReportData, ReportData>();
+            builder.Services.AddSingleton<ITestData, TestData>();
+            builder.Services.AddSingleton<ITeacherData, TeacherData>();
+            builder.Services.AddSingleton<IBillData, BillData>();
+            builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
+        }
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -26,16 +44,8 @@ namespace MiniAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // data access services
-            builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-            builder.Services.AddSingleton<IStudentData, StudentData>();
-            builder.Services.AddSingleton<IClassData, ClassData>();
-            builder.Services.AddSingleton<ISubjectData, SubjectData>();
-            builder.Services.AddSingleton<IReportData, ReportData>();
-            builder.Services.AddSingleton<ITestData, TestData>();
-            builder.Services.AddSingleton<ITeacherData, TeacherData>();
-            builder.Services.AddSingleton<IBillData, BillData>();
-            builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
+            // add services using DependancyInjection method
+            DependancyInjection(ref builder);
 
             // permissions
             // Allow all

@@ -5,6 +5,9 @@ namespace MiniAPI
 {
     public static class TestAPI
     {
+        // DEMO
+        // Debug
+        // NOT COMPLETE
         public static void ConfigureTestAPI(this WebApplication app)
         {
             app.MapGet("Test/{reportId}", GetTestByReportId);

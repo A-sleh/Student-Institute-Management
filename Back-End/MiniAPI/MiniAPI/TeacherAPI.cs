@@ -9,27 +9,51 @@ namespace MiniAPI
     {
         public static void ConfigureTeacherAPI(this WebApplication app)
         {
-            // teacher details
+            // get all teachers
             app.MapGet("/Teacher", GetAllTeachers);
-            app.MapGet("/Teacher/{TeacherId}", GetTeacherById);
-            app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
 
-            // teacher prop
+            // get teacher by its Id
+            app.MapGet("/Teacher/{TeacherId}", GetTeacherById);
+
+            // get teachers that teach a subject by its Id
+            app.MapGet("/Teacher/Subject/{subjectId}", GetTeachersBySubId);
+            
+            // get Subjects Taught by specified teacher by teacher Id
             app.MapGet("/Teacher/{TeacherId}/Subject", GetTeacherSubject);
+
+            // get classes related by a teacher by teacher Id
             app.MapGet("/Teacher/{teacherId}/Class", GetTeacherClasses);
 
-            // class prop
+            // get teachers in specific class by its Id
             app.MapGet("/Teacher/class/{classId}", GetClassTeachers);
 
+            // update a teacher by its origin id passed with the body
             app.MapPut("/Teacher", UpdateTeacher);
+
+            // update salary for a subject taught by a teacher 
+            // using 2 path parameters TeacherId and SubjectId (as A key)
+            // 1 query parameter Salary (value to be modified)
             app.MapPut("/Teacher/{TeacherId}/Subject/{SubjectId}", UpdateSubjectInTeacher);
 
+            // add a teacher
             app.MapPost("/Teacher", InsertTeacher);
+
+            // add subject for a teacher
+            // teacher specified using path parameter (its origin Id)
             app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
+
+            // add teacher by his subject to a specified class
+            // using the teacherSubjectId key and classId as a path params
             app.MapPost("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", AddTeacherToClass);
 
+            // Delete a teacher by its Id
             app.MapDelete("/Teacher/{id}", DeleteTeacher);
+
+            // Delete a subject for specified teacher using teacherSubjectId
             app.MapDelete("/Teacher/Subject/{id}", DeleteSubjectFromTeacher);
+
+            // Delete a Subject Taught by a teacher in a certain class by
+            // teacherSubjectId and classId as Path params
             app.MapDelete("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", DeleteTeacherFromClass);
         }
 
