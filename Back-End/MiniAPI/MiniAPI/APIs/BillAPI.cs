@@ -7,8 +7,6 @@ namespace MiniAPI.APIs
 {
     public static class BillAPI
     {
-        // Developing state
-        // NOT READY TO USE
         public static void ConfigureBillAPI(this WebApplication app)
         {
             // Get All Bills
@@ -42,6 +40,8 @@ namespace MiniAPI.APIs
             app.MapGet("/Bill/Total/Outcome", GetTotalOut);
 
             // Get Bills That is External (not related with a teacher or student)
+            // pass date in query to filter the results
+            // MM/DD/YYYY
             app.MapGet("/Bill/External/{Type}", GetExternal);
 
             // Add Bill using Bill Model

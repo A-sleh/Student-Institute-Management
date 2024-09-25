@@ -3,5 +3,5 @@
 AS
 	SELECT *
 	FROM TeacherSubject
-	WHERE id = @TeacherSubjectId;
+	WHERE Id = @TeacherSubjectId;
 RETURN 0

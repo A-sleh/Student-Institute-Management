@@ -10,10 +10,10 @@ namespace DataAcess.Models;
 public class TestModel
 {
     public int TestId { get; set; }
-    public int ReportId { get; set; }
+    public ReportModel? Report { get; set; }
     public SubjectModel? Subject { get; set; }
     public string? TestType { get; set; }
     public string? Date {  get; set; }
     public string? CorrectionDate { get; set; }
-    public List<StudentModel?> Students { get; set; } = [];
+    //public List<TestMarkModel?> TestMarks { get; set; } = [];
 }

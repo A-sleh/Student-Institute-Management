@@ -1,9 +1,10 @@
 ﻿using DataAcess.Data;
 using DataAcess.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
 using System.Net.NetworkInformation;
 
-namespace MiniAPI
+namespace MiniAPI.APIs
 {
     public static class ClassAPI
     {
@@ -26,6 +27,9 @@ namespace MiniAPI
 
             // Delete a Class Using its Id
             app.MapDelete("/Class/{id}", DeleteClass);
+
+            // Get Class Teachers
+            app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
         private static async Task<IResult> GetClasses(IClassData data)
@@ -78,8 +82,8 @@ namespace MiniAPI
                 return Results.Problem(ex.Message);
             }
         }
-        
-        private static async Task<IResult> GetClassByID(int id , IClassData data)
+
+        private static async Task<IResult> GetClassByID(int id, IClassData data)
         {
             try
             {
@@ -89,7 +93,7 @@ namespace MiniAPI
             {
                 return Results.Problem(e.Message);
             }
-            
+
         }
 
         private static async Task<IResult> GetClassSubjects(IClassData data, int classId)
@@ -101,10 +105,23 @@ namespace MiniAPI
             }
             catch (Exception e)
             {
-                if(e.Message.Contains("Not Found"))
+                if (e.Message.Contains("Not Found"))
                     return Results.NotFound(e.Message);
                 return Results.Problem(e.Message);
                 throw;
+            }
+        }
+
+        private static async Task<IResult> GetClassTeachers(IClassData data, int classId)
+        {
+            try
+            {
+                var res = await data.GetClassteachers(classId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
             }
         }
     }

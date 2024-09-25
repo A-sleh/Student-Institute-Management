@@ -50,6 +50,20 @@ namespace DataAcess.DBAccess
             return await connection.QueryAsync<T, V, X, T>(storedProcedure, param: parameters, map: x, commandType: CommandType.StoredProcedure, splitOn: splitOn);
         }
 
+        // 4 objects mapping
+
+        public async Task<IEnumerable<T>> LoadData<U, T, V, X, Z>(
+            string storedProcedure,
+            U parameters,
+            Func<T, V, X, Z, T> x,
+            string splitOn,
+            string connectionString = "Default"
+            )
+        {
+            using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
+            return await connection.QueryAsync<T, V, X, Z, T>(storedProcedure, param: parameters, map: x, splitOn: splitOn);
+        }
+
         // excution only
         public async Task SaveData<T>(
             string storedProcedure,

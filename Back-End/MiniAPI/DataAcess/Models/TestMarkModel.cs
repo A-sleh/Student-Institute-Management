@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAcess.Models
 {
-    public class TestMark
+    public class TestMarkModel
     {
         public int TestMarkId { get; set; }
-        public int StudentId {  get; set; }
-        public int TestId { get; set; }
-        public int Mark {  get; set; }
+        public StudentModel? Student {  get; set; }
+        public TestModel? Test { get; set; }
+        public int? Mark {  get; set; }
     }
 }

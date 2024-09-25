@@ -3,6 +3,7 @@ using DataAcess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,36 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
+        // Get A Report With All Tests
         public async Task<ReportModel?> GetReport(int id)
         {
-            var res = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGet", new { Id = id });
-            return res == null ? throw new Exception("Not Found") : res.First();
+            ReportModel reportModel = new();
+            var res = 
+                await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
+                "dbo.ReportGet",
+                new { Id = id },
+                x: (Report, Test, Subject) =>
+                {
+                    Test.Subject = Subject;
+                    if(reportModel.ReportId == 0)
+                    {
+                        reportModel = Report;
+                    }
+                    else
+                    {
+                        Report = reportModel;
+                        Report.Tests.Add(Test);
+                    }
+                    return Report;
+                },
+                splitOn: "TestId, SubjectId");
+            return res.First();
         }
         public async Task<IEnumerable<ReportModel>> GetReports()
         {
             
             var result = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
-            return result ?? throw new Exception("There is no reports");
+            return result;
         }
 
         public Task InsertReport(ReportModel report) =>
