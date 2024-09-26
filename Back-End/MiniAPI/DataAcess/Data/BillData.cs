@@ -52,7 +52,7 @@ namespace DataAcess.Data
         {
             var teacherTotalSalary = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First();
 
-            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First();
+            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First() ?? 0;
 
             var res = new
             {
@@ -93,25 +93,25 @@ namespace DataAcess.Data
 
         public async Task<dynamic> GetClassTotalPays(int classId)
         {
-            var res = await _db.LoadData<(int, int), dynamic>("dbo.BillGetTotalByClass", new { classId });
+            var res = (await _db.LoadData<(int, int), dynamic>("dbo.BillGetTotalByClass", new { classId })).First();
             var Details = new
             {
-                Total = res.First().Item1,
-                Paid = res.First().Item2,
-                Remaining = res.First().Item1 - res.First().Item2
+                Total = res.Item1,
+                Paid = res.Item2,
+                Remaining = res.Item1 - res.Item2
             };
             return Details;
         }
 
         public async Task<dynamic> GetTotalIncome()
         {
-            var res = new { Income = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "in" })).First() };
+            var res = new { Income = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "in" })).First() ?? 0 };
             return res;
         }
 
         public async Task<dynamic> GetTotalOutcome()
         {
-            var res = new { Outcome = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "out" })).First() };
+            var res = new { Outcome = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "out" })).First() ?? 0};
             return res;
         }
 
@@ -123,7 +123,7 @@ namespace DataAcess.Data
                 return res.Where(
                     x =>
                     {
-                        return x.Date.Contains(date);
+                        return x.Date != null && x.Date.Contains(date);
                     });
             } 
             return res;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DataAcess.Data
 {
-    public class ClassData : IClassData, IDisposable
+    public class ClassData : IClassData
     {
         private readonly ISqlDataAccess _db;
         public ClassData(ISqlDataAccess _db)
@@ -28,6 +28,12 @@ namespace DataAcess.Data
         {
             if(!_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any())
                 throw new Exception("Not Found, No Such class has this id");
+        }
+
+        public async Task<IEnumerable<TeacherModel>> GetClassteachers(int classId)
+        {
+            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.ClassGetTeachers", new { classId });
+            return res;
         }
         public async Task<IEnumerable<ClassModel>> GetClasses()
         {
@@ -101,10 +107,6 @@ namespace DataAcess.Data
         {
             ValidateId(id);
             return _db.SaveData("dbo.ClassDelete", new { Id = id });
-        }
-        public void Dispose()
-        {
-            this.Dispose();
         }
     }
 }

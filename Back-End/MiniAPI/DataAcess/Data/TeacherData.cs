@@ -22,6 +22,7 @@ namespace DataAcess.Data
             if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherGetById", new { teacherId}).Result.Any())
                 throw new Exception("Not Found, No Such teacher With That Id");
         }
+
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
             var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
