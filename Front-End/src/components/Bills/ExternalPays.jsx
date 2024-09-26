@@ -1,5 +1,9 @@
+import Title from "../Global/Title";
+
 export default function ExternalPays() {
     return(
-        <h1>ExternalPays</h1>
+        <>
+            <Title title={window.location.pathname} />
+        </>
     )
 }

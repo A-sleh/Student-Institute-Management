@@ -2,3 +2,19 @@
 export const theadThStyle = {
     color : '#2677a3' , backgroundColor: 'white' , fontSize : '14px' , position: 'relative' , top: '-5px', fontWeight : '600', padding: '5px 0'
 }
+
+export default function addSpaceBetweenDigit(number) {
+    const convertNumberToSting = `${number}` ; 
+    const numberLength = convertNumberToSting?.length
+    let newNumber = ''
+
+    for( let i = numberLength -  1  , threeSteps = 0 ; i >= 0 ; -- i  , threeSteps ++ ) {
+        if( threeSteps == 3 ) {
+            newNumber = ' ' + newNumber;
+            threeSteps = 0 ;
+        }
+        newNumber = convertNumberToSting[i] + newNumber
+    }
+
+    return newNumber
+}

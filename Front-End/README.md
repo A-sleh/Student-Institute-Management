@@ -100,4 +100,6 @@ Day 11 :
 Day 12 : 
     - [X] Add teacher total salary in teacher details page and remaining salary <------- needed to fetch bills to subtrackt it from total salary
 Day 13 : 
-    -[] 
+    -[X] create valid input in pay form
+    -[X] create in dataservices ( create new student pay ) 
+    -[] write delete bill logic

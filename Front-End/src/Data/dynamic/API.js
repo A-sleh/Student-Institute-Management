@@ -178,5 +178,53 @@ export default {
         response.json()
       );
     },
+  },
+  Bill : {
+    get:{
+      class : (id) => {
+          return fetch(`${URL}/Bill/Class/${id}`).then((response) =>
+            response.json()
+          );
+      },
+      teacher : (id) => {
+          return fetch(`${URL}/Bill/Teacher/${id}`).then((response) =>
+            response.json()
+          );
+      },
+      student : {
+        AllDetails : (id) => {
+          return fetch(`${URL}/Bill/Student/${id}`).then((response) =>
+            response.json()
+          );
+        },
+        Balance: (id) => {
+            return fetch(`${URL}/Bill/Student/${id}/balance`).then((response) =>
+              response.json()
+            );
+        }
+      }
+    },
+    post: (data) => {
+      return fetch(`${URL}/Bill`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put: (teacherId,subjectId ,salary) => {
+      return fetch(`${URL}/Teacher/${teacherId}/Subject/${subjectId}?Salary=${salary}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (billId) => {
+      return fetch(`${URL}/Bill/${billId}`, {
+        method: "DELETE",
+      });
+    },
   }
 };

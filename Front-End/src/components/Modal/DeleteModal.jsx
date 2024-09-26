@@ -68,6 +68,13 @@ export default function DeleteModal(props) {
               }
             })
             break;
+          case "Bill" : 
+             DataServices.DeleteStudentBill(id.billId).then(response => {
+              if(response.status <= 299 ) {
+                handleSuccessDelete()
+              }
+            })
+            break;
             
         default:
           // UnValid Type

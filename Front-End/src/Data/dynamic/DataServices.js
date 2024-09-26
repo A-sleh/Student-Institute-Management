@@ -72,5 +72,23 @@ export default {
   },
   AddTeacherToClass : (teacherSubject,classId) => {
     return API.TeacherClass.post(teacherSubject,classId)
+  },
+  ShowClassBillsDetails : (classId) => {
+    return API.Bill.get.class(classId)
+  },
+  ShowStudentBillBalanc : (studentId) => {
+    return API.Bill.get.student.Balance(studentId)
+  },
+  ShowStudentBillsDetails: (studentId) => {
+    return API.Bill.get.student.AllDetails(studentId)
+  },
+  CreateNewStudnetBill : (data) => {
+    return API.Bill.post(data)
+  },
+  CreateNewTeacherBill : (data) => {
+    return API.Bill.post(data)
+  },
+  DeleteStudentBill : (billId) => {
+    return API.Bill.delete(billId)
   }
 };

@@ -38,8 +38,6 @@ export default function TeacherNewClass() {
             
         })
     } ,[])
-
-    console.log(currentSubjectClass)
     
 
     async function classSubjectsStatus(Classes) {
