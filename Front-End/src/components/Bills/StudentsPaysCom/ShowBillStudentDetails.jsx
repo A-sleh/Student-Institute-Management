@@ -95,6 +95,12 @@ function StudentBillInfo({student}) {
 function HeaderControal({searcByName,setSearcByName,setFileterByClass,fileterByClass}) {
 
     const [allClasses,setAllClasses] = useState([]);
+    const [classBalance,setClassBalance] = useState({
+        total : 0 , 
+        paid: 0 ,
+        remaining: 0
+    });
+    
     useEffect(() => {
         DataServices.showCalsses().then( Classes => {
             setAllClasses(Classes.map( Class => {
@@ -104,12 +110,17 @@ function HeaderControal({searcByName,setSearcByName,setFileterByClass,fileterByC
                 }
             }))
         })
-    },[])
+        if(fileterByClass != 'All') {
+            DataServices.ShowClassBillsDetails(fileterByClass).then( details => {
+                setClassBalance(details)
+            })
+        } 
+    },[fileterByClass])
 
     return (
         <div  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", marginBottom: "10px"}}>
             <div style={{position: 'relative'}}>
-                <h3 style={{position: 'absolute',color: 'black',fontWeight: '500' , top : '-15px', left: '8px' , fontSize: '15px' , backgroundColor: 'white' , padding: '0 5px' , borderRadius: '5px'}}>Filter by class </h3>
+                <h3 style={{position: 'absolute',color: 'black',fontWeight: '500' , top : '-15px', left: '8px' , fontSize: '15px' , backgroundColor: 'white' , padding: '0px 5px' , borderRadius: '5px'}}>Filter by class </h3>
                 <select
                     value={fileterByClass}
                     onChange={(value) => setFileterByClass(value.target.value)}
@@ -127,6 +138,24 @@ function HeaderControal({searcByName,setSearcByName,setFileterByClass,fileterByC
                     ))}
                 </select>
             </div>
+            {
+                fileterByClass != 'All' &&
+                <div style={{padding: '12px 5px 5px 5px' , position: 'relative' , backgroundColor: '#ddd' , borderRadius: '5px' , display: 'grid' , gap: '10px' , gridTemplateColumns: 'auto auto auto' }}>
+                    {/* <h3 style={{position: 'absolute',color: 'black',fontWeight: '500' , top : '-15px', left: '8px' , fontSize: '15px' , backgroundColor: 'white' , padding: '0px 5px' , borderRadius: '5px'}}>class information </h3> */}
+                    <div style={{position: 'relative' , padding: '5px' , borderRadius: '3px' , backgroundColor: 'white' , minWidth: '10em' }}>
+                        <div style={{position: 'absolute',color: '#066599' ,right: 0, bottom: '50%' , fontWeight: '600' , backgroundColor: 'white' , padding: '0px 3px 0 3px' , borderRadius: '5px'}}>Total</div>
+                        <span style={{fontSize: '14px', fontWeight: 'bold'}}>{addSpaceBetweenDigit(classBalance.total)}</span>
+                    </div>
+                    <div style={{position: 'relative', padding: '5px' , borderRadius: '3px' , backgroundColor: 'white', minWidth: '10em'}}>
+                        <div style={{position: 'absolute',color: '#066599' , right: 0,bottom: '50%' , fontWeight: '600' , backgroundColor: 'white' , padding: '0px 3px 0 3px' , borderRadius: '5px'}}>Paid</div>
+                        <span style={{fontSize: '14px', fontWeight: 'bold'}}>{addSpaceBetweenDigit(classBalance.paid)}</span>
+                    </div>
+                    <div style={{position: 'relative' , padding: '5px' , borderRadius: '3px' , backgroundColor: 'white', minWidth: '10em'}}>
+                        <div style={{position: 'absolute',color: '#066599' , right: 0,bottom: '50%' , fontWeight: '600' , backgroundColor: 'white' , padding: '0px 3px 0 3px' , borderRadius: '5px'}}>Remaining</div>
+                        <span style={{fontSize: '14px', fontWeight: 'bold'}} >{addSpaceBetweenDigit(classBalance.remaining)}</span>
+                    </div>
+                </div>
+            }
             <form
                 action=""
                 style={{

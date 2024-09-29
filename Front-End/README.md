@@ -20,9 +20,9 @@ This file will contain the progress in build the main interfaces :
             2 - [X] link and delete teacher with class 
             3 - [X] show and update teacher details
         4 - [x] Bill :
-            1 - [] student pays
-            2 - [] teacher salaries
-            3 - [] in/out external pays
+            1 - [X] student pays
+            2 - [X] teacher salaries
+            3 - [X] in/out external pays
             4 - [] show details
         5 - [x] test :
             1 - [] create ( quiz - exam - final  - revision ) and chose the class And {Or chose report}
@@ -103,3 +103,14 @@ Day 13 :
     -[X] create valid input in pay form
     -[X] create in dataservices ( create new student pay ) 
     -[] write delete bill logic
+Day 14 : 
+    - [X] crete external pays
+        - [X] show external pays 
+        - [X] managae external pays
+        - [] update bill needed but ( how !!!)
+    -[X] add header in show studnet bill  page contain the details of paid and remainig salary of class
+    -[X] add teacher bills in teacher information page
+    -[] auto close the nav linke when move to another one
+    -[] display teacher in show class details // endpoint needed to fix
+    -[] display teacher in manage class details// endpoint needed to fix
+    -[] in manage teacher should re get teacher remaing salarys

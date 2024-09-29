@@ -1,5 +1,10 @@
+
+import ShowBillTeacherDetails from "./ShowBillTeacherDetails";
+
 export default function ManagTeacherBill() {
     return(
-        <h1>ManagTeacherBill</h1>
+        <>
+            <ShowBillTeacherDetails type={'manage'}/>
+        </>
     )
 }

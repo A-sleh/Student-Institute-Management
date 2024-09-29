@@ -14,6 +14,12 @@ export default function StudentBillDetails() {
     const studentId = useParams().id
     const type = useLocation().state
     const gotoPreviousPage = useNavigate();
+    const [searchFiled,setSearchFiled] = useState('');
+    const [radioState,setRadioState] = useState({
+        billNo: true , 
+        date: false ,
+        note : false
+    })
     const [studentBills,setStudentBills] = useState([])
     const [studentDetails,setStudentDetails] = useState({}) 
     const [deleteModal,setdeleteModal] = useState(false)
@@ -86,6 +92,7 @@ export default function StudentBillDetails() {
                 </div>
                 <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px' , padding: '10px' , margin: '10px 0'}}>
                     <h3 style={{marginBottom: '10px'}}>Student Bills</h3>
+                    <SeacherInputHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled}/>
                     <table>
                         <thead  style={{position: 'relative' , top: '-10px' }}>                    
                             <tr>
@@ -100,6 +107,17 @@ export default function StudentBillDetails() {
                             {
                                 studentBills.map( bill => {
                                     const {billNo,amount,date,note,billId} = bill
+
+                                    if(radioState.billNo && !`${billNo}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                                        return 
+                                    }
+                                    if(radioState.note && !`${note}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                                        return 
+                                    }
+                                    if(radioState.date && !`${date}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                                        return 
+                                    }
+
                                     return (
                                         <tr >
                                             <td style={tBStyle}>{billNo}</td>
@@ -122,5 +140,59 @@ export default function StudentBillDetails() {
                 <button onClick={()=>{gotoPreviousPage(-1)}}  style={{padding: '2px 20px' , border: 'none', fontSize: '14px' , fontWeight: '500' , borderRadius: '5px', outline: 'none' , color: 'white' , backgroundColor: 'red' , cursor: 'pointer'}}>Back</button>
             </div>
         </>
+    )
+}
+
+export function SeacherInputHeader({radioState,setRadioState,searchFiled,setSearchFiled,children}) {
+    console.log(children)
+
+    function handleRadioClicked(value) {
+        const current = value.innerHTML ;
+        setRadioState({
+            billNo: current == 'Bill Number' , 
+            date: current == 'Date',
+            note : current == 'Note'
+        })
+    }
+
+    function handlePlaceHolder() {
+        if(radioState.billNo) {
+            return 'bill number ...'
+        }else if(radioState.date) {
+            return 'date ...'
+        }else {
+            return 'note ...'
+        }
+    }
+    
+    return (
+        <div style={{marginBottom: '20px' , backgroundColor:'white' , padding: '10px'}}>
+            <div style={{display: 'flex' ,justifyContent: 'space-between' , alignItems: 'center'}}>
+                <h4>Seacher by</h4>
+                {children}
+            </div>
+            <form >
+                <div style={{display: 'flex' , gap: '10px' , alignItems: 'center' , fontWeight: '600' }}>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'billNo'} style={{fontWeight : radioState.billNo ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Bill Number</label>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'note'} style={{fontWeight : radioState.note ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Note</label>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} valuse={'date'} style={{fontWeight : radioState.date ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Date</label>
+                </div>
+                <input
+                    type="search"
+                    style={{
+                        backgroundColor: "transparent",
+                        fontWeight: "500",
+                        color: "gray",
+                        padding: '10px',
+                        width:'100%',
+                        backgroundColor: '#f3f1f1d7'
+                    }}
+                    placeholder={'Search ' + handlePlaceHolder() }
+                    value={searchFiled || ''}
+                    onChange={(e) => {setSearchFiled(e.target.value)}}
+                />
+            </form>
+
+        </div>
     )
 }

@@ -154,7 +154,7 @@ export default {
   },
   TeacherClass : {
     get: (id) => {
-      return fetch(`${URL}/Teacher/${id || ""}/class`).then((response) =>
+      return fetch(`${URL}/Teacher/${id || ""}/Class`).then((response) =>
         response.json()
       );
     },
@@ -186,10 +186,17 @@ export default {
             response.json()
           );
       },
-      teacher : (id) => {
+      teacher : {
+        AllDetails : (id) => {
           return fetch(`${URL}/Bill/Teacher/${id}`).then((response) =>
             response.json()
           );
+        },
+        Balance: (id) => {
+            return fetch(`${URL}/Bill/Teacher/${id}/balance`).then((response) =>
+              response.json()
+            );
+        }
       },
       student : {
         AllDetails : (id) => {
@@ -202,6 +209,16 @@ export default {
               response.json()
             );
         }
+      },
+      inComeBill : () => {
+        return fetch(`${URL}/Bill/External/in`).then((response) =>
+          response.json()
+        );
+      },
+      outComeBill : () => {
+        return fetch(`${URL}/Bill/External/out`).then((response) =>
+          response.json()
+        );
       }
     },
     post: (data) => {

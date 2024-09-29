@@ -1,22 +1,6 @@
 import { useEffect, useState } from "react"
 import DataServices from "../../../Data/dynamic/DataServices";
 
-export function addSpacesBetweenDigits(totalAmount,setNumber) {
-    const convertNumberToSting = `${totalAmount}` ; 
-    const numberLength = convertNumberToSting?.length
-    let newNumber = ''
-
-    for( let i = numberLength -  1  , threeSteps = 0 ; i >= 0 ; -- i  , threeSteps ++ ) {
-        if( threeSteps == 3 ) {
-            newNumber = ' ' + newNumber;
-            threeSteps = 0 ;
-        }
-        newNumber = convertNumberToSting[i] + newNumber
-    }
-
-    setNumber(newNumber)
-}
-
 export default function TeacherInfo({teacherId}) {
 
     const [teacherDetails,setTeacherDetails] = useState({}) ;
@@ -74,4 +58,20 @@ export default function TeacherInfo({teacherId}) {
             </div>    
         </div>
     )
+}
+
+export function addSpacesBetweenDigits(totalAmount,setNumber) {
+    const convertNumberToSting = `${totalAmount}` ; 
+    const numberLength = convertNumberToSting?.length
+    let newNumber = ''
+
+    for( let i = numberLength -  1  , threeSteps = 0 ; i >= 0 ; -- i  , threeSteps ++ ) {
+        if( threeSteps == 3 ) {
+            newNumber = ' ' + newNumber;
+            threeSteps = 0 ;
+        }
+        newNumber = convertNumberToSting[i] + newNumber
+    }
+
+    setNumber(newNumber)
 }

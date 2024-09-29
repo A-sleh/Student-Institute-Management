@@ -14,7 +14,7 @@ export default function NewBill() {
             name: '',
             lastName: '' ,
         },
-        amount: 0 ,
+amount: '' ,
         date: '' ,
         note: '',
         fullName : '',
@@ -28,7 +28,7 @@ export default function NewBill() {
         studentId: '' ,
         date: '' ,
         billNo: '',
-        amount: 0 
+amount: '' 
     })
     const [focused, setFocused] = useState(false)
     const onFocus = () => setFocused(true)

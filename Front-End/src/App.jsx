@@ -29,12 +29,15 @@ import TeacherNewClass from "./components/Teachers/manageTeachers/TeacherNewClas
 import TeacherNewSubject from "./components/Teachers/manageTeachers/TeacherNewSubject.jsx";
 import ShowBillStudentDetails from "./components/Bills/StudentsPaysCom/ShowBillStudentDetails.jsx";
 import NewBill from "./components/Bills/StudentsPaysCom/NewBill.jsx";
+import NewBillExternal from "./components/Bills/ExternalPaysCom/NewBill.jsx";
 import ManagStudentBill from "./components/Bills/StudentsPaysCom/ManagStudentBill.jsx";
 import StudentBillDetails from "./components/Bills/StudentsPaysCom/StudentBillDetails.jsx";
 import ShowBillTeacherDetails from "./components/Bills/TeacherPaysCom/ShowBillTeacherDetails.jsx";
 import ManagTeacherBill from "./components/Bills/TeacherPaysCom/ManagTeacherBill.jsx";
 import NewTeacherBill from "./components/Bills/TeacherPaysCom/NewTeacherBill.jsx";
 import TeacherBillDetails from "./components/Bills/TeacherPaysCom/TeacherBillDetails.jsx";
+import ManagExternalBill from "./components/Bills/ExternalPaysCom/ManagExternalBill.jsx";
+import ShowBillExternalDetails from "./components/Bills/ExternalPaysCom/ShowBillExternalDetails.jsx";
 
 
 const urlPath = [
@@ -47,7 +50,6 @@ const urlPath = [
   { path: "ManageTeacher/TeacherNewSubject/:id", component: <TeacherNewSubject /> }, 
   { path: "/UpdateTeacher/:info", component: <UpdateTeacher /> },
   { path: "/TeacherInformation/:info", component: <TeacherInformation /> },
-  { path: "ExternalPays", component: <ExternalPays /> },
   { path: "AllBillDetails", component: <AllBillDetails /> },
   { path: "CreateTest", component: <CreateTest /> },
   { path: "TestDetails", component: <TestDetails /> },
@@ -103,17 +105,26 @@ export default function App() {
             {renderAllRoute}
 
             <Route path="StudentsPays" element={ <StudentsPays />} >
-              <Route path="ShowBillStudentDetails" element={<ShowBillStudentDetails />} />
+              <Route index element={<ShowBillStudentDetails />}  />
+              <Route path="ShowBillStudentDetails" element={<ShowBillStudentDetails />}  />
               <Route path="StudentBillDetails/:id" element={<StudentBillDetails />} />
               <Route path="NewBill" element={<NewBill />} />
               <Route path="ManagStudentBill" element={<ManagStudentBill />} />
             </Route> 
 
             <Route path="TeachersSalaries" element={<TeachersSalaries />} >
+              <Route index element={<ShowBillTeacherDetails />} />
+              <Route path="ShowBillTeacherDetails" element={<ShowBillTeacherDetails />} />
               <Route path="ManagTeacherBill" element={<ManagTeacherBill />} />
               <Route path="TeacherBillDetails/:id" element={<TeacherBillDetails />} />
               <Route path="NewTeacherBill" element={<NewTeacherBill />} />
-              <Route path="ShowBillTeacherDetails" element={<ShowBillTeacherDetails />} />
+            </Route>
+
+            <Route path="ExternalPays" element={<ExternalPays />} >
+              <Route index element={<ShowBillExternalDetails />} />
+              <Route path="ShowBillExternalDetails" element={<ShowBillExternalDetails />} />
+              <Route path="ManagExternalBill" element={<ManagExternalBill />} />  
+              <Route path="NewBill" element={<NewBillExternal />} />  
             </Route>
 
             <Route path="*" element={<h1>Not Found</h1>} />

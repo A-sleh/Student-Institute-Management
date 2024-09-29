@@ -79,8 +79,14 @@ export default {
   ShowStudentBillBalanc : (studentId) => {
     return API.Bill.get.student.Balance(studentId)
   },
+  ShowTeacherBillBalanc : (teacher) => {
+    return API.Bill.get.teacher.Balance(teacher)
+  },
   ShowStudentBillsDetails: (studentId) => {
     return API.Bill.get.student.AllDetails(studentId)
+  },
+  ShowTeacherBillsDetails: (teacherId) => {
+    return API.Bill.get.teacher.AllDetails(teacherId)
   },
   CreateNewStudnetBill : (data) => {
     return API.Bill.post(data)
@@ -90,5 +96,11 @@ export default {
   },
   DeleteStudentBill : (billId) => {
     return API.Bill.delete(billId)
+  },
+  ShowInComeBills : () => {
+    return API.Bill.get.inComeBill()
+  },
+  ShowOutComeBills : () => {
+    return API.Bill.get.outComeBill()
   }
 };

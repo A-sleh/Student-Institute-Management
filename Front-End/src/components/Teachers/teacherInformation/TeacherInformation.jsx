@@ -1,5 +1,5 @@
 
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Title from "../../Global/Title"
 import TeacherBills from "./TeacherBills";
 import TeacherInfo from "./TeacherInfo";
@@ -9,6 +9,7 @@ import TeacherSubjects from "./TeacherSubjects";
 export default function TeacherInformation() {
 
     const teacherId = useParams().info ; 
+    const gotoPreviousPage = useNavigate();
 
     return(
         <>
@@ -19,6 +20,7 @@ export default function TeacherInformation() {
             </div>
             <TeacherSubjects teacherId={teacherId}/>
             <TeacherBills teacherId={teacherId}/>
+            <span className="update-class-btn" style={{ fontSize: '14px' , padding: '2px 20px' }} onClick={()=>{gotoPreviousPage(-1)}} >Back</span>
         </>
     )
 }
