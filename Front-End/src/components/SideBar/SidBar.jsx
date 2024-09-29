@@ -4,14 +4,10 @@ import { links } from "../../Data/static/SideBarLinks.js";
 import { useRef } from "react";
 import "./sideBar.css";
 import LinkOfSidebar from "./LinkOfSidebar";
+import { NavLink } from "react-router-dom";
 
 export default function SidBar() {
-  const currentLink = useRef(null);
 
-  const handleLinkClicked = (link) => {
-    currentLink.current = link;
-    currentLink.current.classList.toggle("active");
-  };
 
   return (
     <div
@@ -28,11 +24,11 @@ export default function SidBar() {
           })
           .map((link, index) => {
             return (
+
               <li key={index}>
-                <span
-                  to={`/${link.title != "Statistics" ? link.title : ""}`}
+                <NavLink
+                  to={`/${link.path }`}
                   className="main-list"
-                  onClick={(_link) => handleLinkClicked(_link.target)}
                 >
                   <b></b>
                   <b></b>
@@ -47,13 +43,9 @@ export default function SidBar() {
                     }}
                   >
                     <p>{link.title}</p>
-                    {link.subLinks.length != 0 ? (
-                      <i className="bi bi-caret-down down-arrow"></i>
-                    ) : (
-                      ""
-                    )}
+                    {link.subLinks.length != 0 ? <i className="bi bi-caret-down down-arrow"></i>:""}
                   </p>
-                </span>
+                </NavLink>
                 {
                   <ul className="sub-list">
                     {link.subLinks.map((link_1, index) => {

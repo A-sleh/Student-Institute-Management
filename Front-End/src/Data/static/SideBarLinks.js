@@ -6,23 +6,26 @@ export const links = [
     },
     {
       title: "Students",
+      path: 'StudentsDetails',
       iconPath: "bi bi-person-gear",
       subLinks: [
-        { title: "New Student", iconPath: "bi bi-person-fill-add" },
         { title: "Students Details", iconPath: "bi bi-person-video2" },
+        { title: "New Student", iconPath: "bi bi-person-fill-add" },
       ],
     },
     {
       title: "Teachers",
+      path: 'TeachersDetails',
       iconPath: "bi bi-person-circle",
       subLinks: [
-        { title: "New Teacher", iconPath: "bi bi-person-fill-add" },
         { title: "Teachers Details", iconPath: "bi bi-person-video2" },
         { title: "Manage Teacher", iconPath: "bi bi-person-gear" },
+        { title: "New Teacher", iconPath: "bi bi-person-fill-add" },
       ],
     },
     {
       title: "Bills",
+      path: 'StudentsPays',
       iconPath: "bi bi-wallet",
       subLinks: [
         { title: "Students Pays", iconPath: "bi bi-person-vcard" },
@@ -33,20 +36,22 @@ export const links = [
     },
     {
       title: "Tests",
+      path: 'TestDetails',
       iconPath: "bi bi-textarea-t",
       subLinks: [
-        { title: "Create Test", iconPath: "bi bi-file-text" },
-        { title: "Create Report", iconPath: "bi bi-file-earmark-person" },
         { title: "Test Details", iconPath: "bi bi-inboxes" },
+        { title: "Create Report", iconPath: "bi bi-file-earmark-person" },
+        { title: "Create Test", iconPath: "bi bi-file-text" },
       ],
     },
     {
       title: "Classes",
+      path: 'ClassesDetails',
       iconPath: "bi bi-building",
       subLinks: [
-        { title: "New Class", iconPath: "bi bi-building-add" },
         { title: "Classes Details", iconPath: "bi bi-person-video2" },
         { title: "Manage Classes", iconPath: "bi bi-building-gear" },
+        { title: "New Class", iconPath: "bi bi-building-add" },
       ],
     },
     { title: "Subject", iconPath: "bi bi-book-half", subLinks: [] },
