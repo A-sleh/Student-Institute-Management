@@ -14,6 +14,7 @@ namespace MiniAPI.APIs
             app.MapGet("Test/Report/{reportId}", GetTestByReportId);
             app.MapGet("/Test/Student/{studentId}", GetStudentMarks);
             app.MapGet("/Test/Subject/{subjectId}", GetTestBySubject);
+            app.MapGet("/Test/{testId}/Class/{classId}", GetTestClassMarks);
 
             app.MapPost("/Test", AddTest);
             
@@ -93,6 +94,19 @@ namespace MiniAPI.APIs
             try
             {
                 var res = await data.GetTestBySubject(subjectId, reportId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+
+        private static async Task<IResult> GetTestClassMarks(ITestData data, int Testid, int ClassId)
+        {
+            try
+            {
+                var res = await data.GetTestMarksByClassId(Testid, ClassId);
                 return Results.Ok(res);
             }
             catch (Exception e)

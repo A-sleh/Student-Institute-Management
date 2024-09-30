@@ -151,6 +151,16 @@ namespace DataAcess.Data
         {
             await _db.SaveData("dbo.BillDelete", new { BillId });
         }
+
+        public async Task<dynamic> GetNotObtainedIncome()
+        {
+            return new { NotObtainedIncome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "in" })) };
+        }
+
+        public async Task<dynamic> GetNotPaidOutcome()
+        {
+            return new { NotPaidOutcome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "out" })); };
+        }
     }
 
 }

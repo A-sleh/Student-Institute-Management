@@ -1,6 +1,6 @@
 ﻿CREATE TABLE Bill (
 Id INT PRIMARY KEY IDENTITY(1,1),
-BillNo varchar(20) null,
+BillNo varchar(20) UNIQUE null,
 StudentId INT null,
 TeacherId INT null,
 Type VARCHAR(3),

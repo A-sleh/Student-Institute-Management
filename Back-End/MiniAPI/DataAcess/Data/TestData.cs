@@ -62,7 +62,7 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<TestMarkModel>> GetTestMarksByClassId(int testId, int classId)
         {
-            var res = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetMarksByClassId",
+            var res = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetClassMarks",
                 new { testId, classId },
                 x: (TestMark, Student) =>
                 {

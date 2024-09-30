@@ -16,5 +16,7 @@ namespace DataAcess.Data
         Task<dynamic> GetTotalOutcome();
         Task DeleteBill(int BillId);
         Task AddBill(BillModel bill);
+        Task<dynamic> GetNotObtainedIncome();
+        Task<dynamic> GetNotPaidOutCome();
     }
 }

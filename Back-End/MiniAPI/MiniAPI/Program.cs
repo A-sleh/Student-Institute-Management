@@ -6,34 +6,6 @@ namespace MiniAPI
 {
     public class Program
     {
-        public static void ConfigureAPI(ref WebApplication app)
-        {
-            app.ConfigureStudentAPI();
-            app.ConfigureClassAPI();
-            app.ConfigureSubjectAPI();
-            app.ConfigureReportAPI();
-            app.ConfigureTestAPI();
-            app.ConfigureTeacherAPI();
-            app.ConfigureBillAPI();
-        }
-
-        public static void DependancyInjection(ref WebApplicationBuilder builder)
-        {
-            //Data Access Services
-
-            // Main SQL Access using Dapper
-            builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-
-            // Services
-            builder.Services.AddSingleton<IStudentData, StudentData>();
-            builder.Services.AddSingleton<IClassData, ClassData>();
-            builder.Services.AddSingleton<ISubjectData, SubjectData>();
-            builder.Services.AddSingleton<IReportData, ReportData>();
-            builder.Services.AddSingleton<ITestData, TestData>();
-            builder.Services.AddSingleton<ITeacherData, TeacherData>();
-            builder.Services.AddSingleton<IBillData, BillData>();
-            builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
-        }
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -44,10 +16,8 @@ namespace MiniAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.DependancyInjection();
             // add services using DependancyInjection method
-            DependancyInjection(ref builder);
-
             // permissions
             // Allow all
             builder.Services.AddCors(options =>
@@ -66,7 +36,6 @@ namespace MiniAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthorization();
@@ -74,9 +43,7 @@ namespace MiniAPI
 
             app.UseCors("CorsPolicy");
 
-            app.UseAuthorization();
-
-            ConfigureAPI(ref app);
+            app.ConfigureAPI();
 
             app.Run();
         }
