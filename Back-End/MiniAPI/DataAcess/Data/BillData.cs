@@ -157,9 +157,9 @@ namespace DataAcess.Data
             return new { NotObtainedIncome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "in" })) };
         }
 
-        public async Task<dynamic> GetNotPaidOutcome()
+        public async Task<dynamic> GetNotPaidOutCome()
         {
-            return new { NotPaidOutcome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "out" })); };
+            return new { NotPaidOutcome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "out" })) };
         }
     }
 
