@@ -50,8 +50,22 @@ namespace MiniAPI.APIs
             // Remove a Bill
             app.MapDelete("Bill/{billId}", DeleteBill);
 
+            app.MapGet("/Bill/NotGained", GetNot);
+
         }
-        
+        private static async Task<IResult> GetNot(IBillData data, string Type)
+        {
+            try
+            {
+                return Results.Ok(await data.GetNotObtainedIncome());
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private static async Task<IResult> GetBills(IBillData data)
         {
             try
