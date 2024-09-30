@@ -219,6 +219,16 @@ export default {
         return fetch(`${URL}/Bill/External/out`).then((response) =>
           response.json()
         );
+      },
+      inComeBillBalance : () => {
+        return fetch(`${URL}/Bill/Total/Income`).then((response) =>
+          response.json()
+        );
+      },
+      outComeBillBalance : () => {
+        return fetch(`${URL}/Bill/Total/Outcome`).then((response) =>
+          response.json()
+        );
       }
     },
     post: (data) => {

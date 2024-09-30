@@ -102,5 +102,13 @@ export default {
   },
   ShowOutComeBills : () => {
     return API.Bill.get.outComeBill()
+  },
+  ShowInComeBillsBalance : () => {
+    return API.Bill.get.inComeBillBalance()
+  },
+  ShowOutComeBillsBalance : () => {
+    return API.Bill.get.outComeBillBalance()
   }
 };
+
+
