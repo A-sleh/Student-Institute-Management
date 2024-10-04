@@ -50,7 +50,7 @@ export default function ShowBillExternalDetails() {
             }
             <div style={{marginBottom: '20px'}}> 
                 <h3>In Come Bills</h3>
-                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' , display: 'flex' , flexWrap: 'wrap' , gap: '10px'}}>
+                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' , display: 'grid',gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '10px'}}>
                     {
                         inComeBills.map( bill => {
                             const {billNo,date,note} = bill
@@ -70,7 +70,7 @@ export default function ShowBillExternalDetails() {
             </div>
             <div>
                 <h3>Out Come Bills</h3>
-                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' , display: 'flex' , flexWrap: 'wrap' , gap: '10px'}}>
+                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' ,  display: 'grid',gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '10px'}}>
                     {
                         outComeBills.map( bill => {
                             const {billNo,date,note} = bill
@@ -113,13 +113,12 @@ export function ShowBillCard({type,bill,setSuccessDelete}) {
                 setSuccessDelete={setSuccessDelete}
                 />
             )}
-            <div style={{display: 'flex' , flexDirection: 'column' , gap: '10px' , backgroundColor: 'white' , padding: '10px' , borderRadius: '5px' , width: '300px'}}>
+            <div style={{display: 'flex' , flexDirection: 'column' , gap: '10px' , backgroundColor: 'white' , padding: '10px' , borderRadius: '5px' }}>
                 <div style={{display: 'flex' , justifyContent: 'space-between', alignItems: 'center'}}>
                     <span style={{fontWeight: '600'}}>{billNo|| 'Bill number...'}</span>
                     {
                         type == 'manage' &&
                         <div>
-                            <i className="bi bi-gear" style={{color: 'gray' , cursor: 'pointer'}}></i>
                             <i className="bi bi-trash3" style={{color: 'red' , cursor: 'pointer' , marginLeft: '10px'}} onClick={handleDeleteClicked}></i>
                         </div>
                     }

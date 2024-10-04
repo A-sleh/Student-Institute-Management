@@ -42,8 +42,7 @@ export default function ShowBillTeacherDetails({type}) {
                                     
                                     const fullName = teacher.name + ' ' + teacher.lastName ;
                                     if(fullName.toLowerCase().includes(searcByName.toLowerCase()) == false ) return
-
-                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} key={index} onClick={()=>{
+                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} className="hovering-row" key={index} onClick={()=>{
                                         gotoStudentBillDetails(`/TeachersSalaries/TeacherBillDetails/${teacher.teacherId}`,{state:{type: type , fullName:fullName }})
                                     }} ><TeacherBillInfo teacher={teacher} /></tr>
                             })
@@ -73,16 +72,16 @@ function TeacherBillInfo({teacher}) {
     
     return (
             <>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                     {name + ' ' + lastName}
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(teacherBillsDetails.total) }
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(teacherBillsDetails.paid) }
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(teacherBillsDetails.required) }
                 </td>
             </>

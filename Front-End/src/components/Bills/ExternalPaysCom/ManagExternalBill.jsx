@@ -51,7 +51,7 @@ export default function ManagExternalBill() {
             }
             <div style={{marginBottom: '20px'}}> 
                 <h3>In Come Bills</h3>
-                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' , display: 'flex' , flexWrap: 'wrap' , gap: '10px'}}>
+                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' ,  display: 'grid',gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '10px'}}>
                     {
                         inComeBills.map( bill => {
                             return <ShowBillCard type={'manage'} bill={bill} setSuccessDelete={setSuccessDelete} />
@@ -61,7 +61,7 @@ export default function ManagExternalBill() {
             </div>
             <div>
                 <h3>Out Come Bills</h3>
-                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' , display: 'flex' , flexWrap: 'wrap' , gap: '10px'}}>
+                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px' ,  display: 'grid',gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '10px'}}>
                     {
                         outComeBills.map( bill => {
                             return <ShowBillCard type={'manage'} bill={bill}  setSuccessDelete={setSuccessDelete}/>

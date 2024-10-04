@@ -44,7 +44,7 @@ export default function ShowBillStudentDetails({type}) {
                                     const fullName = student.name + ' ' + student.lastName ;
                                     if(fullName.toLowerCase().includes(searcByName.toLowerCase()) == false ) return
 
-                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} key={index} onClick={()=>{
+                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} className="hovering-row" key={index} onClick={()=>{
                                         gotoStudentBillDetails(`/StudentsPays/StudentBillDetails/${student.studentId}`,{state: type})
                                     }} ><StudentBillInfo student={student} /></tr>
                             })
@@ -76,16 +76,16 @@ function StudentBillInfo({student}) {
     
     return (
             <>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>
                     {name + ' ' + lastName}
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(studnetBillDetails.total) }
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(studnetBillDetails.paid) }
                 </td>
-                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
+                <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>
                     {addSpaceBetweenDigit(studnetBillDetails.required) }
                 </td>
             </>
