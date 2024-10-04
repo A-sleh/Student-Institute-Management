@@ -32,11 +32,11 @@ namespace MiniAPI.APIs
             app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
-        private static async Task<IResult> GetClasses(IClassData data)
+        private static async Task<IResult> GetClasses(IClassData data, int? limit)
         {
             try
             {
-                return Results.Ok(await data.GetClasses());
+                return Results.Ok(await data.GetClasses(limit));
             }
             catch (Exception ex)
             {

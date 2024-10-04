@@ -50,27 +50,27 @@ namespace MiniAPI.APIs
             // Remove a Bill
             app.MapDelete("Bill/{billId}", DeleteBill);
 
-            app.MapGet("/Bill/NotGained", GetNot);
+            // Get Rest Income or Outcome that will be gained/paid in future
+            app.MapGet("/Bill/Rest/{type}", GetRestOf);
 
         }
-        private static async Task<IResult> GetNot(IBillData data, string Type)
+        private static async Task<IResult> GetRestOf(IBillData data, string type)
         {
             try
             {
-                return Results.Ok(await data.GetNotObtainedIncome());
-
+                var res = await data.GetRestOf(type);
+                return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                return Results.Problem(e.Message);
             }
         }
-        private static async Task<IResult> GetBills(IBillData data)
+        private static async Task<IResult> GetBills(IBillData data, string? type, int? limit)
         {
             try
             {
-                var res = await data.GetBills();
+                var res = await data.GetBills(type, limit);
                 return Results.Ok(res);
             }
             catch (Exception e)

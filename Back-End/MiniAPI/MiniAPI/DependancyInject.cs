@@ -1,5 +1,6 @@
 ﻿using DataAcess.Data;
 using DataAcess.DBAccess;
+using DataAcess.Models;
 using MiniAPI.APIs;
 
 namespace MiniAPI
@@ -33,7 +34,6 @@ namespace MiniAPI
             builder.Services.AddSingleton<ITeacherData, TeacherData>();
             builder.Services.AddSingleton<IBillData, BillData>();
             builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
-
         }
     }
 

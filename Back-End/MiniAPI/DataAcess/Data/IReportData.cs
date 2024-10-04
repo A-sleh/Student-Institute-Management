@@ -9,5 +9,6 @@ namespace DataAcess.Data
         Task<IEnumerable<ReportModel>> GetReports();
         Task InsertReport(ReportModel report);
         Task UpdateReport(ReportModel report);
+        Task<dynamic> GetStudentRptAvg(int studentId, int reportId);
     }
 }

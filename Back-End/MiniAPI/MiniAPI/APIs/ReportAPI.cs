@@ -22,12 +22,12 @@ namespace MiniAPI.APIs
         {
             try
             {
-                return Results.Ok(await data.GetReport(id));
+                var res = await data.GetReport(id);
+                return Results.Ok(res);
             }
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
 
@@ -40,7 +40,6 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
 
@@ -54,7 +53,6 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
 
@@ -68,7 +66,6 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
 
@@ -82,7 +79,6 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
     }

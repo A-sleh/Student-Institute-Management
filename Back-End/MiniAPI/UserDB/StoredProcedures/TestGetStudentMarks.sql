@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[TestGetStudentMarks]
 	@StudentId int,
-	@ReportId int = 0
+	@ReportId int null
 AS
-	if(@ReportId = 0)
+	if(@ReportId is null)
 		BEGIN
 			SELECT tm.Id as TestMarkId, tm.Mark,
 			t.Id as TestId, t.TestType, t.Date, t.CorrectionDate,
@@ -26,4 +26,4 @@ AS
 			LEFT OUTER JOIN Report r ON t.ReportId = r.Id
 			WHERE tm.StudentId = @StudentId AND t.ReportId = @ReportId;
 		END
-RETURN 0
+RETURN 0;

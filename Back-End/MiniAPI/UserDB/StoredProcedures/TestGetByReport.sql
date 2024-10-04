@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[TestGet]
+﻿CREATE PROCEDURE [dbo].[TestGetByReport]
 @ReportId int
 AS
 BEGIN

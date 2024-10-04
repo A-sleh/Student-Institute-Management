@@ -35,12 +35,12 @@ namespace DataAcess.Data
             var res = await _db.LoadData<TeacherModel, dynamic>("dbo.ClassGetTeachers", new { classId });
             return res;
         }
-        public async Task<IEnumerable<ClassModel>> GetClasses()
+        public async Task<IEnumerable<ClassModel>> GetClasses(int? limit)
         {
             var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetAll",
-                new { },
+                new { limit },
                 (Class, Student) =>
                 {
                     if (dic.TryGetValue(Class.ClassId, out var ExistClass))
@@ -60,27 +60,26 @@ namespace DataAcess.Data
         }
         public async Task<ClassModel?> GetClassDetails(int id)
         {
-            var dic = new Dictionary<int, ClassModel>();
+            ClassModel? CurrClass = null;
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetDetails",
                 new { Id = id },
                 (Class, Student) =>
                 {
-                    if (dic.TryGetValue(Class.ClassId, out var ExistClass))
+                    if (CurrClass == null)
                     {
-                        Class = ExistClass;
+                        CurrClass = Class;
                     }
                     else
                     {
-                        dic.Add(Class.ClassId, Class);
+                        Class = CurrClass;
                     }
                     Class.Students.Add(Student);
                     return Class;
                 },
                 splitOn: "StudentId"
             );
-            var Class = dic[id];
-            return Class;
+            return res.FirstOrDefault();
         }
         public Task InsertClass(ClassModel classModel) =>
             _db.SaveData("dbo.ClassAdd", new

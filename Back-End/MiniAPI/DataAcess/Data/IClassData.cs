@@ -6,7 +6,7 @@ namespace DataAcess.Data
     {
         Task DeleteClass(int id);
         Task<ClassModel?> GetClassDetails(int id);
-        Task<IEnumerable<ClassModel>> GetClasses();
+        Task<IEnumerable<ClassModel>> GetClasses(int? limit);
         Task InsertClass(ClassModel classModel);
         Task UpdateClass(ClassModel classModel);
         Task<IEnumerable<dynamic>> GetClassSubjects(int classId);

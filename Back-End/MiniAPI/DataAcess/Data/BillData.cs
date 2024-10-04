@@ -3,6 +3,7 @@ using DataAcess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,11 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        public async Task<IEnumerable<BillModel>> GetBills()
+        public async Task<IEnumerable<BillModel>> GetBills(string? type, int? limit)
         {
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
-                parameters: new { },
+                parameters: new { type, limit },
                 x: (Bill, Student, Teacher) =>
                 {
                     Bill.Student = Student;
@@ -105,13 +106,13 @@ namespace DataAcess.Data
 
         public async Task<dynamic> GetTotalIncome()
         {
-            var res = new { Income = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "in" })).First() ?? 0 };
+            var res = new { Income = await GetTotalByParam("in") };
             return res;
         }
 
         public async Task<dynamic> GetTotalOutcome()
         {
-            var res = new { Outcome = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = "out" })).First() ?? 0};
+            var res = new { Outcome = await GetTotalByParam("out") };
             return res;
         }
 
@@ -152,15 +153,16 @@ namespace DataAcess.Data
             await _db.SaveData("dbo.BillDelete", new { BillId });
         }
 
-        public async Task<dynamic> GetNotObtainedIncome()
+        public async Task<dynamic> GetRestOf(string type)
         {
-            return new { NotObtainedIncome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "in" })) };
+            if (!type.Equals("in") && !type.Equals("out"))
+                throw new Exception("Invalid Type");
+            var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
+            return res.FirstOrDefault();
         }
 
-        public async Task<dynamic> GetNotPaidOutCome()
-        {
-            return new { NotPaidOutcome = (await _db.LoadData<dynamic, dynamic>("dbo.BillGetRestOf", new { Type = "out" })) };
-        }
+        private async Task<int> GetTotalByParam(string param) =>
+            (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
     }
 
 }

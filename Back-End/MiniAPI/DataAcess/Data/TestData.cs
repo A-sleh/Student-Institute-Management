@@ -17,33 +17,8 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        public async Task AddTest(TestModel test)
-        {
-            if (test.Subject == null)
-                throw new Exception("Subject Can not be null");
-            await _db.SaveData("dbo.TestAdd", new
-            {
-                test.TestType,
-                test.Subject.SubjectId,
-                test.CorrectionDate,
-                test.Date,
-                test.Report?.ReportId
-            });
-        }
+        // Data
 
-        public async Task DeleteTest(int testId)
-        {
-            await _db.SaveData("dbo.TestDelete", new { testId });
-        }
-
-        public async Task<dynamic> GetStudentRptAvg(int studentId, int reportId)
-        {
-            var avg = await _db.LoadData<int, dynamic>("dbo.TestGetStudentRptAvg", new { studentId, reportId });
-            var res = new { Average = avg.FirstOrDefault() };
-            return res;
-        }
-
-        // in Specific Test (may report page)
         public async Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId)
         {
             var marks = await _db.LoadData<dynamic, TestMarkModel, TestModel, SubjectModel, ReportModel>(
@@ -73,31 +48,17 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<TestModel?> GetTest(int testId)
+        public async Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId)
         {
-            var res = await _db.LoadData<TestModel, dynamic, SubjectModel>("dbo.TestGetById",
+            var res = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
                 new { testId },
-                x: (Test, Subject) =>
+                x: (Mark, Student, Class) =>
                 {
-                    Test.Subject = Subject;
-                    return Test;
+                    Student.Class = Class;
+                    Mark.Student = Student;
+                    return Mark;
                 },
-                splitOn: "SubjectId");
-            return res.FirstOrDefault();
-        }
-
-        public async Task<IEnumerable<TestModel>> GetTestByReportId(int reportId)
-        {
-            var res = await _db.LoadData<TestModel, dynamic, SubjectModel>(
-                "dbo.TestGetByReportId",
-                parameters: new { reportId },
-                x: (Test, Subject) =>
-                {
-                    Test.Subject = Subject;
-                    return Test;
-                },
-                splitOn: "TestId, SubjectId"
-                );
+                splitOn: "StudentId, ClassId");
             return res;
         }
 
@@ -112,28 +73,25 @@ namespace DataAcess.Data
                     return Test;
                 },
                 splitOn: "SubjectId, ReportId");
-            if (reportId != null)
-                return res.Where(x => x.Report?.ReportId == reportId);
-            return res;
+            return res.Where(x=> reportId == null || x.Report?.ReportId == reportId);
         }
 
         public async Task<IEnumerable<TestModel>> GetTests(int? reportId)
         {
-            var res = await _db.LoadData<TestModel, dynamic, SubjectModel>("dbo.TestGetAll",
+            var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetAll",
                 new { },
-                x: (test, subject) =>
+                x: (test, subject, report) =>
                 {
                     test.Subject = subject;
+                    test.Report = report;
                     return test;
                 },
-                splitOn: "SubjectId");
-            if (reportId != null)
-            {
-                return res.Where(x => x.Report?.ReportId == reportId);
-            }
-            return res;
+                splitOn: "SubjectId, ReportId");
+            return res
+                .Where(x => reportId == null || x.Report?.ReportId == reportId);
         }
 
+        // Actions
         public async Task UpdateMark(int TestMarkId, int Mark)
         {
             await _db.SaveData("dbo.TestMarkUpdate", new { TestMarkId, Mark });
@@ -150,32 +108,28 @@ namespace DataAcess.Data
                 test.TestType
             });
 
-        public async Task StartATest(int classId, int testId)
-            => await _db.SaveData("dbo.TestInitMarks", new { classId, testId });
+        public async Task StartATest(int testId, int classId)
+            => await _db.SaveData("dbo.TestInitMarks", new { testId, classId});
 
-        public async Task AddMarks(IEnumerable<TestMarkModel> marks, int testId)
+        public async Task AddTest(TestModel test)
         {
-            foreach (var mark in marks)
+            if (test.Subject == null)
+                throw new Exception("Subject Can not be null");
+            await _db.SaveData("dbo.TestAdd", new
             {
-                await _db.SaveData("dbo.TestAddMarks", new
-                {
-                    testId,
-                    mark.Student?.StudentId,
-                    mark.Mark
-                });
-            }
+                test.TestType,
+                test.Subject.SubjectId,
+                test.CorrectionDate,
+                test.Date,
+                test.Report?.ReportId
+            });
         }
-
-        public async Task LinkTestWithReport(int testId, int reportId)
+        
+        public async Task DeleteTest(int testId)
         {
-            /*
-            var repType = (_db.LoadData<string, dynamic>("dbo.ReportGetType", new { reportId })).Result.FirstOrDefault();
-            var TestType = (_db.LoadData<string, dynamic>("dbo.TestGetType", new { testId }).Result.FirstOrDefault();
-
-            if (repType != null && TestType != null && !repType.Contains(TestType))
-                throw new Exception("Report And Test Type Does Not Match");
-            */
-            await _db.SaveData("dbo.TestAddToReport", new { testId, reportId });
+            await _db.SaveData("dbo.TestDelete", new { testId });
         }
+
+
     }
 }

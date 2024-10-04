@@ -4,7 +4,7 @@ namespace DataAcess.Data
 {
     public interface IBillData
     {
-        Task<IEnumerable<BillModel>> GetBills();
+        Task<IEnumerable<BillModel>> GetBills(string? type, int? limit);
         Task<IEnumerable<BillModel>> GetBillsByDate(string? date);
         Task<dynamic> GetClassTotalPays(int classId);
         Task<IEnumerable<BillModel>> GetExternal(string? date, string Type);
@@ -16,7 +16,6 @@ namespace DataAcess.Data
         Task<dynamic> GetTotalOutcome();
         Task DeleteBill(int BillId);
         Task AddBill(BillModel bill);
-        Task<dynamic> GetNotObtainedIncome();
-        Task<dynamic> GetNotPaidOutCome();
+        Task<dynamic> GetRestOf(string type);
     }
 }
