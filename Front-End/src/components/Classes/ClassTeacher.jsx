@@ -23,19 +23,16 @@ export default function ClassTeacher({classId }) {
             {teachers.map((teacher) => {
               console.log(teacher)
                 if (teacher == null) return; // if there are no stuent
-                const { teacherId, name, lastName } = teacher;
+                const { teacherId, name, lastName  ,teacherSubjects} = teacher;
                 return (
                   <span
                     key={teacherId}
                     className="teacher-tage"
-                    
-
-                    
                     onClick={() => {
                       handleTeacherClicked(teacherId);
                     }}
                   >
-                    <span >Math / </span>
+                    <span >{teacherSubjects.map( suject => suject.subject.subject + ' / ')}</span>
                     <span>{name} {lastName}</span>
                   </span>
                 );
