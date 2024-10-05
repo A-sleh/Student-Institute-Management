@@ -9,13 +9,14 @@ import TeacherForm from "../newTeacher/TeacherForm";
 import DeleteModal from "../../Modal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import { addSpacesBetweenDigits } from "../teacherInformation/TeacherInfo";
+import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 
 export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
 
     const changePageTo = useNavigate() ;
     const [totalSalary,setTotalSalary] = useState(0)
-    const [paindSalary,setPaindSalary] = useState(0) // needed to build
     const [successUpdataTeacher,setSuccessUpdataTeacher] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false);
     const [teacherInfo,setTeacherInfo] = useState({})
@@ -40,13 +41,8 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
             })
             setTeacherClasses(classesNumber)
         })
-        DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
-          let totalSalary = 0 ;
-          subjects.map( subject => {
-            totalSalary += (+subject.salary)
-          })
-          addSpacesBetweenDigits(totalSalary,setTotalSalary)
-          
+        DataServices.ShowTeacherBillBalanc(teacherId).then( salary => {
+          setTotalSalary(salary)
         })
 
     } ,[successDeleteFromSubject,successDeleteFromClass,successUpdataTeacher])
@@ -117,13 +113,13 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
                     />
                     <ShowClassDetails
                         title={"Total Salary"}
-                        value={totalSalary}
+                        value={addSpaceBetweenDigit(totalSalary.total)}
                         color={"#ff0000"}
                         icon={"bi bi-cash-coin"}
                     />
                     <ShowClassDetails
                         title={"Remaining Salary"}
-                        value={totalSalary }
+                        value={addSpaceBetweenDigit(totalSalary.required) }
                         color={"#0035ff"}
                         icon={"bi bi-coin"}
                     />
@@ -182,6 +178,6 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
         }
       </>
     )
-
 }
+
 

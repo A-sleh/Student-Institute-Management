@@ -111,6 +111,6 @@ Day 14 :
     -[X] add header in show studnet bill  page contain the details of paid and remainig salary of class
     -[X] add teacher bills in teacher information page
     -[X] auto close the nav linke when move to another one
-    -[] display teacher in show class details // endpoint needed to fix
+    -[X] display teacher in show class details // endpoint needed to fix
+    -[X] in manage teacher should re get teacher remaing salarys
     -[] display teacher in manage class details// endpoint needed to fix
-    -[] in manage teacher should re get teacher remaing salarys

@@ -3,11 +3,13 @@ import Title from "../Global/Title";
 import DataServices from "../../Data/dynamic/DataServices";
 import ClassInfo from "./ClassInfo";
 import './class.css'
+import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 
 
 export default function ClassesDetails() {
 
   const [classesDetails,setClassesDetails] = useState([]) ;
+  const [search,setSearch] = useState('')
 
   useEffect(() => {
     DataServices.showCalsses().then( response => {
@@ -16,6 +18,8 @@ export default function ClassesDetails() {
   },[]);
   
   const showAllCalsses = classesDetails.map( (Class,index) => {
+    const { title } = Class ;
+    if( !title.toLowerCase().includes(search.toLocaleLowerCase())) return
     return <ClassInfo classDetails={Class} key={index}/>
   })
   
@@ -23,6 +27,7 @@ export default function ClassesDetails() {
   return (
     <>
       <Title title={window.location.pathname}/>
+      <HeaderControal  searcByName={search}setSearcByName={setSearch}/>
       <div className="class-container">
         {showAllCalsses}
       </div>

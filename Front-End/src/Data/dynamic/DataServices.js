@@ -55,7 +55,7 @@ export default {
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
   },
-  ShowTeacherInSideClassL : (classId) => {
+  ShowTeacherInSideClass : (classId) => {
     return API.Class.get.Teacher(classId)
   } ,
   AddNewSubjectsForTeacher : (teacherId,data) => {
