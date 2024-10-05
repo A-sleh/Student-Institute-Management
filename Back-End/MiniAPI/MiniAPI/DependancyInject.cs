@@ -5,7 +5,7 @@ using MiniAPI.APIs;
 
 namespace MiniAPI
 {
-    public static class DependancyInject
+    public static class DependancyInjection
     {
         public static void ConfigureAPI(this WebApplication app)
         {
@@ -18,7 +18,7 @@ namespace MiniAPI
             app.ConfigureBillAPI();
         }
 
-        public static void DependancyInjection(this WebApplicationBuilder builder)
+        public static void Dependancies(this WebApplicationBuilder builder)
         {
             //Data Access Services
 

@@ -19,18 +19,9 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        public async Task<IEnumerable<BillModel>> GetBills(string? type, int? limit)
+        public async Task<IEnumerable<BillModel>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
         {
-            var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
-                "dbo.BillGetAll",
-                parameters: new { type, limit },
-                x: (Bill, Student, Teacher) =>
-                {
-                    Bill.Student = Student;
-                    Bill.Teacher = Teacher;
-                    return Bill;
-                },
-                splitOn: "StudentId, TeacherId");
+            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetAll", new { type, limit, orderBy, orderingType });
             return res;
         }
 

@@ -27,8 +27,15 @@ BEGIN
 	INSERT INTO Subject(Subject.Subject, MaximumMark, Grade)
 	VALUES
 		('Math', 600, 'bachelor'),
-		('Math', 600, 'ninth'),
 		('Arabic', 400, 'bachelor'),
+		('Science', 300, 'bachelor'),
+		('Physics', 400, 'bachelor'),
+		('English', 300, 'bachelor'),
+		('France', 300, 'bachelor'),
+		('Chimestry', 200, 'bachelor'),
+		('Religion', 200, 'bachelor'),
+		('History', 200, 'bachelor'),
+		('Math', 600, 'ninth'),
 		('Arabic', 600, 'ninth');
 END;
 
@@ -37,7 +44,7 @@ if not exists (select 1 from [dbo].[Report])
 BEGIN
 	INSERT INTO Report(ReportTitle, StartDate, FinishDate)
 	VALUES
-		('First Bachelor Rep.', '2024/8/10', '2024/9/10');
+		('Bachelor Report', '2024/8/10', '2024/9/10');
 END;
 
 GO
@@ -46,6 +53,9 @@ BEGIN
 	INSERT INTO teacher(Name, LastName, Phone)
 	VALUES
 		('Ahmad', 'A.', '+963900221166'),
+		('Karmo', 'K.', '+963900221146'),
+		('anas', 'A.', '+963900291166'),
+		('Abdulfatah', 'A.', '+963900221461'),
 		('Mohamad', 'M.', '+963922001166');
 END;
 
@@ -55,7 +65,14 @@ BEGIN
 	INSERT INTO Test(ReportId, SubjectId, TestType, Date, CorrectionDate)
 	VALUES
 		(1, 1, 'revision', '2024/8/15', '2024/8/20'),
-		(1, 3, 'revision', '2024/8/18', '2024/8/22');
+		(1, 2, 'revision', '2024/8/17', '2024/8/22'),
+		(1, 3, 'revision', '2024/8/18', '2024/8/23'),
+		(1, 4, 'revision', '2024/8/19', '2024/8/25'),
+		(1, 5, 'revision', '2024/8/20', '2024/8/25'),
+		(1, 6, 'revision', '2024/8/22', '2024/8/26'),
+		(1, 7, 'revision', '2024/8/24', '2024/8/28'),
+		(1, 8, 'revision', '2024/8/27', '2024/8/30'),
+		(1, 9, 'revision', '2024/8/28', '2024/8/31');
 END;
 
 GO
@@ -63,8 +80,16 @@ if not exists (select 1 from [dbo].[TestMark])
 BEGIN
 	INSERT INTO TestMark(TestId, StudentId, Mark)
 	VALUES
-		(1, 1, 490),
-		(1, 4, 500);
+		(1, 1, 600),
+		(2, 1, 400),
+		(3, 1, 280),
+		(4, 1, 360),
+		(5, 1, 280),
+		(6, 1, 288),
+		(7, 1, 150),
+		(8, 1, 190),
+		(9, 1, 176),
+		(2, 4, 500);
 END;
 
 GO

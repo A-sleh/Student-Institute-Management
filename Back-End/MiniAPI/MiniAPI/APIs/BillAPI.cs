@@ -66,16 +66,16 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-        private static async Task<IResult> GetBills(IBillData data, string? type, int? limit)
+        private static async Task<IResult> GetBills(IBillData data, string? type, int? limit, string? orderBy, string? orderingType)
         {
             try
             {
-                var res = await data.GetBills(type, limit);
+                var res = await data.GetBills(type, limit, orderBy, orderingType);
                 return Results.Ok(res);
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
             
         }

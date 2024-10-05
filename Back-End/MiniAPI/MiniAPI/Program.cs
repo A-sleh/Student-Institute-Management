@@ -16,7 +16,7 @@ namespace MiniAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.DependancyInjection();
+            builder.Dependancies();
             // add services using DependancyInjection method
             // permissions
             // Allow all

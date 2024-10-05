@@ -94,7 +94,7 @@ namespace DataAcess.Data
         // Actions
         public async Task UpdateMark(int TestMarkId, int Mark)
         {
-            await _db.SaveData("dbo.TestMarkUpdate", new { TestMarkId, Mark });
+            await _db.SaveData("dbo.TestUpdateMark", new { TestMarkId, Mark });
         }
 
         public async Task UpdateTest(TestModel test)
