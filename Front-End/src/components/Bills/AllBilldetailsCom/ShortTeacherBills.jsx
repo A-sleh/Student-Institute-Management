@@ -11,7 +11,7 @@ export default function ShortTeacherBills() {
     const [testData,setTestData] = useState([])
     const gotoPreviousPage = useNavigate() ;
     useEffect(() => {
-        DataServices.ShowInComeBills().then( Bills => {
+        DataServices.ShowLasteTeacherBill(6,'teacher').then( Bills => {
             setTestData(Bills)
         })
     },[])

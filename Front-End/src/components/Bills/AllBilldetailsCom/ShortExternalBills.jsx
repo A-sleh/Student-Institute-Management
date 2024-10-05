@@ -9,12 +9,10 @@ export default function ShortExternalBill() {
     const [testData,setTestData] = useState([]) 
     const gotoPreviousPage = useNavigate() 
     useEffect(() => {
-        DataServices
-        .ShowInComeBills().then( Bills => {
+        DataServices.ShowLasteExternalBill(6,'external').then( Bills => {
             setTestData(Bills)
         })
     },[])
-
     return (
         <div style={{marginBottom: '20px'}}>
             <h1 style={{fontSize: '20px'}}>Lastest <span style={{color: '#066599'}}>External</span> bills </h1>

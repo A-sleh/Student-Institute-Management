@@ -32,10 +32,17 @@ export default {
     },
   },
   Class: {
-    get: (id) => {
-      return fetch(`${URL}/Class/${id || ""}`).then((response) =>
-        response.json()
-      );
+    get: {
+      All : (id) => {
+        return fetch(`${URL}/Class/${id || ""}`).then((response) =>
+          response.json()
+        );
+      },
+      Teacher: (classId) => {
+        return fetch(`${URL}/Class/${classId}/Teacher`).then((response) =>
+          response.json()
+        );
+      }
     },
     post: (data) => {
       return fetch(`${URL}/Class`, {
@@ -181,6 +188,11 @@ export default {
   },
   Bill : {
     get:{
+      global : (limit,type) => {
+        return fetch(`${URL}/Bill?type=${type}&limit=${limit}`).then((response) =>
+          response.json()
+        );
+      },
       class : (id) => {
           return fetch(`${URL}/Bill/Class/${id}`).then((response) =>
             response.json()
@@ -217,6 +229,16 @@ export default {
       },
       outComeBill : () => {
         return fetch(`${URL}/Bill/External/out`).then((response) =>
+          response.json()
+        );
+      },
+      restInComeBill : () => {
+        return fetch(`${URL}/Bill/Rest/in`).then((response) =>
+          response.json()
+        );
+      },
+      restOutComeBill : () => {
+        return fetch(`${URL}/Bill/Rest/out`).then((response) =>
           response.json()
         );
       },

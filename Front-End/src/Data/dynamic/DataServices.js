@@ -14,7 +14,7 @@ export default {
     return API.Student.delete(id);
   },
   showCalsses: (id) => {
-    return API.Class.get(id);
+    return API.Class.get.All(id);
   },
   CreateNewClass: (data) => {
     return API.Class.post(data);
@@ -55,6 +55,9 @@ export default {
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
   },
+  ShowTeacherInSideClassL : (classId) => {
+    return API.Class.get.Teacher(classId)
+  } ,
   AddNewSubjectsForTeacher : (teacherId,data) => {
     return API.TeacherSubject.post(teacherId,data)
   },
@@ -108,6 +111,21 @@ export default {
   },
   ShowOutComeBillsBalance : () => {
     return API.Bill.get.outComeBillBalance()
+  },
+  ShowLasteStudentsBill : (limit,type) => {
+    return API.Bill.get.global(limit,type)
+  },
+  ShowLasteTeacherBill : (limit,type) => {
+    return API.Bill.get.global(limit,type)
+  },
+  ShowLasteExternalBill : (limit,type) => {
+    return API.Bill.get.global(limit,type)
+  },
+  ShowRemeainingIncome : () => {
+    return API.Bill.get.restInComeBill()
+  },
+  ShowRemeainingOutcome : () => {
+    return API.Bill.get.restOutComeBill()
   }
 };
 

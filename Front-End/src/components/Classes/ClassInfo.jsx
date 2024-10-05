@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import StudentInfo from "../Modal/StudentInfo";
 import ShowClassDetails from "./ShowClassDetails";
 import { useState } from "react";
+import ClassTeacher from './ClassTeacher'
 
 export default function ClassInfo({ classDetails }) {
 
-  const { title, capacity, gender, grade, students } = classDetails;
+  const { title, capacity, gender, grade, students  } = classDetails;
   const gotoStudentDetails = useNavigate() ;
 
   const totalStudentsNumber =
@@ -52,14 +53,7 @@ export default function ClassInfo({ classDetails }) {
           <div className="teachers-info">
             <h3>Teachers</h3>
             <div className="teacher-name">
-              {/* needed to build soon */}
-              {
-                <p
-                  style={{ color: "red", fontWeight: "400", fontSize: "16px" }}
-                >
-                  There are no teachers yet ...
-                </p>
-              }
+              <ClassTeacher />
             </div>
           </div>
           <div className="students-info">
