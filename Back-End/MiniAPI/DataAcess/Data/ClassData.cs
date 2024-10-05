@@ -51,7 +51,7 @@ namespace DataAcess.Data
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId");
-            return res;
+            return res.Distinct();
         }
         public async Task<IEnumerable<ClassModel>> GetClasses(int? limit)
         {
