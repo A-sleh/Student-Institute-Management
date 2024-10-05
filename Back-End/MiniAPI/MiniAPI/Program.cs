@@ -11,15 +11,11 @@ namespace MiniAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.AddServices();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Dependancies();
-            // add services using DependancyInjection method
-            // permissions
-            // Allow all
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
