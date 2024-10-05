@@ -32,7 +32,25 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<TeacherModel>> GetClassteachers(int classId)
         {
-            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.ClassGetTeachers", new { classId });
+            var dic = new Dictionary<int, TeacherModel>();
+            var res = await _db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>(
+                "dbo.ClassGetTeachers",
+                new { classId },
+                (Teacher, TeacherSubject, Subject) =>
+                {
+                    TeacherSubject.Subject = Subject;
+                    if(dic.TryGetValue(Teacher.TeacherId, out var model))
+                    {
+                        Teacher = model;
+                    }
+                    else
+                    {
+                        dic.Add(Teacher.TeacherId, Teacher);
+                    }
+                    Teacher.TeacherSubjects.Add(TeacherSubject);
+                    return Teacher;
+                },
+                splitOn: "TeacherSubjectId, SubjectId");
             return res;
         }
         public async Task<IEnumerable<ClassModel>> GetClasses(int? limit)

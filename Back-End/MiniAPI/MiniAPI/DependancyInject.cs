@@ -7,6 +7,10 @@ namespace MiniAPI
 {
     public static class DependancyInjection
     {
+        /// <summary>
+        /// Configureing and Mapping Endpoints
+        /// </summary>
+        /// <param name="app">Already Built Application With specific services</param>
         public static void ConfigureAPI(this WebApplication app)
         {
             app.ConfigureStudentAPI();
@@ -17,8 +21,11 @@ namespace MiniAPI
             app.ConfigureTeacherAPI();
             app.ConfigureBillAPI();
         }
-
-        public static void Dependancies(this WebApplicationBuilder builder)
+        /// <summary>
+        /// Adds Specified Services
+        /// </summary>
+        /// <param name="builder">application builder</param>
+        public static void AddServices(this WebApplicationBuilder builder)
         {
             //Data Access Services
 

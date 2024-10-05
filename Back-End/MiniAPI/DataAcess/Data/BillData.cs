@@ -146,8 +146,6 @@ namespace DataAcess.Data
 
         public async Task<dynamic> GetRestOf(string type)
         {
-            if (!type.Equals("in") && !type.Equals("out"))
-                throw new Exception("Invalid Type");
             var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
             return res.FirstOrDefault();
         }

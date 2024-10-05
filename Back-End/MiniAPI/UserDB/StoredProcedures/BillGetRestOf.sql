@@ -2,14 +2,14 @@
 	@Type varchar(5)
 AS
 	IF(@Type = 'in')
-	SELECT (SUM(s.billRequired) - SUM(b.Amount))
+	SELECT (SUM(s.billRequired) - (SELECT SUM(b.Amount) FROM Bill b WHERE b.StudentId is not null))
 	FROM Student s
-	LEFT OUTER JOIN Bill b ON s.id = b.StudentId
 	ELSE IF(@Type = 'out')
-	SELECT (SUM(ts.Salary) - SUM(b.Amount))
-	FROM TeacherSubject ts
-	LEFT OUTER JOIN Teacher t ON ts.TeacherId = t.Id
-	LEFT OUTER JOIN Bill b ON t.Id = b.TeacherId
+	SELECT SUM(ts.salary) - 
+	(SELECT SUM(b.Amount) FROM Bill b WHERE b.TeacherId is not null )
+	FROM Teacher t
+	JOIN TeacherSubject ts ON t.Id = ts.TeacherId
+	JOIN SubTeachClass tss ON ts.Id = tss.TeachSubId
 	ELSE
 	THROW 55000, 'Invalied Parameter', 1;
 

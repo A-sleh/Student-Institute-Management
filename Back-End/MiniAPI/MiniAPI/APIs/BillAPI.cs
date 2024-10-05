@@ -54,6 +54,7 @@ namespace MiniAPI.APIs
             app.MapGet("/Bill/Rest/{type}", GetRestOf);
 
         }
+
         private static async Task<IResult> GetRestOf(IBillData data, string type)
         {
             try
@@ -66,6 +67,7 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
+
         private static async Task<IResult> GetBills(IBillData data, string? type, int? limit, string? orderBy, string? orderingType)
         {
             try
