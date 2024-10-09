@@ -9,11 +9,13 @@ import DataServices from "../../Data/dynamic/DataServices";
 import StudentTable from "./StudentTable";
 import { useDispatch } from "react-redux";
 import { UPDATESUTENDSNUMBER } from "../../Redux/actions/type"; // test case 
+import TeacherTableClass from "./TeacherTableClass";
 
 export default function ClassSetting({ ClassId, setDeleteClass }) {
 
   const dispatch = useDispatch();// test
 
+  const [teachersNumber,setTeachersNumber] = useState(0)
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
   const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -26,6 +28,11 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
     DataServices.showCalsses(ClassId).then((response) => {
       setClassDetails({...response,isEmpty : false});
     });
+
+    DataServices.ShowTeacherInSideClass(classId).then( teachers => {
+      setTeachersNumber(teachers?.length )
+    })
+
   }, [SuccessUpdateClasss, successRemoveStudent]);
 
   const { classId, title, capacity, gender, grade, students } = classDetails;
@@ -166,8 +173,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
             <div className="teachers-info">
               <h3>Teachers</h3>
               <div className="teacher-name">
-                {/* needed to build soon */}
-                {
+                { teachersNumber == 0 ?
                   <p
                     style={{
                       color: "red",
@@ -176,7 +182,8 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
                     }}
                   >
                     There are no teachers yet ...
-                  </p>
+                  </p> : 
+                  <TeacherTableClass classId={classId} />
                 }
               </div>
             </div>

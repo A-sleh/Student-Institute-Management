@@ -11,7 +11,7 @@ import StudentsPays from "./components/Bills/StudentsPays.jsx";
 import TeachersSalaries from "./components/Bills/TeachersSalaries.jsx";
 import ExternalPays from "./components/Bills/ExternalPays.jsx";
 import AllBillDetails from "./components/Bills/AllBillDetails.jsx";
-import CreateTest from "./components/Tests/CreateTest.jsx";
+import Test from "./components/Tests/Test.jsx";
 import CreateReport from "./components/Tests/CreateReport.jsx";
 import TestDetails from "./components/Tests/TestDetails.jsx";
 import NewClass from "./components/Classes/NewClass.jsx";
@@ -38,6 +38,12 @@ import NewTeacherBill from "./components/Bills/TeacherPaysCom/NewTeacherBill.jsx
 import TeacherBillDetails from "./components/Bills/TeacherPaysCom/TeacherBillDetails.jsx";
 import ManagExternalBill from "./components/Bills/ExternalPaysCom/ManagExternalBill.jsx";
 import ShowBillExternalDetails from "./components/Bills/ExternalPaysCom/ShowBillExternalDetails.jsx";
+import NewTest from "./components/Tests/CreateTestTools/NewTest/NewTest.jsx";
+import ShowAllTest from "./components/Tests/CreateTestTools/ShowAllTest/ShowAllTest.jsx";
+import ManageTest from "./components/Tests/CreateTestTools/ManageTest/ManageTest.jsx";
+import RecevingMarkes from "./components/Tests/CreateTestTools/AssineMarke/RecevingMarkes.jsx";
+import ClassesTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/ClassesTestDetails.jsx";
+import StudentTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/StudentTestDetails.jsx";
 
 
 const urlPath = [
@@ -51,7 +57,6 @@ const urlPath = [
   { path: "/UpdateTeacher/:info", component: <UpdateTeacher /> },
   { path: "/TeacherInformation/:info", component: <TeacherInformation /> },
   { path: "AllBillDetails", component: <AllBillDetails /> },
-  { path: "CreateTest", component: <CreateTest /> },
   { path: "TestDetails", component: <TestDetails /> },
   { path: "CreateReport", component: <CreateReport /> },
   { path: "estDetails", component: <estDetails /> },
@@ -125,6 +130,16 @@ export default function App() {
               <Route path="ShowBillExternalDetails" element={<ShowBillExternalDetails />} />
               <Route path="ManagExternalBill" element={<ManagExternalBill />} />  
               <Route path="NewBill" element={<NewBillExternal />} />  
+            </Route>
+
+            <Route path="Test" element={<Test />} >
+              <Route index element={<NewTest />} />  
+              <Route path="NewTest" element={<NewTest />} />  
+              <Route path="ShowAllTest" element={<ShowAllTest />} />
+              <Route path="ManageTest" element={<ManageTest />} />
+              <Route path="RecivingMarks" element={<RecevingMarkes />} />
+              <Route path="ClassesTestDetails/:testId" element={<ClassesTestDetails />} />
+              <Route path="StudentTestDetails/:classId" element={<StudentTestDetails />} />
             </Route>
 
             <Route path="*" element={<h1>Not Found</h1>} />

@@ -275,5 +275,42 @@ export default {
         method: "DELETE",
       });
     },
-  }
+  },
+  Test: {
+    get: {
+      AllTest : (id) => {
+        return fetch(`${URL}/Test/${id || ""}`).then((response) =>
+          response.json()
+        );
+      },
+      StudentsMarks : (classId,testId) => {
+        return fetch(`${URL}/Test/${testId}/Class/${classId}`).then((response) =>{
+          return response.json()}
+        );
+      }
+    },
+    post: (data) => {
+      return fetch(`${URL}/Test`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put: (data) => {
+      return fetch(`${URL}/Student`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Student/${id}`, {
+        method: "DELETE",
+      });
+    },
+  },
 };

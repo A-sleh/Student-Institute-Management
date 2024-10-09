@@ -126,7 +126,17 @@ export default {
   },
   ShowRemeainingOutcome : () => {
     return API.Bill.get.restOutComeBill()
+  },
+  CreateNewTest : (data) => {
+    return API.Test.post(data)
+  },
+  ShowAllTests : (id) => {
+    return API.Test.get.AllTest(id)
+  },
+  ShowStudentsMarksInOneClass : (classId,testId) => {
+    return API.Test.get.StudentsMarks(classId,`${testId}`)
   }
 };
+
 
 

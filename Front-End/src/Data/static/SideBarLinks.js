@@ -41,7 +41,7 @@ export const links = [
       subLinks: [
         { title: "Test Details", iconPath: "bi bi-inboxes" },
         { title: "Create Report", iconPath: "bi bi-file-earmark-person" },
-        { title: "Create Test", iconPath: "bi bi-file-text" },
+        { title: "Test", iconPath: "bi bi-file-text" },
       ],
     },
     {
