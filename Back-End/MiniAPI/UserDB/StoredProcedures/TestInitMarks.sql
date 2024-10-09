@@ -6,7 +6,7 @@ AS
 	DECLARE Students CURSOR 
 	  LOCAL STATIC READ_ONLY FORWARD_ONLY
 	FOR 
-	SELECT Id 
+	SELECT id
 	FROM Student
 	WHERE classId = @ClassId
 

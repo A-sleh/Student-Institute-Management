@@ -19,6 +19,12 @@ namespace DataAcess.Data
 
         // Data
 
+        public async Task<IEnumerable<ClassModel>> GetClassesByTest(int testId)
+        {
+            var res = await _db.LoadData<ClassModel, dynamic>("dbo.TestGetClassesById", new { testId });
+            return res;
+        }
+
         public async Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId)
         {
             var marks = await _db.LoadData<dynamic, TestMarkModel, TestModel, SubjectModel, ReportModel>(
