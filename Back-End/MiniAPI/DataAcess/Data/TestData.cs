@@ -17,11 +17,16 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        // Data
 
-        public async Task<IEnumerable<ClassModel>> GetClassesByTest(int testId)
+        public async Task<IEnumerable<dynamic>> GetClassesByTest(int testId)
         {
-            var res = await _db.LoadData<ClassModel, dynamic>("dbo.TestGetClassesById", new { testId });
+            var res = await _db.LoadData<dynamic, dynamic, ClassModel,  int>("dbo.TestGetClassesById", new { testId },
+                (Dyn, Class, Num) =>
+                {
+                    Dyn = new { Class, StudentsNumber = Num };
+                    return Dyn;
+                },
+                splitOn: "ClassId, StudentsNumber");
             return res;
         }
 
