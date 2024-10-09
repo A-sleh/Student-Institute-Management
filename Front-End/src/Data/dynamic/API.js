@@ -287,6 +287,11 @@ export default {
         return fetch(`${URL}/Test/${testId}/Class/${classId}`).then((response) =>{
           return response.json()}
         );
+      },
+      ClassesTests : (testId) => {
+        return fetch(`${URL}/Test/${testId}/Class`).then((response) =>{
+          return response.json()}
+        );
       }
     },
     post: (data) => {

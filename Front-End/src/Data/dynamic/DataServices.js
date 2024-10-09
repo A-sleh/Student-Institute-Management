@@ -135,6 +135,9 @@ export default {
   },
   ShowStudentsMarksInOneClass : (classId,testId) => {
     return API.Test.get.StudentsMarks(classId,`${testId}`)
+  },
+  ShowClassesWhichDoTheTest : (testId) => {
+    return API.Test.get.ClassesTests(testId)
   }
 };
 

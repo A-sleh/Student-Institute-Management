@@ -14,7 +14,7 @@ export default function ClassesTestDetails() {
     const [search,setSearch] = useState('')
     
     useEffect(() => {
-        DataServices.showCalsses().then( classes => {
+        DataServices.ShowClassesWhichDoTheTest(testId).then( classes => {
             setClasses(classes)
         })
     } ,[])
