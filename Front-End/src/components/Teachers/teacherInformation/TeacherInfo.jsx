@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react"
 import DataServices from "../../../Data/dynamic/DataServices";
+import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 export default function TeacherInfo({teacherId}) {
 
     const [teacherDetails,setTeacherDetails] = useState({}) ;
-    const [totalAmount,setTotalAmount] = useState(0)
-    const [paidAmout,setPaidAmout] = useState(0) ;
-    const [remainingAmout,setRemainingAmout] = useState(0)
+    const [teacherSalary,setTeacherSalary] = useState({})
     
-    function handlePaidAndRemainingAmount(totalAmount) {
-
-        const remaining = totalAmount - paidAmout ; 
-        addSpacesBetweenDigits(remaining,setRemainingAmout)
-    }
 
     useEffect(()=> {
         DataServices.TeacherInformaion().then( teachers => {
@@ -21,14 +15,8 @@ export default function TeacherInfo({teacherId}) {
             })[0]
             setTeacherDetails(currentTeacher) ; 
         })
-        DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
-            let amount = 0 ;
-            [...subjects].forEach((subject) => {
-                amount +=  subject.salary
-            })
-
-            handlePaidAndRemainingAmount(amount)
-            addSpacesBetweenDigits(amount,setTotalAmount)
+        DataServices.ShowTeacherBillBalanc(teacherId).then( salary => {
+            setTeacherSalary(salary)
         })
 
     } , [])
@@ -47,13 +35,13 @@ export default function TeacherInfo({teacherId}) {
                     <h4 style={{color: '#066599' , fontSize: '1em'}}>Phone Number :  <span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{phone}</span></h4>
                 </div>
                 <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '2em' , backgroundColor: 'white' , padding: '4px 8px'}}   >
-                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Toatal Amount :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{totalAmount}</span></h4>
+                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Toatal Amount :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{addSpaceBetweenDigit(teacherSalary.total)}</span></h4>
                 </div>
                 <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '2em' , backgroundColor: 'white' , padding: '4px 8px'}}   >
-                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Remaining :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{remainingAmout}</span></h4>
+                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Remaining :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{addSpaceBetweenDigit(teacherSalary.required)}</span></h4>
                 </div>
                 <div className="row" style={{display: 'flex' , alignItems: 'center' ,gap: '2em' , backgroundColor: 'white' , padding: '4px 8px'}}   >
-                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Paid :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{paidAmout}</span></h4>
+                    <h4 style={{color: '#066599' , fontSize: '1em'}}>Paid :<span style={{fontSize: '13px' , color: 'black', marginLeft: '4px'}}>{addSpaceBetweenDigit(teacherSalary.paid)}</span></h4>
                 </div>
             </div>    
         </div>

@@ -36,7 +36,6 @@ export default function TeacherSubjects({teacherId}) {
                         <tr >
                             <th style={thStyle}>Number</th>
                             <th style={thStyle}>subject</th>
-                            <th style={thStyle}>maximumMark</th>
                             <th style={thStyle}>Number of classes</th>
                             <th style={thStyle}>salary</th>
                             <th style={thStyle}>total salary</th>
@@ -49,7 +48,6 @@ export default function TeacherSubjects({teacherId}) {
                                 return  <tr >
                                     <td style={tBStyle}>{index + 1}</td>
                                     <td style={tBStyle}>{subject}</td>
-                                    <td style={tBStyle}>{maximumMark}</td>
                                     <td style={tBStyle}>{Subject.classes.length - (Subject.classes[0] == null) }</td>
                                     <td style={tBStyle}>{Subject.salary}</td>
                                     <td style={tBStyle}>{Subject.salary * Subject.classes.length}</td>

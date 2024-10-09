@@ -371,3 +371,30 @@
 .remove-student-btn:hover {
     color: red;
 }
+
+
+/* teacher details ( show teacher in side class )*/
+
+.teacher-tage {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: .3s;
+    
+    span:first-child {
+        font-weight: 600 ; 
+        color: #066599;
+        transition: .3s;
+    }
+}
+.teacher-tage:hover {
+    background-color: #066599;
+    color: white;
+}
+.teacher-tage:hover span:first-child {
+    color: white;
+}
+

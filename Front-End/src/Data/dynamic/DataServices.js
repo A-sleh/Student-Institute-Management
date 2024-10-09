@@ -55,7 +55,7 @@ export default {
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
   },
-  ShowTeacherInSideClassL : (classId) => {
+  ShowTeacherInSideClass : (classId) => {
     return API.Class.get.Teacher(classId)
   } ,
   AddNewSubjectsForTeacher : (teacherId,data) => {
@@ -126,7 +126,20 @@ export default {
   },
   ShowRemeainingOutcome : () => {
     return API.Bill.get.restOutComeBill()
+  },
+  CreateNewTest : (data) => {
+    return API.Test.post(data)
+  },
+  ShowAllTests : (id) => {
+    return API.Test.get.AllTest(id)
+  },
+  ShowStudentsMarksInOneClass : (classId,testId) => {
+    return API.Test.get.StudentsMarks(classId,`${testId}`)
+  },
+  ShowClassesWhichDoTheTest : (testId) => {
+    return API.Test.get.ClassesTests(testId)
   }
 };
+
 
 

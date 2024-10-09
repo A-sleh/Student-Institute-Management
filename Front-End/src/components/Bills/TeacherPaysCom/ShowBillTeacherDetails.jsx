@@ -88,7 +88,7 @@ function TeacherBillInfo({teacher}) {
     )
 }
 
-function HeaderControal({searcByName,setSearcByName}) {
+export function HeaderControal({searcByName,setSearcByName}) {
 
     return (
         <div  style={{ marginTop: "20px", marginBottom: "10px"}}>

@@ -2,13 +2,22 @@
 import { useNavigate } from "react-router-dom";
 import StudentInfo from "../Modal/StudentInfo";
 import ShowClassDetails from "./ShowClassDetails";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClassTeacher from './ClassTeacher'
+import DataServices from "../../Data/dynamic/DataServices";
 
 export default function ClassInfo({ classDetails }) {
 
-  const { title, capacity, gender, grade, students  } = classDetails;
+  const { title, capacity, gender, grade, students , classId } = classDetails;
+  const [teachersNumber,setTeachersNumber] = useState([])
   const gotoStudentDetails = useNavigate() ;
+
+  useEffect(() => {
+    DataServices.ShowTeacherInSideClass(classId).then( teachers => {
+      setTeachersNumber(teachers?.length )
+    })
+
+  } ,[])
 
   const totalStudentsNumber =
     students?.length - (students != undefined && students[0] == null); // if the class don't contain any studnet will return an array with length one so we remove it useing this condition
@@ -31,7 +40,7 @@ export default function ClassInfo({ classDetails }) {
             />
             <ShowClassDetails
               title={"Teachers"}
-              value={0}
+              value={teachersNumber}
               color={"#229edb"}
               icon={"fa-solid fa-person-chalkboard"}
             />
@@ -53,7 +62,13 @@ export default function ClassInfo({ classDetails }) {
           <div className="teachers-info">
             <h3>Teachers</h3>
             <div className="teacher-name">
-              <ClassTeacher />
+              {
+                teachersNumber == 0 ?                 
+                  <p style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>
+                    There are no teachers yet ...
+                  </p>
+                  : <ClassTeacher classId={classId} />
+              }
             </div>
           </div>
           <div className="students-info">
