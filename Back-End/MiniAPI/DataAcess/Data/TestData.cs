@@ -20,13 +20,13 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<dynamic>> GetClassesByTest(int testId)
         {
-            var res = await _db.LoadData<dynamic, dynamic, ClassModel,  int>("dbo.TestGetClassesById", new { testId },
-                (Dyn, Class, Num) =>
+            var res = await _db.LoadData<dynamic, dynamic, ClassModel>("dbo.TestGetClassesById", new { testId },
+                (Dyn, Class) =>
                 {
-                    Dyn = new { Class, StudentsNumber = Num };
+                    Dyn = new { Class, Dyn.StudentsNumber };
                     return Dyn;
                 },
-                splitOn: "ClassId, StudentsNumber");
+                splitOn: "ClassId");
             return res;
         }
 

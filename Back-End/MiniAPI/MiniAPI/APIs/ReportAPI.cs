@@ -13,11 +13,65 @@ namespace MiniAPI.APIs
         {
             app.MapGet("/Report/{id}", GetReport);
             app.MapGet("/Report", GetReports);
+            app.MapGet("/Report/Student/Average", GetStudentReportAverage);
+            app.MapGet("/Report/Class/Average", GetClassReportAverage);
+            app.MapGet("/Report/{reportId}/Student/Result", GetStudentsReportResult);
+            app.MapGet("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
+            
             app.MapPut("/Report", UpdateReport);
             app.MapPost("/Report", InsertReport);
             app.MapDelete("/Report/{id}", DeleteReport);
         }
 
+        private static async Task<IResult> GetTotalResult(IReportData data, int studentId, int reportId)
+        {
+            try
+            {
+                var res = await data.GetStudentTotalResult(studentId, reportId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+
+        private static async Task<IResult> GetStudentsReportResult(IReportData data, int reportId, int? classId)
+        {
+            try
+            {
+                var res = await data.GetStudentsReportResult(reportId, classId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+        private static async Task<IResult> GetClassReportAverage(IReportData data, int? reportId, int? classId, string? type)
+        {
+            try
+            {
+                var res = await data.GetClassRptAvg(classId, reportId, type);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+        private static async Task<IResult> GetStudentReportAverage(IReportData data, int? reportId, int? studentId, string? type)
+        {
+            try
+            {
+                var res = await data.GetStudentsRptAvg(studentId, reportId, type);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
         private static async Task<IResult> GetReport(IReportData data, int id)
         {
             try

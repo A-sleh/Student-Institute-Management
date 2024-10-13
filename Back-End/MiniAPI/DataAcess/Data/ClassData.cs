@@ -19,6 +19,19 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
+
+        public async Task<IEnumerable<TestModel>> GetClassTests(int classId)
+        {
+            var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.ClassGetTests", new { classId },
+            (Test, Subject, Report) =>
+            {
+                Test.Subject = Subject;
+                Test.Report = Report;
+                return Test;
+            },
+            splitOn: "SubjectId, ReportId");
+            return res;
+        }
         public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });

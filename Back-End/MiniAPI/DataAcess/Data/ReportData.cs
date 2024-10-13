@@ -17,14 +17,30 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        public async Task<dynamic> GetStudentRptAvg(int studentId, int reportId)
+        public async Task<dynamic?> GetStudentTotalResult(int studentId, int reportId)
         {
-            var avg = await _db.LoadData<int, dynamic>("dbo.TestGetStudentRptAvg", new { studentId, reportId });
-            var res = new { Average = avg.FirstOrDefault() };
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentTotalResult", new { studentId, reportId });
+            return res;
+        }
+        public async Task<IEnumerable<dynamic>> GetStudentsReportResult(int reportId, int? classId)
+        {
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentsResults", new { reportId, classId });
             return res;
         }
 
-        // Get A Report With All Tests
+        public async Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type)
+        {
+            //var avg = await _db.LoadData<int, dynamic>("dbo.TestGetStudentRptAvg", new { studentId, reportId });
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentAvg", new { reportId, studentId, type });
+            return res;
+        }
+
+        public async Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type)
+        {
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetClassAvg", new { classId, reportId, type });
+            return res;
+        }
+
         public async Task<ReportModel?> GetReport(int id)
         {
             ReportModel reportModel = new();
@@ -52,12 +68,15 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId");
             return res.FirstOrDefault();
         }
+        
         public async Task<IEnumerable<ReportModel>> GetReports()
         {
             
             var result = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
             return result;
         }
+
+        // Actions
         public Task InsertReport(ReportModel report) =>
             _db.SaveData("dbo.ReportAdd", new
             {

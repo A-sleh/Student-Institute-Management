@@ -19,6 +19,9 @@ namespace MiniAPI.APIs
             // Get All Subject For Specific Class
             app.MapGet("/Class/{classId}/Subject", GetClassSubjects);
 
+            // Get All Tests For Specific Class
+            app.MapGet("/Class/{classId}/Test", GetTestsByClassId);
+
             // Add Class
             app.MapPost("/Class", InsertClass);
 
@@ -32,6 +35,18 @@ namespace MiniAPI.APIs
             app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
+        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId)
+        {
+            try
+            {
+                var res = await data.GetClassTests(classId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
         private static async Task<IResult> GetClasses(IClassData data, int? limit)
         {
             try

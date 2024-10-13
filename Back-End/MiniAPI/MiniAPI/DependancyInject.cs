@@ -29,7 +29,7 @@ namespace MiniAPI
         {
             //Data Access Services
 
-            // Main SQL Access using Dapper
+            // Main SQL Access Service using Dapper
             builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 
             // Services
