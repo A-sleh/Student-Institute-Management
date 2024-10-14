@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[ClassGetTests]
-	@classId int
+	@classId int,
+	@showCorrected int = 0
 AS
 	SELECT t.Id as TestId, t.Date, t.CorrectionDate, t.TestType,
 	s.Id as SubjectId, s.Subject, s.Grade, s.MaximumMark,
@@ -10,5 +11,5 @@ AS
 	JOIN Test t ON ts.TestId = t.Id
 	JOIN Subject s ON t.SubjectId = s.Id
 	LEFT OUTER JOIN Report r ON t.ReportId = r.Id
-	WHERE c.id = @classId;
+	WHERE c.id = @classId AND ( (@showCorrected = 1 AND ts.Mark is not null) OR ts.Mark is null );
 RETURN 0
