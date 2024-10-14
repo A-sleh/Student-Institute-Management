@@ -44,6 +44,8 @@ import ManageTest from "./components/Tests/CreateTestTools/ManageTest/ManageTest
 import RecevingMarkes from "./components/Tests/CreateTestTools/AssineMarke/RecevingMarkes.jsx";
 import ClassesTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/ClassesTestDetails.jsx";
 import StudentTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/StudentTestDetails.jsx";
+import TestClassCurrent from "./components/Tests/CreateTestTools/AssineMarke/TestClassCurrent.jsx";
+import StudentMarkForm from "./components/Tests/CreateTestTools/AssineMarke/StudentMarkForm.jsx";
 
 
 const urlPath = [
@@ -140,6 +142,8 @@ export default function App() {
               <Route path="RecivingMarks" element={<RecevingMarkes />} />
               <Route path="ClassesTestDetails/:testId" element={<ClassesTestDetails />} />
               <Route path="StudentTestDetails/:classId" element={<StudentTestDetails />} />
+              <Route path="TestClassCurrent/:classId" element={<TestClassCurrent />} />
+              <Route path="StudentMarkForm/:testId" element={<StudentMarkForm />} />
             </Route>
 
             <Route path="*" element={<h1>Not Found</h1>} />

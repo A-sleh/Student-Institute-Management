@@ -16,7 +16,6 @@ export default function ShortStudentsBills() {
         })
     },[])
 
-    console.log(testData)
 
     return (
         <div style={{marginBottom: '20px'}}>

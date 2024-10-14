@@ -95,7 +95,6 @@ export function HeaderControal({searcByName,setSearcByName}) {
             <form
                 action=""
                 style={{
-                width: "",
                 padding: "10px 0 ",
                 borderRadius: "5px",
                 backgroundColor: "#ddd",

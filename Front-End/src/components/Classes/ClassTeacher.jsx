@@ -12,7 +12,6 @@ export default function ClassTeacher({classId }) {
         })
     },[])
 
-    console.log(teachers)
 
     function handleTeacherClicked(teacherId) {
         gotoTeacherPage(`/TeacherInformation/${teacherId}`)
@@ -21,7 +20,6 @@ export default function ClassTeacher({classId }) {
     return(
         <div style={{display: 'flex' , gap: '8px'}}>
             {teachers.map((teacher) => {
-              console.log(teacher)
                 if (teacher == null) return; // if there are no stuent
                 const { teacherId, name, lastName  ,teacherSubjects} = teacher;
                 return (
