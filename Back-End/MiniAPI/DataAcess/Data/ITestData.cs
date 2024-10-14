@@ -14,6 +14,6 @@ namespace DataAcess.Data
         Task UpdateMark(int TestMarkId, int Mark);
         Task UpdateTest(TestModel test);
         Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId);
-        Task<IEnumerable<ClassModel>> GetClassesByTest(int testId);
+        Task<IEnumerable<dynamic>> GetClassesByTest(int testId);
     }
 }

@@ -15,5 +15,4 @@ public class TestModel
     public string? TestType { get; set; }
     public string? Date {  get; set; }
     public string? CorrectionDate { get; set; }
-    //public List<TestMarkModel?> TestMarks { get; set; } = [];
 }

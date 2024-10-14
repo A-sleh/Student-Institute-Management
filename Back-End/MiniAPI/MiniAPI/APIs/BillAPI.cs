@@ -55,6 +55,7 @@ namespace MiniAPI.APIs
 
         }
 
+
         private static async Task<IResult> GetRestOf(IBillData data, string type)
         {
             try
