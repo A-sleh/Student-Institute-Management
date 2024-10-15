@@ -102,7 +102,7 @@ Day 12 :
 Day 13 : 
     -[X] create valid input in pay form
     -[X] create in dataservices ( create new student pay ) 
-    -[] write delete bill logic
+    -[X] write delete bill logic
 Day 14 : 
     - [X] crete external pays
         - [X] show external pays 
@@ -114,3 +114,5 @@ Day 14 :
     -[X] display teacher in show class details // endpoint needed to fix
     -[X] in manage teacher should re get teacher remaing salarys
     -[] display teacher in manage class details// endpoint needed to fix
+Day 15 : 
+    -[] create insert marks to specify classs

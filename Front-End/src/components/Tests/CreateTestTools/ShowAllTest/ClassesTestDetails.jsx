@@ -38,7 +38,7 @@ export default function ClassesTestDetails() {
                     <tbody>
                         {
                             classes.map( (Class,index) => {  
-                                const {title,gender,grade,students} = Class  
+                                const {title,gender,grade,students} = Class.class  
                                 if( !title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))return                   
                                 return (
                                     <tr className="hovering-row" style={{cursor: 'pointer'}} onClick={()=>{gotoStudentsTestDetails(`/Test/StudentTestDetails/${Class.classId}`,{state: testDetails})}}>
@@ -46,7 +46,7 @@ export default function ClassesTestDetails() {
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{title}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{gender}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{grade}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{students?.length}</td>
+                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{Class.studentsNumber || 0 }</td>
                                     </tr>
                                 )
                             })

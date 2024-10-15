@@ -23,7 +23,6 @@ export default function RecevingMarkes() {
         })
     } , [])
 
-    console.log(selectedGrade)
     return (
         <div style={{display: 'flex' , flexDirection: 'column'}}>
             <div style={{display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>

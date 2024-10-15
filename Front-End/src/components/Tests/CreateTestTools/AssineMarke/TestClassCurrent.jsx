@@ -13,7 +13,6 @@ export default function TestClassCurrent() {
     const classTitle = useLocation().state.classTitle
     const gotoPage = useNavigate()
     const [tests,setTset] = useState([])
-    const [hideCorectedTest,setHideCorectedTest] = useState(false)
     const [dateSearch,setDateSearch] = useState('')
     const column = useMemo(()=>TESTCOLUMNS,[])
     const [filterBySubject,setFilterBySubject] = useState('All')
@@ -30,9 +29,9 @@ export default function TestClassCurrent() {
 
 
     useEffect(() => {
-        DataServices.ShowAllTests().then( tests => {
+        DataServices.ShowCurrentClassTests(classId).then( tests => {
             setTset(tests.filter(test => {
-                if ((hideCorectedTest && test.correctionDate == null)||(dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return 
+                if ((dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return 
                 return (testType == 'All' || testType.toLowerCase() == test.testType.toLocaleLowerCase() ) && (filterBySubject == 'All' || filterBySubject.toLocaleLowerCase() == test.subject.subject.toLowerCase())
             }))
         })
@@ -57,7 +56,6 @@ export default function TestClassCurrent() {
             <HeaderFilterTable  testType={testType} filterBySubject={filterBySubject} setTestType={setTestType} setFilterBySubject={setFilterBySubject} subjects={subjects}  dateSearch={dateSearch}setDateSearch={setDateSearch}/>
             <h3 style={{backgroundColor: '#066599',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
                 {grade} / {classTitle} / Tests
-                <span style={{float: 'right' ,fontWeight: hideCorectedTest ? '400' : '200' , letterSpacing: '1px' , cursor: 'pointer'}} onClick={()=>setHideCorectedTest(c =>!c)}>hide correted tests</span>
             </h3>
             <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
                 <table {...getTableProps()} >    
@@ -98,7 +96,7 @@ export default function TestClassCurrent() {
                         const {testType,date,subject,testId} = row.original
                         prepareRow(row);
                         return (
-                            <tr className="hovering-row" {...row.getRowProps()}  style={{cursor: 'pointer'}} key={index} onClick={()=>gotoPage(`/Test/StudentMarkForm/${row.original.testId}`,{state:classId})}>
+                            <tr className="hovering-row" {...row.getRowProps()}  style={{cursor: 'pointer'}} key={index} onClick={()=>gotoPage(`/Test/StudentMarkForm/${row.original.testId}`,{state:{classId:classId,testType:testType,subject:subject.subject,date:date,grade:grade,classTitle:classTitle}})}>
                             {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index} style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                                 {cell.render("Cell")}

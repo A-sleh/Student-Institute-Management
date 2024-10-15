@@ -141,6 +141,12 @@ export default {
   },
   ClassTestLink : (classId,testId) => {
     return API.Test.post.ClassTest(classId,testId)
+  },
+  ShowCurrentClassTests : (classId) => {
+    return API.Test.get.AllTestInTheClasss(classId)
+  },
+  AssingeMarkToTheTest : (testMarkId,mark) => {
+    return API.Test.put(testMarkId,mark)
   }
 };
 

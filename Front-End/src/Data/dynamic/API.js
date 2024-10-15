@@ -292,6 +292,11 @@ export default {
         return fetch(`${URL}/Test/${testId}/Class`).then((response) =>{
           return response.json()}
         );
+      },
+      AllTestInTheClasss : (classId) => {
+        return fetch(`${URL}/Class/${classId}/Test`).then((response) =>{
+          return response.json()}
+        );
       }
     },
     post: {
@@ -310,10 +315,9 @@ export default {
         });
       } 
     },
-    put: (data) => {
-      return fetch(`${URL}/Student`, {
+    put: (testMarkId,mark) => {
+      return fetch(`${URL}/Test/Student/${testMarkId}?Mark=${mark}`, {
         method: "PUT",
-        body: JSON.stringify(data),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
