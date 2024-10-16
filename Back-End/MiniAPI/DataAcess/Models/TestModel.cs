@@ -13,6 +13,7 @@ public class TestModel
     public ReportModel? Report { get; set; }
     public SubjectModel? Subject { get; set; }
     public string? TestType { get; set; }
+    public string? Title { get; set; }
     public string? Date {  get; set; }
     public string? CorrectionDate { get; set; }
 }

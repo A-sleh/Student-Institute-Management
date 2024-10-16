@@ -2,7 +2,7 @@
 	@classId int,
 	@showCorrected int = 0
 AS
-	SELECT t.Id as TestId, t.Date, t.CorrectionDate, t.TestType,
+	SELECT DISTINCT t.Id as TestId, t.Title, t.Date, t.CorrectionDate, t.TestType,
 	s.Id as SubjectId, s.Subject, s.Grade, s.MaximumMark,
 	r.Id as ReportId, r.ReportTitle, r.StartDate, r.FinishDate
 	FROM Class c

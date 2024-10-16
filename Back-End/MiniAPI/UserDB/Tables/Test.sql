@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Test]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Title] varchar(100),
 	[ReportId] int,
 	[SubjectId] int,
 	[TestType] varchar(30),
