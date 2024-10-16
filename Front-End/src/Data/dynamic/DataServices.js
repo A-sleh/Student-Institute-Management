@@ -128,7 +128,7 @@ export default {
     return API.Bill.get.restOutComeBill()
   },
   CreateNewTest : (data) => {
-    return API.Test.post(data)
+    return API.Test.post.CreateNewTest(data)
   },
   ShowAllTests : (id) => {
     return API.Test.get.AllTest(id)
@@ -138,6 +138,9 @@ export default {
   },
   ShowClassesWhichDoTheTest : (testId) => {
     return API.Test.get.ClassesTests(testId)
+  },
+  ClassTestLink : (classId,testId) => {
+    return API.Test.post.ClassTest(classId,testId)
   }
 };
 

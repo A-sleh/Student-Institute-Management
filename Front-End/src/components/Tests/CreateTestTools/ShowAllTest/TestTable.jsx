@@ -56,7 +56,7 @@ export default function TestTable({type,testType,filterBySubject}) {
             <table {...getTableProps()} style={{overflow: 'hidden' , borderRadius: '10px'}}>    
                 <thead >
                     {headerGroups.map((headerGroup, index) => (
-                    <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                       <tr {...headerGroup.getHeaderGroupProps()} key={index}>
                         {headerGroup.headers.map((column, index) => (
                         <th
                             {...column.getHeaderProps(column.getSortByToggleProps())}

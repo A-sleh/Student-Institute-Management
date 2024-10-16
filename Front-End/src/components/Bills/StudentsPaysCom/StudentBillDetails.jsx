@@ -144,7 +144,6 @@ export default function StudentBillDetails() {
 }
 
 export function SeacherInputHeader({radioState,setRadioState,searchFiled,setSearchFiled,children}) {
-    console.log(children)
 
     function handleRadioClicked(value) {
         const current = value.innerHTML ;

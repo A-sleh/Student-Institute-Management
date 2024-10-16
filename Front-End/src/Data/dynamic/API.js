@@ -294,14 +294,21 @@ export default {
         );
       }
     },
-    post: (data) => {
-      return fetch(`${URL}/Test`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
+    post: {
+      CreateNewTest : (data) => {
+        return fetch(`${URL}/Test`, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      },
+      ClassTest :(classId,testId) => {
+        return fetch(`${URL}/Test/${testId}/Class/${classId}`, {
+          method: "POST"
+        });
+      } 
     },
     put: (data) => {
       return fetch(`${URL}/Student`, {
