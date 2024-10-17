@@ -59,7 +59,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
        

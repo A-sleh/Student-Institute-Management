@@ -113,6 +113,7 @@ namespace DataAcess.Data
             {
                 test.TestId,
                 test.Report?.ReportId,
+                test.Title,
                 test.Subject?.SubjectId,
                 test.Date,
                 test.CorrectionDate,
@@ -120,7 +121,12 @@ namespace DataAcess.Data
             });
 
         public async Task StartATest(int testId, int classId)
-            => await _db.SaveData("dbo.TestInitMarks", new { testId, classId});
+        {
+            if (!_db.LoadData<bool, dynamic>("dbo.TestCheckExistence", new { testId, classId }).Result.First())
+                await _db.SaveData("dbo.TestInitMarks", new { testId, classId });
+            else
+                throw new Exception("Test already made in this class");
+        }
 
         public async Task AddTest(TestModel test)
         {
@@ -129,6 +135,7 @@ namespace DataAcess.Data
             await _db.SaveData("dbo.TestAdd", new
             {
                 test.TestType,
+                test.Title,
                 test.Subject.SubjectId,
                 test.CorrectionDate,
                 test.Date,

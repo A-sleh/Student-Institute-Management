@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[TestGetAll]
 AS
-	SELECT t.Id as TestId, t.TestType, t.Date, t.CorrectionDate,
+	SELECT t.Id as TestId, t.Title, t.TestType, t.Date, t.CorrectionDate,
 	s.Id as SubjectId, s.Subject, s.Grade, s.MaximumMark,
 	r.Id as ReportId, r.ReportTitle, r.StartDate, r.FinishDate
 	FROM Test t

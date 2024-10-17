@@ -35,11 +35,11 @@ namespace MiniAPI.APIs
             app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
-        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId)
+        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId, bool? flag)
         {
             try
             {
-                var res = await data.GetClassTests(classId);
+                var res = await data.GetClassTests(classId, flag);
                 return Results.Ok(res);
             }
             catch (Exception e)
