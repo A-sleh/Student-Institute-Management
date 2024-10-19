@@ -4,7 +4,7 @@ namespace DataAcess.Data
 {
     public interface ITestData
     {
-        Task AddTest(TestModel test);
+        Task<dynamic> AddTest(TestModel test);
         Task DeleteTest(int testId);
         Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId = 0);
         Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId);

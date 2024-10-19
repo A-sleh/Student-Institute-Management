@@ -127,7 +127,7 @@ namespace DataAcess.Data
                 throw new Exception("Bill Can not be null");
             bill.Student ??= new StudentModel();
             bill.Teacher ??= new TeacherModel();
-            await _db.SaveData("dbo.BillAdd", new
+            await _db.ExecuteData("dbo.BillAdd", new
             {
                 bill.BillNo,
                 bill.Type,
@@ -141,7 +141,7 @@ namespace DataAcess.Data
 
         public async Task DeleteBill(int BillId)
         {
-            await _db.SaveData("dbo.BillDelete", new { BillId });
+            await _db.ExecuteData("dbo.BillDelete", new { BillId });
         }
 
         public async Task<dynamic> GetRestOf(string type)

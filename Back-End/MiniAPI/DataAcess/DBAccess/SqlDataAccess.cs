@@ -131,13 +131,19 @@ namespace DataAcess.DBAccess
         /// <param name="storedProcedure">stored procedure name</param>
         /// <param name="parameters">parameter args</param>
         /// <param name="connectionString">the required database connection string</param>
-        public async Task SaveData<T>(
+        public async Task ExecuteData<T>(
             string storedProcedure,
             T parameters,
             string connectionString = "Default")
         {
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<dynamic> ExecuteScopedId<V>(string storedPorcedure, V parameters, string connectionString = "Default")
+        {
+            using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
+            return await connection.QuerySingleAsync(storedPorcedure, param: parameters, commandType: CommandType.StoredProcedure);
         }
 
     }

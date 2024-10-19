@@ -8,4 +8,5 @@
 AS
 	INSERT INTO Test(TestType, Title, SubjectId, CorrectionDate, Date, ReportId) VALUES
 	(@TestType, @Title, @SubjectId, @CorrectionDate, @Date, @ReportId);
+	SELECT SCOPE_IDENTITY();
 RETURN 0

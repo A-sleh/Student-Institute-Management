@@ -26,7 +26,7 @@ namespace DataAcess.Data
             return res.FirstOrDefault();
         }
         public Task InsertSubject(SubjectModel subject) =>
-            _db.SaveData("dbo.SubjectAdd", new
+            _db.ExecuteData("dbo.SubjectAdd", new
             {
                 subject.SubjectId,
                 subject.Subject,
@@ -34,8 +34,8 @@ namespace DataAcess.Data
                 subject.Grade
             });
         public Task UpdateSubject(SubjectModel subject) =>
-            _db.SaveData("dbo.SubjectUpdate", subject);
+            _db.ExecuteData("dbo.SubjectUpdate", subject);
         public Task DeleteSubject(int id) =>
-            _db.SaveData("dbo.SubjectDelete", new { Id = id });
+            _db.ExecuteData("dbo.SubjectDelete", new { Id = id });
     }
 }

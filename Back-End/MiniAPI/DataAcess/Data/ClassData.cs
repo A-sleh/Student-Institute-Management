@@ -113,7 +113,7 @@ namespace DataAcess.Data
             return res.FirstOrDefault();
         }
         public Task InsertClass(ClassModel classModel) =>
-            _db.SaveData("dbo.ClassAdd", new
+            _db.ExecuteData("dbo.ClassAdd", new
             {
                 classModel.ClassId,
                 classModel.Title,
@@ -124,7 +124,7 @@ namespace DataAcess.Data
         public Task UpdateClass(ClassModel classModel)
         {
             ValidateId(classModel.ClassId);
-            return _db.SaveData("dbo.ClassUpdate", new
+            return _db.ExecuteData("dbo.ClassUpdate", new
             {
                 classModel.ClassId,
                 classModel.Title,
@@ -136,7 +136,7 @@ namespace DataAcess.Data
         public Task DeleteClass(int id)
         {
             ValidateId(id);
-            return _db.SaveData("dbo.ClassDelete", new { Id = id });
+            return _db.ExecuteData("dbo.ClassDelete", new { Id = id });
         }
     }
 }

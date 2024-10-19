@@ -105,11 +105,11 @@ namespace DataAcess.Data
         // Actions
         public async Task UpdateMark(int TestMarkId, int Mark)
         {
-            await _db.SaveData("dbo.TestUpdateMark", new { TestMarkId, Mark });
+            await _db.ExecuteData("dbo.TestUpdateMark", new { TestMarkId, Mark });
         }
 
         public async Task UpdateTest(TestModel test)
-            => await _db.SaveData("dbo.TestUpdate", new
+            => await _db.ExecuteData("dbo.TestUpdate", new
             {
                 test.TestId,
                 test.Report?.ReportId,
@@ -123,16 +123,16 @@ namespace DataAcess.Data
         public async Task StartATest(int testId, int classId)
         {
             if (!_db.LoadData<bool, dynamic>("dbo.TestCheckExistence", new { testId, classId }).Result.First())
-                await _db.SaveData("dbo.TestInitMarks", new { testId, classId });
+                await _db.ExecuteData("dbo.TestInitMarks", new { testId, classId });
             else
                 throw new Exception("Test already made in this class");
         }
 
-        public async Task AddTest(TestModel test)
+        public async Task<dynamic> AddTest(TestModel test)
         {
             if (test.Subject == null)
                 throw new Exception("Subject Can not be null");
-            await _db.SaveData("dbo.TestAdd", new
+            return await _db.ExecuteScopedId("dbo.TestAdd", new
             {
                 test.TestType,
                 test.Title,
@@ -145,7 +145,7 @@ namespace DataAcess.Data
         
         public async Task DeleteTest(int testId)
         {
-            await _db.SaveData("dbo.TestDelete", new { testId });
+            await _db.ExecuteData("dbo.TestDelete", new { testId });
         }
 
 
