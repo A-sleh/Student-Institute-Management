@@ -12,6 +12,7 @@ export default function NewTest() {
         },
         testType : '' ,
         date : '' ,
+        title : '' ,
         correctionDate : null
     }
     const [form,setForm] = useState(initailState)
@@ -19,7 +20,7 @@ export default function NewTest() {
     return (
         <div style={{display: 'flex' , gap: '10px'}}>
             <CreateTestForm form={form} setForm={setForm} initailState={initailState} />
-            <TestCard form={form}/>
+            <TestCard form={form} />
         </div>
     )
 }

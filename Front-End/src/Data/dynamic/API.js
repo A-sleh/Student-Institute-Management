@@ -329,4 +329,34 @@ export default {
       });
     },
   },
+  Report: {
+    get: (id) => {
+      return fetch(`${URL}/Report/${id || ''}`).then((response) =>
+        response.json()
+      );
+    },
+    post: (data) => {
+      return fetch(`${URL}/Report`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put: (data) => {
+      return fetch(`${URL}/Student`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (id) => {
+      return fetch(`${URL}/Student/${id}`, {
+        method: "DELETE",
+      });
+    },
+  },
 };

@@ -11,6 +11,17 @@ export const FormInputContainerStyle = styled.div`
     width: 100%;
 `
 
+export const TextAreaInput = styled.textarea`
+    padding: 8px 15px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid transparent;
+    background-color: #dddddd85;
+    box-shadow: 0 0 10px -5px gray inset;
+    outline: none;
+    resize: none;
+`
+
 export const FormSelectdStyle = styled.select`
     padding: 8px 15px;
     border: none;

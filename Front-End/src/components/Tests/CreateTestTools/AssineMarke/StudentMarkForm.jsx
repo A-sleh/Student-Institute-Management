@@ -14,7 +14,7 @@ export default function StudentMarkForm() {
     const [marksValid,setMarksValid] = useState({})
     const gotoPage = useNavigate()
     const testId = useParams().testId
-    const {classId,testType,date,grade,classTitle,subject} = useLocation().state
+    const {classId,testType,date,grade,classTitle,subject,componentType} = useLocation().state
     
     
     useEffect(() => {
@@ -94,7 +94,7 @@ export default function StudentMarkForm() {
                 <table>
                     <thead  style={{position: 'relative' , top: '-10px' }}>                    
                         <tr>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Count</th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px'}}></th>
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name</th>
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Father Name</th>
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Mark</th>
@@ -106,10 +106,16 @@ export default function StudentMarkForm() {
                                 const {mark,testMarkId,student} = studnetT  
                                 return (
                                     <tr className="hovering-row" style={{backgroundColor:  marksValid[testMarkId] ? '#ff00003b': index % 2 == 0 ? 'white' : '#f3f1f1d7' }}>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none'  }}>{index + 1}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none'  }}>{student.name} {student.lastName}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none'  }}>{student.fatherName}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none'  }}> <input type="text" value={marks[testMarkId]} onChange={(e)=>{handleMarkChange(e.target.value,testMarkId)}} style={{border: 'none',backgroundColor: marksValid[testMarkId] ? 'transparent': index % 2  ? 'white' : '#f3f1f1d7' ,textAlign: 'center', outline: 'none' , padding: '10px'}}/></td>
+                                        <td style={{padding: '10px' , margin: '5px 0' , border: 'none' ,borderBottom: '1px solid white' , color: 'white' , backgroundColor: '#056699' , width: '15%'}}>{index + 1}</td>
+                                        <td style={{padding: '10px' , margin: '5px 0' , border: 'none'  }}>{student.name} {student.lastName}</td>
+                                        <td style={{padding: '10px' , margin: '5px 0' , border: 'none'  }}>{student.fatherName}</td>
+                                        <td style={{padding: '10px' , margin: '5px 0' , border: 'none'  }}> 
+                                            { componentType != 'show' ? 
+                                                <input type="text" value={marks[testMarkId]} onChange={(e)=>{handleMarkChange(e.target.value,testMarkId)}} style={{border: 'none',backgroundColor: marksValid[testMarkId] ? 'transparent': index % 2  ? 'white' : '#f3f1f1d7' ,textAlign: 'center', outline: 'none' , padding: '10px'}} /> :
+                                                marks[testMarkId]
+                                            }
+                                            
+                                        </td>
                                     </tr>
                                 )
                             })
@@ -118,7 +124,7 @@ export default function StudentMarkForm() {
                 </table>
             </div>
             <div style={{display: 'flex' , gap: '5px'}}>
-            <button style={{padding: '4px 15px' , cursor: 'pointer' , backgroundColor: '#066599' , border: 'none' , outline: 'none' ,fontWeight: '500' , borderRadius: '4px' , color : 'white' , margin: '10px 0'}} onClick={()=>{handleConfirmclicked()}}>Confirm</button>
+                {componentType != 'show' &&<button style={{padding: '4px 15px' , cursor: 'pointer' , backgroundColor: '#066599' , border: 'none' , outline: 'none' ,fontWeight: '500' , borderRadius: '4px' , color : 'white' , margin: '10px 0'}} onClick={()=>{handleConfirmclicked()}}>Confirm</button>}
                 <button onClick={()=>{gotoPage(-1)} } style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: 'red' , border: 'none' , outline: 'none' , borderRadius: '2px' , margin: '10px 0'}}>Back</button>
             </div>
         </>

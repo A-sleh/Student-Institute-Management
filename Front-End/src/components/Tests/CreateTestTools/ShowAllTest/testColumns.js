@@ -31,5 +31,9 @@ export const TESTCOLUMNS = [
       const delay = Math.floor((new Date(correctionDate) - new Date(date)) / (60 * 60 *  60 * 365) )
       return delay < 0 ? 'Not correction yet': delay
     },
+  },
+  {
+    Header: "Details",
+    accessor: "title",
   }
 ];

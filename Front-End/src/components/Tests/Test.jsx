@@ -17,9 +17,9 @@ export default function Test() {
                     <li><NavLink to={'ShowAllTest'} style={({ isActive }) => {
                         return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
                         }}>Show All Tests</NavLink></li>
-                    <li><NavLink to={'ManageTest'} style={({ isActive }) => {
+                    {/* <li><NavLink to={'ManageTest'} style={({ isActive }) => {
                         return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                        }}>Manage Tests</NavLink></li>
+                        }}>Manage Tests</NavLink></li> */}
                     <li><NavLink to={'RecivingMarks'} style={({ isActive }) => {
                         return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
                         }}>Reciving Marks</NavLink></li>

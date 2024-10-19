@@ -111,8 +111,17 @@ Day 14 :
     -[X] add header in show studnet bill  page contain the details of paid and remainig salary of class
     -[X] add teacher bills in teacher information page
     -[X] auto close the nav linke when move to another one
-    -[X] display teacher in show class details // endpoint needed to fix
+    -[X] display teacher in show class details 
     -[X] in manage teacher should re get teacher remaing salarys
-    -[] display teacher in manage class details// endpoint needed to fix
-Day 15 : 
-    -[] create insert marks to specify classs
+    -[] display teacher in manage class details
+Day 15 :
+    -[X] create insert marks to specify classs
+Day 16 : 
+    -[X] some change on create new test form 
+        -[X] text area 
+        -[X] show the current classes 
+    -[X] show the test details in show all tests page
+    -[X] restyle id cell in tables
+    -[X] show the correction test and no but!! needed to fix from backe end <-------
+    -[X] show worning message when the user click on test and it not correction yet from show all test page
+        
