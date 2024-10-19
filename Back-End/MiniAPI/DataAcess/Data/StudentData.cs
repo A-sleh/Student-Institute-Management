@@ -44,7 +44,7 @@ public class StudentData : IStudentData
         return res == null ? throw new Exception("no student has such Id") : res.First();
     }
     public Task InsertStudent(StudentModel student) =>
-        _db.SaveData("dbo.StudentAdd", new
+        _db.ExecuteData("dbo.StudentAdd", new
         {
             student.StudentId,
             student.Name,
@@ -57,7 +57,7 @@ public class StudentData : IStudentData
             student.BillRequired
         });
     public Task UpdateStudent(StudentModel student) =>
-        _db.SaveData("dbo.StudentUpdate", new
+        _db.ExecuteData("dbo.StudentUpdate", new
         {
             Id = student.StudentId,
             student.Name,
@@ -70,6 +70,6 @@ public class StudentData : IStudentData
             student.BillRequired
         });
     public Task DeleteStudent(int id) =>
-        _db.SaveData("dbo.StudentDelete", new { Id = id });
+        _db.ExecuteData("dbo.StudentDelete", new { Id = id });
 }
 

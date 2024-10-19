@@ -92,7 +92,7 @@ namespace DataAcess.Data
         }
 
         public async Task InsertTeacherSubjects(TeacherSubjectModel model) 
-            => await _db.SaveData("dbo.TeacherSubjectInsert", new
+            => await _db.ExecuteData("dbo.TeacherSubjectInsert", new
             {
                 model.TeacherId,
                 model.Subject?.SubjectId,
@@ -102,13 +102,13 @@ namespace DataAcess.Data
         public async Task LinkTeacherWithClass(int teacherSubjectId, int classId)
         {
             ValidateLinking(classId, teacherSubjectId);
-            await _db.SaveData("dbo.TeacherSubjectAddClass", new { teacherSubjectId, classId });
+            await _db.ExecuteData("dbo.TeacherSubjectAddClass", new { teacherSubjectId, classId });
         }
 
         public async Task UpdateTeacherSubject(int TeacherId, int SubjectId, int Salary)
         {
             ValidateId(TeacherId, SubjectId);
-            await _db.SaveData("dbo.TeacherSubjectUpdate", new
+            await _db.ExecuteData("dbo.TeacherSubjectUpdate", new
             {
                 TeacherId,
                 SubjectId,
@@ -119,12 +119,12 @@ namespace DataAcess.Data
         public async Task DeleteSubjectForTeacher(int teacherSubjectId)
         {
             ValidateId(teacherSubjectId);
-            await _db.SaveData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
+            await _db.ExecuteData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
         }
 
         public async Task DeleteTeacherFromClass(int teacherSubjectId, int classId)
         {
-            await _db.SaveData(
+            await _db.ExecuteData(
                 "dbo.TeacherSubjectDeleteClass",
                 new
                 {

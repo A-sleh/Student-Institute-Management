@@ -11,5 +11,5 @@ AS
 	WHERE t.ReportId = @reportId 
 	AND (s.classId = @classId OR @classId is null)
 	AND t.TestType <> 'quiz'
-	GROUP BY s.id, name, lastName, c.id, title
+	GROUP BY s.id, name, lastName, c.id, c.title
 RETURN 0

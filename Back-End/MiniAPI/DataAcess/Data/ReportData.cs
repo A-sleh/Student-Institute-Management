@@ -78,7 +78,7 @@ namespace DataAcess.Data
 
         // Actions
         public Task InsertReport(ReportModel report) =>
-            _db.SaveData("dbo.ReportAdd", new
+            _db.ExecuteData("dbo.ReportAdd", new
             {
                 report.ReportTitle,
                 report.StartDate,
@@ -86,9 +86,9 @@ namespace DataAcess.Data
                 
             });
         public Task UpdateReport(ReportModel report) =>
-            _db.SaveData("dbo.ReportUpdate", report);
+            _db.ExecuteData("dbo.ReportUpdate", report);
         public Task DeleteReport(int id) =>
-            _db.SaveData("dbo.ReportDelete", new { Id = id });
+            _db.ExecuteData("dbo.ReportDelete", new { Id = id });
 
     }
 }

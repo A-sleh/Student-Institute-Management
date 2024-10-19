@@ -93,8 +93,8 @@ namespace MiniAPI.APIs
         {
             try
             {
-                await data.AddTest(test);
-                return Results.Ok("Insert Success");
+                var id = await data.AddTest(test);
+                return Results.Ok(id);
             }
             catch (Exception e)
             {

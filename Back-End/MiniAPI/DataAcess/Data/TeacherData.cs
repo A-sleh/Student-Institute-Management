@@ -58,7 +58,7 @@ namespace DataAcess.Data
         public async Task UpdateTeacher(TeacherModel model)
         {
             ValidateId(model.TeacherId);
-            await _db.SaveData("dbo.TeacherUpdate", new
+            await _db.ExecuteData("dbo.TeacherUpdate", new
             {
                 model.TeacherId,
                 model.Name,
@@ -70,7 +70,7 @@ namespace DataAcess.Data
 
         public async Task InsertTeacher(TeacherModel model)
         {
-            await _db.SaveData("dbo.TeacherInsert", new
+            await _db.ExecuteData("dbo.TeacherInsert", new
             {
                 model.TeacherId,
                 model.Name,
@@ -82,7 +82,7 @@ namespace DataAcess.Data
         public async Task DeleteTeacher(int teacherId)
         {
             ValidateId(teacherId);
-            await _db.SaveData("dbo.TeacherDelete", new { teacherId });
+            await _db.ExecuteData("dbo.TeacherDelete", new { teacherId });
         }
 
         public async Task<TeacherModel?> GetTeacherById(int TeacherId)
