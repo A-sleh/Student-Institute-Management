@@ -15,7 +15,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes Async Query To Load Data Without mapping (result query only)
+        /// Executes async query to execute or load data from database
         /// </summary>
         /// <typeparam name="T">Return Type T</typeparam>
         /// <typeparam name="U">Parameter Type U</typeparam>
@@ -33,8 +33,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes Async Query To Load Data From Database
-        /// Used with (one to one), (one to many) relations
+        /// Executes async query to execute or load data from database
         /// <list type="bullet">
         /// <item>
         /// <term>T</term>
@@ -72,8 +71,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes Async Query To Load Data From Database,
-        /// Used with Multi relations
+        /// Executes async query to execute or load data from database
         /// </summary>
         /// <typeparam name="U">Presents type of parameter</typeparam>
         /// <typeparam name="T">Presents first and out model</typeparam>
@@ -98,8 +96,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes Async Query To Load Data From Database,
-        /// Used with Multi relations
+        /// Executes async query to execute or load data from database
         /// </summary>
         /// <typeparam name="U">Presents type of parameter</typeparam>
         /// <typeparam name="T">Presents first and out model</typeparam>
@@ -125,7 +122,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Execute Async Query
+        /// Executes async query
         /// </summary>
         /// <typeparam name="T">Presents parameter args type</typeparam>
         /// <param name="storedProcedure">stored procedure name</param>
@@ -138,12 +135,6 @@ namespace DataAcess.DBAccess
         {
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-        }
-
-        public async Task<dynamic> ExecuteScopedId<V>(string storedPorcedure, V parameters, string connectionString = "Default")
-        {
-            using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
-            return await connection.QuerySingleAsync(storedPorcedure, param: parameters, commandType: CommandType.StoredProcedure);
         }
 
     }

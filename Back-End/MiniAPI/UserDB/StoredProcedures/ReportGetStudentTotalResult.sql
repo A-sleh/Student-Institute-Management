@@ -3,7 +3,7 @@
 	@studentId int
 AS
 	SELECT SUM(ts.Mark) as mark,
-	(SELECT SUM(MaximumMark) FROM Subject s JOIN Test t ON s.id = t.SubjectId WHERE t.ReportId = 1) as totalMark,
+	(SELECT SUM(MaximumMark) FROM Subject s JOIN Test t ON s.Id = t.SubjectId WHERE t.ReportId = 1) as totalMark,
 	SUM(ts.Mark)*100/(SELECT SUM(MaximumMark) FROM Subject s JOIN Test t ON s.Id = t.SubjectId WHERE t.ReportId = 1) as markPercentage
 	FROM Test t
 	LEFT JOIN TestMark ts ON t.Id = ts.TestId

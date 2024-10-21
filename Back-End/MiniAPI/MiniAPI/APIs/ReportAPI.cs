@@ -17,10 +17,24 @@ namespace MiniAPI.APIs
             app.MapGet("/Report/Class/Average", GetClassReportAverage);
             app.MapGet("/Report/{reportId}/Student/Result", GetStudentsReportResult);
             app.MapGet("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
-            
+
+            app.MapPut("/Report/{reportId}/Test", LinkReportWithTests);
             app.MapPut("/Report", UpdateReport);
             app.MapPost("/Report", InsertReport);
             app.MapDelete("/Report/{id}", DeleteReport);
+        }
+
+        private static async Task<IResult> LinkReportWithTests(IReportData data, int reportId, List<int> testIdList)
+        {
+            try
+            {
+                await data.LinkReportWithTests(reportId, testIdList);
+                return Results.Ok($"Report {reportId} Linked With The Tests Successfully");
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
         }
 
         private static async Task<IResult> GetTotalResult(IReportData data, int studentId, int reportId)
@@ -72,11 +86,11 @@ namespace MiniAPI.APIs
                 return Results.BadRequest(e.Message);
             }
         }
-        private static async Task<IResult> GetReport(IReportData data, int id)
+        private static async Task<IResult> GetReport(IReportData data, int id, int? classId)
         {
             try
             {
-                var res = await data.GetReport(id);
+                var res = await data.GetReport(id, classId);
                 return Results.Ok(res);
             }
             catch (Exception e)
@@ -85,11 +99,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetReports(IReportData data)
+        private static async Task<IResult> GetReports(IReportData data, int? classId)
         {
             try
             {
-                return Results.Ok(await data.GetReports());
+                return Results.Ok(await data.GetReports(classId));
             }
             catch (Exception e)
             {

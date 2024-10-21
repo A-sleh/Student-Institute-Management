@@ -132,7 +132,7 @@ namespace DataAcess.Data
         {
             if (test.Subject == null)
                 throw new Exception("Subject Can not be null");
-            return await _db.ExecuteScopedId("dbo.TestAdd", new
+            return (await _db.LoadData<dynamic,dynamic>("dbo.TestAdd", new
             {
                 test.TestType,
                 test.Title,
@@ -140,7 +140,7 @@ namespace DataAcess.Data
                 test.CorrectionDate,
                 test.Date,
                 test.Report?.ReportId
-            });
+            })).First();
         }
         
         public async Task DeleteTest(int testId)
