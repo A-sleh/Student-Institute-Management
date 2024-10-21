@@ -13,10 +13,23 @@ namespace DataAcess.Data
     public class ReportData : IReportData
     {
         private readonly ISqlDataAccess _db;
+        private readonly TestData _testData;
         public ReportData(ISqlDataAccess _db)
         {
             this._db = _db;
+            _testData = new TestData(this._db);
         }
+
+
+        public async Task LinkReportWithTests(int reportId, List<int> tests)
+        {
+            foreach(var testId in tests)
+            {
+                await _db.ExecuteData("dbo.ReportLinkWithTests", new { reportId, testId });
+            }
+            
+        }
+
         public async Task<dynamic?> GetStudentTotalResult(int studentId, int reportId)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentTotalResult", new { studentId, reportId });
@@ -41,16 +54,16 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<ReportModel?> GetReport(int id)
+        public async Task<ReportModel?> GetReport(int id, int? classId)
         {
             ReportModel reportModel = new();
-            var res = 
-                await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
+            var res = await
+                _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
                 "dbo.ReportGet",
                 new { Id = id },
                 x: (Report, Test, Subject) =>
                 {
-                    if(reportModel.ReportId == 0)
+                    if (reportModel.ReportId == 0)
                     {
                         reportModel = Report;
                     }
@@ -58,22 +71,45 @@ namespace DataAcess.Data
                     {
                         Report = reportModel;
                     }
-                    if(Test != null)
+                    if (Test != null)
                     {
                         Test.Subject = Subject;
+                        Report.Tests.Add(Test);
                     }
-                    Report.Tests.Add(Test);
                     return Report;
                 },
                 splitOn: "TestId, SubjectId");
             return res.FirstOrDefault();
         }
-        
-        public async Task<IEnumerable<ReportModel>> GetReports()
+
+        public async Task<IEnumerable<ReportModel>> GetReports(int? classId)
         {
-            
-            var result = await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetAll", new { });
-            return result;
+            var dic = new Dictionary<int, ReportModel>();
+            var reports = await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
+                "dbo.ReportGetAll",
+                new { classId },
+                (report, test, subject) =>
+                {
+                    test.Subject = subject;
+                    if (dic.TryGetValue(report.ReportId, out var reportModel))
+                    {
+                        report = reportModel;
+                    }
+                    else
+                    {
+                        dic.Add(report.ReportId, report);
+                    }
+                    report.Tests.Add(test);
+                    return report;
+                },
+                "TestId, SubjectId");
+
+            return reports.Select(x =>
+            {
+                var temp = x.Tests.AsEnumerable();
+                x.Tests = temp.Select(t => { t.Report = null; return t; }).ToList();
+                return x;
+            }).Distinct();
         }
 
         // Actions

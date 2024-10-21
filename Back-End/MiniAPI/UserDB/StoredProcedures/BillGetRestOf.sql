@@ -5,7 +5,7 @@ AS
 	SELECT (SUM(s.billRequired) - (SELECT SUM(b.Amount) FROM Bill b WHERE b.StudentId is not null))
 	FROM Student s
 	ELSE IF(@Type = 'out')
-	SELECT SUM(ts.salary) - 
+	SELECT SUM(ts.Salary) - 
 	(SELECT SUM(b.Amount) FROM Bill b WHERE b.TeacherId is not null )
 	FROM Teacher t
 	JOIN TeacherSubject ts ON t.Id = ts.TeacherId
