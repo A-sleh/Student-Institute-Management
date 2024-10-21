@@ -33,11 +33,12 @@ export default function RecevingMarkes({type}) {
                         })
                     }
                 </select>
+                <h3 style={{color: '#056699' }}>{type || 'Receving Markes'}</h3>
                 <div style={{width: '30%'}}>
                     <HeaderControal searcByName={search} setSearcByName={setSearch} />
                 </div>
             </div>
-            <ClassesTable selectedGrade={selectedGrade} search={search} type={type}/> 
+            <ClassesTable selectedGrade={selectedGrade} search={search} type={type != undefined ? 'show': undefined}/> 
         </div>
     )
 }

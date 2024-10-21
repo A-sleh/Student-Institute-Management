@@ -73,14 +73,16 @@ export default function CreateTestForm({form,setForm,initailState}) {
 
         if(!validInputs()) {
             DataServices.CreateNewTest(form).then( response => {
-                DataServices.ClassTestLink(selectedClass.classId,20).then( _ => {
-                    setForm(initailState)
-                    setSearchClass('')
-                    setSelectedClass({title: null})
-                    setSuccessCreateTest(true)
-                    setTimeout(() => {
-                        setSuccessCreateTest(false)
-                    } , 2000 )
+                response.json().then( test => {
+                    DataServices.ClassTestLink(selectedClass.classId,test.TestId).then( _ => {
+                        setForm(initailState)
+                        setSearchClass('')
+                        setSelectedClass({title: null})
+                        setSuccessCreateTest(true)
+                        setTimeout(() => {
+                            setSuccessCreateTest(false)
+                        } , 2000 )
+                    })
                 })
             })
         }

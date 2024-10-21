@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices"
-import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
+import { format } from "date-fns";
+import { HeaderControal } from "../../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+import { FormInputFieldStyle } from "../../CreateTestTools/EmentsStyle";
 
 export default function ShowAllReport({selectedReport,setSelectedReport}) {
 
     const [reports,setReports] = useState([])
+    const [search,setSearch] = useState('')
+    const [searchByDate,setSearchByDate] = useState('')
     useEffect(() => {
         DataServices.ShowAllNativeReports().then( reports => {
             setReports(reports) ;
@@ -14,29 +18,38 @@ export default function ShowAllReport({selectedReport,setSelectedReport}) {
     
 
     return (
-        <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px',gap: '20px' , padding: '10px' ,paddingTop: '4px', margin: '10px 0' ,display: 'flex'}}>
-            {
-                reports.map( report => {
-                    return <ReportCard report={report} />
-                })
-            }
-        </div>
+        <>
+            <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px', padding: '10px' ,marginBottom: '10px'}}>
+                <h3 style={{padding: '2px' , backgroundColor: '#056699' , color: 'white' , fontWeight: '500' , textAlign: 'center',borderRadius: '0 0 10px  10px'}}>REFPORTS</h3>
+                <div style={{display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
+                    <FormInputFieldStyle type={'date'} style={{width: '30%'}} value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                    <HeaderControal searcByName={search}setSearcByName={setSearch} style={{width: '30%'}}/>
+                </div>
+                <div style={{display: 'grid',gap: '10px' , gridTemplateColumns:"auto auto", backgroundColor: 'white' ,padding: '10px'}}>
+                    {
+                        reports.map( (report,index) => {
+                            const {reportTitle,startDate} = report ;
+                            if( (new Date(startDate) - new Date(searchByDate)) < 0 ) return ;
+                            
+                            if(!(reportTitle.toLowerCase().includes(search.toLowerCase()))) return
+                            return <ReportCard report={report} selectedReport={selectedReport}setSelectedReport={setSelectedReport} />
+                        })
+                    }
+                </div>
+            </div>
+        </>
     )
 }
 
-function ReportCard({report}) {
+function ReportCard({report,selectedReport,setSelectedReport}) {
 
-    const {reportTitle,finishDate} = report
+    const {reportTitle,startDate,reportId} = report
+
 
     return (
-        <div style={{display: 'flex' , gap: '20px' , minWidth: '140px', padding: '10px' , alignItems: 'center' , backgroundColor: 'white'}}>
-            <span>{reportTitle}</span>
-            {
-                finishDate == null ? 
-                    <span style={{padding: '5px' ,borderRadius: '3px', backgroundColor: '#03aa35ee' ,fontSize: '14px', color: 'white'}}>completed</span>
-                :
-                    <span style={{padding: '5px' ,borderRadius: '3px', backgroundColor: '#e40000ec' ,fontSize: '14px', color: 'white'}}>pending</span>
-            }
+        <div onClick={()=>{setSelectedReport(reportId)}} style={{display: 'flex' , gap: '20px' , minWidth: '140px', padding: '8px' , justifyContent: 'space-between',alignItems: 'center' , backgroundColor: selectedReport == reportId ?  '#056699': '#f3f1f1d7'   , cursor: 'pointer',borderLeft: selectedReport == reportId ? '4px solid #f3f1f1d7' : '4px solid #056699' , borderRadius: '3px' , transition: '.4s' }}>
+            <span style={{padding: '2px 10px' , borderRadius: '3px' , backgroundColor: 'white'}}>{reportTitle}</span>
+            <span  style={{color: selectedReport == reportId ? 'white': 'black' }}>{format(new Date(startDate), "yyyy / MM / dd")}</span>
         </div>
     )
 }

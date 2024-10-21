@@ -5,7 +5,7 @@ export default function ShowAllTest() {
 
     return (
         <>
-            <RecevingMarkes type={'show'}/>
+            <RecevingMarkes type={'Show All Test'}/>
         </>
     )
 }
