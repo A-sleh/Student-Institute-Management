@@ -1,13 +1,11 @@
-import { Children, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
-import { useNavigate } from "react-router-dom"
 
-
-export default function ClassesTable({selectedGrade,search,type}) {
-
+export default function ShowAllClasses({selectedGrade,search}) {
     const [classes,setClasses] = useState([])
-    const gotoTestClassCurrentPage = useNavigate()
+    const goto = useNavigate()
 
     useEffect(() => {
         DataServices.showCalsses().then( classes => {
@@ -17,7 +15,7 @@ export default function ClassesTable({selectedGrade,search,type}) {
                 })
             )
         })
-    } , [selectedGrade])
+    } ,[selectedGrade,search])
 
     return (
         <>
@@ -36,10 +34,10 @@ export default function ClassesTable({selectedGrade,search,type}) {
                     <tbody>
                         {
                             classes.map( (Class,index) => {  
-                                const {title,gender,grade,students} = Class  
+                                const {title,gender,grade,students,classId} = Class  
                                 if( !title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))return                   
                                 return (
-                                    <tr className="hovering-row" style={{cursor: 'pointer'}} onClick={()=>{gotoTestClassCurrentPage(`/Test/TestClassCurrent/${Class.classId}`,{state:{ grade : selectedGrade , classTitle :title ,type : type } })}}>
+                                    <tr className="hovering-row" style={{cursor: 'pointer'}} onClick={()=>{goto(`/CreateReport/LinkTestWithReport/${classId}`)}}>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' , color: 'white' , backgroundColor: '#056599b3',width: '15%',borderBottom: '1px solid white'}}>{index + 1}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{title}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{gender}</td>

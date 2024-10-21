@@ -5,12 +5,14 @@ import { useEffect, useMemo, useState } from "react";
 import DataServices from "../../../../Data/dynamic/DataServices";
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects";
 import { FormInputFieldStyle } from "../EmentsStyle";
+import Notification from "../../../Global/Notification";
 
 export default function TestClassCurrent() {
 
     const classId = useParams().classId; // i will use this id to get all tests for the current class ,But the endpoint needed to build
     const grade = useLocation().state.grade
     const classTitle = useLocation().state.classTitle
+    const componentType = useLocation().state.type
     const gotoPage = useNavigate()
     const [tests,setTset] = useState([])
     const [dateSearch,setDateSearch] = useState('')
@@ -18,6 +20,8 @@ export default function TestClassCurrent() {
     const [filterBySubject,setFilterBySubject] = useState('All')
     const [testType,setTestType] = useState('All') ;
     const [subjects,setSubjects] = useState([]) ;
+    const [testState,setTestState] = useState(false)
+    const [markNotCorrectionYet,setMarkNotCorrectionYet] = useState(false)
 
     useEffect(() => {
         DataServices.ShowAllSubject().then( subjects => {
@@ -31,11 +35,11 @@ export default function TestClassCurrent() {
     useEffect(() => {
         DataServices.ShowCurrentClassTests(classId).then( tests => {
             setTset(tests.filter(test => {
-                if ((dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return 
-                return (testType == 'All' || testType.toLowerCase() == test.testType.toLocaleLowerCase() ) && (filterBySubject == 'All' || filterBySubject.toLocaleLowerCase() == test.subject.subject.toLowerCase())
+                if ((dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return false
+                return ((testState && test.correctionDate == null) || (!testState && test.correctionDate != null))&&(testType == 'All' || testType.toLowerCase() == test.testType.toLocaleLowerCase() ) && (filterBySubject == 'All' || filterBySubject.toLocaleLowerCase() == test.subject.subject.toLowerCase())
             }))
         })
-    } ,[testType,filterBySubject,dateSearch])
+    } ,[testType,filterBySubject,dateSearch,testState])
 
     const {
         getTableProps,
@@ -51,11 +55,29 @@ export default function TestClassCurrent() {
     useSortBy,
     );
 
+    function handleClassRowClicked(test) {
+        
+        const {testType,date,subject,testId,correctionDate} = test
+        if( componentType == 'show' && correctionDate == null ) {
+            setMarkNotCorrectionYet(true)
+            setTimeout(() => {
+                setMarkNotCorrectionYet(false)
+            }, 2000 )
+        }
+        else gotoPage(`/Test/StudentMarkForm/${testId}`,{state:{classId:classId,testType:testType,subject:subject.subject,date:date,grade:grade,classTitle:classTitle,componentType:componentType}});
+    }
+
+
     return (   
         <>     
+            <Notification title={'The mark not correction yet'} type={'error'} state ={markNotCorrectionYet} setState={setMarkNotCorrectionYet} />
             <HeaderFilterTable  testType={testType} filterBySubject={filterBySubject} setTestType={setTestType} setFilterBySubject={setFilterBySubject} subjects={subjects}  dateSearch={dateSearch}setDateSearch={setDateSearch}/>
             <h3 style={{backgroundColor: '#066599',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
                 {grade} / {classTitle} / Tests
+                <span style={{float: 'right'}}>
+                    <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ? '300': '500' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(false)}>Show correction test</button>
+                    <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ?  '500': '300' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(true)}>Show uncorrection test</button>
+                </span>
             </h3>
             <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
                 <table {...getTableProps()} >    
@@ -93,10 +115,10 @@ export default function TestClassCurrent() {
                 </thead>
                 <tbody {...getTableBodyProps()}>
                     {rows.map((row, index) => {
-                        const {testType,date,subject,testId} = row.original
                         prepareRow(row);
+                        
                         return (
-                            <tr className="hovering-row" {...row.getRowProps()}  style={{cursor: 'pointer'}} key={index} onClick={()=>gotoPage(`/Test/StudentMarkForm/${row.original.testId}`,{state:{classId:classId,testType:testType,subject:subject.subject,date:date,grade:grade,classTitle:classTitle}})}>
+                            <tr className="hovering-row" {...row.getRowProps()}  style={{cursor: 'pointer'}} key={index} onClick={()=> handleClassRowClicked(row.original)}>
                             {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index} style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>
                                 {cell.render("Cell")}

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
-import DataServices from "../../../../Data/dynamic/DataServices";
-import ClassesTable from "./ClassesTable";
+import { useEffect, useState } from "react";
 import { HeaderControal } from "../../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+import ShowAllClasses from "./ShowAllClasses";
+import DataServices from "../../../../Data/dynamic/DataServices";
 
-export default function RecevingMarkes({type}) {
+export default function ManageReports() {
 
     const [classesGrade,setClassesGrade] = useState([]) ; 
     const [selectedGrade,setSelectedGrade] = useState('bachelor')
@@ -37,7 +37,7 @@ export default function RecevingMarkes({type}) {
                     <HeaderControal searcByName={search} setSearcByName={setSearch} />
                 </div>
             </div>
-            <ClassesTable selectedGrade={selectedGrade} search={search} type={type}/> 
+            <ShowAllClasses selectedGrade={selectedGrade} search={search} /> 
         </div>
     )
 }

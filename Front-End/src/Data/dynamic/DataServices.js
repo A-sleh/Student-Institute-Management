@@ -147,6 +147,12 @@ export default {
   },
   AssingeMarkToTheTest : (testMarkId,mark) => {
     return API.Test.put(testMarkId,mark)
+  },
+  CreateNewReport: (data) => {
+    return API.Report.post(data)
+  },
+  ShowAllNativeReports : (id) => {
+    return API.Report.get(id)
   }
 };
 

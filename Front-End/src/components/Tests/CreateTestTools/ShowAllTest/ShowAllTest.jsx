@@ -1,28 +1,12 @@
-import { useEffect, useState } from "react";
-import TestTable from "./TestTable";
-import DataServices from "../../../../Data/dynamic/DataServices";
+
+import RecevingMarkes from "../AssineMarke/RecevingMarkes";
 
 export default function ShowAllTest() {
 
-    const [grade,setGrade] = useState('bachelor');
-    const [filterBySubject,setFilterBySubject] = useState('All')
-    const [testType,setTestType] = useState('All') ;
-    const [subjects,setSubjects] = useState([]) ;
-
-    useEffect(() => {
-        DataServices.ShowAllSubject().then( subjects => {
-            setSubjects(subjects.filter( subject => {
-                return grade == 'All' || grade.toLocaleLowerCase() == subject.grade.toLocaleLowerCase()
-            }))
-        })
-    } ,[grade])
-
-
     return (
-        <div>
-            <HeaderControlOnTestClasses grade={grade} testType={testType} filterBySubject={filterBySubject} setGrade={setGrade} setTestType={setTestType} setFilterBySubject={setFilterBySubject} subjects={subjects}  />
-            <TestTable type={grade}  testType={testType} filterBySubject={filterBySubject}/>
-        </div>
+        <>
+            <RecevingMarkes type={'show'}/>
+        </>
     )
 }
 

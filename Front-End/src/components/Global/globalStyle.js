@@ -18,3 +18,14 @@ export default function addSpaceBetweenDigit(number) {
 
     return newNumber
 }
+
+export const DropDownSearch = {
+    flexDirection: 'column' ,
+    position: 'absolute',
+    display: 'flex',
+    top: 'calc(100% + 5px)',
+    borderRadius: '10px',
+    width: '100%',
+    transformOrigin: 'top',
+    transition: '.3s',
+}

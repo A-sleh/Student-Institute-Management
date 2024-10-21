@@ -40,12 +40,16 @@ import ManagExternalBill from "./components/Bills/ExternalPaysCom/ManagExternalB
 import ShowBillExternalDetails from "./components/Bills/ExternalPaysCom/ShowBillExternalDetails.jsx";
 import NewTest from "./components/Tests/CreateTestTools/NewTest/NewTest.jsx";
 import ShowAllTest from "./components/Tests/CreateTestTools/ShowAllTest/ShowAllTest.jsx";
-import ManageTest from "./components/Tests/CreateTestTools/ManageTest/ManageTest.jsx";
 import RecevingMarkes from "./components/Tests/CreateTestTools/AssineMarke/RecevingMarkes.jsx";
 import ClassesTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/ClassesTestDetails.jsx";
 import StudentTestDetails from "./components/Tests/CreateTestTools/ShowAllTest/StudentTestDetails.jsx";
 import TestClassCurrent from "./components/Tests/CreateTestTools/AssineMarke/TestClassCurrent.jsx";
 import StudentMarkForm from "./components/Tests/CreateTestTools/AssineMarke/StudentMarkForm.jsx";
+import NewReportForm from "./components/Tests/CreateReportTools/NewReport/NewReportForm.jsx";
+import ManageReports from "./components/Tests/CreateReportTools/ManageReport/ManageReports.jsx";
+import ReportDetails from "./components/Tests/CreateReportTools/Report details/ReportDetails.jsx";
+import PrintReport from "./components/Tests/CreateReportTools/Print Report/PrintReport.jsx";
+import LinkTestWithReport from "./components/Tests/CreateReportTools/ManageReport/LinkTestWithReport.jsx";
 
 
 const urlPath = [
@@ -60,7 +64,6 @@ const urlPath = [
   { path: "/TeacherInformation/:info", component: <TeacherInformation /> },
   { path: "AllBillDetails", component: <AllBillDetails /> },
   { path: "TestDetails", component: <TestDetails /> },
-  { path: "CreateReport", component: <CreateReport /> },
   { path: "estDetails", component: <estDetails /> },
   { path: "NewClass", component: <NewClass /> },
   { path: "ManageClasses", component: <ManageClasses /> },
@@ -138,12 +141,21 @@ export default function App() {
               <Route index element={<NewTest />} />  
               <Route path="NewTest" element={<NewTest />} />  
               <Route path="ShowAllTest" element={<ShowAllTest />} />
-              <Route path="ManageTest" element={<ManageTest />} />
+              {/* <Route path="ManageTest" element={<ManageTest />} /> */}
               <Route path="RecivingMarks" element={<RecevingMarkes />} />
               <Route path="ClassesTestDetails/:testId" element={<ClassesTestDetails />} />
               <Route path="StudentTestDetails/:classId" element={<StudentTestDetails />} />
               <Route path="TestClassCurrent/:classId" element={<TestClassCurrent />} />
               <Route path="StudentMarkForm/:testId" element={<StudentMarkForm />} />
+            </Route>
+
+            <Route path="CreateReport" element={<CreateReport />} >
+              <Route index element={<NewReportForm />} />  
+              <Route path="NewReportForm" element={<NewReportForm />} />  
+              <Route path="LinkTestWithReport/:classId" element={<LinkTestWithReport />} />  
+              <Route path="ManageReports" element={<ManageReports />} />
+              <Route path="ReportDetails" element={<ReportDetails />} />  
+              <Route path="PrintReport" element={<PrintReport />} />
             </Route>
 
             <Route path="*" element={<h1>Not Found</h1>} />
