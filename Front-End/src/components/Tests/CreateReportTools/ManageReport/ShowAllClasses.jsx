@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 
-export default function ShowAllClasses({selectedGrade,search}) {
+export default function ShowAllClasses({selectedGrade,search,url}) {
     const [classes,setClasses] = useState([])
     const goto = useNavigate()
 
@@ -37,7 +37,7 @@ export default function ShowAllClasses({selectedGrade,search}) {
                                 const {title,gender,grade,students,classId} = Class  
                                 if( !title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))return                   
                                 return (
-                                    <tr className="hovering-row" style={{cursor: 'pointer'}} onClick={()=>{goto(`/CreateReport/LinkTestWithReport/${classId}`)}}>
+                                    <tr className="hovering-row" style={{cursor: 'pointer'}} onClick={()=>{goto(`${url}/${classId}`)}}>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' , color: 'white' , backgroundColor: '#056599b3',width: '15%',borderBottom: '1px solid white'}}>{index + 1}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{title}</td>
                                         <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{gender}</td>

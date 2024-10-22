@@ -33,11 +33,12 @@ export default function ManageReports() {
                         })
                     }
                 </select>
+                <h3 style={{color: '#056699' }}>Manage Report</h3>
                 <div style={{width: '30%'}}>
                     <HeaderControal searcByName={search} setSearcByName={setSearch} />
                 </div>
             </div>
-            <ShowAllClasses selectedGrade={selectedGrade} search={search} /> 
+            <ShowAllClasses selectedGrade={selectedGrade} search={search} url={'/CreateReport/LinkTestWithReport'}/> 
         </div>
     )
 }
