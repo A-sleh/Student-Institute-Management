@@ -293,8 +293,8 @@ export default {
           return response.json()}
         );
       },
-      AllTestInTheClasss : (classId) => {
-        return fetch(`${URL}/Class/${classId}/Test`).then((response) =>{
+      AllTestInTheClasss : (classId,flag) => {
+        return fetch(`${URL}/Class/${classId}/Test?flag=${flag}`).then((response) =>{
           return response.json()}
         );
       }
@@ -330,10 +330,27 @@ export default {
     },
   },
   Report: {
-    get: (id) => {
-      return fetch(`${URL}/Report/${id || ''}`).then((response) =>
-        response.json()
-      );
+    get: {
+      AllReports : (id) => {
+        return fetch(`${URL}/Report/${id || ''}`).then((response) =>
+          response.json()
+        );
+      },
+      AllClassReports : (classId) => {
+        return fetch(`${URL}/Report?classId=${classId}`).then((response) =>
+          response.json()
+        );
+      },
+      AvgCurrentClassReport :  (reportId,classId,type) => {
+        return fetch(`${URL}/Report/Class/Average?reportId=${reportId}&classId=${classId}&type=${type}`).then((response) =>
+          response.json()
+        );
+      },
+      AllStudent : (reportId,classId) => {
+        return fetch(`${URL}/Report/${reportId}/Student/Result?classId=${classId}`).then((response) =>
+          response.json()
+        );
+      },
     },
     post: (data) => {
       return fetch(`${URL}/Report`, {
@@ -344,8 +361,8 @@ export default {
         },
       });
     },
-    put: (data) => {
-      return fetch(`${URL}/Student`, {
+    put: (reportId,data) => {
+      return fetch(`${URL}/Report/${reportId}/Test`, {
         method: "PUT",
         body: JSON.stringify(data),
         headers: {
@@ -358,5 +375,5 @@ export default {
         method: "DELETE",
       });
     },
-  },
+  }
 };

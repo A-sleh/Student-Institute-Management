@@ -14,7 +14,7 @@ export default function StudentMarkForm() {
     const [marksValid,setMarksValid] = useState({})
     const gotoPage = useNavigate()
     const testId = useParams().testId
-    const {classId,testType,date,grade,classTitle,subject,componentType} = useLocation().state
+    const {classId,testType,date,grade,classTitle,subject,componentType,SubjectMark} = useLocation().state
     
     
     useEffect(() => {
@@ -98,6 +98,7 @@ export default function StudentMarkForm() {
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name</th>
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Father Name</th>
                             <th style={{...thStyle,border: 'none' , padding: '15px' }}>Mark</th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Maximum Mark</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,6 +117,7 @@ export default function StudentMarkForm() {
                                             }
                                             
                                         </td>
+                                        <td style={{padding: '10px' , margin: '5px 0' , border: 'none'  }}>{SubjectMark}</td>
                                     </tr>
                                 )
                             })

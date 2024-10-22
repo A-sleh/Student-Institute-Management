@@ -127,6 +127,10 @@ Day 16 :
         
 Day 17 : 
     -[X] ues the response which returned from create new test rquest 
-    -[] display report 
-    -[] display queiz in one section 
-    -[] display (exam - revesion .. ) in other section 
+    -[X] display report 
+    -[X] display queiz in one section 
+    -[X] display (exam - revesion .. ) in other section 
+Day 18 : 
+    -[] link each tests with the current report
+    -[] display report for each class 
+    -[] 

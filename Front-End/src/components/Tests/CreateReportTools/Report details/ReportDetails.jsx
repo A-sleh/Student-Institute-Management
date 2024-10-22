@@ -38,7 +38,7 @@ export default function ReportDetails() {
                     <HeaderControal searcByName={search} setSearcByName={setSearch} />
                 </div>
             </div>
-            <ShowAllClasses selectedGrade={selectedGrade} search={search} url={'/CreateReport/ShowClassReports'} /> 
+            <ShowAllClasses selectedGrade={selectedGrade} search={search} url={'/CreateReport/ShowClassReports'} type={'classes'}/> 
         </div>
     )
 
