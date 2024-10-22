@@ -1,4 +1,5 @@
-﻿using DataAcess.Data;
+﻿using Dapper;
+using DataAcess.Data;
 using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
@@ -35,11 +36,11 @@ namespace MiniAPI.APIs
             app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
-        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId, bool? flag)
+        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId, bool? flag, bool showLinked)
         {
             try
             {
-                var res = await data.GetClassTests(classId, flag);
+                var res = await data.GetClassTests(classId, flag, showLinked);
                 return Results.Ok(res);
             }
             catch (Exception e)

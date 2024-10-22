@@ -20,7 +20,7 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        public async Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showOnlyUncorrected)
+        public async Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showOnlyUncorrected, bool showLinked = true)
         {
             var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.ClassGetTests", new { classId, showOnlyUncorrected },
             (Test, Subject, Report) =>
@@ -30,7 +30,7 @@ namespace DataAcess.Data
                 return Test;
             },
             splitOn: "SubjectId, ReportId");
-            return res;
+            return res.Select(x => x).Where(t => showLinked == true || t.Report == null);
         }
         public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
