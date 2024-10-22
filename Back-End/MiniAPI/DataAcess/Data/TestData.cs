@@ -59,7 +59,7 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId)
+        public async Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId, int? classId)
         {
             var res = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
                 new { testId },
@@ -70,7 +70,8 @@ namespace DataAcess.Data
                     return Mark;
                 },
                 splitOn: "StudentId, ClassId");
-            return res;
+            var students = res.Select(x => x.Student).Where(s => s?.Class?.ClassId == classId || classId == null);
+            return res.Where(x => students.Contains(x.Student));
         }
 
         public async Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId)

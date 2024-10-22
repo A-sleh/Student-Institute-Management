@@ -5,7 +5,7 @@ namespace DataAcess.Data
     public interface IClassData
     {
         Task DeleteClass(int id);
-        Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showCorrected);
+        Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showCorrected, bool isLinked = true);
         Task<ClassModel?> GetClassDetails(int id);
         Task<IEnumerable<ClassModel>> GetClasses(int? limit);
         Task InsertClass(ClassModel classModel);

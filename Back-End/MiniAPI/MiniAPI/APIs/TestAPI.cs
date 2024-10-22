@@ -11,7 +11,7 @@ namespace MiniAPI.APIs
             // Get Student
             app.MapGet("/Test/Student/{studentId}", GetStudentMarks);
             app.MapGet("/Test/Subject/{subjectId}", GetTestBySubject);
-            app.MapGet("/Test/{testId}/Class/{classId}", GetTestClassMarks);
+            //app.MapGet("/Test/{testId}/Class/{classId}", () => { });
             app.MapGet("/Test", GetTests);
             app.MapGet("/Test/{testId}", GetTestMarksByTestId);
             app.MapGet("/Test/{testId}/Class", GetTestClasses);
@@ -37,11 +37,11 @@ namespace MiniAPI.APIs
                 return Results.BadRequest(e.Message);
             }
         }
-        private static async Task<IResult> GetTestMarksByTestId(ITestData data, int testId)
+        private static async Task<IResult> GetTestMarksByTestId(ITestData data, int testId, int? classId)
         {
             try
             {
-                var res = await data.GetTestMarks(testId);
+                var res = await data.GetTestMarks(testId, classId);
                 return Results.Ok(res);
             }
             catch (Exception e)
@@ -141,18 +141,18 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTestClassMarks(ITestData data, int Testid, int ClassId)
-        {
-            try
-            {
-                var res = await data.GetTestMarksByClassId(Testid, ClassId);
-                return Results.Ok(res);
-            }
-            catch (Exception e)
-            {
-                return Results.Problem(e.Message);
-            }
-        }
+        //private static async Task<IResult> GetTestClassMarks(ITestData data, int Testid, int ClassId)
+        //{
+        //    try
+        //    {
+        //        var res = await data.GetTestMarksByClassId(Testid, ClassId);
+        //        return Results.Ok(res);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Results.Problem(e.Message);
+        //    }
+        //}
 
         private static async Task<IResult> UpdateStudentMark(ITestData data, int testMarkId, int Mark)
         {
