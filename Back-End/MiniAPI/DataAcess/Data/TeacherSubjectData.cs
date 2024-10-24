@@ -94,7 +94,7 @@ namespace DataAcess.Data
         public async Task InsertTeacherSubjects(TeacherSubjectModel model) 
             => await _db.ExecuteData("dbo.TeacherSubjectInsert", new
             {
-                model.TeacherId,
+                model.Teacher?.TeacherId,
                 model.Subject?.SubjectId,
                 model.Salary
             });

@@ -16,6 +16,19 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
+        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(string? grade)
+        {
+            var res = await _db.LoadData<dynamic, TeacherSubjectModel, TeacherModel, SubjectModel>(
+                "dbo.TeacherSubjectGetAll", new { grade },
+                (tsm, teacher, subject) =>
+                {
+                    tsm.Subject = subject;
+                    tsm.Teacher = teacher;
+                    return tsm;
+                },
+                splitOn: "TeacherId, SubjectId");
+            return res;
+        }
 
         public void ValidateId(int teacherId)
         {
