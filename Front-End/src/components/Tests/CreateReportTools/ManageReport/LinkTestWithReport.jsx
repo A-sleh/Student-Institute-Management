@@ -4,22 +4,25 @@ import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { format } from "date-fns"
+import Notification from "../../../Global/Notification"
 
 export default function LinkTestWithReport() {
 
-    const [selectedReport,setSelectedReport] = useState({})
+    const [selectedReport,setSelectedReport] = useState(null)
     const classId = useParams().classId
     const [typeTest,setTypeTest] = useState('revision')
     const [tests,setTests] = useState([])
     const [selectedTestId,setSelectedTestId] = useState({})
     const [selectedQuizId,setSelectedQuizId] = useState({})
+    const [successLinkTest,setSuccessLinkTest] = useState(false)
+    const [wornining,setWornining] = useState(false)
     const gotoPage = useNavigate()
 
     useEffect(() => {
-        DataServices.ShowCurrentClassTests(classId).then(tests => {
+        DataServices.ShowCurrentClassTests(classId,true).then(tests => {
             setTests(tests)
         })
-    } ,[])
+    } ,[successLinkTest])
     
     
     function handleCreateReportClicked() {
@@ -27,20 +30,34 @@ export default function LinkTestWithReport() {
         for (let key in selectedQuizId) 
             testIds.push(+key)
         for (let key in selectedTestId) 
-            testIds.push(+key)        
-        
+            testIds.push(+key)     
+        if( selectedReport == null || testIds.length == 0 ) {
+            setWornining(true)
+            setTimeout(() => {
+                setWornining(false)
+            } , 2000 )
+            return 
+        }  
+        DataServices.LinkTestWithCurrentReport(selectedReport,testIds).then( _ => {
+            setSuccessLinkTest(true)
+            setTimeout(() => {
+                setSuccessLinkTest(false)
+            } , 2000 )
+        })
     }
 
 
     return (
         <>
+            <Notification title={'Link test with report'} type={'success'} state ={successLinkTest} setState={setSuccessLinkTest}/>
+            <Notification title={'You must select reporat ,And some tests'} type={'error'} state ={wornining} setState={setWornining}/>
             <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
             <div style={{display: 'flex',gap: '10px',flexWrap: 'wrap' ,backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px',}}>
                 <ShowingTable data={tests}  type={'quiz'} state={selectedQuizId} setState={setSelectedQuizId} />
                 <ShowingTable data={tests}  type={typeTest} state={selectedTestId} setState={setSelectedTestId} typeTest={typeTest} setTypeTest={setTypeTest} />
             </div>
             <div style={{margin: '5px 0'}} >
-                <button onClick={handleCreateReportClicked } style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: '#056699' , border: 'none' , outline: 'none' , borderRadius: '2px' }}>Create</button>
+                <button onClick={handleCreateReportClicked} style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: '#056699' , border: 'none' , outline: 'none' , borderRadius: '2px' }}>Create</button>
                 <button onClick={()=>{gotoPage(-1)} } style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: 'red' , border: 'none' , outline: 'none' , borderRadius: '2px' ,marginLeft: '8px'}}>Back</button>
             </div>
         </>
@@ -67,11 +84,9 @@ function ShowingTable({data,type,state,setState,typeTest,setTypeTest}) {
         let newTests = new Map() ;
 
         data.forEach( test => {
-            console.log(test)
             const {testType,testId} = test 
 
             if(type == 'quize' && testType.toLowerCase() == type ){
-                console.log('here')
                 newTests[testId] =  true 
             }  
             if(type != 'quize'&& testType.toLowerCase() == type ){

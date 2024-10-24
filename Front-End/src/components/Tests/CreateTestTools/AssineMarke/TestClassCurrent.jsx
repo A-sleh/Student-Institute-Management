@@ -30,10 +30,10 @@ export default function TestClassCurrent() {
             }))
         })
     } ,[])
-
-
+    
+    
     useEffect(() => {
-        DataServices.ShowCurrentClassTests(classId).then( tests => {
+        DataServices.ShowCurrentClassTests(classId,false).then( tests => {
             setTset(tests.filter(test => {
                 if ((dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return false
                 return ((testState && test.correctionDate == null) || (!testState && test.correctionDate != null))&&(testType == 'All' || testType.toLowerCase() == test.testType.toLocaleLowerCase() ) && (filterBySubject == 'All' || filterBySubject.toLocaleLowerCase() == test.subject.subject.toLowerCase())
@@ -64,7 +64,7 @@ export default function TestClassCurrent() {
                 setMarkNotCorrectionYet(false)
             }, 2000 )
         }
-        else gotoPage(`/Test/StudentMarkForm/${testId}`,{state:{classId:classId,testType:testType,subject:subject.subject,date:date,grade:grade,classTitle:classTitle,componentType:componentType}});
+        else gotoPage(`/Test/StudentMarkForm/${testId}`,{state:{classId:classId,testType:testType,subject:subject.subject,date:date,grade:grade,classTitle:classTitle,componentType:componentType,SubjectMark :subject.maximumMark}});
     }
 
 

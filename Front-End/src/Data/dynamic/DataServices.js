@@ -142,8 +142,8 @@ export default {
   ClassTestLink : (classId,testId) => {
     return API.Test.post.ClassTest(classId,testId)
   },
-  ShowCurrentClassTests : (classId) => {
-    return API.Test.get.AllTestInTheClasss(classId)
+  ShowCurrentClassTests : (classId,flag) => {
+    return API.Test.get.AllTestInTheClasss(classId,flag)
   },
   AssingeMarkToTheTest : (testMarkId,mark) => {
     return API.Test.put(testMarkId,mark)
@@ -152,7 +152,23 @@ export default {
     return API.Report.post(data)
   },
   ShowAllNativeReports : (id) => {
-    return API.Report.get(id)
+    return API.Report.get.AllReports(id)
+  },
+  LinkTestWithCurrentReport : (classId,data) => {
+    return API.Report.put(classId,data)
+  },
+  ShowAllClassReports : (classId) => {
+    return API.Report.get.AllClassReports(classId)
+  },
+  ShowQuizAvarageInCurrentClassReport : (reportId,classId) => {
+    return API.Report.get.AvgCurrentClassReport(reportId,classId,'quiz')
+  },
+  ShowExamAvarageInCurrentClassReport : (reportId,classId) => {
+    return API.Report.get.AvgCurrentClassReport(reportId,classId,'exam')
+  },
+  ShowAllStudentsForCurrentReport : (reportId,classId) => {
+    return API.Report.get.AllStudent(reportId,classId)
+
   }
 };
 

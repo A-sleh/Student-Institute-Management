@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 
-export default function ShowAllClasses({selectedGrade,search,url}) {
+export default function ShowAllClasses({selectedGrade,search,url,type}) {
     const [classes,setClasses] = useState([])
     const goto = useNavigate()
 
