@@ -6,14 +6,6 @@ export const TEACHERCOLUMN = [
     accessor: "full_name",
   },
   {
-    Header : 'Subjecets' ,
-    accessor: "teacherSubjects",
-  },
-  {
-    Header : 'Phone' ,
-    accessor: "phone",
-  },
-  {
     Header: 'Phone Number',
     accessor: 'phone'
   }

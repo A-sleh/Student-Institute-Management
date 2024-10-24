@@ -5,6 +5,7 @@ import DataServices from "../../Data/dynamic/DataServices";
 import Notification from "../Global/Notification.jsx";
 import { useNavigate } from "react-router-dom";
 import { theadThStyle } from "../Global/globalStyle.js";
+import DeleteModal from "../Modal/DeleteModal.jsx";
 
 export default function StudentTable({
   students,
