@@ -52,6 +52,7 @@ import PrintReport from "./components/Tests/CreateReportTools/Print Report/Print
 import LinkTestWithReport from "./components/Tests/CreateReportTools/ManageReport/LinkTestWithReport.jsx";
 import ShowClassReports from "./components/Tests/CreateReportTools/Report details/ShowClassReports.jsx";
 import ReportClassDetails from "./components/Tests/CreateReportTools/Report details/ReportClassDetails.jsx";
+import StudentReportTests from "./components/Tests/CreateReportTools/Report details/StudentReportTests.jsx";
 
 
 const urlPath = [
@@ -157,6 +158,7 @@ export default function App() {
               <Route path="LinkTestWithReport/:classId" element={<LinkTestWithReport />} />  
               <Route path="ShowClassReports/:classId" element={<ShowClassReports />} />  
               <Route path="ReportClassDetails/:reportId" element={<ReportClassDetails />} />  
+              <Route path="StudentReportTests/:studentId" element={<StudentReportTests />} />  
               <Route path="ManageReports" element={<ManageReports />} />
               <Route path="ReportDetails" element={<ReportDetails />} />  
               <Route path="PrintReport" element={<PrintReport />} />

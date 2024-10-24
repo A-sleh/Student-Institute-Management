@@ -11,6 +11,7 @@ namespace MiniAPI.APIs
             // Get Student
             app.MapGet("/Test/Student/{studentId}", GetStudentMarks);
             app.MapGet("/Test/Subject/{subjectId}", GetTestBySubject);
+            
             //app.MapGet("/Test/{testId}/Class/{classId}", () => { });
             app.MapGet("/Test", GetTests);
             app.MapGet("/Test/{testId}", GetTestMarksByTestId);

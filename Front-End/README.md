@@ -113,7 +113,6 @@ Day 14 :
     -[X] auto close the nav linke when move to another one
     -[X] display teacher in show class details 
     -[X] in manage teacher should re get teacher remaing salarys
-    -[] display teacher in manage class details
 Day 15 :
     -[X] create insert marks to specify classs
 Day 16 : 
@@ -131,6 +130,13 @@ Day 17 :
     -[X] display queiz in one section 
     -[X] display (exam - revesion .. ) in other section 
 Day 18 : 
-    -[] link each tests with the current report
-    -[] display report for each class 
-    -[] 
+    -[X] link each tests with the current report
+    -[X] display report for each class 
+Day 19 : 
+    -[X] show class title and grade in (likn test with report page) And (report details)
+    -[X] Show The current path in the page show student information in the curretn report 
+    -[X] Create page contain student mark
+    -[X] display report details ( quiz - exam .. )
+Day 20 : 
+    -[] display teacher in manage class details
+    

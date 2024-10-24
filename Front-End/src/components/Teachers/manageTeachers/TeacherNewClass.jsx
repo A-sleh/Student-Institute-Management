@@ -2,14 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import Title from "../../Global/Title";
 import { TableHeaderControal, TeacherHeader } from "./TeacherNewSubject";
 import DataServices from "../../../Data/dynamic/DataServices";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRowSelect, useTable } from "react-table";
 import { theadThStyle } from "../../Global/globalStyle";
 import Notification from "../../Global/Notification";
 
 export default function TeacherNewClass() {
 
-    const teacherId = useParams().id ;
+    const teacherId = useParams().id ;  
+    const classId = useLocation()?.state?.ClassId || undefined;
 
     const gotoPreviousPage = useNavigate();
     const [currentSubjectClass,setCurrentSubjectClass] = useState({}) ;

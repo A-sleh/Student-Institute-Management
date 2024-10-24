@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ShowAllReport from "./ShowAllReports"
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 import DataServices from "../../../../Data/dynamic/DataServices"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { format } from "date-fns"
 import Notification from "../../../Global/Notification"
 
@@ -17,6 +17,7 @@ export default function LinkTestWithReport() {
     const [successLinkTest,setSuccessLinkTest] = useState(false)
     const [wornining,setWornining] = useState(false)
     const gotoPage = useNavigate()
+    const {grade,classTitle} = useLocation().state
 
     useEffect(() => {
         DataServices.ShowCurrentClassTests(classId,true).then(tests => {
@@ -51,6 +52,9 @@ export default function LinkTestWithReport() {
         <>
             <Notification title={'Link test with report'} type={'success'} state ={successLinkTest} setState={setSuccessLinkTest}/>
             <Notification title={'You must select reporat ,And some tests'} type={'error'} state ={wornining} setState={setWornining}/>
+            <div style={{backgroundColor: '#066599',padding: '15px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.6em',marginBottom: '10px'}}>
+                <span style={{width: '100%'}}>{classTitle} / {grade}</span>
+            </div>
             <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
             <div style={{display: 'flex',gap: '10px',flexWrap: 'wrap' ,backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px',}}>
                 <ShowingTable data={tests}  type={'quiz'} state={selectedQuizId} setState={setSelectedQuizId} />

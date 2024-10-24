@@ -131,10 +131,17 @@ export default {
     },
   },
   TeacherSubject : {
-    get: (id) => {
-      return fetch(`${URL}/Teacher/${id}/Class`).then((response) =>
-        response.json()
-      );
+    get: {
+      specifyTeacher : (id) => {
+        return fetch(`${URL}/Teacher/${id}/Class`).then((response) =>
+          response.json()
+        );
+      },
+      AllTeacher : (grade) => {
+        return fetch(`${URL}/Teacher`).then((response) =>
+          response.json()
+        );
+      }
     },
     post: (teacherId,data) => {
       return fetch(`${URL}/Teacher/${teacherId}/Subject`, {
@@ -295,6 +302,11 @@ export default {
       },
       AllTestInTheClasss : (classId,flag) => {
         return fetch(`${URL}/Class/${classId}/Test?flag=${flag}`).then((response) =>{
+          return response.json()}
+        );
+      },
+      StudentTestInCurrentReport : (studentId,reportId) => {
+        return fetch(`${URL}/Test/Student/${studentId}?reportId=${reportId}`).then((response) =>{
           return response.json()}
         );
       }

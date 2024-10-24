@@ -10,6 +10,7 @@ import StudentTable from "./StudentTable";
 import { useDispatch } from "react-redux";
 import { UPDATESUTENDSNUMBER } from "../../Redux/actions/type"; // test case 
 import TeacherTableClass from "./TeacherTableClass";
+import TeacherTableCurrentClass from "./TeacherTableClass";
 
 export default function ClassSetting({ ClassId, setDeleteClass }) {
 
@@ -22,14 +23,14 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
   const [updateBtnClicked, setUpdateBtnClicked] = useState(false);
   const [NotDeletClass, setNotDeleteClass] = useState(false);
   const [classDetails, setClassDetails] = useState({isEmpty: true});
-  const gotoInsertNewStudent = useNavigate();
+  const gotoPage = useNavigate()
 
   useEffect(() => {
     DataServices.showCalsses(ClassId).then((response) => {
       setClassDetails({...response,isEmpty : false});
     });
 
-    DataServices.ShowTeacherInSideClass(classId).then( teachers => {
+    DataServices.ShowTeacherInSideClass(ClassId).then( teachers => {
       setTeachersNumber(teachers?.length )
     })
 
@@ -56,8 +57,12 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
       type: UPDATESUTENDSNUMBER , // test case 
       payload: totalStudentsNumber// test case 
     })// test case 
-    gotoInsertNewStudent("InsertNewStudent", { state: classDetails });
+    gotoPage("InsertNewStudent", { state: encodeURIComponent(JSON.stringify(classDetails)) });
   };
+
+  function handleAddNewTeacherClicked() {
+    gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId}})
+  }
 
   return (
     <>
@@ -70,11 +75,11 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
       {deleteModal && (
         <DeleteModal
           element={title}
-          id={classId}
+          id={ClassId}
           type={"class"}
           setDeleteModal={setDeleteModal}
           setSuccessDelete={setDeleteClass}
-          classId={classId}
+          classId={ClassId}
         />
       )}
       <Notification
@@ -171,7 +176,26 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
 
           <div className="class-body-info">
             <div className="teachers-info">
-              <h3>Teachers</h3>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  margin: "10px 0",
+                }}
+                >
+                <h3>Teachers</h3>
+                <button
+                  className="add-btn"
+                  onClick={handleAddNewTeacherClicked}
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
+                  <i
+                    className="bi bi-plus-lg"
+                    style={{ lineHeight: "-10px" }}
+                  ></i>
+                  <span>Add New Teacher </span>
+                </button>
+              </div>
               <div className="teacher-name">
                 { teachersNumber == 0 ?
                   <p
@@ -183,7 +207,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
                   >
                     There are no teachers yet ...
                   </p> : 
-                  <TeacherTableClass classId={classId} />
+                  <TeacherTableCurrentClass classId={ClassId} /> 
                 }
               </div>
             </div>
@@ -224,7 +248,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
                    classDetails.isEmpty == false ? 
                         <StudentTable
                           students={classDetails.students}
-                          classID={classId}
+                          classID={ClassId}
                           setSuccessRemoveStudent={setSuccessRemoveStudent}
                         />
                     : ('')

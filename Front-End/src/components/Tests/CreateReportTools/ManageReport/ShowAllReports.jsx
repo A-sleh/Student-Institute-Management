@@ -20,9 +20,9 @@ export default function ShowAllReport({selectedReport,setSelectedReport}) {
     return (
         <>
             <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px', padding: '10px' ,marginBottom: '10px'}}>
-                <h3 style={{padding: '2px' , backgroundColor: '#056699' , color: 'white' , fontWeight: '500' , textAlign: 'center',borderRadius: '0 0 10px  10px'}}>REFPORTS</h3>
                 <div style={{display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
                     <FormInputFieldStyle type={'date'} style={{width: '30%'}} value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                    <h3 style={{padding: '2px' , color: '#056699' , fontWeight: '600' , textAlign: '',borderRadius: '0 0 10px  10px'}}>REFPORTS</h3>
                     <HeaderControal searcByName={search}setSearcByName={setSearch} style={{width: '30%'}}/>
                 </div>
                 <div style={{display: 'grid',gap: '10px' , gridTemplateColumns:"auto auto", backgroundColor: 'white' ,padding: '10px'}}>

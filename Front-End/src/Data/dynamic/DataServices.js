@@ -168,7 +168,9 @@ export default {
   },
   ShowAllStudentsForCurrentReport : (reportId,classId) => {
     return API.Report.get.AllStudent(reportId,classId)
-
+  },
+  ShowStudentTestInCurrentReport : (studentId,reportId) => {
+    return API.Test.get.StudentTestInCurrentReport(studentId,reportId)
   }
 };
 

@@ -1,14 +1,27 @@
 import { useTable , useRowSelect} from "react-table/dist/react-table.development";
 import { TEACHERCOLUMN } from "./TableTools/TeacherColumn";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
+import { theadThStyle } from "../Global/globalStyle";
+import Notification from "../Global/Notification";
 
-export default function TeacherTableClass({classId}) {
+export default function TeacherTableCurrentClass({classId}) {
+
 
     const [teachers,setTeachers] = useState([])
+    const [wornning, setWornning] = useState(false);
+    
     useEffect(() =>{
         DataServices.ShowTeacherInSideClass(classId).then(teachers => {
-            setTeachers(teachers)
+          const teachersDetailsMaping = teachers.map( teacher => {
+            const {lastName,name,phone,teacherSubjects} = teacher
+            return {
+              full_name : name + ' ' +lastName ,
+              phone , 
+              teacherSubjects: teacherSubjects || [] ,
+            }
+          })
+          setTeachers(teachersDetailsMaping)
         })
     } ,[])
 
@@ -16,12 +29,20 @@ export default function TeacherTableClass({classId}) {
         () => [
           ...TEACHERCOLUMN,
           {
-            Header : 'Selete' ,
-            id: "selection",
-            Cell: ({ row }) => (
-              <input type="checkbox" {...row.getToggleRowSelectedProps()} />
-            ),
-          },
+            Header : 'Subjecets' ,
+            accessor: "teacherSubjects",
+            Cell : ({value}) => {
+              return (
+                <div style={{ display: 'flex' ,gap: '3px' , justifyContent: 'center'}}>
+                  {
+                    value.map( subject => {
+                      return <span style={{fontSize: '13px',padding: '2px 5px' , borderRadius: '2px' , color: 'white' , backgroundColor: '#056699'}}>{subject.subject.subject}</span>
+                    })
+                  }                  
+                </div>
+              )
+            }
+          }
         ],
         []
     );
@@ -40,43 +61,16 @@ export default function TeacherTableClass({classId}) {
         },
         useRowSelect 
       );
-    
-
-    function removeStudentsFromClass() {
-        return new Promise((resolve) => {
-          selectedFlatRows.map((studentInfo, index) => {
-            const student = studentInfo.original;
-    
-            const removeClassId = {
-              ...student,
-              class: null,
-            };
-            DataServices.UpdateStudent(removeClassId)
-            if (index == selectedFlatRows.length - 1) {
-              resolve();
-            }
-          });
-        });
-    }
-    
-    function handleRemoveClicked() {
-        if (!SelectedRows()) {
-          setChangeStudent(true);
-          setTimeout(() => {
-            setChangeStudent(false);
-          }, 3000);
-          return;
-        }
-    
-        removeStudentsFromClass().then(() => {
-          setSuccessRemoveStudent(true);
-          setTimeout(() => {
-            setSuccessRemoveStudent(false);
-          }, 2000);
-        });
-    };
+  
 
     return(
+      <>
+        <Notification
+          title={"Please ,Selcet Any Teacher"}
+          type={"error"}
+          state={wornning}
+          setState={setWornning}
+        />
         <div
         style={{
           display: "flex",
@@ -88,46 +82,47 @@ export default function TeacherTableClass({classId}) {
             <div
             style={{ padding: "10px", width: "100%" }}
             >
-            <table {...getTableProps()}>
-                <thead className="thead">
-                        {headerGroups.map((headerGroup, index) => (
-                            <tr
-                            {...headerGroup.getHeaderGroupProps()}
-                            key={index}
-                            className="thead-row"
-                            >
-                            {headerGroup.headers.map((column, index) => (
-                                <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
-                                <span
-                                    style={{ marginLeft: "5px" }}
-                                    className="thead-cell"
-                                >
-                                    {column.render("Header")}
-                                </span>
-                                </th>
-                            ))}
-                            </tr>
-                        ))}
-                </thead>
-                <tbody {...getTableBodyProps()} style={{ backgroundColor: "white"}}>
-                {rows.map((row, index) => {
-                    prepareRow(row);
-                    return (
-                    <tr {...row.getRowProps()} key={index}>
-                        {row.cells.map((cell, index) => (
-                        <td {...cell.getCellProps()} key={index}>
-                            {cell.render("Cell")}
-                        </td>
-                        ))}
-                    </tr>
-                    );
-                })}
-                </tbody>
-            </table>
+              <table {...getTableProps()}>
+                  <thead className="thead">
+                          {headerGroups.map((headerGroup, index) => (
+                              <tr
+                              {...headerGroup.getHeaderGroupProps()}
+                              key={index}
+                              className="thead-row"
+                              >
+                              {headerGroup.headers.map((column, index) => (
+                                  <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
+                                  <span
+                                      style={{ marginLeft: "5px" }}
+                                      className="thead-cell"
+                                  >
+                                      {column.render("Header")}
+                                  </span>
+                                  </th>
+                              ))}
+                              </tr>
+                          ))}
+                  </thead>
+                  <tbody {...getTableBodyProps()} style={{ backgroundColor: "white"}}>
+                  {rows.map((row, index) => {
+                      prepareRow(row);
+                      return (
+                      <tr {...row.getRowProps()} key={index}>
+                          {row.cells.map((cell, index) => (
+                          <td {...cell.getCellProps()} key={index} style={{width: "25%"}}>
+                              {cell.render("Cell")}
+                          </td>
+                          ))}
+                      </tr>
+                      );
+                  })}
+                  </tbody>
+              </table>
             </div>
             <div className="btns-control">
-            <button onClick={handleRemoveClicked}>Remove</button>
+              <button  style={{padding: '3px 18px' , backgroundColor: 'red' , color: 'white' , fontSize: '13px',borderRadius: '3px',cursor: 'pointer' , border: 'none' , outline: 'none'}}>Remove</button>
             </div>
         </div>
+      </>
     )
 }
