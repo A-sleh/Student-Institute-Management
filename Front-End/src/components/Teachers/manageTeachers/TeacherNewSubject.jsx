@@ -83,7 +83,7 @@ export default function TeacherNewSubject() {
                     },
                     salary : subject.salary
                 }
-                DataServices.AddNewSubjectsForTeacher(teacherId,obj)
+                DataServices.AddNewSubjectsForTeacher({teacher:{teacherId:+teacherId},...obj})
             })
             resolve('done')
         })

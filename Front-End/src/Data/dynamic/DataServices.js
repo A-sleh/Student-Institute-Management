@@ -61,9 +61,9 @@ export default {
   ShowTeacherInSideClass : (classId) => {
     return API.Class.get.Teacher(classId)
   } ,
-  AddNewSubjectsForTeacher : (teacherId,data) => {
+  AddNewSubjectsForTeacher : (data) => {
     console.log(data)
-    return API.TeacherSubject.post(teacherId,data)
+    return API.TeacherSubject.post(data)
   },
   UpdataSubjectSalary : (teacherId,subjectId ,salary) => {
     return API.TeacherSubject.put(teacherId,subjectId ,salary)

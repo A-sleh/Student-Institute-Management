@@ -143,8 +143,8 @@ export default {
         );
       }
     },
-    post: (teacherId,data) => {
-      return fetch(`${URL}/Teacher/${teacherId}/Subject`, {
+    post: (data) => {
+      return fetch(`${URL}/Teacher/Subject`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {

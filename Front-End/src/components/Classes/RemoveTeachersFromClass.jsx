@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import DataServices from "../../Data/dynamic/DataServices"
 import { useParams } from "react-router-dom"
 import Title from "../Global/Title"
-import { thStyle } from "../Teachers/teacherInformation/TeacherSubjects"
+import { tBStyle, thStyle } from "../Teachers/teacherInformation/TeacherSubjects"
 import Subject from "../Subjects/Subject"
 
 export default function RemoveTeachersFromClass() {
@@ -27,57 +27,55 @@ export default function RemoveTeachersFromClass() {
             TeachersMaping.map( teacherSubjects => {
                 TeachersMapingFinal = [...TeachersMapingFinal,...teacherSubjects] ;
             })
-            console.log(TeachersMapingFinal)
+            setTeachers(TeachersMapingFinal)
         })
     },[])
 
-    console.log(teachers)
+    function handleTeacherRowClicked(teahcerSubjectId) {
+        let teachersSubjectsID = new Map() ;
+        teachersSubjectsID = {...teachersSelectedId} ;
+
+        // To remove teacher subject id if the user was selected before ,else added it on the state
+
+        if( teachersSubjectsID[teahcerSubjectId] ) {
+            delete teachersSubjectsID[teahcerSubjectId] 
+        }else teachersSubjectsID[teahcerSubjectId] = true
+
+        setTeachersSelectedId(teachersSubjectsID)
+    }
+
+    console.log(teachersSelectedId)
 
     return (
         <>
             <Title title={window.location.pathname}/>
-            {/* <table>
-                <thead  style={{position: 'relative' }}>                    
-                    <tr>
-                        <th style={{...thStyle,border: 'none' , padding: '15px' }}></th>
-                        <th style={{...thStyle,border: 'none' , padding: '15px' }}>Amount</th>
-                        <th style={{...thStyle,border: 'none' , padding: '15px' }}>Date</th>
-                        <th style={{...thStyle,border: 'none' , padding: '15px' }}>Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        teacherBills.map( bill => {
-                            const {billNo,amount,date,note,billId} = bill
+            <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px' , padding: '10px' , margin: '10px 0'}}>
+                <table>
+                    <thead  style={{position: 'relative' , top: '-5px' }}>                    
+                        <tr>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}></th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name</th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            teachers.map( (teacher,index) => {
+                                console.log(teacher)
+                                const {name,subject,teacherSubjectId} = teacher
 
-                            if(radioState.billNo && !`${billNo}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                return 
-                            }
-                            if(radioState.note && !`${note}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                return 
-                            }
-                            if(radioState.date && !`${date}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                return 
-                            }
-                            
-                            return (
-                                <tr >
-                                    <td style={tBStyle}>{billNo}</td>
-                                    <td style={tBStyle}>{addSpaceBetweenDigit(amount)}</td>
-                                    <td style={tBStyle}>{format( new Date(date) ,'yyyy / MM / dd' )}</td>
-                                    <td style={tBStyle}>{note}</td>
-                                    {
-                                        type == 'manage' &&
-                                        <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
-                                            <i className="fa-regular fa-trash-can delete remove-student-btn" onClick={()=>handleDeleteClicked(bill)}></i>
-                                        </td>
-                                    }
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table> */}
+                                return (
+                                    <tr style={{transition: '.3s',borderBottom: '2px solid white',borderLeft:teachersSelectedId[teacherSubjectId] ?  '2px solid #056699' : "none" ,color: teachersSelectedId[teacherSubjectId] ?  '#034568' : "black",backgroundColor: teachersSelectedId[teacherSubjectId] ?  '#05659945' : "white"}} className="hovering-row" onClick={()=>{handleTeacherRowClicked(teacherSubjectId)}}>
+                                        <td style={{transition: '.3s',padding: '15px'  , margin: '5px 0'  ,color: teachersSelectedId[teacherSubjectId] ? '#056699':'#000000', border: 'none' , backgroundColor:teachersSelectedId[teacherSubjectId] ? 'white': '#05659945',fontWeight: 'bold'  }}>{index + 1 }</td>
+                                        <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>{name}</td>
+                                        <td style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>{subject}</td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table> 
+            </div>
         </>
         
     )
