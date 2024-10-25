@@ -11,6 +11,8 @@ export default function TeacherNewClass() {
 
     const teacherId = useParams().id ;  
     const classId = useLocation()?.state?.ClassId || undefined;
+    const classTitle = useLocation()?.state?.classTitle || undefined;
+    const grade = useLocation()?.state?.grade || undefined;
 
     const gotoPreviousPage = useNavigate();
     const [currentSubjectClass,setCurrentSubjectClass] = useState({}) ;
@@ -18,7 +20,11 @@ export default function TeacherNewClass() {
     const [teacherClassAlreadySeleted,setTeacherClassAlreadySeleted] = useState(false)
     const [selectedTeacherClass,setSelectedTeacherClass] = useState([])
     const [selectedSubject,setSelectedSubject] = useState({})
-    const [selectedClass,setSelectedClass] = useState({})
+    const [selectedClass,setSelectedClass] = useState({
+        classId : classId || '' ,
+        title: classTitle || '',
+        grade : grade || ''
+    })
     const [teacherDetails,setTeacherDetails] = useState({}) ;
     const [teacherSubjects,setTeacherSubjects] = useState([]);
     const [successAddTeacherToClass,setSuccessAddTeacherToClass] = useState(false) 
@@ -28,9 +34,15 @@ export default function TeacherNewClass() {
         DataServices.TeacherInformaion(teacherId).then( teahcerInfo => {
             setTeacherDetails(teahcerInfo)
         })
-        DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
-            setTeacherSubjects(subjects)
-        })
+        if( classId != undefined ) {
+            DataServices.ShowAllTeachersSubjects(grade).then( teacherSubjects => {
+                setTeacherSubjects(teacherSubjects)
+            })
+        }else {
+            DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
+                setTeacherSubjects(subjects)
+            })
+        }
         DataServices.showCalsses().then( Classes => {
             setClasses(Classes) ;
             classSubjectsStatus(Classes).then( classSubject => {
@@ -142,8 +154,8 @@ export default function TeacherNewClass() {
             <TeacherHeader teacherDetails={teacherDetails}/>
             <div style={{display: 'flex' , gap: '10px' , flexWrap : 'wrap'}}>
                 <div style={{flex: '4 1 3em'}}>
-                    <SubjectsTable subjects={teacherSubjects} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject}/>
-                    <ClassesTable classes={classes} setSelectedClass={setSelectedClass} selectedClass={selectedClass}/>
+                    <SubjectsTable subjects={teacherSubjects} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject} AllTeachers={classId != undefined}/>
+                    <ClassesTable classes={classes} setSelectedClass={setSelectedClass} selectedClass={selectedClass} selectedGrade={grade} />
                 </div>
                 <div style={{flex : '1 2 5em' }}>
                     <TeacherClassSelected selectedTeacherClass={selectedTeacherClass} setSelectedTeacherClass={setSelectedTeacherClass} handleConfirmClicked={handleConfirmClicked}/>
@@ -155,9 +167,22 @@ export default function TeacherNewClass() {
 }
 
 
-function SubjectsTable({subjects,setSelectedSubject,selectedSubject}) {
+function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}) {
 
     const columns = useMemo(() => [
+        AllTeachers ? 
+        {
+            Header: 'Teacher Name' ,
+            accessor: 'name' ,
+            Cell : ({row}) => {
+                const teahcerDetails = row.original.teacher ; 
+                return teahcerDetails.name + ' ' + teahcerDetails.lastName;
+            }
+        }:
+        {   
+            Header: 'Grade' ,
+            accessor : 'subject.grade'
+        },
         {
             Header: 'Subject' ,
             accessor : 'subject.subject'
@@ -165,10 +190,6 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject}) {
         {   
             Header: 'Maximum Mark' ,
             accessor : 'subject.maximumMark'
-        },
-        {   
-            Header: 'Grade' ,
-            accessor : 'subject.grade'
         },
         {
             Header: 'Select' ,
@@ -196,7 +217,7 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject}) {
     
     return (
         <div style={{ backgroundColor: "#dddddd70",padding: "10px",borderRadius: "5px",}} >
-            <h3 style={{ margin: "10px 0" }}>Teacher subjects </h3>
+            <h3 style={{ margin: "10px 0" }}>Teacher{AllTeachers && 's'} subjects </h3>
             <table {...getTableProps()}>
                 <thead className="thead">
                     {headerGroups.map((headerGroup, index) => (
@@ -238,9 +259,9 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject}) {
 
 }
 
-function ClassesTable({classes,setSelectedClass,selectedClass}) {
+function ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade,ClassId}) {
 
-    const [filter,setFilter] = useState('all')
+    const [filter,setFilter] = useState(selectedGrade != undefined ? selectedGrade :'all')
     const [hiddenUsedSubject,setHiddenUsedSubject] = useState(false)
     
     const columns = useMemo(() => [
@@ -376,7 +397,7 @@ function ControlButtons({gotoPreviousPage,handleAddClicked}) {
     return (
         <div style={{margin: '10px 0'}}>
             <button onClick={()=>handleAddClicked()} style={{marginRight: '10px',padding: '4px 20px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599'}}>Add</button>
-            <button onClick={()=>{gotoPreviousPage('/ManageTeacher',{replace: true})}} style={{padding: '4px 20px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red'}}>Go Back</button>
+            <button onClick={()=>{gotoPreviousPage(-1,{replace: true})}} style={{padding: '4px 20px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red'}}>Go Back</button>
         </div>
     )
 }

@@ -4,12 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import { theadThStyle } from "../Global/globalStyle";
 import Notification from "../Global/Notification";
+import { useNavigate } from "react-router-dom";
 
 export default function TeacherTableCurrentClass({classId}) {
 
 
     const [teachers,setTeachers] = useState([])
     const [wornning, setWornning] = useState(false);
+    const gotoPage = useNavigate()
     
     useEffect(() =>{
         DataServices.ShowTeacherInSideClass(classId).then(teachers => {
@@ -61,6 +63,10 @@ export default function TeacherTableCurrentClass({classId}) {
         },
         useRowSelect 
       );
+
+      function handleRemoveTeacherFromTheCurrentClass() {
+        gotoPage(`/RemoveTeachersFromClass/${classId}`);
+      }
   
 
     return(
@@ -120,7 +126,7 @@ export default function TeacherTableCurrentClass({classId}) {
               </table>
             </div>
             <div className="btns-control">
-              <button  style={{padding: '3px 18px' , backgroundColor: 'red' , color: 'white' , fontSize: '13px',borderRadius: '3px',cursor: 'pointer' , border: 'none' , outline: 'none'}}>Remove</button>
+              <button onClick={handleRemoveTeacherFromTheCurrentClass} style={{padding: '3px 18px' , backgroundColor: 'red' , color: 'white' , fontSize: '13px',borderRadius: '3px',cursor: 'pointer' , border: 'none' , outline: 'none'}}>Remove</button>
             </div>
         </div>
       </>

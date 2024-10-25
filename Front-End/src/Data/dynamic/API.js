@@ -138,7 +138,7 @@ export default {
         );
       },
       AllTeacher : (grade) => {
-        return fetch(`${URL}/Teacher`).then((response) =>
+        return fetch(`${URL}/Teacher/Subject?grade=${grade}`).then((response) =>
           response.json()
         );
       }

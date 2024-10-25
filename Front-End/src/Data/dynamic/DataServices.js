@@ -50,7 +50,10 @@ export default {
     return API.Teacher.put(data)
   },
   ShowAllTeacherSubjects : (id) => {
-    return API.TeacherSubject.get(id);
+    return API.TeacherSubject.get.specifyTeacher(id);
+  },
+  ShowAllTeachersSubjects : (grade) => {
+    return API.TeacherSubject.get.AllTeacher(grade);
   },
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
@@ -59,6 +62,7 @@ export default {
     return API.Class.get.Teacher(classId)
   } ,
   AddNewSubjectsForTeacher : (teacherId,data) => {
+    console.log(data)
     return API.TeacherSubject.post(teacherId,data)
   },
   UpdataSubjectSalary : (teacherId,subjectId ,salary) => {

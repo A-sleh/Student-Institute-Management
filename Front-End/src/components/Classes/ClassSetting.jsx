@@ -12,7 +12,7 @@ import { UPDATESUTENDSNUMBER } from "../../Redux/actions/type"; // test case
 import TeacherTableClass from "./TeacherTableClass";
 import TeacherTableCurrentClass from "./TeacherTableClass";
 
-export default function ClassSetting({ ClassId, setDeleteClass }) {
+export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
 
   const dispatch = useDispatch();// test
 
@@ -61,7 +61,7 @@ export default function ClassSetting({ ClassId, setDeleteClass }) {
   };
 
   function handleAddNewTeacherClicked() {
-    gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId}})
+    gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId,grade,classTitle}})
   }
 
   return (

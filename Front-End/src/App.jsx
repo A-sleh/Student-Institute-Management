@@ -53,6 +53,7 @@ import LinkTestWithReport from "./components/Tests/CreateReportTools/ManageRepor
 import ShowClassReports from "./components/Tests/CreateReportTools/Report details/ShowClassReports.jsx";
 import ReportClassDetails from "./components/Tests/CreateReportTools/Report details/ReportClassDetails.jsx";
 import StudentReportTests from "./components/Tests/CreateReportTools/Report details/StudentReportTests.jsx";
+import RemoveTeachersFromClass from "./components/Classes/RemoveTeachersFromClass.jsx";
 
 
 const urlPath = [
@@ -70,6 +71,7 @@ const urlPath = [
   { path: "estDetails", component: <estDetails /> },
   { path: "NewClass", component: <NewClass /> },
   { path: "ManageClasses", component: <ManageClasses /> },
+  { path: "RemoveTeachersFromClass/:classId", component: <RemoveTeachersFromClass /> },
   { path: "ClassesDetails", component: <ClassesDetails /> },  
   { path: "Subject", component: <Subject /> },
   { path: "/StudentInformation/:id", component: <StudentInformation /> },
@@ -106,7 +108,6 @@ export default function App() {
       </aside>
       <main style={{ flex: "1" }}>
         <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
-
         <div
           style={{
             padding: "20px",
