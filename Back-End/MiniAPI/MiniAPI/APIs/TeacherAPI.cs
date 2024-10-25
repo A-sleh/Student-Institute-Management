@@ -42,7 +42,7 @@ namespace MiniAPI.APIs
 
             // add subject for a teacher
             // teacher specified using path parameter (its origin Id)
-            app.MapPost("/Teacher/{TeacherId}/Subject", InsertSubjectToTeacher);
+            app.MapPost("/Teacher/Subject", InsertSubjectToTeacher);
 
             // add teacher by his subject to a specified class
             // using the teacherSubjectId key and classId as a path params
@@ -165,11 +165,10 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> InsertSubjectToTeacher(ITeacherSubjectData data, TeacherSubjectModel model, int TeacherId)
+        private static async Task<IResult> InsertSubjectToTeacher(ITeacherSubjectData data, TeacherSubjectModel model)
         {
             try
             {
-                model.Teacher.TeacherId = TeacherId;
                 await data.InsertTeacherSubjects(model);
                 return Results.Ok("Insert Success");
             }

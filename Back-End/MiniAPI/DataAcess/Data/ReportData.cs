@@ -60,7 +60,7 @@ namespace DataAcess.Data
             var res = await
                 _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
                 "dbo.ReportGet",
-                new { Id = id },
+                new { id, classId },
                 x: (Report, Test, Subject) =>
                 {
                     if (reportModel.ReportId == 0)
@@ -79,7 +79,12 @@ namespace DataAcess.Data
                     return Report;
                 },
                 splitOn: "TestId, SubjectId");
-            return res.FirstOrDefault();
+            return res.Select(x =>
+            {
+                var temp = x.Tests.AsEnumerable();
+                x.Tests = temp.Select(t => { t.Report = null; return t; }).ToList();
+                return x;
+            }).Distinct().FirstOrDefault();
         }
 
         public async Task<IEnumerable<ReportModel>> GetReports(int? classId)
