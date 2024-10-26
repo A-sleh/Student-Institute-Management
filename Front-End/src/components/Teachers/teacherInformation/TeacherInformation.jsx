@@ -5,6 +5,7 @@ import TeacherBills from "./TeacherBills";
 import TeacherInfo from "./TeacherInfo";
 import TeacherClasses from "./TeacherClasses";
 import TeacherSubjects from "./TeacherSubjects";
+import { HeightContainerAnimation } from "../../Tests/CreateTestTools/EmentsStyle";
 
 export default function TeacherInformation() {
 
@@ -18,8 +19,13 @@ export default function TeacherInformation() {
                 <TeacherInfo teacherId={teacherId}/>
                 <TeacherClasses teacherId={teacherId}/>
             </div>
-            <TeacherSubjects teacherId={teacherId}/>
-            <TeacherBills teacherId={teacherId}/>
+            <HeightContainerAnimation delay={'.5s'}>
+                <TeacherSubjects teacherId={teacherId}/>
+            </HeightContainerAnimation>
+
+            <HeightContainerAnimation delay={'.8s'}>
+                <TeacherBills teacherId={teacherId}/>
+            </HeightContainerAnimation>
             <span className="update-class-btn" style={{ fontSize: '14px' , padding: '2px 20px' }} onClick={()=>{gotoPreviousPage(-1)}} >Back</span>
         </>
     )

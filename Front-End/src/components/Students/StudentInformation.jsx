@@ -6,6 +6,8 @@ import StudentBillsCard from "./studnetInformationCOM/StudentBillsCard";
 import { useEffect, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import ShowTestTable from "../Tests/CreateReportTools/ShowTestTable";
+import { HeightContainerAnimation } from "../Tests/CreateTestTools/EmentsStyle";
+
 
 export default function StudentInformation() {
 
@@ -50,12 +52,21 @@ export default function StudentInformation() {
           <StudentInfoCard studentId={studentId}/>
           <StudentBillsCard studentId={studentId}/>
         </div>
-        <StudentReportCard studentId={studentId} selectedReport={selectedReport}setSelectedReport={setSelectedReport}/>
-        <TestsHeader selectedReport={selectedReport}/>
-        <div style={{display: 'flex',gap: '10px',flexWrap: 'wrap' ,backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-          <ShowTestTable title={'quiz'} tests={tests?.quiz || []}/>
-          <ShowTestTable title={'exam'} tests={tests?.exam || []}/>
-        </div>
+
+        <HeightContainerAnimation delay={'.5s'}>
+          <StudentReportCard studentId={studentId} selectedReport={selectedReport}setSelectedReport={setSelectedReport}/>
+        </HeightContainerAnimation>
+
+        <HeightContainerAnimation delay={'.8s'}>
+          <TestsHeader selectedReport={selectedReport}/>
+        </HeightContainerAnimation>
+
+        <HeightContainerAnimation delay={'1.2s'}>
+          <div style={{display: 'flex',gap: '10px',flexWrap: 'wrap' ,backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
+            <ShowTestTable title={'quiz'} tests={tests?.quiz || []}/>
+            <ShowTestTable title={'exam'} tests={tests?.exam || []}/>
+          </div>
+        </HeightContainerAnimation>
     </>
   );
 }

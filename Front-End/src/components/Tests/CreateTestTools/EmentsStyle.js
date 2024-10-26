@@ -123,6 +123,26 @@ export const HeaderNavStyle = styled.ul`
 
 `
 
+const ChangeHeight = keyframes`
+    100%{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+`
+
+export const HeightContainerAnimation = styled.div`
+
+    display: grid;
+    grid-template-columns: 0fr;
+    grid-template-rows: 0fr;
+    transition: .3s;
+    animation: ${ChangeHeight} .6s ${({delay}) => delay} ease-in-out ;
+    animation-fill-mode: forwards;
+    
+    & > div {
+        overflow: hidden !important;
+    }
+`
 
 
 export const FormInputFieldStyle = styled.input.attrs( ({type}) =>({
