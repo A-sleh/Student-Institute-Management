@@ -16,6 +16,7 @@ export default function TeacherTableCurrentClass({classId}) {
     useEffect(() =>{
         DataServices.ShowTeacherInSideClass(classId).then(teachers => {
           const teachersDetailsMaping = teachers.map( teacher => {
+            
             const {lastName,name,phone,teacherSubjects} = teacher
             return {
               full_name : name + ' ' +lastName ,
@@ -115,7 +116,7 @@ export default function TeacherTableCurrentClass({classId}) {
                       return (
                       <tr {...row.getRowProps()} key={index}>
                           {row.cells.map((cell, index) => (
-                          <td {...cell.getCellProps()} key={index} style={{width: "25%"}}>
+                          <td {...cell.getCellProps()} key={index} style={{width: "25%" , padding: '10px' }} >
                               {cell.render("Cell")}
                           </td>
                           ))}

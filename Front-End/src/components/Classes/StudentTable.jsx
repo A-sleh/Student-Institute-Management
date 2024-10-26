@@ -156,7 +156,7 @@ export default function StudentTable({
                 return (
                   <tr {...row.getRowProps()} key={index}>
                     {row.cells.map((cell, index) => (
-                      <td {...cell.getCellProps()} key={index}>
+                      <td {...cell.getCellProps()} key={index} style={{padding: '10px'}}>
                         {cell.render("Cell")}
                       </td>
                     ))}

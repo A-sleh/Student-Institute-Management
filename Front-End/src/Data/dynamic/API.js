@@ -309,6 +309,11 @@ export default {
         return fetch(`${URL}/Test/Student/${studentId}?reportId=${reportId}`).then((response) =>{
           return response.json()}
         );
+      },
+      StudentTestNotAddedToReport : (studentId) => {
+        return fetch(`${URL}/Test/Student/${studentId}`).then((response) =>{
+          return response.json()}
+        );
       }
     },
     post: {

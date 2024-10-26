@@ -17,7 +17,6 @@ export default function InsertNewStudent() {
   const gotoThePreviousPage = useNavigate(); // this is important to move to previous page
   const [successAddStudent,setSuccessAddStudent] = useState(false) ;
   const classDetails = JSON.parse(decodeURIComponent(useLocation().state)); // this is important ==> to get class details  
-  console.log(classDetails)
   const { classId, title, capacity, students } = classDetails; // this is important
   const [studentDetails, setStudentDetails] = useState([]); // this important ==> to Data of table
   const currentStudents =   students?.length - ( students != undefined && students[0] == null) ; // total students in the class

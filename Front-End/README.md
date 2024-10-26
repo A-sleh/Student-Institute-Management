@@ -138,5 +138,31 @@ Day 19 :
     -[X] Create page contain student mark
     -[X] display report details ( quiz - exam .. )
 Day 20 : 
-    -[] display teacher in manage class details
+    -[X] display teacher in manage class details
+NOTE : 
+    - URL/Report/Studnet/{studentId}/Result
+        EX :
+        [
+            {
+                reportId : '..',
+                reportTitle : '...' ,
+                reportDate : '....',
+                mark : '...' , 
+                totalMark: '...' , 
+            },
+            {
+                reportId : '..',
+                reportTitle : '...' ,
+                reportDate : '....',
+                mark : '...' , 
+                totalMark: '...' , 
+            },
+                        {
+                reportId : '..',
+                reportTitle : '...' ,
+                reportDate : '....',
+                mark : '...' , 
+                totalMark: '...' , 
+            },
+        ] 
     

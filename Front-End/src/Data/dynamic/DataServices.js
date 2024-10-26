@@ -62,7 +62,6 @@ export default {
     return API.Class.get.Teacher(classId)
   } ,
   AddNewSubjectsForTeacher : (data) => {
-    console.log(data)
     return API.TeacherSubject.post(data)
   },
   UpdataSubjectSalary : (teacherId,subjectId ,salary) => {
@@ -175,6 +174,9 @@ export default {
   },
   ShowStudentTestInCurrentReport : (studentId,reportId) => {
     return API.Test.get.StudentTestInCurrentReport(studentId,reportId)
+  },
+  ShowStudentTestNotAddedToReport : (studentId) => {
+    return API.Test.get.StudentTestNotAddedToReport(studentId)
   }
 };
 
