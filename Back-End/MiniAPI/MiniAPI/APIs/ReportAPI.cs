@@ -16,6 +16,7 @@ namespace MiniAPI.APIs
             app.MapGet("/Report/Student/Average", GetStudentReportAverage);
             app.MapGet("/Report/Class/Average", GetClassReportAverage);
             app.MapGet("/Report/{reportId}/Student/Result", GetStudentsReportResult);
+            app.MapGet("/Report/Student/{studentId}/Result", GetStudentReportsResults);
 
             app.MapPost("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
 
@@ -23,6 +24,19 @@ namespace MiniAPI.APIs
             app.MapPut("/Report", UpdateReport);
             app.MapPost("/Report", InsertReport);
             app.MapDelete("/Report/{id}", DeleteReport);
+        }
+        
+        private static async Task<IResult> GetStudentReportsResults(IReportData data, int studentId)
+        {
+            try
+            {
+                var res = await data.GetStudentResult(studentId);
+                return Results.Ok(res);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
         }
 
         private static async Task<IResult> LinkReportWithTests(IReportData data, int reportId, List<int> testIdList)

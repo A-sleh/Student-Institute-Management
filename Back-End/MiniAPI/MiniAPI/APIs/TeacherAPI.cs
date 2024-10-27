@@ -220,6 +220,7 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
+        
         /*
         private static async Task<IResult> GetClassTeachers(ITeacherSubjectData data, int classId)
         {
@@ -234,6 +235,7 @@ namespace MiniAPI.APIs
             }
         }
         */
+
         private static async Task<IResult> AddTeacherToClass(ITeacherSubjectData data, int TeacherSubjectId, int classId)
         {
             try
