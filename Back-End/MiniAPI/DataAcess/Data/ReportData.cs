@@ -30,6 +30,12 @@ namespace DataAcess.Data
             
         }
 
+        public async Task<IEnumerable<dynamic>> GetStudentResult(int studentId)
+        {
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentReportsResults", new { studentId });
+            return res;
+        }
+
         public async Task<dynamic?> GetStudentTotalResult(int studentId, int reportId)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentTotalResult", new { studentId, reportId });

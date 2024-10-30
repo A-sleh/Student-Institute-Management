@@ -12,6 +12,7 @@ namespace DataAcess.Data
         Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type);
         Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type);
         Task<IEnumerable<dynamic>> GetStudentsReportResult(int reportId, int? classId);
+        Task<IEnumerable<dynamic>> GetStudentResult(int studentId);
         Task<dynamic?> GetStudentTotalResult(int studentId, int reportId);
         Task LinkReportWithTests(int reportId, List<int> tests);
     }
