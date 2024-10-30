@@ -166,3 +166,29 @@ NOTE :
             },
         ] 
     
+Day 21 : 
+    - [X] there are bug in display test in reciving mark page !!!!!!!!!!!!!!!
+
+Day22 : 
+    - report title And Month in the right side of the page (static text) 
+
+
+Optimization nots : 
+    components : 
+
+    - Generate a dynamic table to reuse it in ( student (Details,bill) - teacher (Details,bill) - show all report at any class ) {
+        make the header and body as a props  ,
+        dynamic padding as a props
+    }
+    - in form {
+        make generic input {
+            take as a props (type , width , label)
+        }
+        make row dynamic {
+            take as a props ( columns numbers )
+        }
+    }
+    - Search header 
+
+    style : 
+        -  do global button style ( add , create , confirm , go back )

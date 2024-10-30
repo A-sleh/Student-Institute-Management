@@ -1,14 +1,20 @@
-import "./class.css";
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
 
+import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/styleTag";
 import { useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
-import ClassCard from "./ClassCard";
+import ErrorMessage from "../shared/ErrorMessage";
+import ShowInputCard from "../shared/ShowInputCard";
 
 
-export default function ClassForm(props) {
-  const { initialSatate, setSuccessAction, type } = props;
+export default function ClassForm({ initialSatate, setSuccessAction, type }) {
+  
   const [classDetails, setClassDetails] = useState(initialSatate);
-
   const [validation, setValidation] = useState({
     title: false,
     capacity: false,
@@ -39,119 +45,100 @@ export default function ClassForm(props) {
     }
   }
 
+  function handleInputsChange(value,key) {
+
+    let copyData = new Map()
+    copyData = {...classDetails} 
+    copyData[key] = value 
+
+    setClassDetails(copyData)
+  }
+
+  function hanldeSubmitClicked(event) {
+    event.preventDefault();
+
+    const flag = validationInputsFeilds();
+
+    if (!flag) {
+      switch (type) {
+        case "POST":
+          DataServices.CreateNewClass(classDetails).then((_) => {
+            handleSuccessRequest();
+          });
+          break;
+        case "PUT":
+          DataServices.UpdateClass(classDetails).then((_) => {
+            handleSuccessRequest();
+          });
+          break;
+        default:
+          // UnValid Input
+          break;
+      }
+    }
+  }
+
   return (
     <>
-      <div
-        style={{
-          marginTop: "2em",
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
-        <form
-          className="class-form"
-          onSubmit={(e) => {
-            e.preventDefault();
+      <FormMainContainer>
 
-            const flag = validationInputsFeilds();
+        <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)}>
+          <h3>Class Information</h3>
 
-            if (!flag) {
-              switch (type) {
-                case "POST":
-                  DataServices.CreateNewClass(classDetails).then((_) => {
-                    handleSuccessRequest();
-                  });
-                  break;
-                case "PUT":
-                  DataServices.UpdateClass(classDetails).then((_) => {
-                    handleSuccessRequest();
-                  });
-                  break;
-                default:
-                  // UnValid Input
-                  break;
-              }
-            }
-          }}
-        >
-          <h3 className="sub-title">Class Information</h3>
+          <FormRowStyle >
+            <FormSubRowStyle>
+              <LabelStyle color={'#056699'}>Class Title</LabelStyle>
+              <InputStyle className={validation.title ? "error" : ""} type="text" value={classDetails.title} onChange={(e) =>handleInputsChange(e.target.value,'title')}/>
+              <ErrorMessage message={'Pleas Enter The Class Title'} showMessage={validation.title}/>
+            </FormSubRowStyle>
+            
+            <FormSubRowStyle>
+              <LabelStyle color={'#056699'}>Class Capacity </LabelStyle>
+              <InputStyle type="text" className={validation.capacity ? "error" : ""} value={classDetails.capacity} onChange={(e) =>handleInputsChange(e.target.value,'capacity')}/>
+              <ErrorMessage message={'The Capacity Must Be Positive'} showMessage={validation.capacity}/>
+            </FormSubRowStyle>
 
-          <div className="row">
-            <div className="input">
-              <label>Class Title</label>
-              <input
-                className={validation.title ? "error" : ""}
-                type="text"
-                value={classDetails.title}
-                onChange={(e) =>
-                  setClassDetails({
-                    ...classDetails,
-                    title: e.target.value,
-                  })
-                }
-              />
-              {validation.title && <span>Pleas Enter The Class Title</span>}
-            </div>
-            <div className="input">
-              <label>Class Capacity </label>
-              <input
-                type="text"
-                className={validation.capacity ? "error" : ""}
-                value={classDetails.capacity}
-                onChange={(e) =>
-                  setClassDetails({
-                    ...classDetails,
-                    capacity: e.target.value,
-                  })
-                }
-              />
-              {validation.capacity && (
-                <span>The Capacity Must Be Positive</span>
-              )}
-            </div>
-          </div>
+          </FormRowStyle >
 
-          <div className="selector">
-            <label>Grade</label>
-            <select
-              value={classDetails.grade}
-              className={validation.grade ? "error" : ""}
-              onChange={(value) =>
-                setClassDetails({
-                  ...classDetails,
-                  grade: value.target.value,
-                })
-              }
-            >
+          <FormSubRowStyle width={'100%'}>
+            <LabelStyle color={'#056699'}>Grade</LabelStyle>
+            <FormSelectdStyle value={classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade')}>
               <option value={""}></option>
               <option value={"bachelor"}>bachelor</option>
               <option value={"ninth"}>ninth</option>
-            </select>
-          </div>
+            </FormSelectdStyle>
+          </FormSubRowStyle>
 
-          <div className="selector">
-            <label>Gender</label>
-            <select
-              value={classDetails.gender}
-              className={validation.gender ? "error" : ""}
-              onChange={(value) =>
-                setClassDetails({
-                  ...classDetails,
-                  gender: value.target.value,
-                })
-              }
-            >
+          <FormSubRowStyle width={'100%'}>
+            <LabelStyle color={'#056699'}>Gender</LabelStyle>
+            <FormSelectdStyle value={classDetails.gender} className={validation.gender ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'gender')}>
               <option value={""}></option>
               <option value={"male"}>male</option>
               <option value={"female"}>female</option>
-            </select>
-          </div>
+            </FormSelectdStyle>
+          </FormSubRowStyle>
 
-          <input type="submit" value={type ==='POST' ?  'Submit' : 'Update'} />
-        { type === 'PUT' && <button className="update-class-btn" onClick={()=>{props.setUpdataBtnClicked(false)}} >Back</button> }
-        </form>
-        <ClassCard classDetails={classDetails} />
-      </div>
+          <ButtonsContainerStyle >
+            <SubmitBtnStyle >
+              {type ==='POST' ?  'Submit' : 'Update'}
+            </SubmitBtnStyle>
+            { type !== 'POST' && 
+              <GoBackBtnStyle onClick={()=>{props.setUpdataBtnClicked(false)}} >Back</GoBackBtnStyle> 
+            }
+          </ButtonsContainerStyle>
+
+        </FormStyle>
+
+        <ShowInputCard iconPath={"bi bi-info-circle icon"} >
+          <main>
+            <h3>Class Title : <span> {classDetails.title} </span> </h3>
+            <h3>Grade : <span> {classDetails.grade} </span></h3>
+            <h3>Gender : <span> {classDetails.gender} </span></h3>
+            <h3>Class Capacity :  <span> {classDetails.capacity} </span></h3>
+          </main>
+        </ShowInputCard>
+
+      </FormMainContainer>
     </>
   );
 }

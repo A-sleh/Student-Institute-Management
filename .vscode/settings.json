@@ -1,0 +1,16 @@
+{
+    "window.density.editorTabHeight": "compact",
+    "workbench.editor.highlightModifiedTabs": false,
+    "workbench.editor.pinnedTabSizing": "normal",
+    "workbench.editor.pinnedTabsOnSeparateRow": false,
+    "workbench.editor.restoreViewState": true,
+    "workbench.editor.scrollToSwitchTabs": false,
+    "workbench.editor.tabSizing": "fit",
+    "workbench.editor.tabSizingFixedMaxWidth": 160,
+    "workbench.editor.enablePreview": true,
+    "workbench.editor.alwaysShowEditorActions": false,
+    "workbench.editor.closeOnFileDelete": true,
+    "workbench.editor.labelFormat": "default",
+    "workbench.editor.openPositioning": "right",
+    "workbench.editor.showIcons": false
+}

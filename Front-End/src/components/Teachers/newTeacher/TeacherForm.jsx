@@ -1,18 +1,22 @@
 
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
 
+import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/styleTag";
 import { useState } from "react";
-import DataServices from "../../../Data/dynamic/DataServices";
-import TeacherCard from "./TeacherCard";
 import { useNavigate } from "react-router-dom";
+import DataServices from "../../../Data/dynamic/DataServices";
+import ErrorMessage from "../../shared/ErrorMessage";
+import ShowInputCard from "../../shared/ShowInputCard";
 
+export default function TeacherForm({ initialSatate , requestType ,setSuccessAction}) {
 
-
-
-export default function TeacherForm(props) {
-  const { initialSatate , type ,setSuccessAction} = props;
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
   const gotoPreviousPage = useNavigate();
-
   const [validation, setValidation] = useState({
     name: false,
     lastName: false,
@@ -56,101 +60,90 @@ export default function TeacherForm(props) {
     else props.setUpdataBtnClicked(false) // if i come from teacher details
   }
 
+  function handleInputsChange(value,key) {
+
+    let copyData = new Map()
+    copyData = {...teacherDetails} 
+    copyData[key] = value 
+
+    setTeacherDetails(copyData)
+  }
+
+  function hanldeSubmitClicked(event) {
+    event.preventDefault();
+
+    const flag = validationInputsFeilds();
+    if (!flag) {
+      switch (type) {
+        case "POST":
+          DataServices.AddNewTeacher(teacherDetails).then((_) => {
+            handleSuccessRequest();
+          });
+          break;
+        case "PUT":
+          DataServices.UpdateTeacherInfo(teacherDetails).then((_) => {
+            handleSuccessRequest();
+          });
+          break;
+        default:
+          // UnValid Input
+          break;
+      }
+    }
+  }
+
   return (
     <>
-      <div
-        style={{
-          marginTop: "2em",
-          display: "flex",
-          justifyContent: "space-around",
-        }}
-      >
-        <form
-          className="class-form"
-          onSubmit={(e) => {
-            e.preventDefault();
+      <FormMainContainer>
 
-            const flag = validationInputsFeilds();
-            if (!flag) {
-              switch (type) {
-                case "POST":
-                  DataServices.AddNewTeacher(teacherDetails).then((_) => {
-                    handleSuccessRequest();
-                  });
-                  break;
-                case "PUT":
-                  DataServices.UpdateTeacherInfo(teacherDetails).then((_) => {
-                    handleSuccessRequest();
-                  });
-                  break;
-                default:
-                  // UnValid Input
-                  break;
-              }
-            }
-          }}
-        >
-          <h3 className="sub-title">Theacher Information</h3>
+        <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)}>
+          <h3>Theacher Information</h3>
 
-          <div className="row">
-            <div className="input">
-              <label>First Name</label>
-              <input
-                className={validation.name ? "error" : ""}
-                type="text"
-                value={teacherDetails.name}
-                onChange={(e) =>
-                  setTeacherDetails({
-                    ...teacherDetails,
-                    name: e.target.value,
-                  })
-                }
-              />
-              {validation.name && <span>Pleas Enter The The First Name of Teacher</span>}
-            </div>
-            <div className="input">
-              <label>Last Name</label>
-              <input
-                type="text"
-                className={validation.lastName ? "error" : ""}
-                value={teacherDetails.lastName}
-                onChange={(e) =>
-                  setTeacherDetails({
-                    ...teacherDetails,
-                    lastName: e.target.value,
-                  })
-                }
-              />
-              {validation.lastName && (
-                <span>Pleas Enter The The Last Name of Teacher</span>
-              )}
-            </div>
-          </div>
+          <FormRowStyle >
+
+            <FormSubRowStyle >
+              <LabelStyle color={'#056699'}>First Name</LabelStyle>
+              <InputStyle className={validation.name ? "error" : ""} type="text" value={teacherDetails.name} onChange={(e) =>handleInputsChange(e.target.value,'name')}/>
+              <ErrorMessage message={'Pleas Enter The The First Name of Teacher'} showMessage={validation.name}/>
+            </FormSubRowStyle >
+
+            <FormSubRowStyle >
+              <LabelStyle color={'#056699'}>Last Name</LabelStyle>
+              <InputStyle type="text" className={validation.lastName ? "error" : ""} value={teacherDetails.lastName} onChange={(e) =>handleInputsChange(e.target.value,'lastName')}/>
+              <ErrorMessage message={'Pleas Enter The The Last Name of Teacher'} showMessage={validation.lastName}/>
+            </FormSubRowStyle >
+
+          </FormRowStyle >
 
           
-          <div className="row" >
-            <div className="input" style={{width: '100%' ,marginLeft: '0'}}>
-            <label>Phoe Number</label>
-            <input type="text"
-              value={teacherDetails.phone}
-              className={validation.phone ? "error" : ""}
-              onChange={(value) =>
-                setTeacherDetails({
-                  ...teacherDetails,
-                  phone: value.target.value,
-                })
+          <FormRowStyle >
+            <FormSubRowStyle style={{width: '100%' ,marginLeft: '0'}}>
+              <LabelStyle color={'#056699'}>Phoe Number</LabelStyle>
+              <InputStyle type="text" value={teacherDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'phone')}/>
+              <ErrorMessage message={'The number must be positive ,And don\'t containt letters'} showMessage={validation.phone}/>
+            </FormSubRowStyle>
+          </FormRowStyle>
+
+          <ButtonsContainerStyle >
+            <SubmitBtnStyle>
+              {requestType ==='POST' ?  'Submit' : 'Update'}
+            </SubmitBtnStyle>
+              { requestType !== 'POST' && 
+                <GoBackBtnStyle onClick={()=>{handleBackClicked()}} >Back</GoBackBtnStyle> 
               }
-            />
-            {validation.phone && <span>The number must be positive ,And don't containt letters</span>}
-          </div>
-          </div>
+          </ButtonsContainerStyle>
 
+        </FormStyle>
 
-          <input type="submit" value={type ==='POST' ?  'Submit' : 'Update'} />
-        { type === 'PUT' && <span className="update-class-btn" style={{ fontSize: '14px'}} onClick={()=>{handleBackClicked()}} >Back</span> }
-        </form>
-        <TeacherCard teacherDetails={teacherDetails} />
-      </div>
+        <ShowInputCard iconPath={"bi bi-person-circle icon"} >
+          <main>
+            <h3>First Name : <span> {teacherDetails.name}</span> </h3>
+            <h3>Last Name  :  <span> {teacherDetails.lastName} </span></h3>
+            <h3>phone : <span> {teacherDetails.phone} </span></h3>
+          </main>
+        </ShowInputCard>
+
+      </FormMainContainer>
     </>
   );
 }

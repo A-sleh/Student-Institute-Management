@@ -1,16 +1,10 @@
 import styled , {keyframes} from 'styled-components'
 
-export const FormRowStyle = styled.div`
-    display: flex;
-    margin-bottom: 6px;
-    width: 100%;
-`
 export const FormInputContainerStyle = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
 `
-
 export const TextAreaInput = styled.textarea`
     padding: 8px 15px;
     width: 100%;
@@ -21,7 +15,6 @@ export const TextAreaInput = styled.textarea`
     outline: none;
     resize: none;
 `
-
 export const FormSelectdStyle = styled.select`
     padding: 8px 15px;
     border: none;
@@ -48,6 +41,16 @@ export const TestCardBody = styled.main`
     margin-top: 10px;
     background-color: #dddddd85;
 `
+export const FormRowStyle = styled.div`
+    display: flex;
+    gap: 10px ;
+    margin-bottom: 6px;
+
+    @media (max-width: 767px ) {
+        flex-direction: column;
+    }
+`
+
 
 const MoveCircleToRight = keyframes`
     100% {

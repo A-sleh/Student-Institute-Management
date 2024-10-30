@@ -35,13 +35,12 @@ export const links = [
       ],
     },
     {
-      title: "Tests",
-      path: 'TestDetails',
+      title: "Test",
+      path: 'Test',
       iconPath: "bi bi-textarea-t",
       subLinks: [
-        { title: "Test Details", iconPath: "bi bi-inboxes" },
-        { title: "Create Report", iconPath: "bi bi-file-earmark-person" },
         { title: "Test", iconPath: "bi bi-file-text" },
+        { title: "Create Report", iconPath: "bi bi-file-earmark-person" },
       ],
     },
     {

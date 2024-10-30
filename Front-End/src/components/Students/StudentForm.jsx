@@ -1,23 +1,26 @@
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
+
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/styleTag.js";
 import Title from "../Global/Title";
 import DataServices from "../../Data/dynamic/DataServices.js";
-import "./studentStyle.css";
-import StudentCard from "./StudentCard.jsx";
 import Notification from "../Global/Notification.jsx";
-import { useNavigate } from "react-router-dom";
+import ShowInputCard from "../shared/ShowInputCard.jsx";
+import ErrorMessage from "../shared/ErrorMessage.jsx";
 
-export default function StudentForm({
-  title,
-  requestType,
-  studentInformation,
-}) {
+export default function StudentForm({title,requestType,studentInformation}) {
+
   const previousPage = useNavigate();
-
   const [successAdd, setSuccessAdd] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
   const [classDetails, setCalssDetails] = useState([]);
   const [newClassDetails, setNewClassDetails] = useState([]);
-
   const [validation, setValidation] = useState({
     name: false,
     lastName: false,
@@ -27,9 +30,7 @@ export default function StudentForm({
     missedDays: false,
     billRequired: false,
   });
-
   const [studentDetails, setStudentDetails] = useState(studentInformation);
-
   const [ClassType, setClassType] = useState({
     Gender: {
       Male: true,
@@ -41,7 +42,21 @@ export default function StudentForm({
     },
   });
 
-  
+  // fetch classes Details From Data Base
+  useEffect(() => {
+    try {
+      DataServices.showCalsses().then((data) => {
+        setCalssDetails(data);
+      });
+    } catch (error) {
+      // should fix the error here
+    }
+  }, []);
+
+  // Filter The Classes Depanded on Gender And Grade IN THE FIRST RENDER
+  useEffect(() => {
+    FilterClassGnderAndGrade(classDetails);
+  }, [classDetails]);
 
 
   function FilterClassGnderAndGrade(data, liveState) {
@@ -147,291 +162,186 @@ export default function StudentForm({
       /[^0-9]/.test(phone)
     );
   }
+
+  function handleSubmitClicked(event) {
+
+    event.preventDefault();
+    
+    const flag = validationInputsFeilds();
+
+    if (!flag) {
+      try {
+        if (requestType === "POST") {
+          DataServices.AddNewStudent(studentDetails);
+          setStudentDetails(studentInformation); // reset The Input Field
+          setTimeout(() => {
+            setSuccessAdd(false);
+          }, 2000);
+          setSuccessAdd(true);
+        } else {
+          DataServices.UpdateStudent(studentDetails);
+          setSuccessUpdate(true);
+          setTimeout(() => {
+            setSuccessAdd(false);
+            previousPage(-1);
+          }, 2000);
+        }
+      } catch (error) {
+        alert.log(error);
+      }
+  }
+  }
   
+  function handleInputChange(value,key) {
 
-  // fetch classes Details From Data Base
-  useEffect(() => {
-    try {
-      DataServices.showCalsses().then((data) => {
-        setCalssDetails(data);
-      });
-    } catch (error) {
-      // should fix the error here
-    }
-  }, []);
+    let copyData = new Map()
+    copyData = {...studentDetails} 
+    copyData[key] = value 
 
-  // Filter The Classes Depanded on Gender And Grade IN THE FIRST RENDER
-  useEffect(() => {
-    FilterClassGnderAndGrade(classDetails);
-  }, [classDetails]);
+    setStudentDetails(copyData)
+
+  }
+
+
 
   return (
-    <div>
-      <Notification
-        title={"Add New Student"}
-        type={"success"}
-        state={successAdd}
-        setState={setSuccessAdd}
-      />
-      <Notification
-        title={"Updata Student Information"}
-        type={"success"}
-        state={successUpdate}
-        setState={setSuccessUpdate}
-      />
+    <>
+      <Notification title={"Add New Student"} type={"success"} state={successAdd} setState={setSuccessAdd} />
+      <Notification title={"Updata Student Information"} type={"success"} state={successUpdate} setState={setSuccessUpdate} />
+
       <Title title={title} />
-      <section
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          marginTop: "30px",
-        }}
-      >
-        <form
-          className="student-info"
-          onSubmit={(e) => {
-            e.preventDefault();
-  
-            const flag = validationInputsFeilds();
+      <FormMainContainer>
 
-            if (!flag) {
-              try {
-                if (requestType === "POST") {
-                  DataServices.AddNewStudent(studentDetails);
-                  setStudentDetails(studentInformation); // reset The Input Field
-                  setTimeout(() => {
-                    setSuccessAdd(false);
-                  }, 2000);
-                  setSuccessAdd(true);
-                } else {
-                  DataServices.UpdateStudent(studentDetails);
-                  setSuccessUpdate(true);
-                  setTimeout(() => {
-                    setSuccessAdd(false);
-                    previousPage(-1);
-                  }, 2000);
-                }
-              } catch (error) {
-                alert.log(error);
+          <FormStyle onSubmit={(e)=>handleSubmitClicked(e)}>
+            <h3>Student Details</h3>
+
+            <FormRowStyle>
+              
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>First Name</LabelStyle>
+                <InputStyle className={validation.name ? "error" : ""} type="text" value={studentDetails.name} onChange={(e) =>handleInputChange(e.target.value,'name')}/>
+                <ErrorMessage showMessage={validation.name} message={"Pleas Enter The First Name"}/>
+              </FormSubRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>Last Name</LabelStyle>
+                <InputStyle type="text" className={validation.lastName ? "error" : ""} value={studentDetails.lastName} onChange={(e) =>handleInputChange(e.target.value,'lastName')}/>
+                <ErrorMessage showMessage={validation.lastName} message={"Pleas Enter The Last Name"}/>
+              </FormSubRowStyle>
+
+            </FormRowStyle>
+
+            <FormRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>Father Name</LabelStyle>
+                <InputStyle type="text" className={validation.fatherName ? "error" : ""} value={studentDetails.fatherName} onChange={(e) =>handleInputChange(e.target.value,'fatherName')} />
+                <ErrorMessage showMessage={validation.fatherName} message={"Pleas Enter The Father Name"}/>
+              </FormSubRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>birthdate</LabelStyle>
+                <InputStyle type="date" className={validation.birthdate ? "error" : ""} value={studentDetails.birthdate} onChange={(e) =>handleInputChange(e.target.value,'birthdate')} />
+                <ErrorMessage showMessage={validation.birthdate} message={"Pleas Enter The Birth Days"}/>
+              </FormSubRowStyle>
+
+            </FormRowStyle>
+
+            <FormRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>Phone</LabelStyle>
+                <InputStyle type="text" value={studentDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'phone')} />
+                <ErrorMessage showMessage={validation.phone} message={"The Number Should Be 10 Digite ,And With Out Letters"}/>
+              </FormSubRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>missed Days</LabelStyle>
+                <InputStyle type="number" className={validation.missedDays ? "error" : ""} value={studentDetails.missedDays} onChange={(e) =>handleInputChange(e.target.value,'missedDays')} />
+                <ErrorMessage showMessage={validation.missedDays} message={"The Miss Days Must Be Positive"}/>
+              </FormSubRowStyle>
+
+            </FormRowStyle>
+
+            <FormRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>bill Required</LabelStyle>
+                <InputStyle type="number" className={validation.billRequired ? "error" : ""} value={studentDetails.billRequired} onChange={(e) =>handleInputChange(e.target.value,'billRequired')} />
+                <ErrorMessage showMessage={validation.billRequired} message={"The Bill Must Be Positive"}/>
+              </FormSubRowStyle>
+
+              <FormCheckBoxContainerStyle>
+
+                <section>
+
+                  <LabelStyle color={'#056699'}>Gender</LabelStyle>
+                  <div>
+                    <div>
+                      <input type="checkbox" id="Male" checked={ClassType.Gender.Male}onChange={(e) => handleCheckBoxGender(e.target.checked)} />
+                      <label htmlFor="Male">Male</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="Famale" checked={ClassType.Gender.Famale} onChange={(e) => handleCheckBoxGender(e.target.checked)} />
+                      <label htmlFor="Famale">Female</label>
+                    </div>
+                  </div>
+                </section>
+
+                <section>
+
+                  <LabelStyle color={'#056699'}>Grade</LabelStyle>
+                  <div >
+                    <div>
+                      <input type="checkbox" id="bachelor" checked={ClassType.Grade.Bachelor} onChange={(e) => handleCheckBoxGrade(e.target.checked)}/>
+                      <label htmlFor="bachelor">Bachelor</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="ninth" checked={ClassType.Grade.Ninth} onChange={(e) => handleCheckBoxGrade(e.target.checked)} />
+                      <label htmlFor="ninth">Ninth</label>
+                    </div>
+                  </div>
+                </section>
+              </FormCheckBoxContainerStyle>
+
+            </FormRowStyle>
+
+            <FormSubRowStyle width={'100%'}>
+              <LabelStyle color={'#056699'}>Class Name</LabelStyle>
+              <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value,},'class')}>
+                <option value={0}></option>
+                {newClassDetails.map((currentClass, index) => (
+                  <option value={currentClass.classId} key={index} style={{ padding: "20px" }}>
+                    {currentClass.title}
+                  </option>
+                ))}
+              </FormSelectdStyle>
+            </FormSubRowStyle>
+
+            <ButtonsContainerStyle>
+              <SubmitBtnStyle >
+                {requestType === "POST" ? "Add" : "Update"}
+              </SubmitBtnStyle>
+              {
+                requestType != "POST" && 
+                <GoBackBtnStyle onClick={()=>{previousPage('/StudentsDetails',{replace: true})}}>Go Back</GoBackBtnStyle>
               }
-           }
-          }}
-        >
-          <h3 className="sub-title">Student Details</h3>
-          <div className="row">
-            <div className="input">
-              <label>First Name</label>
-              <input
-                className={validation.name ? "error" : ""}
-                type="text"
-                value={studentDetails.name}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    name: e.target.value,
-                  })
-                }
-              />
-              {validation.name && <span>Pleas Enter The First Name</span>}
-            </div>
-            <div className="input">
-              <label>Last Name</label>
-              <input
-                type="text"
-                className={validation.lastName ? "error" : ""}
-                value={studentDetails.lastName}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    lastName: e.target.value,
-                  })
-                }
-              />
-              {validation.lastName && <span>Pleas Enter The Last Name</span>}
-            </div>
-          </div>
+            </ButtonsContainerStyle>
 
-          <div className="row">
-            <div className="input">
-              <label>Father Name</label>
-              <input
-                type="text"
-                className={validation.fatherName ? "error" : ""}
-                value={studentDetails.fatherName}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    fatherName: e.target.value,
-                  })
-                }
-              />
-              {validation.fatherName && (
-                <span>Pleas Enter The Father Name</span>
-              )}
-            </div>
-            <div className="input">
-              <label>birthdate</label>
-              <input
-                type="date"
-                className={validation.birthdate ? "error" : ""}
-                value={studentDetails.birthdate}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    birthdate: e.target.value,
-                  })
-                }
-              />
-              {validation.birthdate && <span>Pleas Enter The Birth Days</span>}
-            </div>
-          </div>
+          </FormStyle>
 
-          <div className="row">
-            <div className="input">
-              <label>Phone</label>
-              <input
-                type="text"
-                value={studentDetails.phone}
-                className={validation.phone ? "error" : ""}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    phone: e.target.value,
-                  })
-                }
-              />
-              {validation.phone && (
-                <span>
-                  The Number Should Be 10 Digite ,And With Out Letters
-                </span>
-              )}
-            </div>
-            <div className="input">
-              <label>missed Days</label>
-              <input
-                type="number"
-                className={validation.missedDays ? "error" : ""}
-                value={studentDetails.missedDays}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    missedDays: e.target.value,
-                  })
-                }
-              />
-              {validation.missedDays && (
-                <span>The Miss Days Must Be Positive</span>
-              )}
-            </div>
-          </div>
+          <ShowInputCard iconPath={"bi bi-person-circle icon"} >
+            <main>
+              <h3>Name : <span> {studentDetails.name} {studentDetails.lastName}</span></h3>
+              <h3>Father :  <span> {studentDetails.fatherName} </span></h3>
+              <h3>Birth Date : <span> {studentDetails.birthdate} </span></h3>
+              <h3>phone : <span> {studentDetails.phone} </span></h3>
+              <h3>Bill Required : <span> {studentDetails.billRequired} </span></h3>
+              <h3>Missed Days : <span> {studentDetails.missedDays} </span></h3>
+            </main>
+          </ShowInputCard>
 
-          <div className="row">
-            <div className="input">
-              <label>bill Required</label>
-              <input
-                type="number"
-                className={validation.billRequired ? "error" : ""}
-                value={studentDetails.billRequired}
-                onChange={(e) =>
-                  setStudentDetails({
-                    ...studentDetails,
-                    billRequired: e.target.value,
-                  })
-                }
-              />
-              {validation.billRequired && (
-                <span>The Bill Must Be Positive</span>
-              )}
-            </div>
-            <div className="check-box">
-              <div className="check-box-gender">
-                <label>Gender</label>
-                <div className="info">
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Male"
-                      checked={ClassType.Gender.Male}
-                      onChange={(e) => handleCheckBoxGender(e.target.checked)}
-                    />
-                    <label htmlFor="Male">Male</label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Famale"
-                      checked={ClassType.Gender.Famale}
-                      onChange={(e) => handleCheckBoxGender(e.target.checked)}
-                    />
-                    <label htmlFor="Famale">Female</label>
-                  </div>
-                </div>
-              </div>
-              <div className="check-box-gender">
-                <label>Grade</label>
-                <div className="info">
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="bachelor"
-                      checked={ClassType.Grade.Bachelor}
-                      onChange={(e) => handleCheckBoxGrade(e.target.checked)}
-                    />
-                    <label htmlFor="bachelor">Bachelor</label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="ninth"
-                      checked={ClassType.Grade.Ninth}
-                      onChange={(e) => handleCheckBoxGrade(e.target.checked)}
-                    />
-                    <label htmlFor="ninth">Ninth</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="selector">
-            <label>Class Name</label>
-            <select
-              value={studentDetails?.class?.classId}
-              onChange={(value) =>
-                setStudentDetails({
-                  ...studentDetails,
-                  class:{
-                    ...studentDetails?.class ,
-                    classId: value.target.value,
-                  } 
-                })
-              }
-            >
-              <option value={0}></option>
-              {newClassDetails.map((currentClass, index) => (
-                <option
-                  value={currentClass.classId}
-                  key={index}
-                  style={{ padding: "20px" }}
-                >
-                  {currentClass.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <input
-              type="submit"
-              value={requestType === "POST" ? "Add" : "Update"}
-            />
-            {
-              // requestType == "POT" && 
-              <span onClick={()=>{previousPage('/StudentsDetails',{replace: true})}} className="go-back-btn">Go Back</span>
-            }
-          </div>
-        </form>
-          <StudentCard studentDetails={studentDetails} />
-      </section>
-    </div>
+      </FormMainContainer>
+    </>
   );
 }

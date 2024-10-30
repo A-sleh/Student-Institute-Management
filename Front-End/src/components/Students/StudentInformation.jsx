@@ -43,8 +43,6 @@ export default function StudentInformation() {
 
   },[selectedReport])
 
-  console.log(tests)
-
   return (
     <>
         <Title title={window.location.pathname } />

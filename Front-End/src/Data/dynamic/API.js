@@ -301,7 +301,7 @@ export default {
         );
       },
       AllTestInTheClasss : (classId,flag) => {
-        return fetch(`${URL}/Class/${classId}/Test?flag=${flag}`).then((response) =>{
+        return fetch(`${URL}/Class/${classId}/Test?flag=${flag}&showLinked=false`).then((response) =>{
           return response.json()}
         );
       },

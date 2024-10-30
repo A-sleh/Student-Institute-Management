@@ -12,7 +12,7 @@ export default function NewTeacher() {
         <>
             <Notification  title={'Add New Teacher'} type={'success'} state ={successAddTeacher} setState={setSuccessAddTeacher}/>
             <Title title={window.location.pathname} />
-            <TeacherForm initialSatate={initialSatate} type={'POST'} setSuccessAction={setSuccessAddTeacher}/>
+            <TeacherForm initialSatate={initialSatate} requestType={'POST'} setSuccessAction={setSuccessAddTeacher}/>
         </>
     )
 }
