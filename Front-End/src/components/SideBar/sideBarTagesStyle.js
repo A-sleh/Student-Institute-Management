@@ -42,6 +42,10 @@ export const SideBarListStyle = styled.ul`
         pointer-events: none;
     }
 
+    li.list i {
+        font-size: 16px !important;
+    }
+
     p {
         position: relative;
         font-size: 14px;
@@ -61,15 +65,11 @@ export const SideBarListStyle = styled.ul`
         background-color: white;
         color: black; 
 
-        p {
+        & p {
             color: black;
         }
 
-        .down-arrow {
-            color: white;
-        }
-
-        b:nth-child(1)::before {
+        & b:nth-child(1)::before {
             content: '';
             position: absolute;
             width: 100%;
@@ -78,7 +78,8 @@ export const SideBarListStyle = styled.ul`
             border-bottom-right-radius: 25px;
             background-color: #056699;
         }
-        b:nth-child(2)::before {
+
+        & b:nth-child(2)::before {
             content: '';
             position: absolute;
             width: 100%;
@@ -88,14 +89,14 @@ export const SideBarListStyle = styled.ul`
             background-color: #056699;
         }
 
-        b:nth-child(1) {
+        & b:nth-child(1) {
             background-color: rgb(255, 255, 255);
             position: absolute;
             width: 100%;
             top: -20%;
             height: 10px;
         }
-        b:nth-child(2) {
+        & b:nth-child(2) {
             background-color: rgb(255, 255, 255);
             position: absolute;
             width: 100%;
@@ -103,19 +104,17 @@ export const SideBarListStyle = styled.ul`
             height: 10px;
             transition: 0;
         }
+        & .down-arrow {
+            color: white;
+        }
     }
 
     .main-list {
-        &:has(+ ul .list.active ) + ul ,
-        &.active + ul  {
-            height: 100%; 
-            margin-top: 12px;
+
+        &:has(+ ul .list.active ) .down-arrow  {
+            color: white;
         }
 
-        &.active:first-child ,
-        &:first-child:has(+ ul .list.active ) {
-            margin-top: 18px;
-        }
         &.active ,
         &:has(+ ul .list.active ) {
             font-weight: 600;
@@ -125,6 +124,7 @@ export const SideBarListStyle = styled.ul`
             p {
                 color: black;
             }
+
             b:nth-child(1) {
                 background-color: rgb(255, 255, 255);
                 position: absolute;
@@ -132,6 +132,7 @@ export const SideBarListStyle = styled.ul`
                 top: -20%;
                 height: 10px;
             }
+
             b:nth-child(2) {
                 background-color: rgb(255, 255, 255);
                 position: absolute;
@@ -139,9 +140,6 @@ export const SideBarListStyle = styled.ul`
                 bottom: -20%;
                 height: 10px;
                 transition: 0;
-            }
-            .down-arrow {
-                color: white;
             }
             b:nth-child(1)::before {
                 content: '';
@@ -160,7 +158,16 @@ export const SideBarListStyle = styled.ul`
                 height: 12px;
                 border-top-right-radius: 25px;
                 background-color: #056699;
+
             }
+        }
+
+        &.active + ul , &:has(+ ul .list.active ) + ul {
+            height: 100%; 
+            margin-top: 12px;
+        }
+        &.active:first-child ,&:first-child:has(+ ul .list.active ) {
+            margin-top: 18px;
         }
     }
 `
