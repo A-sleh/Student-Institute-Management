@@ -52,9 +52,16 @@ namespace DataAcess.Data
             {
                 var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam").Result.FirstOrDefault();
                 var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz").Result.FirstOrDefault();
+                var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
                 var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
                 var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
-                var obj = new { quizAverage = qAvg?.Average ?? 0, examAverage = eAvg?.Average ?? 0, pureMark = pAvg?.PureMark ?? 0, x.StudentId, x.Name, x.LastName, TestMark };
+                var obj = new { 
+                    quizAverage = qAvg?.Average ?? 0,
+                    examAverage = eAvg?.Average ?? 0, 
+                    pureMark = pAvg?.PureMark ?? 0,
+                    mark = reportResult?[0].mark ?? 0, totalMark = reportResult?[0].totalMark ?? 0,
+                    x.StudentId, x.Name, x.LastName, x.FatherName, 
+                    TestMark };
                 return obj;
             });
             return res.OrderByDescending(o => o.examAverage);
