@@ -1,3 +1,10 @@
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
+
 import { NavLink } from "react-router-dom";
 import { LinkContainerStyle, SideBarSubListStyle } from "./sideBarTagesStyle";
 
@@ -7,12 +14,12 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
 
   return (
     <>
-      <NavLink to={`/${path }`} className={ hasSubLinks ? "main-list":''}>
+      <NavLink to={`/${path }`} className={"main-list"}>
           <b></b>
           <b></b>
           <i className={iconPath}></i>
           <LinkContainerStyle>
-              <p>{title}</p>
+              <p className="linkTitle">{title}</p>
               {hasSubLinks && <i className="bi bi-caret-down down-arrow"></i> }
           </LinkContainerStyle>
         </NavLink>
@@ -33,7 +40,7 @@ function RenderSubLinks({links}) {
                         <b></b>
                         <b></b>
                         <i className={link.iconPath}></i>
-                        <p>{link.title}</p>
+                        <p className="linkTitle">{link.title}</p>
                       </NavLink>;
           })}
       </SideBarSubListStyle>

@@ -1,7 +1,7 @@
 
 import styled from 'styled-components'
 
-export const SideBarContainerStyle = styled.aside`
+export const SideBarContainerStyle = styled.div`
     min-height: 100vh;
     position: relative;
     background: #056699;
@@ -19,7 +19,7 @@ export const SideBarListStyle = styled.ul`
     top: 10%;
     width: 100%;
 
-    .list ,.main-list {
+    & .list ,& .main-list ,& .list a {
         position: relative;
         padding: 9px 0px;
         display: flex;
@@ -29,12 +29,9 @@ export const SideBarListStyle = styled.ul`
         cursor: pointer;
         text-decoration: none;
         width: 100%;
-        font-weight: 600;
-        background-color: white;
-        color: black;
     }
 
-    i {
+    & i {
         position: relative;
         font-size: 14px;
         line-height: 25px;
@@ -42,11 +39,11 @@ export const SideBarListStyle = styled.ul`
         pointer-events: none;
     }
 
-    li.list i {
+    & li.list i {
         font-size: 16px !important;
     }
 
-    p {
+    & .linkTitle {
         position: relative;
         font-size: 14px;
         line-height: 25px;
@@ -60,12 +57,12 @@ export const SideBarListStyle = styled.ul`
 
 
 
-    .list.active {
+    & .list.active {
         font-weight: 600;
         background-color: white;
         color: black; 
 
-        & p {
+        & .linkTitle {
             color: black;
         }
 
@@ -109,7 +106,7 @@ export const SideBarListStyle = styled.ul`
         }
     }
 
-    .main-list {
+    & .main-list {
 
         &:has(+ ul .list.active ) .down-arrow  {
             color: white;
@@ -121,11 +118,11 @@ export const SideBarListStyle = styled.ul`
             background-color: white;
             color: black;
 
-            p {
+            & .linkTitle {
                 color: black;
             }
 
-            b:nth-child(1) {
+            & b:nth-child(1) {
                 background-color: rgb(255, 255, 255);
                 position: absolute;
                 width: 100%;
@@ -133,7 +130,7 @@ export const SideBarListStyle = styled.ul`
                 height: 10px;
             }
 
-            b:nth-child(2) {
+            & b:nth-child(2) {
                 background-color: rgb(255, 255, 255);
                 position: absolute;
                 width: 100%;
@@ -141,7 +138,7 @@ export const SideBarListStyle = styled.ul`
                 height: 10px;
                 transition: 0;
             }
-            b:nth-child(1)::before {
+            & b:nth-child(1)::before {
                 content: '';
                 position: absolute;
                 width: 100%;
@@ -150,7 +147,7 @@ export const SideBarListStyle = styled.ul`
                 border-bottom-right-radius: 25px;
                 background-color: #056699;
             }
-            b:nth-child(2)::before {
+            & b:nth-child(2)::before {
                 content: '';
                 position: absolute;
                 width: 100%;
@@ -189,4 +186,45 @@ export const SideBarSubListStyle = styled.ul`
     position: relative;
     transform-origin: top;
     height: 0;
+`
+export const CloseBtnForMobileScreen = styled.i`
+    font-size: 24px;
+    color: white ;
+    margin: 20px;
+    cursor: pointer;
+`
+
+export const SideBarStyle = styled.aside`
+    width: ${ ({openSideBare}) => openSideBare ? "250px" : "56px"};
+    transition: 0.5s ;
+    z-index: 90000;
+
+    & .fa-xmark {
+        display: none ;
+    }
+
+    @media (max-width : 767px ) {
+        position: absolute;
+        width: 250px; 
+        height: 100vh !important;
+        transform: ${ ({openSideBare}) => !openSideBare ?' translateX(0)': 'translateX(-100%)' };
+
+        & .fa-xmark {
+            display: ${ ({openSideBare}) => openSideBare ? "none" : "flex"};
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10000%;
+            height: 100%;
+            background-color: #0000008a;
+            transform: ${ ({openSideBare}) => !openSideBare ?' translateX(0)': 'translateX(-10000%)' };
+            transition: 0.5s ;
+        }
+    }
+
+
 `
