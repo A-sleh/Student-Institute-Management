@@ -1,5 +1,5 @@
 import {Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Suspense } from "react";
 import { SideBarStyle } from "./components/SideBar/sideBarTagesStyle";
 import SidBar from "./components/SideBar/SidBar";
@@ -11,9 +11,11 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", position: "relative"}}>
+
       <SideBarStyle openSideBare={openSideBare}>
         <SidBar setOpenSideBare={setOpenSideBare}/>
       </SideBarStyle>
+
       <main style={{ flex: "1" }}>
           <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
           <div style={{ padding: "20px", paddingTop: "5px" }} >
@@ -22,6 +24,7 @@ export default function App() {
               </Suspense>
           </div>
       </main>
+
     </div>
   );
 }
