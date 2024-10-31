@@ -13,11 +13,9 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
-    private readonly ReportData _reportData;
     public StudentData(ISqlDataAccess db)
     {
         this._db = db;
-        _reportData = new ReportData(db);
     }
 
     #region Data Request

@@ -46,9 +46,9 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId, TestMarkId");
             students = students.Distinct();
 
-            var examAvg = await _reportData.GetStudentsRptAvg(reportId, classId, "revision");
-            var quizAvg = await _reportData.GetStudentsRptAvg(reportId, classId, "quiz");
-            var pureMark = await _reportData.GetStudentsPureMark(reportId, classId);
+            var examAvg = await GetStudentsRptAvg(reportId, classId, "revision");
+            var quizAvg = await GetStudentsRptAvg(reportId, classId, "quiz");
+            var pureMark = await GetStudentsPureMark(reportId, classId);
 
             var res = students.Select(x =>
             {
