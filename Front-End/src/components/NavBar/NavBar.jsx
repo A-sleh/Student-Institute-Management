@@ -4,6 +4,8 @@ import "./navBar.css";
 
 export default function NavBar(props) {
 
+  console.log('rneder-nav-bar')
+
    const {openSideBare,setOpenSideBare} = props ; 
   
   return (

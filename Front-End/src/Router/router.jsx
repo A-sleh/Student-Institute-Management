@@ -1,6 +1,4 @@
 import { lazy } from "react"
-const  NavBar =  lazy(() => import( ".././components/NavBar/NavBar.jsx"))
-const  SidBar =  lazy(() => import( ".././components/SideBar/SidBar.jsx"))
 const  Statistics =  lazy(() => import( ".././components/Statistics/Statistics"))
 const  NewStudent =  lazy(() => import( ".././components/Students/NewStudent.jsx"))
 const  StudentsDetails =  lazy(() => import( ".././components/Students/StudentsDetails.jsx"))
