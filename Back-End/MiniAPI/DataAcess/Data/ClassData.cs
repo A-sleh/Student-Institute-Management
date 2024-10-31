@@ -19,7 +19,7 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-
+        #region Data Request
         public async Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showOnlyUncorrected, bool showLinked = true)
         {
             var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.ClassGetTests", new { classId, showOnlyUncorrected },
@@ -37,12 +37,11 @@ namespace DataAcess.Data
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });
             return res;
         }
-        public void ValidateId(int classId)
+        private void ValidateId(int classId)
         {
             if(!_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any())
                 throw new Exception("Not Found, No Such class has this id");
         }
-
         public async Task<IEnumerable<TeacherModel>> GetClassteachers(int classId)
         {
             var dic = new Dictionary<int, TeacherModel>();
@@ -112,6 +111,9 @@ namespace DataAcess.Data
             );
             return res.FirstOrDefault();
         }
+        #endregion
+
+        #region Actions
         public Task InsertClass(ClassModel classModel) =>
             _db.ExecuteData("dbo.ClassAdd", new
             {
@@ -138,5 +140,6 @@ namespace DataAcess.Data
             ValidateId(id);
             return _db.ExecuteData("dbo.ClassDelete", new { Id = id });
         }
+        #endregion
     }
 }

@@ -17,6 +17,9 @@ public class StudentData : IStudentData
     {
         this._db = db;
     }
+
+    #region Data Request
+    
     public Task<IEnumerable<StudentModel>> GetStudents()
     {
         var res = _db.LoadData<StudentModel, dynamic, ClassModel>(
@@ -31,7 +34,6 @@ public class StudentData : IStudentData
             ) ?? throw new Exception("there is no students");
         return res;
     }
-
     public async Task<StudentModel?> GetStudentByID(int id)
     {
         var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
@@ -43,6 +45,9 @@ public class StudentData : IStudentData
             splitOn: "ClassId");
         return res == null ? throw new Exception("no student has such Id") : res.First();
     }
+    #endregion
+
+    #region Actions
     public Task InsertStudent(StudentModel student) =>
         _db.ExecuteData("dbo.StudentAdd", new
         {
@@ -71,5 +76,6 @@ public class StudentData : IStudentData
         });
     public Task DeleteStudent(int id) =>
         _db.ExecuteData("dbo.StudentDelete", new { Id = id });
+    #endregion
 }
 

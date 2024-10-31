@@ -19,7 +19,6 @@ namespace DataAcess.Data
         {
             return await _db.LoadData<SubjectModel, dynamic>("dbo.SubjectGetAll", new { });
         }
-
         public async Task<SubjectModel?> GetSubject(int id)
         {
             var res = await _db.LoadData<SubjectModel, dynamic>("dbo.SubjectGet", new { Id = id });

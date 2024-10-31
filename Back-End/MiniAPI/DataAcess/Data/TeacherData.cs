@@ -16,6 +16,7 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
+        #region Data Request
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(string? grade)
         {
             var res = await _db.LoadData<dynamic, TeacherSubjectModel, TeacherModel, SubjectModel>(
@@ -30,7 +31,7 @@ namespace DataAcess.Data
             return res;
         }
 
-        public void ValidateId(int teacherId)
+        private void ValidateId(int teacherId)
         {
             if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherGetById", new { teacherId}).Result.Any())
                 throw new Exception("Not Found, No Such teacher With That Id");
@@ -68,6 +69,36 @@ namespace DataAcess.Data
             return res;
         }
 
+        public async Task<TeacherModel?> GetTeacherById(int TeacherId)
+        {
+            TeacherModel? CurrTeacher = null;
+            var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
+                parameters: new { TeacherId },
+                x: (Teacher, TSM, Subject) =>
+                {
+                    if (CurrTeacher == null)
+                    {
+                        CurrTeacher = Teacher;
+                    }
+                    else
+                    {
+                        Teacher = CurrTeacher;
+                    }
+
+                    if (TSM != null)
+                    {
+                        TSM.Subject = Subject;
+                        Teacher.TeacherSubjects.Add(TSM);
+                    }
+                    return Teacher;
+                },
+                splitOn: "TeacherSubjectId, SubjectId"));
+            return res.FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Actions
         public async Task UpdateTeacher(TeacherModel model)
         {
             ValidateId(model.TeacherId);
@@ -97,32 +128,7 @@ namespace DataAcess.Data
             ValidateId(teacherId);
             await _db.ExecuteData("dbo.TeacherDelete", new { teacherId });
         }
+        #endregion
 
-        public async Task<TeacherModel?> GetTeacherById(int TeacherId)
-        {
-            TeacherModel? CurrTeacher = null;
-            var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
-                parameters: new { TeacherId },
-                x: (Teacher , TSM, Subject) =>
-                {
-                    if (CurrTeacher == null)
-                    {
-                        CurrTeacher = Teacher;
-                    }
-                    else
-                    {
-                        Teacher = CurrTeacher;
-                    }
-
-                    if(TSM != null)
-                    {
-                        TSM.Subject = Subject;
-                        Teacher.TeacherSubjects.Add(TSM);
-                    }
-                    return Teacher;
-                },
-                splitOn: "TeacherSubjectId, SubjectId"));
-                return res.FirstOrDefault();
-        }
     }
 }

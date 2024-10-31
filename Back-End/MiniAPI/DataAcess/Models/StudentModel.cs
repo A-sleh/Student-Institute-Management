@@ -18,4 +18,5 @@ public class StudentModel
     public int MissedDays { get; set; }
     public decimal BillRequired { get; set; }
     public ClassModel? Class { get; set; }
+    public List<TestMarkModel> TestMark { get; set; } = [];
 }

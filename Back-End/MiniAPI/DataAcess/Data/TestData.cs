@@ -16,8 +16,7 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-
-
+        #region Data Request
         public async Task<IEnumerable<dynamic>> GetClassesByTest(int testId)
         {
             var res = await _db.LoadData<dynamic, dynamic, ClassModel>("dbo.TestGetClassesById", new { testId },
@@ -29,7 +28,6 @@ namespace DataAcess.Data
                 splitOn: "ClassId");
             return res;
         }
-
         public async Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId)
         {
             var marks = await _db.LoadData<dynamic, TestMarkModel, TestModel, SubjectModel, ReportModel>(
@@ -45,7 +43,6 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId, ReportId");
             return marks;
         }
-
         public async Task<IEnumerable<TestMarkModel>> GetTestMarksByClassId(int testId, int classId)
         {
             var res = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetClassMarks",
@@ -58,7 +55,6 @@ namespace DataAcess.Data
                 splitOn: "StudentId");
             return res;
         }
-
         public async Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId, int? classId)
         {
             var res = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
@@ -73,7 +69,6 @@ namespace DataAcess.Data
             var students = res.Select(x => x.Student).Where(s => s?.Class?.ClassId == classId || classId == null);
             return res.Where(x => students.Contains(x.Student));
         }
-
         public async Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId)
         {
             var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetBySubject",
@@ -87,7 +82,6 @@ namespace DataAcess.Data
                 splitOn: "SubjectId, ReportId");
             return res.Where(x=> reportId == null || x.Report?.ReportId == reportId);
         }
-
         public async Task<IEnumerable<TestModel>> GetTests(int? reportId)
         {
             var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetAll",
@@ -102,13 +96,13 @@ namespace DataAcess.Data
             return res
                 .Where(x => reportId == null || x.Report?.ReportId == reportId);
         }
+        #endregion
 
-        // Actions
+        #region Actions
         public async Task UpdateMark(int TestMarkId, int Mark)
         {
             await _db.ExecuteData("dbo.TestUpdateMark", new { TestMarkId, Mark });
         }
-
         public async Task UpdateTest(TestModel test)
             => await _db.ExecuteData("dbo.TestUpdate", new
             {
@@ -120,7 +114,6 @@ namespace DataAcess.Data
                 test.CorrectionDate,
                 test.TestType
             });
-
         public async Task StartATest(int testId, int classId)
         {
             if (!_db.LoadData<bool, dynamic>("dbo.TestCheckExistence", new { testId, classId }).Result.First())
@@ -128,7 +121,6 @@ namespace DataAcess.Data
             else
                 throw new Exception("Test already made in this class");
         }
-
         public async Task<dynamic> AddTest(TestModel test)
         {
             if (test.Subject == null)
@@ -143,12 +135,11 @@ namespace DataAcess.Data
                 test.Report?.ReportId
             })).First();
         }
-        
         public async Task DeleteTest(int testId)
         {
             await _db.ExecuteData("dbo.TestDelete", new { testId });
         }
-
+        #endregion
 
     }
 }

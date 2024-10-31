@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,14 +14,57 @@ namespace DataAcess.Data
     public class ReportData : IReportData
     {
         private readonly ISqlDataAccess _db;
-        private readonly TestData _testData;
         public ReportData(ISqlDataAccess _db)
         {
             this._db = _db;
-            _testData = new TestData(this._db);
         }
+        #region Data Request
+        public async Task<IEnumerable<dynamic>> GetStudentsResultSpecifiedByReportAndClass(int reportId, int classId)
+        {
+            var dic = new Dictionary<int, StudentModel>();
+            var students = await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>("dbo.StudentGetFullResultByRepAndClass",
+                new
+                {
+                    reportId,
+                    classId
+                },
+                (student, test, subject, testMark) =>
+                {
+                    test.Subject = subject;
+                    testMark.Test = test;
+                    if (dic.TryGetValue(student.StudentId, out var studentModel))
+                    {
+                        student = studentModel;
+                    }
+                    else
+                    {
+                        dic.Add(student.StudentId, student);
+                    }
+                    student.TestMark.Add(testMark);
+                    return student;
+                },
+                splitOn: "TestId, SubjectId, TestMarkId");
+            students = students.Distinct();
 
+            var examAvg = await GetStudentsRptAvg(reportId, classId, "exam");
+            var quizAvg = await GetStudentsRptAvg(reportId, classId, "quiz");
+            var pureMark = await GetStudentsPureMark(reportId, classId);
 
+            var res = students.Select(x =>
+            {
+                var eAvg = examAvg.Where(t => t.StudentId == x.StudentId).FirstOrDefault();
+                var qAvg = quizAvg.Where(q => q.StudentId == x.StudentId).FirstOrDefault();
+                var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
+                var obj = new { quizAverage = qAvg?.Average, examAverage = eAvg?.Average, pureMark = pAvg?.PureMark, student = x };
+                return obj;
+            });
+            return res;
+        }
+        public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)
+        {
+            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentAvgPure", new {  reportId, classId });
+            return res;
+        }
         public async Task LinkReportWithTests(int reportId, List<int> tests)
         {
             foreach(var testId in tests)
@@ -123,7 +167,9 @@ namespace DataAcess.Data
             }).Distinct();
         }
 
-        // Actions
+        #endregion
+
+        #region Actions
         public Task InsertReport(ReportModel report) =>
             _db.ExecuteData("dbo.ReportAdd", new
             {
@@ -136,6 +182,7 @@ namespace DataAcess.Data
             _db.ExecuteData("dbo.ReportUpdate", report);
         public Task DeleteReport(int id) =>
             _db.ExecuteData("dbo.ReportDelete", new { Id = id });
+        #endregion
 
     }
 }
