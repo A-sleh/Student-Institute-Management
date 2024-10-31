@@ -9,7 +9,7 @@ export default function SideBarLinks() {
                 const hasSubLinks = link.subLinks.length != 0 
 
                 return (
-                    <li key={index} className='list'>
+                    <li key={index} className={ !hasSubLinks ? "list":''}>
                         <LinkOfSidebar link={link} hasSubLinks={hasSubLinks}/>
                     </li>
                 );

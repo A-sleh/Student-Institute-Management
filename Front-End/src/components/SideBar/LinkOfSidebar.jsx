@@ -7,7 +7,7 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
 
   return (
     <>
-      <NavLink to={`/${path }`} className="main-list">
+      <NavLink to={`/${path }`} className={ hasSubLinks ? "main-list":''}>
           <b></b>
           <b></b>
           <i className={iconPath}></i>
@@ -16,10 +16,10 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
               {hasSubLinks && <i className="bi bi-caret-down down-arrow"></i> }
           </LinkContainerStyle>
         </NavLink>
-        {/* {
+        {
             hasSubLinks &&
             <RenderSubLinks links={link.subLinks} />
-        } */}
+        }
     </>
   );
 }
