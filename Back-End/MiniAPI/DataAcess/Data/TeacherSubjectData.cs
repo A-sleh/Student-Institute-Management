@@ -20,13 +20,13 @@ namespace DataAcess.Data
         {
             this._db = _db;
         }
-        public void ValidateId(int teacherSubjectId)
-        {
-            if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any())
-                throw new Exception ("Not found, No Such Teacher Contains this teacherSubjectId");
-        }
-
-        public void ValidateLinking(int classId, int teacherSubjectId)
+        #region Validation Methods
+        private void ValidateId(int teacherSubjectId)
+            {
+                if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any())
+                    throw new Exception ("Not found, No Such Teacher Contains this teacherSubjectId");
+            }
+        private void ValidateLinking(int classId, int teacherSubjectId)
         {
             var Valid = 
             (_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any()) &&
@@ -35,11 +35,14 @@ namespace DataAcess.Data
             if(!Valid)
                 throw new Exception("Parameters Invalid");
         }
-        public void ValidateId(int teacherId, int subjectId)
+        private void ValidateId(int teacherId, int subjectId)
         {
             if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetId", new { teacherId, subjectId }).Result.Any())
                 throw new Exception ("Not found, may teacher or subject id is invalid");
         }
+        #endregion
+
+        #region Data Request
         public async Task<IEnumerable<TeacherModel>> GetClassTeachers(int classId)
         {
             var dic = new Dictionary<int, TeacherModel>();
@@ -64,7 +67,6 @@ namespace DataAcess.Data
                 ));
             return res.Distinct();
         }
-
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherClasses(int teacherId)
         {
             var dic = new Dictionary<int, TeacherSubjectModel>();
@@ -90,7 +92,9 @@ namespace DataAcess.Data
                 );
             return res.Distinct();
         }
+        #endregion
 
+        #region Actions
         public async Task InsertTeacherSubjects(TeacherSubjectModel model) 
             => await _db.ExecuteData("dbo.TeacherSubjectInsert", new
             {
@@ -98,13 +102,11 @@ namespace DataAcess.Data
                 model.Subject?.SubjectId,
                 model.Salary
             });
-
         public async Task LinkTeacherWithClass(int teacherSubjectId, int classId)
         {
             ValidateLinking(classId, teacherSubjectId);
             await _db.ExecuteData("dbo.TeacherSubjectAddClass", new { teacherSubjectId, classId });
         }
-
         public async Task UpdateTeacherSubject(int TeacherId, int SubjectId, int Salary)
         {
             ValidateId(TeacherId, SubjectId);
@@ -115,13 +117,11 @@ namespace DataAcess.Data
                 Salary
             });
         }
-
         public async Task DeleteSubjectForTeacher(int teacherSubjectId)
         {
             ValidateId(teacherSubjectId);
             await _db.ExecuteData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
         }
-
         public async Task DeleteTeacherFromClass(int teacherSubjectId, int classId)
         {
             await _db.ExecuteData(
@@ -132,5 +132,6 @@ namespace DataAcess.Data
                     classId
                 });
         }
+        #endregion
     }
 }

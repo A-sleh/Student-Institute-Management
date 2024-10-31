@@ -19,12 +19,13 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
+        #region Data Request
+
         public async Task<IEnumerable<BillModel>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetAll", new { type, limit, orderBy, orderingType });
             return res;
         }
-
         public async Task<dynamic> GetStudentTotalPays(int studentId)
         {
             var studentTotalRequired = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGet", new { Id = studentId })).FirstOrDefault()?.BillRequired ?? 0;
@@ -39,7 +40,6 @@ namespace DataAcess.Data
             };
             return res;
         }
-
         public async Task<dynamic> GetTeacherTotalPays(int teacherId)
         {
             var teacherTotalSalary = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First() ?? 0;
@@ -54,19 +54,16 @@ namespace DataAcess.Data
             };
             return res;
         }
-
         public async Task<IEnumerable<BillModel>> GetStudentBills(int studentId)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByStudentId", new { studentId });
             return res;
         }
-
         public async Task<IEnumerable<BillModel>> GetTeacherBills(int teacherId)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
-
         public async Task<IEnumerable<BillModel>> GetBillsByDate(string? date)
         {
             var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
@@ -82,7 +79,6 @@ namespace DataAcess.Data
                 splitOn: "StudentId, TeacherId");
             return res;
         }
-
         public async Task<dynamic> GetClassTotalPays(int classId)
         {
             var res = (await _db.LoadData<(int, int), dynamic>("dbo.BillGetTotalByClass", new { classId })).First();
@@ -94,19 +90,16 @@ namespace DataAcess.Data
             };
             return Details;
         }
-
         public async Task<dynamic> GetTotalIncome()
         {
             var res = new { Income = await GetTotalByParam("in") };
             return res;
         }
-
         public async Task<dynamic> GetTotalOutcome()
         {
             var res = new { Outcome = await GetTotalByParam("out") };
             return res;
         }
-
         public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
@@ -120,7 +113,16 @@ namespace DataAcess.Data
             } 
             return res;
         }
+        public async Task<dynamic> GetRestOf(string type)
+        {
+            var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
+            return res.FirstOrDefault();
+        }
+        private async Task<int> GetTotalByParam(string param) =>
+            (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
+        #endregion
 
+        #region Actions
         public async Task AddBill(BillModel bill)
         {
             if (bill == null)
@@ -144,14 +146,7 @@ namespace DataAcess.Data
             await _db.ExecuteData("dbo.BillDelete", new { BillId });
         }
 
-        public async Task<dynamic> GetRestOf(string type)
-        {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
-            return res.FirstOrDefault();
-        }
-
-        private async Task<int> GetTotalByParam(string param) =>
-            (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
+        #endregion
     }
 
 }

@@ -28,6 +28,7 @@ namespace MiniAPI.APIs
             app.MapDelete("/Student/{id}", DeleteStudent);
         }
 
+
         private static async Task<IResult> GetStudent(IStudentData data, int id)
         {
             // test
