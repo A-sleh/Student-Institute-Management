@@ -119,7 +119,7 @@ export default function App() {
         >
           <Suspense>
             <Routes>
-              <Route path="/" element={<Statistics />} />
+              <Route path="/Statistics" element={<Statistics />} />
               {renderAllRoute}
 
               <Route path="StudentsPays" element={ <StudentsPays />} >

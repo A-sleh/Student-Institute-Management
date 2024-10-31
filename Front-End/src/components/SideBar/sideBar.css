@@ -2,6 +2,7 @@
     --main-color: #066599;
 }
 
+/* done  */
 .side-bar-container {
     min-height: 100vh;
     position: relative;
@@ -11,6 +12,7 @@
     scrollbar-width: none;
 }
 
+/* done  */
 
 .lists {
     position: absolute;
@@ -19,6 +21,8 @@
     top: 10%;
     width: 100%;
 }
+
+/* done  */
 
 .lists .list,
 .lists .main-list {
@@ -33,6 +37,8 @@
     width: 100%;
 }
 
+/* done  */
+
 .lists i {
     position: relative;
     font-size: 14px;
@@ -40,6 +46,8 @@
     margin: 0 15px;
     pointer-events: none;
 }
+
+/* done  */
 
 .lists p {
     position: relative;
@@ -53,6 +61,20 @@
     margin-left: 5px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .lists li span p {
     margin-left: 0px;
 }
@@ -60,6 +82,7 @@
     font-size: 16px !important;
 }
 
+/* done  */
 .lists .list.active,
 .lists .main-list.active ,
 .lists .main-list:has(+ ul .list.active ) {
@@ -68,12 +91,16 @@
     color: black;
 }
 
+/* done  */
+
 .lists .list.active p,
 .lists .main-list.active p ,
 .lists .main-list:has(+ ul .list.active ) p {
     color: black;
 }
 
+
+/* done  */
 .lists .list.active b:nth-child(1),
 .lists .main-list.active b:nth-child(1)  ,
 .lists .main-list:has(+ ul .list.active ) b:nth-child(1){
@@ -84,6 +111,7 @@
     height: 10px;
 
 }
+/* done  */
 
 .lists .list.active b:nth-child(2),
 .lists .main-list.active b:nth-child(2) ,
@@ -97,11 +125,13 @@
 
 }
 
+/* done  */
 .lists .main-list.active .down-arrow ,
 .lists .main-list:has(+ ul .list.active ) .down-arrow {
     color: white;
 }
 
+/* done  */
 .lists .list.active b:nth-child(1)::before,
 .lists .main-list.active b:nth-child(1)::before ,
 .lists .main-list:has(+ ul .list.active ) b:nth-child(1)::before {
@@ -114,6 +144,8 @@
     background-color: var(--main-color);
 
 }
+
+/* done  */
 
 .lists .list.active b:nth-child(2)::before,
 .lists .main-list.active b:nth-child(2)::before ,
@@ -128,6 +160,7 @@
 
 }
 
+/* done  */
 .sub-list {
     position: relative;
     margin-left: 8px;
@@ -135,18 +168,17 @@
     margin-top: 0px;
     margin-bottom: 10px;
     position: relative;
-    /* transform: scaleY(0); */
     transform-origin: top;
     height: 0;
-    /* transition: .4s; */
 }
 
+/* done  */
 .lists .main-list.active + ul ,
 .lists .main-list:has(+ ul .list.active ) + ul {
     height: 100%; 
     margin-top: 12px;
-    /* transform: scale(1); */
 }
+/* done  */
 .lists .main-list.active:first-child ,
 .lists .main-list:first-child:has(+ ul .list.active ) {
     margin-top: 18px;

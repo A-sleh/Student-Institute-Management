@@ -1,6 +1,7 @@
 export const links = [
     {
       title: "Statistics",
+      path: 'Statistics',
       iconPath: "fa-solid fa-chart-line fa-fw",
       subLinks: [],
     },
@@ -53,5 +54,5 @@ export const links = [
         { title: "New Class", iconPath: "bi bi-building-add" },
       ],
     },
-    { title: "Subject", iconPath: "bi bi-book-half", subLinks: [] },
+    { title: "Subject", path: 'Subject',iconPath: "bi bi-book-half", subLinks: [] },
   ];
