@@ -1,0 +1,165 @@
+
+import styled from 'styled-components'
+
+export const TableContainerStyle = styled.div`
+    background-color: #f3f1f1d7;
+    padding: 20px 10px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+
+    @media (max-width: 767px ) {
+        
+        
+    }
+`
+
+export const TableStyle = styled.table`
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+    thead {
+        position: relative;
+        top: -10px;
+
+        th {
+            background-color: white;
+            border: none;
+            text-transform: uppercase;
+            color: rgb(6, 101, 153);
+            font-weight: bold;
+            padding: 15px;
+            font-size: 14px;
+            text-wrap: nowrap;
+
+            span {
+                margin-left: 5px
+            }
+        }
+    }
+
+    tbody {
+        tr {
+
+            &:nth-child(odd) {
+                background-color: white !important;
+            }
+            &:nth-child(odd) {
+                background-color: #f3f1f1d7 !important;
+            }
+
+            td {
+                padding: 15px;
+                margin: 5px 0px;
+                text-align: center;
+                border: none;
+                text-wrap: nowrap;
+            }
+
+            &:hover {
+                background-color: #ddd;
+            }
+        }
+    }
+    
+`
+
+export const TableHeaderStyle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+
+    form {
+        padding: 10px 0px;
+        border-radius: 5px;
+        background-color: rgb(221, 221, 221);
+        display: flex;
+        align-items: center;
+        color: gray;
+
+        i {
+            margin: 0px 10px;
+            font-weight: bold;
+        }
+
+        input {
+            background-color: transparent;
+            border: none;
+            outline: none   ;
+            font-weight: 500;
+        }
+
+        span {
+            padding: 3px 20px;
+            margin: 0px 10px;
+            border: none;
+            color: white;
+            background-color: rgb(6, 101, 153);
+            border-radius: 2.4px;
+        }
+    }
+
+    @media (max-width : 767px ) {
+        & {
+            flex-direction: column-reverse;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px ;
+            width: 100% ;
+
+            form {
+                width: 100%;
+
+                span {
+                    margin-left: auto
+                }
+            }
+        }
+    }
+`
+
+export const SubHeaderTableStyle = styled.div`
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 10px;
+
+    span {
+        font-weight: 500;
+        font-size: 20px;
+    }
+`
+
+export const TableControalSectionStyle = styled.div`
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px ;
+    display: flex;
+    justify-content: center;
+
+    button {
+        cursor: pointer;
+        padding: 2px 20px;
+        border: none;
+        background-color: #2677a3;
+        color: white;
+        font-weight: 400;
+        border-radius: 2px;
+        margin: 0 10px;
+    }
+
+    div {
+        padding: 2px 6px;
+        margin: 0 5px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    span {
+        font-weight: 600;
+        margin: 0 5px;
+    }
+`

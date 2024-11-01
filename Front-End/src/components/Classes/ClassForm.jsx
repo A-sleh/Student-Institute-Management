@@ -5,7 +5,7 @@
   
 */
 
-import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/styleTag";
+import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from '../shared/style/styleTag'
 import { useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import ErrorMessage from "../shared/ErrorMessage";

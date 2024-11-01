@@ -192,3 +192,30 @@ Optimization nots :
 
     style : 
         -  do global button style ( add , create , confirm , go back )
+
+
+            <HeaderControal searcByName={searcByName} setSearcByName={setSearcByName} fileterByClass={fileterByClass} setFileterByClass={setFileterByClass} />
+            <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
+                <table>
+                    <thead  style={{position: 'relative' , top: '-10px' }}>                    
+                        <tr>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name </th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Total</th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Paid</th>
+                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            studentDetails.map( (student,index) => {              
+                                    if( fileterByClass != 'All' && fileterByClass != student.classId ) return
+                                    const fullName = student.name + ' ' + student.lastName ;
+                                    if(fullName.toLowerCase().includes(searcByName.toLowerCase()) == false ) return
+
+                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} className="hovering-row" key={index} onClick={()=>{
+                                        gotoStudentBillDetails(`/StudentsPays/StudentBillDetails/${student.studentId}`,{state: type})
+                                    }} ><StudentBillInfo student={student} /></tr>
+                            })
+                        }
+                    </tbody>
+                </table>

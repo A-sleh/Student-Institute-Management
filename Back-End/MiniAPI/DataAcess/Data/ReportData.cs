@@ -46,19 +46,18 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId, TestMarkId");
             students = students.Distinct();
 
-            var examAvg = await GetStudentsRptAvg(reportId, classId, "exam");
-            var quizAvg = await GetStudentsRptAvg(reportId, classId, "quiz");
             var pureMark = await GetStudentsPureMark(reportId, classId);
 
             var res = students.Select(x =>
             {
-                var eAvg = examAvg.Where(t => t.StudentId == x.StudentId).FirstOrDefault();
-                var qAvg = quizAvg.Where(q => q.StudentId == x.StudentId).FirstOrDefault();
+                var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam").Result.FirstOrDefault();
+                var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz").Result.FirstOrDefault();
                 var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
-                var obj = new { quizAverage = qAvg?.Average, examAverage = eAvg?.Average, pureMark = pAvg?.PureMark, student = x };
+                var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
+                var obj = new { quizAverage = qAvg?.Average ?? 0, examAverage = eAvg?.Average ?? 0, pureMark = pAvg?.PureMark ?? 0, x.StudentId, x.Name, x.LastName, TestMark };
                 return obj;
             });
-            return res;
+            return res.OrderByDescending(o => o.examAverage);
         }
         public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)
         {

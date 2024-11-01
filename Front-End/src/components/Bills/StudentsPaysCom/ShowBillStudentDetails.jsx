@@ -1,57 +1,64 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import DataServices from "../../../Data/dynamic/DataServices"
-import {  thStyle } from "../../Teachers/teacherInformation/TeacherSubjects"
 import { useNavigate } from "react-router-dom";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
+import { COLUMNS } from "./COLUMNS.JS";
+import Table from "../../shared/Table";
+import { useQueries, useQuery  } from 'react-query'
+import Loader from "../../Modal/Loader";
+import axios from "axios";
+import useGetStudentBills from "../../../hooks/useGetStudentBills";
 
 export default function ShowBillStudentDetails({type}) {
 
-    const gotoStudentBillDetails = useNavigate() ;
-    const [searcByName,setSearcByName] = useState('')
-    const [fileterByClass,setFileterByClass] = useState('All')
-    const [studentDetails,setStudentDetails] = useState([])
-    useEffect(() => {
-        DataServices.StudentsInformaion().then( students => {
-            setStudentDetails(students.map( student => {
-                return {
-                    name : student.name , 
-                    lastName : student.lastName , 
-                    studentId : student.studentId, 
-                    classId : student.class?.classId
-                }
-            }))
-        })
-    } ,[])
+    // const gotoStudentBillDetails = useNavigate() ;
+    // const [searcByName,setSearcByName] = useState('')
+    // const [fileterByClass,setFileterByClass] = useState('All')
+    
+    // const [studentDetails,setStudentDetails] = useState([])
 
+    const data = useGetStudentBills()
+
+    console.log(data)    
+
+
+
+    // useEffect(() => {
+    //     DataServices.StudentsInformaion().then(  async students => {
+    //         const data = students.map( async student => {
+    //             let bill ;
+    //             await DataServices.ShowStudentBillBalanc(student.studentId).then( studentBills => { bill = studentBills })
+                
+    //             return {
+    //                 name : student.name , 
+    //                 lastName : student.lastName , 
+    //                 studentId : student.studentId, 
+    //                 classId : student.class?.classId,
+    //                 ...bill
+    //             }
+    //         })
+    //         const hello = await data.map( promis => {
+    //             console.log(promis)
+    //             promis.then( student => { 
+    //                 console.log(student)
+    //                 return {...student} 
+    //             })
+    //         })
+
+    //         console.log(hello)
+
+    //         setStudentDetails(data.map( promis => {
+    //             promis.then( student => { return {...student} })
+    //         }))
+    //     })
+    // } ,[])
 
     return (
         <>
-            <HeaderControal searcByName={searcByName} setSearcByName={setSearcByName} fileterByClass={fileterByClass} setFileterByClass={setFileterByClass} />
-            <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-                <table>
-                    <thead  style={{position: 'relative' , top: '-10px' }}>                    
-                        <tr>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name </th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Total</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Paid</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Required</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            studentDetails.map( (student,index) => {              
-                                    if( fileterByClass != 'All' && fileterByClass != student.classId ) return
-                                    const fullName = student.name + ' ' + student.lastName ;
-                                    if(fullName.toLowerCase().includes(searcByName.toLowerCase()) == false ) return
+            {/* <HeaderControal searcByName={searcByName} setSearcByName={setSearcByName} fileterByClass={fileterByClass} setFileterByClass={setFileterByClass} />
+            <Table data={studentDetails || []} column={COLUMNS} >
 
-                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} className="hovering-row" key={index} onClick={()=>{
-                                        gotoStudentBillDetails(`/StudentsPays/StudentBillDetails/${student.studentId}`,{state: type})
-                                    }} ><StudentBillInfo student={student} /></tr>
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
+            </Table> */}
         </>
     )
 }

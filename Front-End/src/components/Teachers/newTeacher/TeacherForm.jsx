@@ -6,7 +6,7 @@
   
 */
 
-import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/styleTag";
+import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DataServices from "../../../Data/dynamic/DataServices";

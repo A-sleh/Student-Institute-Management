@@ -5,9 +5,9 @@
   
 */
 
+import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/style/styleTag";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/styleTag.js";
 import Title from "../Global/Title";
 import DataServices from "../../Data/dynamic/DataServices.js";
 import Notification from "../Global/Notification.jsx";

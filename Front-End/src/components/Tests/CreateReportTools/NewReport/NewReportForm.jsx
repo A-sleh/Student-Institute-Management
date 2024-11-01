@@ -6,7 +6,7 @@
   
 */
 
-import { FormRowStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from '../../../shared/styleTag'
+import { FormRowStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from '../../../shared/style/styleTag'
 import {useState} from 'react'
 import DataServices from '../../../../Data/dynamic/DataServices'
 import Notification from '../../../Global/Notification'

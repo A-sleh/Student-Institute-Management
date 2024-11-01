@@ -1,29 +1,29 @@
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
+
 import { useEffect, useMemo, useState } from "react";
 import DataServices from "../../Data/dynamic/DataServices";
 import { COLUMNS } from "./TableStructuer/Columns";
 import { Link, Outlet } from "react-router-dom";
-import {
-  useTable,
-  usePagination,
-  useSortBy,
-  useGlobalFilter,
-} from "react-table";
-import "./studentStyle.css";
 import Title from "../Global/Title";
-import TableHeader from "./TableStructuer/TableHeader";
-import TableControalSection from "./TableStructuer/TableControalSection";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
-import { thStyle } from "../Teachers/teacherInformation/TeacherSubjects";
+import TablePaginated from "../shared/TablePaginated";
+import { SubHeaderTableStyle } from "../shared/style/tableTagsStyle";
 
 export default function StudentsDetails() {
+
+
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
-
   const [studentInfo, setstudentInfo] = useState([]);
 
 
@@ -95,118 +95,22 @@ export default function StudentsDetails() {
     });
   },[successDeleteStudent]);
   
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    gotoPage,
-    page,
-    rows,
-    prepareRow,
-    state,
-    setGlobalFilter,
-    pageCount,
-  } = useTable(
-    {
-      data: studentInfo,
-      columns: column,
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
-
-  const { globalFilter, pageIndex } = state;
   return (
     <>
-      {deleteModal && (
-        <DeleteModal
-          element={currentStudentInfo.name}
-          type={"student"}
-          id={currentStudentInfo.id}
-          setDeleteModal={setDeleteModal}
-          setSuccessDelete={setSuccessDeleteStudent}
-        />
-      )}
-      <div>
-        <Notification
-          title={"student was deleted"}
-          type={"success"}
-          state={successDeleteStudent}
-          setState={setSuccessDeleteStudent}
-        />
-        <Title title={window.location.pathname} />
+      {
+        deleteModal && 
+        <DeleteModal element={currentStudentInfo.name} type={"student"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />
+      }
+      <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
 
-        <TableHeader
-          filter={globalFilter}
-          setFilter={setGlobalFilter}
-          studentNumber={rows.length}
-          type={'student'}
-        />
-        <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-          <table {...getTableProps()}>
-            <thead style={{position: 'relative' , top: '-10px'}}>
-              {headerGroups.map((headerGroup, index) => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                  {headerGroup.headers.map((column, index) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      style={{...thStyle,border: 'none' , padding: '15px' }}
-                      key={index}
-                    >
-                      {column.isSorted ? (
-                        <span style={{ fontSize: "12px" }}>
-                          {" "}
-                          {!column.isSortedDesc ? (
-                            <i className="bi bi-arrow-up"></i>
-                          ) : (
-                            <i className="bi bi-arrow-down"></i>
-                          )}{" "}
-                        </span>
-                      ) : (
-                        <i
-                          className="bi bi-arrow-up"
-                          style={{ opacity: "0" }}
-                        ></i>
-                      )}
-                      <span style={{ marginLeft: "5px" }}>
-                        {column.render("Header")}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {page.map((row, index) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()} key={index} className="hovering-row">
-                    {row.cells.map((cell, index) => (
-                      <td {...cell.getCellProps()} key={index} style={{padding: '15px'  , margin: '5px 0' , border: 'none' }}>
-                        {cell.render("Cell")}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <TableControalSection
-          pageCount={pageCount}
-          previousPage={previousPage}
-          nextPage={nextPage}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          pageIndex={pageIndex}
-          gotoPage={gotoPage}
-        />
-      </div>
+      <Title title={window.location.pathname} />
+
+      <TablePaginated data={studentInfo || []} column={column}>
+        <SubHeaderTableStyle >
+          Total Students Number : <span>{studentInfo?.length || 0 }</span>
+        </SubHeaderTableStyle>
+      </TablePaginated> 
+
     </>
   );
 }
