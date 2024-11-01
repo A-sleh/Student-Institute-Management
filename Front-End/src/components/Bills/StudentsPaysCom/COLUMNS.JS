@@ -2,7 +2,7 @@ import addSpaceBetweenDigit from "../../Global/globalStyle"
 
 export const COLUMNS = [
     {
-        header: 'Name',
+        Header: 'Name',
         accessor: 'name',
         Cell : ({row}) => {
             const {name,lastName} = row.original
@@ -10,24 +10,23 @@ export const COLUMNS = [
         }
     },
     {
-        header: 'Total',
+        Header: 'Total',
         accessor: 'total',
         Cell : ({ value }) => {
             return addSpaceBetweenDigit(`${value}`)
         }
     },
     {
-        header: 'Paid',
+        Header: 'Paid',
         accessor: 'paid',
         Cell : ({ value }) => {
             return addSpaceBetweenDigit(`${value}`)
         }
     },
     {
-        header: 'Required',
+        Header: 'Required',
         accessor: 'required',
         Cell : ({ value }) => {
-            console.log(value)
             return addSpaceBetweenDigit(`${value}`)
         }
     },

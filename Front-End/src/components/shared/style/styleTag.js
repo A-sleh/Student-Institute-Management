@@ -51,9 +51,9 @@ export const FormRowStyle = styled.div`
     }
 `
 export const FormSubRowStyle = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
-    height: 78px;
     width: ${({width}) => width || '50%' };
 
     @media (max-width: 767px ) {
@@ -191,6 +191,36 @@ export const ShowCardContainerStyle = styled.div`
     @media (max-width: 767px ) {
         & {
             display: none;
+        }
+    }
+`
+
+// SearchBodyList
+
+export const SearchBodyListStyle = styled.div`
+    padding: 10px 5px;
+    background-color: white !important;
+    margin-top: 2px;
+    border-radius: 2px;
+    flex-direction: column;
+    position: absolute;
+    display: flex;
+    top: calc(100% + 5px);
+    border-radius: 10px;
+    width: 100%;
+    transform-origin: top;
+    transition: .3s;
+    z-index: 100;
+    transform: ${({transformValue}) => transformValue };
+
+    span {
+        font-weight: 500;
+        font-size: 16px;
+        padding: 8px;
+        cursor: pointer;
+
+        &:nth-child(even) {
+            background-color: #eee;
         }
     }
 `
