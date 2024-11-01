@@ -159,7 +159,7 @@ const router = createBrowserRouter(
                             element:  <ShowBillStudentDetails />,
                         },
                         {
-                            path: 'StudentBillDetails',
+                            path: 'StudentBillDetails/:id',
                             element:  <StudentBillDetails />,
                         },
                         {

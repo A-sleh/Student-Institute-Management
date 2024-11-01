@@ -2,17 +2,23 @@
 import { useGlobalFilter, useSortBy, useTable } from "react-table";
 import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import TableHeader from "./TableHeader";
+import { useNavigate } from "react-router-dom";
 
 
-export default function Table({data,column,children}) {
+export default function Table({data,column,children,idKeyParams = '',url = 'unAble'}) {
 
-
+    const gotoPage = useNavigate() ;
     const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter} = useTable({
         data: data,
         columns: column,
     }, useGlobalFilter, useSortBy);
 
     const { globalFilter } = state;
+
+    function handleRowClicked(row) {
+        if( url == 'unAble') return 
+        gotoPage(`${url}/${row[idKeyParams]}`)
+    }
 
     return (
         <>
@@ -55,9 +61,9 @@ export default function Table({data,column,children}) {
                         {rows.map((row, index) => {
                             prepareRow(row);
                             return (
-                            <tr {...row.getRowProps()} key={index} >
+                            <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} >
                                 {row.cells.map((cell, index) => (
-                                <td {...cell.getCellProps()} key={index} >
+                                <td {...cell.getCellProps()} key={index}  >
                                     {cell.render("Cell")}
                                 </td>
                                 ))}
