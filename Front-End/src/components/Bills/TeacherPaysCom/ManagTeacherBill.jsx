@@ -1,10 +1,20 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 
-import ShowBillTeacherDetails from "./ShowBillTeacherDetails";
+import useGetTeachersBills from "../../../hooks/useGetTeachersBills";
+import Table from "../../shared/Table";
+import { COLUMNS } from "../style/COLUMNS.JS";
 
 export default function ManagTeacherBill() {
+
+    const [teacherDetails] = useGetTeachersBills()
+
     return(
         <>
-            <ShowBillTeacherDetails type={'manage'}/>
+            <Table data={teacherDetails || []} column={COLUMNS} />
         </>
     )
 }

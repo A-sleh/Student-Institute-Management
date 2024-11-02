@@ -18,7 +18,7 @@ export default function App() {
         <SideBarStyle openSideBare={openSideBare}>
           <SidBar setOpenSideBare={setOpenSideBare}/>
         </SideBarStyle>
-
+        
         <main style={{ flex: "1" ,overflow: 'hidden'}}>
             <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
             <div style={{ padding: "20px", paddingTop: "5px" }} >

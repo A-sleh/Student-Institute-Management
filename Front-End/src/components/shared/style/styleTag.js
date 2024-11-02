@@ -1,5 +1,5 @@
 
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 
 // form tages style 
 
@@ -41,6 +41,7 @@ export const FormMainContainer = styled.section`
         flex-direction: column;
     }
 `
+
 export const FormRowStyle = styled.div`
     display: flex;
     gap: 10px ;
@@ -50,6 +51,7 @@ export const FormRowStyle = styled.div`
         flex-direction: column;
     }
 `
+
 export const FormSubRowStyle = styled.div`
     position: relative;
     display: flex;
@@ -138,6 +140,23 @@ export const FormCheckBoxContainerStyle = styled.div`
         }
     }
 `
+export const FormRadioContainerStyle = styled.div`
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 0;
+    
+    input [type="radio"] {
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    label {
+        line-height: 0.8;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-right: 10px;
+    }
+`
 
 export const ButtonsContainerStyle = styled.div`
     display: flex;
@@ -223,6 +242,97 @@ export const SearchBodyListStyle = styled.div`
             background-color: #eee;
         }
     }
+`
+
+// Sub NavBar Section 
+
+const MoveCircleToRight = keyframes`
+    100% {
+        right: 10px;
+        background-color: white;
+    }
+`
+const MoveCircleToLeft = keyframes`
+    100% {
+        left: 10px;
+        background-color: white;
+    }
+`
+const fullWidth = keyframes`
+    100% {
+        width: 100%;
+    }
+`
+const ShowText = keyframes`
+    100% {
+        opacity: 1;
+    }
+`
+
+export const HeaderNavStyle = styled.ul`
+    display: flex;
+    position: relative;
+    gap: 30px;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(6, 101, 153);
+    padding: 10px;
+    border-radius: 2px;
+    transition: all .4s;
+    width: 0;
+    margin: auto;
+    margin-bottom: 10px;
+    animation: ${fullWidth} 2s  ease-in-out  ;
+    animation-fill-mode: forwards;
+    
+    ol {
+        display: flex ;
+        gap: 30px ;
+        list-style: none ;
+        justify-content: center;
+    }
+
+
+    & li  {
+        opacity: 0;
+        animation:  ${ShowText} 1s 1s ease-in-out ;
+        animation-fill-mode: forwards;
+    }
+
+    span:last-of-type {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background-color: rgb(6, 101, 153);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        left: -18px;
+        animation: ${MoveCircleToLeft} 1s 1.4s ease-in-out ;
+        animation-fill-mode: forwards;
+    }
+    span:first-of-type {  
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background-color: rgb(6, 101, 153);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -18px;
+        animation: ${MoveCircleToRight} 1s 1.4s ease-in-out ;
+        animation-fill-mode: forwards;
+    }
+
+    @media (max-width : 500px ) {
+        ol {
+            flex-direction: column;
+            gap: 0px;
+            text-align: center;
+        }
+    }
+
 `
 
 export const InputStyle = styled.input.attrs( ({type}) => ({

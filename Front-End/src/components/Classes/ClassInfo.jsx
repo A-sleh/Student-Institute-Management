@@ -1,6 +1,5 @@
 
 import { useNavigate } from "react-router-dom";
-import StudentInfo from "../Modal/StudentInfo";
 import ShowClassDetails from "./ShowClassDetails";
 import { useEffect, useState } from "react";
 import ClassTeacher from './ClassTeacher'

@@ -1,4 +1,3 @@
-
 /***  
     CSS-OPTIMAIZATION : DONE , 
     COMPONENTS OPTIMIZATION : DONE ,
@@ -105,6 +104,7 @@ export default function NewBill() {
                             <SearchBodyList searchValue={formInput.fullName} handleElementClicked={handleSelectedStudnet} data={allStudnets} focused={focused}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
+                    
                     <FormRowStyle>
                         <FormSubRowStyle >
                             <LabelStyle color={'#056699'} >Bill Number</LabelStyle>
@@ -122,7 +122,7 @@ export default function NewBill() {
                             <ErrorMessage showMessage={validationBillInput.amount} message={"he amount must be poistive ,And it requierd!!"}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
-                    <div >
+                    <div>
                         <LabelStyle color={'#056699'} htmlFor="">Note</LabelStyle>
                         <TextAreaInputStyle value={formInput.note} onChange={(e) => setFormInput({...formInput,note: e.target.value})}></TextAreaInputStyle>
                     </div>

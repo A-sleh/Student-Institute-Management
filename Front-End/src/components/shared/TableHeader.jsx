@@ -1,11 +1,10 @@
 import { TableHeaderStyle } from "./style/tableTagsStyle";
 
-export default function TableHeader(props) {
+export default function TableHeader({filter,setFilter,children}) {
 
-  const {filter,setFilter,children} = props
-
+  console.log(children)
   return (
-    <TableHeaderStyle >
+    <TableHeaderStyle fullWidth={children == undefined}>
       {children}
       <form>
         <i className="bi bi-search" ></i>

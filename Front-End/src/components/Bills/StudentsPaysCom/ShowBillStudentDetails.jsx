@@ -1,5 +1,11 @@
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
 import { useState } from "react"
-import { COLUMNS } from "./COLUMNS.JS";
+import { COLUMNS } from "../style/COLUMNS.JS";
 import Table from "../../shared/Table";
 import useGetStudentBills from "../../../hooks/useGetStudentBills";
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName";

@@ -1,6 +1,27 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import {  NavLink, Outlet } from "react-router-dom";
 import Title from "../Global/Title";
-import { HeaderNavStyle } from "../Tests/CreateTestTools/EmentsStyle";
+import { HeaderNavStyle } from "../shared/style/styleTag";
+
+const urlList = [
+    {
+        title: 'Show All Teachers Pays',
+        path: 'ShowBillTeacherDetails',
+    },
+    {
+        title: 'Manage Pays',
+        path : 'ManagTeacherBill',
+    },
+    {
+        title: 'New Pay',
+        path : 'NewTeacherBill',
+    }
+]
 
 export default function TeachersSalaries() {
     return(
@@ -8,17 +29,13 @@ export default function TeachersSalaries() {
             <Title title={window.location.pathname} />
                 <HeaderNavStyle >
                     <span></span>
-                    <ul style={{display: 'flex' , gap: '30px' , listStyle: 'none' , justifyContent: 'center'}}>
-                        <li><NavLink to={'ShowBillTeacherDetails'} style={({ isActive }) => {
-                            return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                            }}>Show All Teachers Pays</NavLink></li>
-                        <li><NavLink to={'ManagTeacherBill'} style={({ isActive }) => {
-                            return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                            }}>Manage Pays</NavLink></li>
-                        <li><NavLink to={'NewTeacherBill'} style={({ isActive }) => {
-                            return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                            }}>New Pay</NavLink></li>
-                    </ul>
+                    <ol>
+                        {
+                            urlList.map( link => {
+                                return <li><NavLink to={link.path} style={({ isActive }) => { return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'} }}>{link.title}</NavLink></li>
+                            })
+                        }
+                    </ol>
                     <span></span>
                 </HeaderNavStyle>
             <Outlet />

@@ -1,23 +1,34 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import useLatestBills from "../../hooks/useLatestBills";
 import Title from "../Global/Title";
 import BillStatistics from "./AllBilldetailsCom/BillStatistics";
-import ShortExternalBills from "./AllBilldetailsCom/ShortExternalBills";
-import ShortStudentsBills from "./AllBilldetailsCom/ShortStudentsBills";
-import ShortTeacherBills from "./AllBilldetailsCom/ShortTeacherBills";
+import ShowLatestBills from "./AllBilldetailsCom/ShowLatestBills";
+import { AllBillDetailsStyle } from "./style/styleComponents";
 
 
 export default function AllBillDetails() {
+
+    const [teacherBills,studentBills,externalBills] = useLatestBills(6) 
+
+
     return(
         <>
             <Title title={window.location.pathname} />
+            <AllBillDetailsStyle>
                 
-             <div style={{display: 'flex' , gap: '10px' , position: 'relative'}}>
                 <div style={{flex: '1'}}>
-                    <ShortStudentsBills />
-                    <ShortTeacherBills />
-                    <ShortExternalBills />
+                    <ShowLatestBills bills={teacherBills} billsType={'Teachers'} showMoreLink={'TeachersSalaries'}/>
+                    <ShowLatestBills bills={studentBills} billsType={'Students'} showMoreLink={'StudentsPays'}/>
+                    <ShowLatestBills bills={externalBills} billsType={'External'} showMoreLink={'ExternalPays'}/>
                 </div>
+
                 <BillStatistics />
-            </div> 
+            </AllBillDetailsStyle> 
         </>
     )
 }
