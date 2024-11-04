@@ -1,0 +1,63 @@
+-- BILL:
+
+JSON FORMAT EDITED
+GetByDate + GetAll
+(removed unnecessary student and teacher properties instead of showing null) at:
+/Bill
+/Bill/{date}
+
+
+-- CLASS:
+
+removed Query Limit parameter in GetAll method at:
+/Class
+
+JSON FORMAT EDITED
+removed NULL teacher inside teachersubject object in class get teachers json at:
+/Class/{classId}/Teacher
+
+
+-- STUDENT:
+
+JSON FORMAT EDITED
+removed NULL properties inside class object in each student at:
+/Student
+
+
+-- TEST:
+ !! NOTE !!
+SHOULD MAKE DISCUSS ABOUT:
+/Test/Subject/{subjectId}
+
+JSON FORMAT EDITED AT:
+/Test/{testId}/class/{classId} (brings student marks on specific test in specific class) (edit will not make damage)
+
+JSON FORMAT EDITED AT:
+/Test/{testId}
+FROM :				      TO:
+[				              [
+  {				                {	
+    "testMarkId": 1,		      "testMarkId": 1,	
+    "student": {		          "mark": 600,
+      "studentId": 1,		      "student": {
+      "name": "Ramez",		        "studentId": 1,
+      "lastName": "A.",		        "name": "Ramez",
+      "fatherName": "Mohamad", 	    "lastName": "A.",
+      "birthdate": null,	        "fatherName": "Mohamad",
+      "phone": null,		        "classId": 1,
+      "missedDays": 0,    	        "title": "A"
+      "billRequired": 0,	      }
+      "class": {		        }
+        "classId": 1,		  ]
+        "title": "A",
+        "capacity": 25,
+        "grade": "bachelor",
+        "gender": "male",
+        "students": []
+      },
+      "testMark": []
+    },
+    "test": null,
+    "mark": 600
+  }
+]

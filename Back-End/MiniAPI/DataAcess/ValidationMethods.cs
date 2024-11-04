@@ -19,7 +19,7 @@ namespace DataAcess
             }
             else if (s?.Length == 2)
             {
-                Date = s[0] + "-" + s[1] + "%";
+                Date = s[0] + "-" + (s[1].Length > 1 ? s[1] : "0" + s[1]) + "%";
             }
             else if (s?.Length == 1 && s[0].Length == 4)
             {

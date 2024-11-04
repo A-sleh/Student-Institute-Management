@@ -64,7 +64,7 @@ namespace DataAcess.Data
                     TestMark };
                 return obj;
             });
-            return res.OrderByDescending(o => o.examAverage);
+            return res.OrderByDescending(o => o.mark);
         }
         public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)
         {

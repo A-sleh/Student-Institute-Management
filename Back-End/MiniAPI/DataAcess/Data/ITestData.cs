@@ -8,12 +8,12 @@ namespace DataAcess.Data
         Task DeleteTest(int testId);
         Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId = 0);
         Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId);
-        Task<IEnumerable<TestMarkModel>> GetTestMarksByClassId(int testId, int classId);
+        Task<IEnumerable<dynamic>> GetTestMarksByClassId(int testId, int classId);
         Task<IEnumerable<TestModel>> GetTests(int? reportId);
         Task StartATest(int classId, int testId);
         Task UpdateMark(int TestMarkId, int Mark);
         Task UpdateTest(TestModel test);
-        Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId, int? classId);
+        Task<IEnumerable<dynamic>> GetTestMarks(int testId, int? classId);
         Task<IEnumerable<dynamic>> GetClassesByTest(int testId);
     }
 }

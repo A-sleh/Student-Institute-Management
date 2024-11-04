@@ -20,9 +20,9 @@ public class StudentData : IStudentData
 
     #region Data Request
     
-    public Task<IEnumerable<StudentModel>> GetStudents()
+    public async Task<IEnumerable<dynamic>> GetStudents()
     {
-        var res = _db.LoadData<StudentModel, dynamic, ClassModel>(
+        var res = await _db.LoadData<StudentModel, dynamic, ClassModel>(
             "dbo.StudentGetAll",
             parameters: new { },
             (StudentModel Student, ClassModel Class) =>
@@ -31,8 +31,25 @@ public class StudentData : IStudentData
                 return Student;
             },
             splitOn: "ClassId"
-            ) ?? throw new Exception("there is no students");
-        return res;
+            );
+        return res.Select(x =>
+        {
+            return new 
+            { 
+                x.StudentId,
+                x.Name,
+                x.LastName,
+                x.FatherName,
+                x.Phone,
+                x.MissedDays,
+                x.BillRequired,
+                Class = new 
+                {
+                    x.Class?.ClassId,
+                    x.Class?.Title
+                }
+            };
+        });
     }
     public async Task<StudentModel?> GetStudentByID(int id)
     {

@@ -7,10 +7,10 @@ namespace DataAcess.Data
         Task DeleteClass(int id);
         Task<IEnumerable<TestModel>> GetClassTests(int classId, bool? showCorrected, bool isLinked = true);
         Task<ClassModel?> GetClassDetails(int id);
-        Task<IEnumerable<ClassModel>> GetClasses(int? limit);
+        Task<IEnumerable<ClassModel>> GetClasses();
         Task InsertClass(ClassModel classModel);
         Task UpdateClass(ClassModel classModel);
         Task<IEnumerable<dynamic>> GetClassSubjects(int classId);
-        Task<IEnumerable<TeacherModel>> GetClassteachers(int classId);
+        Task<IEnumerable<dynamic>> GetClassteachers(int classId);
     }
 }
