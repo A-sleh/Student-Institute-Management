@@ -21,10 +21,73 @@ namespace DataAcess.Data
 
         #region Data Request
 
-        public async Task<IEnumerable<BillModel>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
+        public async Task<IEnumerable<dynamic>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
         {
-            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetAll", new { type, limit, orderBy, orderingType });
-            return res;
+            var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
+                "dbo.BillGetAll",
+                new { type, limit, orderBy, orderingType },
+                (bill, student, teacher) => 
+                {
+                    bill.Student = student;
+                    bill.Teacher = teacher;
+                    return bill;
+                },
+                splitOn: "StudentId, TeacherId");
+            return res.Select(s =>
+            {
+                dynamic jsonFormat;
+                if (s.Student != null)
+                {
+                    jsonFormat = new
+                    {
+                        student = new 
+                        {
+                            s.Student.StudentId,
+                            s.Student.Name,
+                            s.Student.LastName
+                        },
+                        s.BillId,
+                        s.BillNo,
+                        s.Amount,
+                        s.Date,
+                        s.Type,
+                        s.Note,
+                        s.Teacher
+                    };
+                }
+                else if (s.Teacher != null)
+                {
+                    jsonFormat = new
+                    {
+                        teacher = new
+                        {
+                            s.Teacher.TeacherId,
+                            s.Teacher.Name,
+                            s.Teacher.LastName
+                        },
+                        s.BillId,
+                        s.BillNo,
+                        s.Amount,
+                        s.Date,
+                        s.Type,
+                        s.Note,
+                        s.Student
+                    };
+                }
+                else
+                    jsonFormat = new
+                    {
+                        s.BillId,
+                        s.BillNo,
+                        s.Amount,
+                        s.Date,
+                        s.Type,
+                        s.Note,
+                        s.Student,
+                        s.Teacher
+                    };
+                return jsonFormat;
+            });
         }
         public async Task<dynamic> GetStudentTotalPays(int studentId)
         {
@@ -64,7 +127,7 @@ namespace DataAcess.Data
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
-        public async Task<IEnumerable<BillModel>> GetBillsByDate(string? date)
+        public async Task<IEnumerable<dynamic>> GetBillsByDate(string? date)
         {
             var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
@@ -77,7 +140,59 @@ namespace DataAcess.Data
                     return Bill;
                 },
                 splitOn: "StudentId, TeacherId");
-            return res;
+            return res.Select(x => 
+            {
+                dynamic jsonFormat;
+                if (x.Student != null)
+                {
+                    jsonFormat =  new
+                    {
+                        x.BillId,
+                        x.BillNo,
+                        x.Type,
+                        x.Amount,
+                        x.Date,
+                        student = new
+                        {
+                            x.Student.StudentId,
+                            x.Student.Name,
+                            x.Student.LastName
+                        }
+                    };
+                }
+                else if (x.Teacher != null)
+                {
+                    jsonFormat = new
+                    {
+                        x.BillId,
+                        x.BillNo,
+                        x.Type,
+                        x.Amount,
+                        x.Date,
+                        teacher = new
+                        {
+                            x.Teacher.TeacherId,
+                            x.Teacher.Name,
+                            x.Teacher.LastName
+                        },
+                        x.Student
+                    };
+                }
+                else
+                {
+                    jsonFormat = new
+                    {
+                        x.BillId,
+                        x.BillNo,
+                        x.Type,
+                        x.Amount,
+                        x.Date,
+                        x.Student,
+                        x.Teacher
+                    };
+                }
+                return jsonFormat;
+            });
         }
         public async Task<dynamic> GetClassTotalPays(int classId)
         {
@@ -118,8 +233,12 @@ namespace DataAcess.Data
             var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
             return res.FirstOrDefault();
         }
-        private async Task<int> GetTotalByParam(string param) =>
-            (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
+        private async Task<int> GetTotalByParam(string param)
+        {
+            if (param.Equals("in") || param.Equals("out"))
+                return (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
+            else throw new Exception("Invalid Parameter");
+        }
         #endregion
 
         #region Actions

@@ -6,7 +6,7 @@ namespace DataAcess.Data
     {
         Task DeleteStudent(int id);
         Task<StudentModel?> GetStudentByID(int id);
-        Task<IEnumerable<StudentModel>> GetStudents();
+        Task<IEnumerable<dynamic>> GetStudents();
         Task InsertStudent(StudentModel student);
         Task UpdateStudent(StudentModel student);
     }

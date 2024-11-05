@@ -30,7 +30,7 @@ namespace DataAcess.Data
                 return Test;
             },
             splitOn: "SubjectId, ReportId");
-            return res.Select(x => x).Where(t => showLinked == true || t.Report == null);
+            return res.Where(t => showLinked == true || t.Report == null);
         }
         public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
@@ -42,10 +42,10 @@ namespace DataAcess.Data
             if(!_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any())
                 throw new Exception("Not Found, No Such class has this id");
         }
-        public async Task<IEnumerable<TeacherModel>> GetClassteachers(int classId)
+        public async Task<IEnumerable<dynamic>> GetClassteachers(int classId)
         {
             var dic = new Dictionary<int, TeacherModel>();
-            var res = await _db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>(
+            var teachers = await _db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>(
                 "dbo.ClassGetTeachers",
                 new { classId },
                 (Teacher, TeacherSubject, Subject) =>
@@ -63,14 +63,29 @@ namespace DataAcess.Data
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId");
-            return res.Distinct();
+            var res =  teachers.Distinct();
+            var teacherSubjects = res.Select(x => x.TeacherSubjects);
+            var mappedTeacherSubjects = res.Select(x =>
+            {
+                return new
+                {
+                    x.TeacherId,
+                    x.Name,
+                    x.LastName,
+                    teacherSubject = teacherSubjects
+                    .Where(t => t == x.TeacherSubjects)
+                    .FirstOrDefault()?
+                    .Select(x => new { x?.TeacherSubjectId, x?.Salary, x?.Subject })
+                };
+            });
+            return mappedTeacherSubjects;
         }
-        public async Task<IEnumerable<ClassModel>> GetClasses(int? limit)
+        public async Task<IEnumerable<ClassModel>> GetClasses()
         {
             var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetAll",
-                new { limit },
+                new { },
                 (Class, Student) =>
                 {
                     if (dic.TryGetValue(Class.ClassId, out var ExistClass))

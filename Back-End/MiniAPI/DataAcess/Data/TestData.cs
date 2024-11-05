@@ -43,7 +43,7 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId, ReportId");
             return marks;
         }
-        public async Task<IEnumerable<TestMarkModel>> GetTestMarksByClassId(int testId, int classId)
+        public async Task<IEnumerable<dynamic>> GetTestMarksByClassId(int testId, int classId)
         {
             var res = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetClassMarks",
                 new { testId, classId },
@@ -53,9 +53,24 @@ namespace DataAcess.Data
                     return TestMark;
                 },
                 splitOn: "StudentId");
-            return res;
+            return res.Select(s =>
+            {
+                var jsonFormat = new
+                {
+                    s.TestMarkId,
+                    student = new 
+                    { 
+                        s.Student?.StudentId,
+                        s.Student?.Name,
+                        s.Student?.LastName,
+                        s.Student?.FatherName
+                    },
+                    s.Mark
+                };
+                return jsonFormat;
+            });
         }
-        public async Task<IEnumerable<TestMarkModel>> GetTestMarks(int testId, int? classId)
+        public async Task<IEnumerable<dynamic>> GetTestMarks(int testId, int? classId)
         {
             var res = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
                 new { testId },
@@ -66,8 +81,20 @@ namespace DataAcess.Data
                     return Mark;
                 },
                 splitOn: "StudentId, ClassId");
-            var students = res.Select(x => x.Student).Where(s => s?.Class?.ClassId == classId || classId == null);
-            return res.Where(x => students.Contains(x.Student));
+            return res.Select(x => new 
+            {
+                x.TestMarkId,
+                x.Mark,
+                student = new
+                {
+                    x.Student?.StudentId,
+                    x.Student?.Name,
+                    x.Student?.LastName,
+                    x.Student?.FatherName,
+                    x.Student?.Class?.ClassId,
+                    x.Student?.Class?.Title
+                }
+            }).Where(s => s?.student.ClassId == classId || classId == null);
         }
         public async Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId)
         {

@@ -48,11 +48,11 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-        private static async Task<IResult> GetClasses(IClassData data, int? limit)
+        private static async Task<IResult> GetClasses(IClassData data)
         {
             try
             {
-                return Results.Ok(await data.GetClasses(limit));
+                return Results.Ok(await data.GetClasses());
             }
             catch (Exception ex)
             {

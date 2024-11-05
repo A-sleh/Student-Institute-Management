@@ -19,7 +19,7 @@ namespace MiniAPI.APIs
             app.MapGet("/Report/Student/{studentId}/Result", GetStudentReportsResults);
             app.MapGet("/Report/{reportId}/Class/{classId}/Result", GetResultsByReportAndClass);
 
-            app.MapPost("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
+            app.MapGet("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
 
             app.MapPut("/Report/{reportId}/Test", LinkReportWithTests);
             app.MapPut("/Report", UpdateReport);
