@@ -190,32 +190,14 @@ Optimization nots :
     }
     - Search header 
 
-    style : 
-        -  do global button style ( add , create , confirm , go back )
+ 1 - Bills [X] {
+        there are two page needed to optimize
+    }
+ 2 - Tests [] 65%
+ 3 - students [] 30%
+ 4 - teachers [] 30%
+ 5 - sidebar [X] 100%
+ 6 - navbar [] 80%
+ 7 - classes [] 0%
+ 8 - subject [] 0%
 
-
-            <HeaderControal searcByName={searcByName} setSearcByName={setSearcByName} fileterByClass={fileterByClass} setFileterByClass={setFileterByClass} />
-            <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-                <table>
-                    <thead  style={{position: 'relative' , top: '-10px' }}>                    
-                        <tr>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name </th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Total</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Paid</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Required</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            studentDetails.map( (student,index) => {              
-                                    if( fileterByClass != 'All' && fileterByClass != student.classId ) return
-                                    const fullName = student.name + ' ' + student.lastName ;
-                                    if(fullName.toLowerCase().includes(searcByName.toLowerCase()) == false ) return
-
-                                    return <tr style={{ textAlign: 'center' ,cursor:'pointer'}} className="hovering-row" key={index} onClick={()=>{
-                                        gotoStudentBillDetails(`/StudentsPays/StudentBillDetails/${student.studentId}`,{state: type})
-                                    }} ><StudentBillInfo student={student} /></tr>
-                            })
-                        }
-                    </tbody>
-                </table>

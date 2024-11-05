@@ -1,11 +1,14 @@
 
 import { useGlobalFilter, usePagination, useSortBy, useTable } from "react-table";
 import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
-import TableHeader from "./TableHeader";
 import TableControalSection from "./TableControalSection";
+import SearchSubHeader from "./SearchSubHeader";
 
 
-export default function TablePaginated({data,column,children}) {
+export default function TablePaginated(props) {
+
+    const { data ,column,children,idKeyParams = false ,url = 'unAble',showMainHeader = true , rowClickedFn} = props
+    let { styleObj = { padding: '15px' , fonstSize : '14px' }  } = props
 
 
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
@@ -17,12 +20,12 @@ export default function TablePaginated({data,column,children}) {
 
     return (
         <>
-            <TableHeader filter={globalFilter} setFilter={setGlobalFilter} >
+            <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
                 {children}
-            </TableHeader>
+            </SearchSubHeader>
 
             <TableContainerStyle >
-                <TableStyle {...getTableProps()}>
+                <TableStyle {...getTableProps()} styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>

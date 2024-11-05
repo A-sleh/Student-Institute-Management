@@ -10,7 +10,7 @@ export default function useGetTeachersBills() {
     async function getAllTeachersBills(teachers) {
         let teachersDetails = []
         return new Promise(resolve => {
-                    teachers.map( async (teacher,index) => {
+                    teachers.map( async (teacher) => {
 
                     const teacherBills = await DataServices.ShowTeacherBillBalanc(teacher.teacherId)
                     teachersDetails.push({...teacher ,...teacherBills})

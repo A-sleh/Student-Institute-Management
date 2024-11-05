@@ -3,6 +3,7 @@ import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 import { useEffect, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { format } from "date-fns"
+import { NavigateSubHeaderStyle } from "../../style/styleTage"
 
 export default function ReportClassDetails() {
 
@@ -23,11 +24,14 @@ export default function ReportClassDetails() {
 
     return (
         <div>
-            <div style={{backgroundColor: '#066599',padding: '15px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.6em',marginBottom: '10px'}}>
+
+            <NavigateSubHeaderStyle >
                 <span style={{width: '100%'}}>{classTitle} / {grade} / {reportTitle} </span>
                 <span style={{float: 'right'}}>{format(new Date(startDate) , 'yyyy / MM / dd')}</span>
-            </div>
+            </NavigateSubHeaderStyle >
+
             <ReportDetails TestsMaping={TestsMaping} quizAvg={quizAvg}examAvg={examAvg}/>
+            
             <h3 style={{marginTop: '15px' , lineHeight: '10px'}}>Student Reports Result</h3>
             <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
                 <table>

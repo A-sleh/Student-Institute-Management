@@ -1,13 +1,22 @@
 
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
 import { useGlobalFilter, useSortBy, useTable } from "react-table";
 import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
-import TableHeader from "./TableHeader";
 import { useNavigate } from "react-router-dom";
+import SearchSubHeader from "./SearchSubHeader";
 
 
-export default function Table({data,column,children,idKeyParams = '',url = 'unAble'}) {
+export default function Table( props ) {
 
+    const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
+    const { selectionRows, styleObj = { padding: '15px' , fonstSize : '14px' }} = props
     const gotoPage = useNavigate() ;
+    
     const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter} = useTable({
         data: data,
         columns: column,
@@ -15,18 +24,34 @@ export default function Table({data,column,children,idKeyParams = '',url = 'unAb
 
     const { globalFilter } = state;
 
+
     function handleRowClicked(row) {
+
+        // if the row will do some action when it clicked instead  of go to another page
+        if( rowClickedFn != undefined ) {
+            rowClickedFn(row[idKeyParams])
+            return 
+        }
         if( url == 'unAble') return 
-        gotoPage(`${url}/${row[idKeyParams]}`)
+        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`)
+        else gotoPage(`${url}`)
+    }
+
+    function renderHeader() {
+        if(showMainHeader) {
+            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
+                        {children}
+                    </SearchSubHeader>
+        }else {
+            return  children
+        }
     }
 
     return (
-        <>
-            <TableHeader filter={globalFilter} setFilter={setGlobalFilter} >
-                {children}
-            </TableHeader>
+        <div style={{width: '100%'}}>  
+            { renderHeader() }
             <TableContainerStyle >
-                <TableStyle {...getTableProps()}>
+                <TableStyle {...getTableProps()} styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -61,7 +86,7 @@ export default function Table({data,column,children,idKeyParams = '',url = 'unAb
                         {rows.map((row, index) => {
                             prepareRow(row);
                             return (
-                            <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} >
+                            <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index}  >
                                     {cell.render("Cell")}
@@ -73,6 +98,6 @@ export default function Table({data,column,children,idKeyParams = '',url = 'unAb
                     </tbody>
                 </TableStyle>
             </TableContainerStyle>
-        </>
+        </div>
     )
 }

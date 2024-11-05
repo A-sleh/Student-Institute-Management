@@ -1,9 +1,8 @@
 
 /***  
-  CSS-OPTIMAIZATION : DONE , 
-  COMPONENTS OPTIMIZATION : DONE ,
-  USING REACT QURY : 
-  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
 */
 
 import { FormRowStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from '../../../shared/style/styleTag'
@@ -11,23 +10,23 @@ import {useState} from 'react'
 import DataServices from '../../../../Data/dynamic/DataServices'
 import Notification from '../../../Global/Notification'
 import ErrorMessage from '../../../shared/ErrorMessage'
+import { successActionLogic } from '../../../shared/logic/logic'
 
+const initailState =   {
+    reportTitle: '',
+    startDate: '',
+    finishDate: null,
+}
 
 export default function NewReportForm() {
 
-    const initailState =   {
-        reportTitle: '',
-        startDate: '',
-        finishDate: null,
-    }
+    const [reportForm,setReportForm] = useState(initailState)
+    const [successCreateReport,setSuccessCreateReport] = useState(false)
     const [validation,setValidation] = useState({
         reportTitle: false,
         startDate: false,
     })
-    const [reportForm,setReportForm] = useState(initailState)
-    const [successCreateReport,setSuccessCreateReport] = useState(false)
-
-
+    
     function validInputs() {
         const { reportTitle , startDate } = reportForm
 
@@ -42,13 +41,9 @@ export default function NewReportForm() {
         e.preventDefault() ;
 
         if(!validInputs()) {
-            alert('here')
             DataServices.CreateNewReport(reportForm).then( _ => {
                 setReportForm(initailState)
-                setSuccessCreateReport(true)
-                setTimeout(() => {
-                    setSuccessCreateReport(false)
-                } , 2000 )
+                successActionLogic(setSuccessCreateReport)
             })
         }
     }

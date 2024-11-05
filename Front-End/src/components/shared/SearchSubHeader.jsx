@@ -1,8 +1,7 @@
 import { TableHeaderStyle } from "./style/tableTagsStyle";
 
-export default function TableHeader({filter,setFilter,children}) {
+export default function SearchSubHeader({filter,setFilter,children}) {
 
-  console.log(children)
   return (
     <TableHeaderStyle fullWidth={children == undefined}>
       {children}

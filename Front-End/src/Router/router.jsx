@@ -46,7 +46,7 @@ const  ManageReports =  lazy(() => import( ".././components/Tests/CreateReportTo
 const  ReportDetails =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ReportDetails.jsx"))
 const  PrintReport =  lazy(() => import( ".././components/Tests/CreateReportTools/Print Report/PrintReport.jsx"))
 const  LinkTestWithReport =  lazy(() => import( ".././components/Tests/CreateReportTools/ManageReport/LinkTestWithReport.jsx"))
-const  ShowClassReports =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ShowClassReports.jsx"))
+const  ShowClassReports =  lazy(() => import( "../components/Tests/CreateReportTools/Report details/ClassReports.jsx"))
 const  ReportClassDetails =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ReportClassDetails.jsx"))
 const  StudentReportTests =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/StudentReportTests.jsx"))
 const  RemoveTeachersFromClass =  lazy(() => import( ".././components/Classes/RemoveTeachersFromClass.jsx"))

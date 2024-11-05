@@ -3,8 +3,6 @@ import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useGetStudentBills(changeClass = 'All') {
-    
-    console.log(changeClass)
 
     const [students,setStudents] = useState([]) 
     const [studentsBills,setStudentsBills] = useState([])

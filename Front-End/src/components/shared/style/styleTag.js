@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components"
 // form tages style 
 
 export const SubmitBtnStyle = styled.button`
-    padding: 5px 35px;
+    padding: 4px 25px;
     background-color: #066599;
     border: none;
     cursor: pointer;
@@ -12,7 +12,7 @@ export const SubmitBtnStyle = styled.button`
     border: none;
     border-radius: 3px;
     margin-top: 10px;
-    font-weight: bold;
+    font-weight: 500;
     color: white;
     transition: .4s;
 
@@ -261,6 +261,7 @@ const MoveCircleToLeft = keyframes`
 const fullWidth = keyframes`
     100% {
         width: 100%;
+        height: fit-content;
     }
 `
 const ShowText = keyframes`
@@ -277,7 +278,7 @@ export const HeaderNavStyle = styled.ul`
     align-items: center;
     justify-content: center;
     background-color: rgb(6, 101, 153);
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 2px;
     transition: all .4s;
     width: 0;
@@ -285,6 +286,7 @@ export const HeaderNavStyle = styled.ul`
     margin-bottom: 10px;
     animation: ${fullWidth} 2s  ease-in-out  ;
     animation-fill-mode: forwards;
+    height: 35px;
     
     ol {
         display: flex ;
@@ -342,10 +344,17 @@ export const InputStyle = styled.input.attrs( ({type}) => ({
     border: none;
     border-bottom: 1px solid transparent;
     background-color: #dddddd85;
+    min-width: 250px;
     box-shadow: 0 0 10px -5px gray inset;
     outline: none;
     &.error {
         border-bottom: 1px solid red;
+    }
+
+    @media (max-width : 767px ) {
+        & {
+            width: 100%;
+        }
     }
 `
 

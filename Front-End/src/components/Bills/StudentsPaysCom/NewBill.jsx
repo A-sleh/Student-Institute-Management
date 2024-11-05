@@ -111,11 +111,13 @@ export default function NewBill() {
                             <InputStyle type="text" value={formInput.billNo} className={ validationBillInput.billNo ? 'error': ''} onChange={(e) => setFormInput({...formInput,billNo: e.target.value})}/>
                             <ErrorMessage showMessage={validationBillInput.billNo} message={"Please enter the bill number"}/>
                         </FormSubRowStyle>
+
                         <FormSubRowStyle >
                             <LabelStyle color={'#056699'} >Date</LabelStyle>
                             <InputStyle type="date" value={formInput.date} className={ validationBillInput.date ? 'error': ''} onChange={(e) => setFormInput({...formInput,date: e.target.value})}/>
                             <ErrorMessage showMessage={validationBillInput.date} message={"You must chose the bill date"}/>
                         </FormSubRowStyle>
+                        
                         <FormSubRowStyle >
                             <LabelStyle color={'#056699'} >Amount</LabelStyle>
                             <InputStyle type="number" value={formInput.amount} className={ validationBillInput.amount ? 'error': ''} onChange={(e) => setFormInput({...formInput,amount: e.target.value})}/>

@@ -4,9 +4,9 @@
     USING REACT QURY : 
 */
 
-import {  NavLink, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Title from "../Global/Title";
-import { HeaderNavStyle } from "../shared/style/styleTag";
+import SubNavBar from "../shared/SubNavBar";
 
 const urlList = [
     {
@@ -27,17 +27,7 @@ export default function TeachersSalaries() {
     return(
         <>
             <Title title={window.location.pathname} />
-                <HeaderNavStyle >
-                    <span></span>
-                    <ol>
-                        {
-                            urlList.map( link => {
-                                return <li><NavLink to={link.path} style={({ isActive }) => { return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'} }}>{link.title}</NavLink></li>
-                            })
-                        }
-                    </ol>
-                    <span></span>
-                </HeaderNavStyle>
+            <SubNavBar urlList={urlList} />
             <Outlet />
         </>
     )

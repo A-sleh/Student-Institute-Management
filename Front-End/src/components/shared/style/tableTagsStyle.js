@@ -15,6 +15,7 @@ export const TableContainerStyle = styled.div`
 `
 
 export const TableStyle = styled.table`
+
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
@@ -43,14 +44,15 @@ export const TableStyle = styled.table`
         tr {
 
             &:nth-child(odd) {
-                background-color: white !important;
+                background-color: white ;
             }
             &:nth-child(odd) {
-                background-color: #f3f1f1d7 !important;
+                background-color: #f3f1f1d7 ;
             }
 
             td {
-                padding: 15px;
+                padding: ${ ({styleObj}) => styleObj.padding };
+                font-size: ${ ({styleObj}) => styleObj.fontSize };
                 margin: 5px 0px;
                 text-align: center;
                 border: none;
@@ -109,10 +111,9 @@ export const TableHeaderStyle = styled.div`
     @media (max-width : 767px ) {
         & {
             flex-direction: column-reverse;
-            justify-content: flex-start;
-            align-items: flex-start;
             gap: 10px ;
             width: 100% ;
+            text-align: center;
 
             form {
                 width: 100%;
