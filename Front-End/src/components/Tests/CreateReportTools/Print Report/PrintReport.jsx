@@ -1,6 +1,11 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 
 import React, { useState } from 'react';
-import { CLASSCOLUMNS } from '../CLASSCOLUMNS.JS';
+import { CLASSCOLUMNS } from '../columnsTools/CLASSCOLUMNS.JS';
 import SubHeaderFilterClassByGrade from '../../../shared/subHeaderTable/SubHeaderFilterClassByGrade';
 import useClasses from '../../../../hooks/useClasses';
 import Table from '../../../shared/Table';

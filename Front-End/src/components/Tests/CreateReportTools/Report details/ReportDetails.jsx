@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import { CLASSCOLUMNS } from "../CLASSCOLUMNS.JS";
+import { CLASSCOLUMNS } from "../columnsTools/CLASSCOLUMNS.JS";
 import { useState } from "react";
 import useClasses from "../../../../hooks/useClasses";
 import Table from "../../../shared/Table";

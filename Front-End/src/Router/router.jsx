@@ -283,7 +283,7 @@ const router = createBrowserRouter(
                             element:  <ClassReportPrint />,
                         },
                         {
-                            path: 'ReportClassDetails/:reportId',
+                            path: 'ReportClassDetails/:classId',
                             element:  <ReportClassDetails />,
                         },
                         {

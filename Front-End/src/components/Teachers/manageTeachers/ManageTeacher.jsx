@@ -3,7 +3,7 @@ import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Teacherinfo from "./TeacherInfo";
 import Notification from "../../Global/Notification";
-import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+// import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 
 export default function ManageTeacher() {
 
@@ -20,7 +20,7 @@ export default function ManageTeacher() {
         <>
             <Notification  title={'Delete Theacer'} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />  
             <Title title={window.location.pathname}/> 
-            <HeaderControal searcByName={search} setSearcByName={setSearch} />
+            {/* <HeaderControal searcByName={search} setSearcByName={setSearch} /> */}
             {
                 teachersDetails.map( (teacher,index) => {
                     const {teacherId} = teacher ; 

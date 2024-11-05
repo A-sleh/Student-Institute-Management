@@ -337,6 +337,75 @@ export const HeaderNavStyle = styled.ul`
 
 `
 
+export const HeaderInformationStyle = styled.div`
+    background-color : #f3f1f1d7 ;
+    border-radius: 5px ;
+    padding: 10px ;
+    margin: 10px 0;
+
+    section {
+        display: grid;
+        grid-template-columns: ${ ({columnNumber}) => `repeat(${columnNumber},auto)` };
+        gap: 10px;
+        background-color: #ffffff;
+        padding: 10px 8px;
+        border-radius: 5px;
+
+        .info-container {
+            justify-content: space-between;
+            position: relative;
+            border-color: transparent;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #ffffff;
+            text-align: center;
+
+            i {
+                font-size: 2em;
+            }
+
+            .border-left {
+                position: absolute;
+                width: 7px;
+                height: 100%;
+                left: 0;
+                top: 0;
+            }
+            main {
+                text-align: center;
+
+                h4 {
+                    font-size: 1em;
+                    color: rgb(160, 159, 159);
+                    font-weight: 400;
+                    margin-bottom: 5px;
+                }
+
+                span {
+                    font-size: 1.1em;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    @media (max-width : 991px) {
+        & section {
+            grid-template-columns: auto auto;
+        }
+    }
+
+    @media (max-width : 767px) {
+        & section {
+            grid-template-columns: auto;
+        }
+    }
+
+`
+
 export const InputStyle = styled.input.attrs( ({type}) => ({
     type : type
 }))`

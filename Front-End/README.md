@@ -201,3 +201,7 @@ Optimization nots :
  7 - classes [] 0%
  8 - subject [] 0%
 
+
+
+gotoPage(`/CreateReport/StudentReportTests/${StudentId}`
+,{state:{studentResultENCODE: encodeURIComponent(JSON.stringify(student)) , reportId : reportId , pathDetails:{reportTitle,grade,classTitle}}})

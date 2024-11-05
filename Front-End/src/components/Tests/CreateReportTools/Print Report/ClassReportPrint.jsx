@@ -1,40 +1,34 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices"
-import ReactDOM from 'react-dom'
-import { HeaderControal } from "../../../Bills/TeacherPaysCom/ShowBillTeacherDetails"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { FormInputFieldStyle } from "../../CreateTestTools/EmentsStyle"
 import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 import { format } from "date-fns"
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import PrintingPage from "./PrintingPage"
 import StudentsPDF from "./StudentsPDF"
 import Loader from "../../../Modal/Loader"
+import { NavigateSubHeaderStyle } from "../../style/styleTage"
+import { GoBackBtnStyle, InputStyle } from "../../../shared/style/styleTag"
+import { REPORTCOLUMNS } from "../columnsTools/REPORTCOLUMNS"
+import Table from "../../../shared/Table"
+import useReportOfClassStatistics from "../../../../hooks/useReportOfClassStatistics"
 
 
 
 export default function ClassReportPrint() {
     
-    const [reports,setReports] = useState([])
-    const [search,setSearch] = useState('')
-    const [quizAvg,setQuizAvg] = useState(0)
-    const [examAvg,setExamAvg] = useState(0)
+    const classDetailsEncode = useLocation().state
+    const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode))
+    const [reports] = useReportOfClassStatistics(classDetailsDecode.classId,classDetailsDecode.title)
     const [searchByDate,setSearchByDate] = useState('')
+    const gotoPage = useNavigate()
+
+    // start pdf states
+    const GeneratePDF = lazy(() => import('../../../Modal/GeneratePDF'))
     const [generateClassPDF,setGenerateClassPDF] = useState(false)
     const [generateStudentsPDF,setGenerateStudentsPDF] = useState(false)
     const [selectedDataToPrint,setSelectedDataToPrint] = useState([])
     const [pdfTitle,setPdfTitle] = useState('')
-    const GeneratePDF = lazy(() => import('../../../Modal/GeneratePDF'))
-
-    const classId = useParams().classId
-    const gotoPage = useNavigate()
-    const {grade,classTitle} = useLocation().state
-
-    useEffect(() => {
-        DataServices.ShowAllClassReports(classId).then( reportsRES => {
-            setReports(reportsRES)
-        })
-    },[])
 
     function handleCreateClassPDFClicked(classReport,pdfTitle) {
         setPdfTitle(pdfTitle)
@@ -57,6 +51,26 @@ export default function ClassReportPrint() {
 
     }
 
+    const TableHeader = useMemo(() => [
+        ...REPORTCOLUMNS , 
+        {   
+            Header: 'Action' ,
+            Cell: ({row}) => {
+                const {reportTitle ,classTitle } = row.original
+                return (
+                    <div>
+                        <button onClick={()=> handleCreateClassPDFClicked([],`report_${reportTitle}_class_${classTitle}`)} style={{textDecoration: 'none', padding: '4px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Create class result PDF</button>
+                        <button onClick={()=> handleCreateStudentsPDFClicked([],`report_${reportTitle}_class_${classTitle}_students`)} style={{textDecoration: 'none', padding: '4px 10px' , marginLeft: '2px' ,color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Create students report PDF</button>
+                    </div>
+                )
+            }
+        }
+
+    ],[])
+
+    
+
+
     return (
         <>  
             {
@@ -74,44 +88,16 @@ export default function ClassReportPrint() {
                     </GeneratePDF>
                 </Suspense>
             }
+
             <div>
-                <div style={{backgroundColor: '#066599',padding: '15px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.6em',marginBottom: '10px'}}>
-                    <span style={{width: '100%'}}>{classTitle} / {grade}</span>
-                </div>
-                <div style={{display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
-                    <FormInputFieldStyle type={'date'} style={{width: '30%'}} value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
-                    <HeaderControal searcByName={search}setSearcByName={setSearch} style={{width: '30%'}}/>
-                </div>
-                <h3 style={{padding: '5px',fontWeight: '400' , backgroundColor: '#066599' , color: 'white' , textAlign: 'center'}}>Reports</h3>
-                <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-                    <table>
-                        <thead  style={{position: 'relative' , top: '-10px' }}>                    
-                            <tr>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}></th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Report Title</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Start Date</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Quiz Avarage</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Exam Avarage</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Test Number</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                reports.map( (report,index) => {              
-                                        const {reportTitle,startDate,tests,reportId} = report
-                                        
-                                        if(reportTitle.toLowerCase().includes(search.toLowerCase()) == false ) return
-                                        if( (new Date(startDate) - new Date(searchByDate)) < 0 ) return ;
-                                        return <tr style={{ textAlign: 'center'}} className="hovering-row" key={index} >         
-                                            <ShowReportBody report={report} classId={classId} quizAvg={quizAvg} setQuizAvg={setQuizAvg} quizExam={examAvg} setExamAvg={setExamAvg} handleCreateClassPDFClicked={handleCreateClassPDFClicked} handleCreateStudentsPDFClicked={handleCreateStudentsPDFClicked}/>
-                                        </tr>
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <button onClick={()=>{gotoPage(-1)} } style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: 'red' , border: 'none' , outline: 'none' , borderRadius: '2px' ,marginLeft: '8px'}}>Back</button>
+                <NavigateSubHeaderStyle >
+                    <span style={{width: '100%'}}>{classDetailsDecode.title} / {classDetailsDecode.grade}</span>
+                </NavigateSubHeaderStyle >
+                <Table column={TableHeader} data={reports}>
+                    <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                    <h3 style={{color: '#066599' }}>Reports</h3>
+                </Table>
+                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >Back</GoBackBtnStyle>
             </div>
         </>
     )

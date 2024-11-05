@@ -8,7 +8,7 @@ import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
 import { GoBackBtnStyle, InputStyle } from "../../../shared/style/styleTag"
-import { REPORTCOLUMNS } from "../REPORTCOLUMNS"
+import { REPORTCOLUMNS } from "../columnsTools/REPORTCOLUMNS"
 import useClass from "../../../../hooks/useClass"
 import useReportOfClassStatistics from "../../../../hooks/useReportOfClassStatistics"
 import Table from "../../../shared/Table"
@@ -28,7 +28,7 @@ export default function ClassReports() {
                 <span style={{width: '100%'}}>{Class.title} / {Class.grade}</span>
             </NavigateSubHeaderStyle >
 
-            <Table column={REPORTCOLUMNS || []} data={reports} url={'/CreateReport/ReportClassDetails'} idKeyParams={'reportId'}>
+            <Table column={REPORTCOLUMNS || []} data={reports} url={'/CreateReport/ReportClassDetails'} idKeyParams={'classId'}>
                 <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
                 <h3 style={{color: '#056699' }}>Class Reports</h3>
             </Table>

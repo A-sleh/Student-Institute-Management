@@ -2,7 +2,6 @@
 
 const GeneratePDF = function({setDeleteModal,children}) {
 
-
     return (
         <div className="modal">
             <div>

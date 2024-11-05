@@ -14,7 +14,7 @@ import SearchSubHeader from "./SearchSubHeader";
 export default function Table( props ) {
 
     const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { selectionRows, styleObj = { padding: '15px' , fonstSize : '14px' }} = props
+    const { unableId = false , selectionRows, styleObj = { padding: '15px' , fonstSize : '14px' }} = props
     const gotoPage = useNavigate() ;
     
     const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter} = useTable({
@@ -33,8 +33,8 @@ export default function Table( props ) {
             return 
         }
         if( url == 'unAble') return 
-        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`)
-        else gotoPage(`${url}`)
+        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
+        else gotoPage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
     }
 
     function renderHeader() {
@@ -55,30 +55,28 @@ export default function Table( props ) {
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                        {headerGroup.headers.map((column, index) => (
-                            <th
-                            {...column.getHeaderProps(column.getSortByToggleProps())}
-                            key={index}
-                            >
-                            {column.isSorted ? (
-                                <span style={{ fontSize: "12px" }}>
-                                {!column.isSortedDesc ? (
-                                    <i className="bi bi-arrow-up"></i>
+                            {unableId &&  <th></th>}
+                            {headerGroup.headers.map((column, index) => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index} >
+                                {column.isSorted ? (
+                                    <span style={{ fontSize: "12px" }}>
+                                    {!column.isSortedDesc ? (
+                                        <i className="bi bi-arrow-up"></i>
+                                    ) : (
+                                        <i className="bi bi-arrow-down"></i>
+                                    )}{" "}
+                                    </span>
                                 ) : (
-                                    <i className="bi bi-arrow-down"></i>
-                                )}{" "}
+                                    <i
+                                    className="bi bi-arrow-up"
+                                    style={{ opacity: "0" }}
+                                    ></i>
+                                )}
+                                <span>
+                                    {column.render("Header")}
                                 </span>
-                            ) : (
-                                <i
-                                className="bi bi-arrow-up"
-                                style={{ opacity: "0" }}
-                                ></i>
-                            )}
-                            <span>
-                                {column.render("Header")}
-                            </span>
-                            </th>
-                        ))}
+                                </th>
+                            ))}
                         </tr>
                     ))}
                     </thead>
@@ -87,6 +85,7 @@ export default function Table( props ) {
                             prepareRow(row);
                             return (
                             <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
+                                { unableId && <td style={{padding: '10px' , margin: '5px 0' ,color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{index + 1}</td>}
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index}  >
                                     {cell.render("Cell")}

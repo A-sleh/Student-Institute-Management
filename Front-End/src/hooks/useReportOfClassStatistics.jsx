@@ -2,7 +2,7 @@
 import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useReportOfClassStatistics(classId) {
+export default function useReportOfClassStatistics(classId,classTitle) {
     
     const [reports,setReports] = useState([])
     const [reportsDetails,setReportsDetails] = useState([])
@@ -15,7 +15,7 @@ export default function useReportOfClassStatistics(classId) {
                     const reprotExamAvg = await DataServices.ShowExamAvarageInCurrentClassReport(report.reportId,classId)
                     const reprotQuizAvg = await DataServices.ShowQuizAvarageInCurrentClassReport(report.reportId,classId)
                 
-                    reportsDetails.push({...report ,quizAvg :reprotQuizAvg[0].Average || 0, examAvg: reprotExamAvg[0].Average || 0 })
+                    reportsDetails.push({...report ,classId,quizAvg :reprotQuizAvg[0].Average || 0, examAvg: reprotExamAvg[0].Average || 0 ,classTitle})
 
                     if(reports.length == reportsDetails.length ) {
                         resolve(reportsDetails)
