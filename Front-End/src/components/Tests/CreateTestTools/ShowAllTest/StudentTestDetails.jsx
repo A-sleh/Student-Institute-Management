@@ -1,60 +1,39 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { HeaderControal } from "../../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
-import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects";
-import { useEffect, useState } from "react";
-import DataServices from "../../../../Data/dynamic/DataServices";
-import { HeaderToShowTestInfo } from "./ClassesTestDetails";
+import useStudentsMarkClass from "../../../../hooks/useStudentsMarkClass";
+import { ButtonsContainerStyle, GoBackBtnStyle } from "../../../shared/style/styleTag";
+import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn";
+import Table from "../../../shared/Table";
+import { format } from "date-fns";
+import { useMemo } from "react";
 
 export default function StudentTestDetails() {
 
-    const classId = useParams().classId
-    const gotoPreviousPage = useNavigate()
-    const [search,setSearch] = useState('')
-    const testDetails = useLocation().state
-    const [studentsMarks,setStudentsMarks] = useState([]);
-    
-    useEffect(() => {
-            DataServices.ShowStudentsMarksInOneClass(classId,testDetails.testId).then( students => {
-                setStudentsMarks(students)
-            })
-
-    },[])
+    const classDetailsEncode = useLocation().state 
+    const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode)) 
+    const { title : classTitle,subject,date,testType,testId,classId} = classDetailsDecode
+    const [studentsMarks] = useStudentsMarkClass(classId,testId,subject.maximumMark)
+    const column = useMemo(() => [...TESTMARKCOLUMN,{Header : 'Mark' , accessor: 'mark'}],[])
+    const gotoPage = useNavigate()
 
     return (
         <>
-            <HeaderToShowTestInfo testDetails={testDetails} />
-            <HeaderControal searcByName={search} setSearcByName={setSearch} />
-            <h2 style={{margin: '20px 0 5px 0', padding: '0' , lineHeight: '20px'}}>Students mark in the <span style={{color: '#066599' , textTransform: 'uppercase'}}>{testDetails.testType}</span></h2>
-            <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-                <table>
-                    <thead  style={{position: 'relative' , top: '-10px' }}>                    
-                        <tr>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Count</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Name </th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Father Name</th>
-                            <th style={{...thStyle,border: 'none' , padding: '15px' }}>Mark</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            studentsMarks.map( (student,index) => {  
-                                const {mark} = student  
-                                const fullName = student.student.name+ ' '+ student.student.lastName
-                                if( !fullName.toLocaleLowerCase().includes(search.toLocaleLowerCase()))return                   
-                                return (
-                                    <tr className="hovering-row" >
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{index + 1}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{fullName}</td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{student.student.fatherName} </td>
-                                        <td style={{padding: '15px' , margin: '5px 0' , border: 'none' }}>{mark}</td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <button onClick={()=>{gotoPreviousPage(-1)} } style={{padding: '4px 20px',cursor: 'pointer' , color: 'white' , backgroundColor: 'red' , border: 'none' , outline: 'none' , borderRadius: '2px' , margin: '10px 0'}}>Back</button>
+            <Table column={column } data={studentsMarks||[]} showMainHeader={false}>
+                <h3 style={{backgroundColor: '#066599',position: 'relative',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
+                    {subject.grade.toLowerCase()} / {classTitle.toLowerCase()} / {testType.toLowerCase()} / {subject.subject.toLowerCase()}
+                    <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >students</span>
+                    <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
+                </h3>
+            </Table>
+
+            <ButtonsContainerStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >Back</GoBackBtnStyle>
+            </ButtonsContainerStyle>
         </>
     )
 }

@@ -37,7 +37,6 @@ const  ShowBillExternalDetails =  lazy(() => import( ".././components/Bills/Exte
 const  NewTest =  lazy(() => import( ".././components/Tests/CreateTestTools/NewTest/NewTest.jsx"))
 const  ShowAllTest =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/ShowAllTest.jsx"))
 const  RecevingMarkes =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/RecevingMarkes.jsx"))
-const  ClassesTestDetails =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/ClassesTestDetails.jsx"))
 const  StudentTestDetails =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/StudentTestDetails.jsx"))
 const  TestClassCurrent =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/TestClassCurrent.jsx"))
 const  StudentMarkForm =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/StudentMarkForm.jsx"))
@@ -239,10 +238,6 @@ const router = createBrowserRouter(
                         {
                             path: 'RecivingMarks',
                             element:  <RecevingMarkes />,
-                        },
-                        {
-                            path: 'ClassesTestDetails/:testId',
-                            element:  <ClassesTestDetails />,
                         },
                         {
                             path: 'StudentTestDetails/:classId',

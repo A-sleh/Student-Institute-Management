@@ -1,27 +1,27 @@
 import { format } from "date-fns";
 
-export const REPORTCOLUMNS = [
+export const REPORTCOLUMNS_2 = [
     {
         Header: 'Report Title',
-        accessor: 'reportTitle'
+        accessor: 'ReportTitle'
     },
     {
         Header: 'Start Date',
-        accessor: 'startDate',
+        accessor: 'StartDate',
         Cell: ({ value }) => {
             return format(new Date(value), "yyyy / MM / dd");
         }
     },
     {
-        Header: 'Quiz Avarage',
-        accessor: 'quizAvg',
+        Header: 'Finish Date',
+        accessor: 'FinishDate',
         Cell: ({ value }) => {
-            return `${value} %`;
+            return format(new Date(value), "yyyy / MM / dd");
         }
     },
     {
-        Header: 'Exam Avarage',
-        accessor: 'examAvg',
+        Header: 'Average',
+        accessor: 'Average',
         Cell: ({ value }) => {
             return `${value} %`;
         }

@@ -1,9 +1,15 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
 import React, { Fragment, useRef, useState } from 'react'
 import logo from '../../../../assets/logo.png'
 import NOTOKUIFIregular from './Noto_Kufi_Arabic/Zain-Regular.ttf'
 import NOTOKUIFIbold from './Noto_Kufi_Arabic/Zain-Bold.ttf'
 import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
-import { useSearchParams } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export default function StudentsPDF({data}) {
 
@@ -60,7 +66,7 @@ export default function StudentsPDF({data}) {
                 <Image style={styles.logo} src={logo} />
                 <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: 'flex-end'}}>
                     <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>معهد رويال</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>الطالب : {student.name}</Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>الطالب : {student.name} {student.lastName}</Text>
                     <Text style={[styles.reportTitle,styles.arabicText]}> الاب :{student.fatherName}</Text>
                 </View>
             </View>
@@ -71,19 +77,19 @@ export default function StudentsPDF({data}) {
         return <View style={styles.titleContainer}>
                 <View style={[styles.spaceBetween,{display: 'flex' ,  width: '100%' }]} >
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  الصف : {data.grade}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  الصف : {data.gender}</Text>
                     </View>
                     
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  الشعبه : {data.classTitle}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  الشعبه : {data.title}</Text>
                     </View>
                     
                     <View>
-                        <Text style={[styles.invoiceNumber,styles.arabicText]}>تاريخ التقرير : {data.month}  </Text>
+                        <Text style={[styles.invoiceNumber,styles.arabicText]}>تاريخ التقرير : {format( new Date(data.StartDate) , 'yyyy / MM / dd')}  </Text>
                     </View>
 
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  تقرير : {data.reportTitle}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  تقرير : {data.ReportTitle}</Text>
                     </View>
                     
                 </View>
@@ -113,10 +119,10 @@ export default function StudentsPDF({data}) {
                             <Text style={styles.arabicText}>{exam.subject} </Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{exam.mark} / {exam.totalMark}</Text>   
+                            <Text>{exam.mark} / {exam.maximumMark}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{((exam.mark / exam.totalMark) * 100 ).toFixed(2)}%</Text>   
+                            <Text>{((exam.mark / exam.maximumMark) * 100 ).toFixed(2)}%</Text>   
                         </View>
                     </View>
                 </Fragment>
@@ -126,21 +132,21 @@ export default function StudentsPDF({data}) {
     const ToalResultFooter = ({student}) => {
         return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 , marginBottom : 10 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{textAlign: 'right' , fontSize: 12}]}>المجموع النهائي : {student.reportMark} / {student.reportTotalMark} </Text>
+                    <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >المعدل : {student.examAverage}</Text>
                 </View>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{fontSize: 12}]} >المعدل : {student.avrage}</Text>
+                    <Text style={[styles.arabicText,{textAlign: 'left' , fontSize: 12}]}>المجموع النهائي : {student.mark} / {student.totalMark} </Text>
                 </View>
         </View>
     }
 
-    const ToalResultHeader = ({student}) => {
+    const ToalResultHeader = ({student,order}) => {
         return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={[styles.arabicText,{textAlign: 'right'}]}>
-                    <Text style={styles.arabicText}>معدل المذاكرات اليوميه : {student.quizAvg} </Text>
+                    <Text style={styles.arabicText}>معدل المذاكرات اليوميه : {student.quizAverage} </Text>
                 </View>
                 <View style={styles.toalResult}>
-                    <Text style={styles.arabicText}>ترتيب الطالب : {student.order} </Text>
+                    <Text style={styles.arabicText}>ترتيب الطالب : {order} </Text>
                 </View >
             </View>
     }
@@ -166,9 +172,9 @@ export default function StudentsPDF({data}) {
                         return <Page size="A4" style={styles.page}>
                                     <ReportTitle  student={student}/>
                                     <ReportSubTitle/>
-                                    <ToalResultHeader student={student}/>
+                                    <ToalResultHeader student={student} order={`${index + 1} / ${data.students.length}`}/>
                                     <TableHead/>
-                                    <TableBody exams={student.exam}/>
+                                    <TableBody exams={student.testMark}/>
                                     <Image src={logo}  style={{position: 'absolute' , left: '50%' , top: '50%' , transform: 'translate(-50%,-50%)' , opacity: '.3' , width: '300px'}}/>
                                     <ToalResultFooter student={student}/>
                                     <View style={{position: 'absolute' , bottom: 20 , right: 20 , left: 20}}>
@@ -176,7 +182,6 @@ export default function StudentsPDF({data}) {
                                         <NoteSection title={'ملاحظات ولي الأمر'}/>
                                     </View>
                                 </Page>
-                            
                     })
                 }
                 

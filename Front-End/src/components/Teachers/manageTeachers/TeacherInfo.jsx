@@ -9,7 +9,7 @@ import TeacherForm from "../newTeacher/TeacherForm";
 import DeleteModal from "../../Modal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import { addSpacesBetweenDigits } from "../teacherInformation/TeacherInfo";
-import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+// import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 

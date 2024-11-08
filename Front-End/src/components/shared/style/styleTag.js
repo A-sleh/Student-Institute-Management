@@ -114,6 +114,9 @@ export const FormSelectdStyle = styled.select`
 export const FormCheckBoxContainerStyle = styled.div`
     display: flex;
     gap: 2em;
+    background-color: ${({color}) => color};
+    padding: 4px;
+    flex: 1;
 
     section {
         display: flex;
@@ -125,6 +128,8 @@ export const FormCheckBoxContainerStyle = styled.div`
 
         input , label {
             cursor: pointer;
+            color: #056699;
+            font-weight: 600;
         }
 
         div {
@@ -132,7 +137,7 @@ export const FormCheckBoxContainerStyle = styled.div`
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: 5px 0;
+
 
             & div:last-child {
                 margin-left: 10px;

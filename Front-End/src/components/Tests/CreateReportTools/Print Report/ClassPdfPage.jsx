@@ -1,12 +1,19 @@
 
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
 import React, { Fragment } from 'react'
 import logo from '../../../../assets/logo.png'
 import NOTOKUIFIregular from './Noto_Kufi_Arabic/Zain-Regular.ttf'
 import NOTOKUIFIbold from './Noto_Kufi_Arabic/Zain-Bold.ttf'
 import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
 import { TextDirection } from '@react-pdf-viewer/core';
+import { format } from 'date-fns';
 
-export default function PrintingPage({data}) {
+export default function ClassPdfPage({data}) {
 
     Font.register({
         family: "Zain",
@@ -59,9 +66,8 @@ export default function PrintingPage({data}) {
                 <Image style={styles.logo} src={logo} />
                 <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: 'flex-end'}}>
                     <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>معهد رويال</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>تقرير : {"الشهر الاول"}</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>تاريخ التقرير : {"اب"}  </Text>
-                    
+                    <Text style={[styles.reportTitle,styles.arabicText]}>تقرير : {data.ReportTitle}</Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>تاريخ التقرير : {format( new Date( data.StartDate) , 'yyyy / MM / dd')}  </Text>
                 </View>
             </View>
         </View>
@@ -76,7 +82,7 @@ export default function PrintingPage({data}) {
                     </View>
                     
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  شعبه : المميزون</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  شعبه : {data.title}</Text>
                     </View>
                 </View>
             </View>
@@ -101,20 +107,20 @@ export default function PrintingPage({data}) {
     };
 
     const TableBody = () => {
-        return data.data.map((info,index)=>{
+        return data.students.map((student,index)=>{
                 return <Fragment key={index}>
                     <View style={{ width:'100%', flexDirection :'row-reverse'}}>
                         <View style={[styles.tbody, styles.tbody2]}>
                             <Text >{index + 1}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{info.name} </Text>   
+                            <Text>{student.name} {student.lastName}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{info.mark} / {info.totalMark}</Text>   
+                            <Text>{student.Mark} / {student.TotalMark}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{((info.mark / info.totalMark) * 100 ).toFixed(0)}</Text>   
+                            <Text>{((student.Mark / student.TotalMark) * 100 ).toFixed(0)}</Text>   
                         </View>
                     </View>
                 </Fragment>

@@ -271,10 +271,9 @@ export default function StudentForm({title,requestType,studentInformation}) {
                 <ErrorMessage showMessage={validation.billRequired} message={"The Bill Must Be Positive"}/>
               </FormSubRowStyle>
 
-              <FormCheckBoxContainerStyle>
+              <FormCheckBoxContainerStyle color={'transparent'}>
 
                 <section>
-
                   <LabelStyle color={'#056699'}>Gender</LabelStyle>
                   <div>
                     <div>

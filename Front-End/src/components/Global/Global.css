@@ -1,4 +1,4 @@
-/* Title Component */
+Title Component 
 
 .title {
     position: relative;
@@ -65,8 +65,8 @@
     }
 }
 
-/* Notification */ 
-.notification {
+ /* Notification  */
+ .notification {
     position: fixed;
     z-index: 300;
     bottom: 20px;

@@ -368,6 +368,16 @@ export default {
           response.json()
         );
       },
+      AllStudentsMarkInCurrentReport : (reportId,classId) => {
+        return fetch(`${URL}/Report/${reportId}/Class/${classId}/Result`).then((response) =>
+          response.json()
+        );
+      },      
+      AllReportsAvgInCurrentClass : (classId) => {
+        return fetch(`${URL}/Report/Class/Average?classId=${classId}`).then((response) =>
+          response.json()
+        );
+      }
     },
     post: (data) => {
       return fetch(`${URL}/Report`, {

@@ -193,7 +193,7 @@ Optimization nots :
  1 - Bills [X] {
         there are two page needed to optimize
     }
- 2 - Tests [] 65%
+ 2 - Tests [] 96%
  3 - students [] 30%
  4 - teachers [] 30%
  5 - sidebar [X] 100%
@@ -203,5 +203,5 @@ Optimization nots :
 
 
 
-gotoPage(`/CreateReport/StudentReportTests/${StudentId}`
-,{state:{studentResultENCODE: encodeURIComponent(JSON.stringify(student)) , reportId : reportId , pathDetails:{reportTitle,grade,classTitle}}})
+
+

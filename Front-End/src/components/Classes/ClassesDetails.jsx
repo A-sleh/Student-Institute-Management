@@ -3,7 +3,7 @@ import Title from "../Global/Title";
 import DataServices from "../../Data/dynamic/DataServices";
 import ClassInfo from "./ClassInfo";
 import './class.css'
-import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+// import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 
 
 export default function ClassesDetails() {
@@ -27,7 +27,7 @@ export default function ClassesDetails() {
   return (
     <>
       <Title title={window.location.pathname}/>
-      <HeaderControal  searcByName={search}setSearcByName={setSearch}/>
+      {/* <HeaderControal  searcByName={search}setSearcByName={setSearch}/> */}
       <div className="class-container">
         {showAllCalsses}
       </div>

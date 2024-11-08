@@ -172,6 +172,12 @@ export default {
   ShowAllStudentsForCurrentReport : (reportId,classId) => {
     return API.Report.get.AllStudent(reportId,classId)
   },
+  GetAllStduentTestsMarkInCurrentReport : (reportId,classId) => {
+    return API.Report.get.AllStudentsMarkInCurrentReport(reportId,classId)
+  },
+  ShowAllReportsAvgInCurretnClass : (classId) => {
+    return API.Report.get.AllReportsAvgInCurrentClass(classId)
+  },
   ShowStudentTestInCurrentReport : (studentId,reportId) => {
     return API.Test.get.StudentTestInCurrentReport(studentId,reportId)
   },

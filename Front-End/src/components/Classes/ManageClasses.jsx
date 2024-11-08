@@ -5,7 +5,7 @@ import "./class.css";
 import ClassSetting from "./ClassSetting";
 import Notification from "../Global/Notification";
 import InsertNewStudent from "./InsertNewStudent";
-import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+// import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 
 export default function ManageClasses() {
 
@@ -31,7 +31,7 @@ export default function ManageClasses() {
   return (
     <>
       <Title title={window.location.pathname} />
-      <HeaderControal searcByName={search}setSearcByName={setSearch}/>
+      {/* <HeaderControal searcByName={search}setSearcByName={setSearch}/> */}
       <Notification
         title={"Class Was Deleted"}
         type={"success"}
