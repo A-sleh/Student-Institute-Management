@@ -5,14 +5,14 @@
   
 */
 
-import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../shared/style/styleTag";
+import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/style/styleTag.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Title from "../Global/Title";
-import DataServices from "../../Data/dynamic/DataServices.js";
-import Notification from "../Global/Notification.jsx";
-import ShowInputCard from "../shared/ShowInputCard.jsx";
-import ErrorMessage from "../shared/ErrorMessage.jsx";
+import Title from "../../Global/Title.jsx";
+import DataServices from "../../../Data/dynamic/DataServices.js";
+import Notification from "../../Global/Notification.jsx";
+import ShowInputCard from "../../shared/ShowInputCard.jsx";
+import ErrorMessage from "../../shared/ErrorMessage.jsx";
 
 export default function StudentForm({title,requestType,studentInformation}) {
 

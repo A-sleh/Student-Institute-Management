@@ -3,12 +3,13 @@ import { useGlobalFilter, usePagination, useSortBy, useTable } from "react-table
 import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import TableControalSection from "./TableControalSection";
 import SearchSubHeader from "./SearchSubHeader";
+import TableControalSection2 from "./TableControalSection_2";
 
 
 export default function TablePaginated(props) {
 
-    const { data ,column,children,idKeyParams = false ,url = 'unAble',showMainHeader = true , rowClickedFn} = props
-    let { styleObj = { padding: '15px' , fonstSize : '14px' }  } = props
+    const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
+    const { unableId = false , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
 
 
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
@@ -17,23 +18,42 @@ export default function TablePaginated(props) {
     }, useGlobalFilter, useSortBy, usePagination );
 
     const { globalFilter, pageIndex } = state;
+    state.pageSize = rowNumber // set the rows table with five row
+    
+    function handleRowClicked(row) {
+
+        // if the row will do some action when it clicked instead  of go to another page
+        if( rowClickedFn != undefined ) {
+            rowClickedFn(row[idKeyParams])
+            return 
+        }
+        if( url == 'unAble') return 
+        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
+        else gotoPage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
+    }
+
+    
+    function renderHeader() {
+        if(showMainHeader) {
+            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
+                        {children}
+                    </SearchSubHeader>
+        }else {
+            return  children
+        }
+    }
 
     return (
-        <>
-            <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
-                {children}
-            </SearchSubHeader>
-
-            <TableContainerStyle >
+        <div style={{width: '100%' ,flex: '1',display: 'flex' , flexDirection: 'column'}}>  
+            { renderHeader() }
+            <TableContainerStyle style={{margin: '0'}}>
                 <TableStyle {...getTableProps()} styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                        {unableId &&  <th></th>}
                         {headerGroup.headers.map((column, index) => (
-                            <th
-                            {...column.getHeaderProps(column.getSortByToggleProps())}
-                            key={index}
-                            >
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index} >
                             {column.isSorted ? (
                                 <span style={{ fontSize: "12px" }}>
                                 {!column.isSortedDesc ? (
@@ -60,7 +80,8 @@ export default function TablePaginated(props) {
                         {page.map((row, index) => {
                             prepareRow(row);
                             return (
-                            <tr {...row.getRowProps()} key={index} >
+                            <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
+                                { unableId && <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td>}
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index} >
                                     {cell.render("Cell")}
@@ -71,10 +92,11 @@ export default function TablePaginated(props) {
                         })}
                     </tbody>
                 </TableStyle>
+                { smallControalSection && <TableControalSection2 pageCount={pageCount} previousPage={previousPage} nextPage={nextPage} pageIndex={pageIndex}  /> }
             </TableContainerStyle>
-
-            <TableControalSection pageCount={pageCount} previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
-
-        </>
+            {
+                !smallControalSection &&<TableControalSection pageCount={pageCount} previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
+            }
+        </div>
     )
 }

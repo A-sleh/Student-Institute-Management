@@ -2,7 +2,7 @@ import { HeaderInformationStyle } from "./style/styleTag"
 
 export default function HeaderInformation({data,title}) {
 
-    const Color = ["#ffbc00","#229edb","#60ff00"]
+    const Color = ["#ffbc00","#229edb","#60ff00","ff0000","#0035ff"]
 
     return (
         <HeaderInformationStyle columnNumber={data.length}>
@@ -10,7 +10,7 @@ export default function HeaderInformation({data,title}) {
             <section className="student-info-header" >
                 {
                     data.map( (row,index) => {
-                        const { title , color , icon , value } = row
+                        const { title , icon , value } = row
                         return <InfoCard title={title} value={value} color={Color[index]} icon={icon}/>
                     })
                 }

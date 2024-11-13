@@ -1,17 +1,21 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 import { useEffect, useState } from "react";
 import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Teacherinfo from "./TeacherInfo";
 import Notification from "../../Global/Notification";
-// import { HeaderControal } from "../../Bills/TeacherPaysCom/ShowBillTeacherDetails";
 
 export default function ManageTeacher() {
 
-    const [teachersDetails,setTeachersDetails] = useState([]) ;
     const [search,setSearch] = useState('')
+    const [teachersDetails,setTeachersDetails] = useState([]) ;
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     useEffect(() => {
-        DataServices.TeacherInformaion().then( teachers => { // this work
+        DataServices.TeacherInformaion().then( teachers => { 
             setTeachersDetails(teachers)
         })
     } ,[successDeleteTeacher])
@@ -20,7 +24,6 @@ export default function ManageTeacher() {
         <>
             <Notification  title={'Delete Theacer'} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />  
             <Title title={window.location.pathname}/> 
-            {/* <HeaderControal searcByName={search} setSearcByName={setSearch} /> */}
             {
                 teachersDetails.map( (teacher,index) => {
                     const {teacherId} = teacher ; 

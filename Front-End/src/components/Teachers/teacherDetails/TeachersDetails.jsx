@@ -7,19 +7,18 @@
 */
 
 import { SubHeaderTableStyle } from "../../shared/style/tableTagsStyle";
-import { useEffect, useMemo, useState } from "react";
-import { COLUMNS } from "./teacherTable/Columns";
+import {  useMemo, useState } from "react";
+import { COLUMNS } from "../columns/Columns";  
 import { Link } from "react-router-dom";
 import Title from "../../Global/Title";
-import DataServices from "../../../Data/dynamic/DataServices";
 import Notification from "../../Global/Notification";
 import DeleteModal from "../../Modal/DeleteModal";
 import TablePaginated from "../../shared/TablePaginated";
+import useTeachersInfo from "../../../hooks/useTeachersInfo";
 
 export default function TeachersDetails() {
 
-    const [teacherSubjects,setTeacherSubjects] = useState({}) ;
-    const [teachersDetails,setTeachersDetails] = useState([]) ;
+    const [teachersDetails] = useTeachersInfo()
     const [deleteModal, setDeleteModal] = useState(false);
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
@@ -31,80 +30,29 @@ export default function TeachersDetails() {
     const column = useMemo(() => [
       ...COLUMNS ,
       {
-          Header: 'Classes' ,
-          accessor: '' ,
-          Cell : () => {
-            return 'hellos'
-          }
-      },
-      {
-          Header: 'Subjects' ,
-          Cell : ({row}) => {
-            return teacherSubjects[row.original.teacherId]
-          }
-      },
-      {
-          id: "selection",
-          Header: "Action",
-          Cell: ({ row }) => (
-            <div
-              style={{
-                justifyContent: "space-evenly",
-                display: "flex",
-                fontSize: "20px",
-                alignItems: "center",
-
-              }}
+        Header: "Action",
+        id: "selection",
+        Cell: ({ row }) => (
+          <div style={{ justifyContent: "space-evenly", display: "flex", fontSize: "20px", alignItems: "center" }} >
+            <Link
+              to={`/TeacherInformation/${row.original.teacherId}`}
+              style={{ color: "gray", cursor: "pointer" }}
             >
-              <Link
-                to={`/TeacherInformation/${row.original.teacherId}`}
-                style={{ color: "gray", cursor: "pointer" }}
-              >
-                <i className="bi bi-person-lines-fill"></i>
-              </Link>
-              <Link
-                to={`/UpdateTeacher/${row.original.id}?data=${encodeURIComponent(
-                  JSON.stringify(row.original)
-                )}`}
-                style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
-              >
-                <i className="bi bi-person-gear"></i>
-              </Link>
-              <Link
-                onClick={() => {
-                  handleDleteClicked(row.original);
-                }}
-                style={{ color: "#ff0000d9", cursor: "pointer" }}
-              >
-                <i className="bi bi-person-dash"></i>
-              </Link>
-            </div>
-          ),
+              <i className="bi bi-person-lines-fill"></i>
+            </Link>
+            <Link
+              to={`/UpdateTeacher/${row.original.id}?data=${encodeURIComponent(JSON.stringify(row.original) )}`}
+              style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
+            >
+              <i className="bi bi-person-gear"></i>
+            </Link>
+            <Link onClick={() => { handleDleteClicked(row.original) }} style={{ color: "#ff0000d9", cursor: "pointer" }} >
+              <i className="bi bi-person-dash"></i>
+            </Link>
+          </div>
+        ),
       },
-  ], [teacherSubjects])
-
-    async function getTeachersSubjectsNumber(teacherDetails) {
-      return new Promise((resolve) => {
-        let data = {}
-        teacherDetails.map( async (teacher , index ) => {
-          const {teacherId} = teacher
-          const subjectNumber = await DataServices.ShowAllTeacherSubjects(teacherId)
-          data[teacherId] = subjectNumber.length
-          if(index == (teacherDetails.length - 1)) { 
-            resolve(data)
-          }
-        })
-      })
-    }
-
-    useEffect(() => {
-        DataServices.TeacherInformaion().then( teacherDetails => {
-            setTeachersDetails(teacherDetails)
-            getTeachersSubjectsNumber(teacherDetails).then( res => {
-              setTeacherSubjects(res) ;
-            })
-        })
-    },[successDeleteTeacher])
+  ], [])
 
     function handleDleteClicked(teacher) {
         setCurrentStudentInfo({

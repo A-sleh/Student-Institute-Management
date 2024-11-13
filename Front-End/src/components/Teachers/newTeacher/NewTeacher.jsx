@@ -1,3 +1,10 @@
+
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
 import { useState } from "react";
 import Title from "../../Global/Title";
 import TeacherForm from "./TeacherForm";

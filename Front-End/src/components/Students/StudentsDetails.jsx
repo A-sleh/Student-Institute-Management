@@ -5,18 +5,17 @@
   
 */
 
-import { useEffect, useMemo, useState } from "react";
-import DataServices from "../../Data/dynamic/DataServices";
-import { COLUMNS } from "./TableStructuer/Columns";
+import { useMemo, useState } from "react";
+import { COLUMNS } from "./column/Columns";
 import { Link, Outlet } from "react-router-dom";
 import Title from "../Global/Title";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 import TablePaginated from "../shared/TablePaginated";
 import { SubHeaderTableStyle } from "../shared/style/tableTagsStyle";
+import useStudentsInfo from "../../hooks/useStudentsInfo";
 
 export default function StudentsDetails() {
-
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
@@ -24,7 +23,7 @@ export default function StudentsDetails() {
     id: null,
     name: "",
   });
-  const [studentInfo, setstudentInfo] = useState([]);
+  const [studentInfo] = useStudentsInfo(successDeleteStudent);
 
 
   function handleDleteClicked(student) {
@@ -80,20 +79,6 @@ export default function StudentsDetails() {
     []
   );
 
-  useEffect(() => {
-    DataServices.StudentsInformaion().then((StudentsInfo) => {
-      setstudentInfo(
-        StudentsInfo.map((student) => {
-          const { name, lastName } = student;
-          return {
-            ...student,
-            className: student.class?.title,
-            full_name: name + " " + lastName,
-          };
-        })
-      );
-    });
-  },[successDeleteStudent]);
   
   return (
     <>

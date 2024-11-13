@@ -183,6 +183,9 @@ export default {
   },
   ShowStudentTestNotAddedToReport : (studentId) => {
     return API.Test.get.StudentTestNotAddedToReport(studentId)
+  },
+  ShowStudentReports : (studentId) => {
+    return API.Report.get.StudentReports(studentId)
   }
 };
 

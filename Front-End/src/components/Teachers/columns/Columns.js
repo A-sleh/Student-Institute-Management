@@ -11,5 +11,13 @@ export const COLUMNS = [
   {
     Header: "Phone",
     accessor: "phone",
+  },
+  {
+    Header: "Classes",
+    accessor: "classesNumber",
+  },
+  {
+    Header: "Subjects",
+    accessor: "subjectaNumber",
   }
 ];

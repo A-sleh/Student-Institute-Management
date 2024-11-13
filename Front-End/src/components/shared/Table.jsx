@@ -1,26 +1,28 @@
-
 /***  
     CSS-OPTIMAIZATION : DONE , 
     COMPONENTS OPTIMIZATION : DONE ,
     USING REACT QURY : 
 */
 
-import { useGlobalFilter, useSortBy, useTable } from "react-table";
+import { useGlobalFilter, useRowSelect, useSortBy, useTable } from "react-table";
 import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import { useNavigate } from "react-router-dom";
 import SearchSubHeader from "./SearchSubHeader";
+import { useMemo } from "react";
 
 
 export default function Table( props ) {
 
-    const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { unableId = false , selectionRows, styleObj = { padding: '15px' , fonstSize : '14px' }} = props
+    const { data , column , children , setSelectedRows = ()=>{} , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
+    const { unableId = false , selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     const gotoPage = useNavigate() ;
     
-    const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter} = useTable({
+    const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter,selectedFlatRows} = useTable({
         data: data,
         columns: column,
-    }, useGlobalFilter, useSortBy);
+    }, useGlobalFilter, useSortBy ,useRowSelect);
+
+    useMemo(() => setSelectedRows(selectedFlatRows) ,[selectedFlatRows])
 
     const { globalFilter } = state;
 
@@ -29,7 +31,7 @@ export default function Table( props ) {
 
         // if the row will do some action when it clicked instead  of go to another page
         if( rowClickedFn != undefined ) {
-            rowClickedFn(row[idKeyParams])
+            rowClickedFn(row[idKeyParams],row)
             return 
         }
         if( url == 'unAble') return 
@@ -85,7 +87,7 @@ export default function Table( props ) {
                             prepareRow(row);
                             return (
                             <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
-                                { unableId && <td style={{padding: '10px' , margin: '5px 0' ,color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{index + 1}</td>}
+                                { unableId && <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td>}
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index}  >
                                     {cell.render("Cell")}

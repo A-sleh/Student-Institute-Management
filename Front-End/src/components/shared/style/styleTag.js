@@ -352,7 +352,6 @@ export const HeaderInformationStyle = styled.div`
         display: grid;
         grid-template-columns: ${ ({columnNumber}) => `repeat(${columnNumber},auto)` };
         gap: 10px;
-        background-color: #ffffff;
         padding: 10px 8px;
         border-radius: 5px;
 
@@ -383,14 +382,14 @@ export const HeaderInformationStyle = styled.div`
                 text-align: center;
 
                 h4 {
-                    font-size: 1em;
+                    font-size: 15px;
                     color: rgb(160, 159, 159);
                     font-weight: 400;
                     margin-bottom: 5px;
                 }
 
                 span {
-                    font-size: 1.1em;
+                    font-size: 1em;
                     font-weight: 500;
                 }
             }
@@ -410,6 +409,87 @@ export const HeaderInformationStyle = styled.div`
     }
 
 `
+
+// global style 
+
+export const FlexSpaceBetweenContainerStyle = styled.div`
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0px;
+    display: flex;
+    position: relative;
+
+    h3 {
+        color: #056699 ;
+        font-weight: 600;
+    }
+`
+
+export const FlexContainerStyle = styled.div`
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 30px;
+
+    @media (max-width: 767px ) {
+        & {
+            flex-direction: column;
+        }
+    }
+`
+export const InformationsCardStyle = styled.div`
+    padding: 15px 8px;
+    border-radius: 0px 0px 5px 5px;
+    gap: 4px;
+    background: rgba(243, 241, 241, 0.843);
+
+    & div {
+        display: flex;
+        align-items: center;
+        gap: 1.3em;
+        background-color: white;
+        padding: 4px 8px;
+
+        h4 {
+            color: rgb(6, 101, 153);
+            font-size: 1em;
+
+            span {
+                font-size: 0.8em;
+                color: black;
+                margin-left: 1px;
+            }
+        }
+    }
+
+    @media (max-width : 540px ) {
+        & div h4 { 
+            display: grid;
+        }
+    }
+
+    @media (max-width : 767px ) {
+        & {
+            display: grid ;
+            grid-template-columns: auto auto;
+        }
+    }
+
+`
+
+// FilterGradeHeader 
+export const FilterGradeHeaderStyle = styled.div`
+    width: 100%;
+    padding: 6px 15px;
+    color: white;
+    background-color: rgb(6, 101, 153);
+    border-radius: 5px 5px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`
+
 
 export const InputStyle = styled.input.attrs( ({type}) => ({
     type : type

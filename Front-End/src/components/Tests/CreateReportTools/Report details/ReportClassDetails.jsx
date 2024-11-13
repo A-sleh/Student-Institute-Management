@@ -26,8 +26,6 @@ export default function ReportClassDetails() {
     const [quiz,exam] = separateTesetsAccordingToType(tests,quizAvg,examAvg)
     const gotoPage = useNavigate()
 
-    console.log(studnets)
-
     return (
         <div>
             <NavigateSubHeaderStyle >

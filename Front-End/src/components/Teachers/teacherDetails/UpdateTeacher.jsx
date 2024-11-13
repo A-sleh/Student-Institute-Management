@@ -1,4 +1,11 @@
-import { useParams, useSearchParams } from "react-router-dom";
+
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import { useSearchParams } from "react-router-dom";
 import Title from "../../Global/Title";
 import TeacherForm from "../newTeacher/TeacherForm";
 import { useState } from "react";

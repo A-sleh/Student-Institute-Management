@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { thStyle } from "../../../Teachers/teacherInformation/TeacherSubjects"
 import { format } from "date-fns"
 import Notification from "../../../Global/Notification"
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
@@ -99,7 +98,6 @@ export default function StudentMarkForm() {
         <>
             <Notification  title={'All mark must be positive'} type={'error'} state ={negativeFiled} setState={setNegativeFiled}/>
             <Notification  title={'Assinge marks'} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
-            <button onClick={()=>{console.log(inputRef),inputRef.current.focus()}}>asdf</button>
             <Table column={columns} data={studentTest||[]} showMainHeader={false}>
                 <h3 style={{backgroundColor: '#066599',position: 'relative',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
                     {subject.grade.toLowerCase()} / {classTitle.toLowerCase()} / {testType.toLowerCase()} / {subject.subject.toLowerCase()}

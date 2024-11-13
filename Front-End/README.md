@@ -193,13 +193,13 @@ Optimization nots :
  1 - Bills [X] {
         there are two page needed to optimize
     }
- 2 - Tests [] 96%
- 3 - students [] 30%
- 4 - teachers [] 30%
+ 2 - Tests [] 96% // there are a bug in update the mark
+ 3 - students [X] 100%
+ 4 - teachers [] 96%// there are a bug in update the capacity of the class
  5 - sidebar [X] 100%
- 6 - navbar [] 80%
+ 6 - navbar [X] 100%
  7 - classes [] 0%
- 8 - subject [] 0%
+ 8 - subject [X] 100%
 
 
 

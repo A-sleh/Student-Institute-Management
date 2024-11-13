@@ -1,11 +1,17 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 
 import { useNavigate, useParams } from "react-router-dom"
+import { HeightContainerAnimation } from "../../Tests/CreateTestTools/EmentsStyle";
+import { FlexContainerStyle, GoBackBtnStyle } from "../../shared/style/styleTag";
 import Title from "../../Global/Title"
 import TeacherBills from "./TeacherBills";
 import TeacherInfo from "./TeacherInfo";
 import TeacherClasses from "./TeacherClasses";
 import TeacherSubjects from "./TeacherSubjects";
-import { HeightContainerAnimation } from "../../Tests/CreateTestTools/EmentsStyle";
 
 export default function TeacherInformation() {
 
@@ -15,10 +21,10 @@ export default function TeacherInformation() {
     return(
         <>
             <Title title={window.location.pathname} />
-            <div style={{display: 'flex' , gap: '20px' , marginBottom: '20px' , marginTop: '30px'}}>
+            <FlexContainerStyle>
                 <TeacherInfo teacherId={teacherId}/>
                 <TeacherClasses teacherId={teacherId}/>
-            </div>
+            </FlexContainerStyle>
             <HeightContainerAnimation delay={'.5s'}>
                 <TeacherSubjects teacherId={teacherId}/>
             </HeightContainerAnimation>
@@ -26,7 +32,7 @@ export default function TeacherInformation() {
             <HeightContainerAnimation delay={'.8s'}>
                 <TeacherBills teacherId={teacherId}/>
             </HeightContainerAnimation>
-            <span className="update-class-btn" style={{ fontSize: '14px' , padding: '2px 20px' }} onClick={()=>{gotoPreviousPage(-1)}} >Back</span>
+            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}} >Back</GoBackBtnStyle>
         </>
     )
 }

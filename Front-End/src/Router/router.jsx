@@ -1,6 +1,6 @@
 import { lazy } from "react"
 const  Statistics =  lazy(() => import( ".././components/Statistics/Statistics"))
-const  NewStudent =  lazy(() => import( ".././components/Students/NewStudent.jsx"))
+const  NewStudent =  lazy(() => import( "../components/Students/NewStudent/NewStudent.jsx" ))
 const  StudentsDetails =  lazy(() => import( ".././components/Students/StudentsDetails.jsx"))
 const  NewTeacher =  lazy(() => import( ".././components/Teachers/newTeacher/NewTeacher.jsx"))
 const  ManageTeacher =  lazy(() => import( ".././components/Teachers/manageTeachers/ManageTeacher.jsx"))
@@ -15,7 +15,7 @@ const  NewClass =  lazy(() => import( ".././components/Classes/NewClass.jsx"))
 const  ManageClasses =  lazy(() => import( ".././components/Classes/ManageClasses.jsx"))
 const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDetails.jsx"))
 const  Subject =  lazy(() => import( ".././components/Subjects/Subject.jsx"))
-const  UpdateStudent =  lazy(() => import( ".././components/Students/UpdateStudent.jsx"))
+const  UpdateStudent =  lazy(() => import( ".././components/Students/NewStudent/UpdateStudent.jsx"))
 const  StudentInformation =  lazy(() => import( ".././components/Students/StudentInformation.jsx"))
 const  InsertNewStudent =  lazy(() => import( ".././components/Classes/InsertNewStudent.jsx"))
 const  MoveStudentsToAnotherClass =  lazy(() => import( ".././components/Classes/MoveStudentsToAnotherClass.jsx"))
@@ -53,6 +53,8 @@ const  ClassReportPrint =  lazy(() => import( ".././components/Tests/CreateRepor
 
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx"
+import NewSubjectForm from "../components/Subjects/NewSubject/NewSubjectForm.jsx"
+import ShowSubjects from "../components/Subjects/displaySubject/ShowSubjects.jsx"
 
 
 const router = createBrowserRouter(
@@ -128,6 +130,20 @@ const router = createBrowserRouter(
                 {
                     path: 'Subject',
                     element: <Subject />,
+                    children : [
+                        {
+                            element: <NewSubjectForm />,
+                            index: true,
+                        },
+                        {
+                            path: 'NewSubject', 
+                            element: <NewSubjectForm />
+                        },
+                        {
+                            path: 'ShowSubjects', 
+                            element: <ShowSubjects />
+                        }
+                    ]
                 },
                 {
                     path: '/StudentInformation/:id',

@@ -3,10 +3,12 @@ import styled from 'styled-components'
 
 export const TableContainerStyle = styled.div`
     background-color: #f3f1f1d7;
-    padding: 20px 10px 10px;
+    padding: 20px 10px 40px 10px;
     border-radius: 10px;
-    margin-top: 10px;
+    margin-bottom: 15px;
     overflow-x: auto;
+    position: relative;
+    flex: 1;
 
     @media (max-width: 767px ) {
         
@@ -19,6 +21,7 @@ export const TableStyle = styled.table`
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
+    text-align: center !important;
 
     thead {
         position: relative;
@@ -30,9 +33,9 @@ export const TableStyle = styled.table`
             text-transform: uppercase;
             color: rgb(6, 101, 153);
             font-weight: bold;
-            padding: 15px;
-            font-size: 14px;
             text-wrap: nowrap;
+            padding: ${ ({styleObj}) => styleObj.padding };
+            font-size: ${ ({styleObj}) => styleObj.fontSize };
 
             span {
                 margin-left: 5px
@@ -43,11 +46,12 @@ export const TableStyle = styled.table`
     tbody {
         tr {
 
+            border-bottom: 1px solid #f3f1f1d7;
             &:nth-child(odd) {
-                background-color: white ;
+                background-color: ${ ({styleObj}) => styleObj.sameColor  ? 'white': '#f3f1f1d7'} ;
             }
-            &:nth-child(odd) {
-                background-color: #f3f1f1d7 ;
+            &:nth-child(even) {
+                background-color: white ;
             }
 
             td {
@@ -56,6 +60,7 @@ export const TableStyle = styled.table`
                 margin: 5px 0px;
                 text-align: center;
                 border: none;
+                padding-left: 10px;
                 text-wrap: nowrap;
             }
 

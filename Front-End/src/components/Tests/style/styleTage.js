@@ -42,7 +42,9 @@ export const QuizExamContainerStyle = styled.div`
 
     @media (max-width : 767px ) {
         flex-direction: column;
+        padding: 0;
     }
+
 `
 
 export const NavigateSubHeaderStyle = styled.div`
