@@ -6,34 +6,37 @@ import Notification from "../../../Global/Notification"
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn"
 import Table from "../../../shared/Table"
+import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
+import { NavigateSubHeaderStyle } from "../../style/styleTage"
 
 export default function StudentMarkForm() {
-
+    
     const classDetailsEncode = useLocation().state
     const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode))
     const { title : classTitle,subject,date,testType,classId} = classDetailsDecode
-    const inputRef = useRef([])
-
+    const [marks,setMarks] = useState({})
+    
     const columns =  useMemo(()=>[
         ...TESTMARKCOLUMN
         ,{
             Header : 'Action' ,
             Cell : ({row}) => {
-                const {mark} = row.original
-                return <input type="text" value={mark} onChange={(e)=>{handleInputChange(e)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} />
+                const { testMarkId } = row.original
+                return <RowTest handleInputChange={handleInputChange} marks={marks} testMarkId={testMarkId} key={row.id}/>
             } 
         }
 
-    ],[])
+    ],[marks])
     
     const [studentTest,setStudentTest] = useState([])
     const [negativeFiled,setNegativeFiled] = useState(false)
     const [successAssigne,setSuccessAssigne] = useState(false)
 
     const gotoPage = useNavigate()
+    const Ref = useRef(null)
     const testId = useParams().testId
     
-    
+
     useEffect(() => {
         DataServices.ShowStudentsMarksInOneClass(classId,testId).then(students => {
             setStudentTest(students.map(student=>({...student,maximumMark:subject.maximumMark})))
@@ -79,31 +82,40 @@ export default function StudentMarkForm() {
 
         if(doRquest) {
             assingeMarkToTheTest(marks).then( _ => {
-                setSuccessAssigne(true)
-                setTimeout(() => {
-                    setSuccessAssigne(false)
-                } , 2000 )
+                successActionLogic(setSuccessAssigne)
             })
         }else {
-            setNegativeFiled(true)
-            setTimeout(() => {
-                setNegativeFiled(false)
-            } , 2000 )
+            errorActionLogic(setNegativeFiled)
         }
     }
 
-    
+    function abdo(e) {
+        const fofo = setInterval((e) => {
+            e.focus()
+        } , 1000 )  
+        Ref.current = fofo
+    }
+
+    function handleInputChange(newValue,testMarkId,inputRef) {
+        let newMaksObj = new Map() 
+        newMaksObj = {...marks}
+        newMaksObj[testMarkId] = newValue.value
+        setMarks(newMaksObj)
+        inputRef.current?.focus()
+    }
+
+    // inputRef?.focus()
     
     return (
-        <>
+        <>ShowClassDetails
             <Notification  title={'All mark must be positive'} type={'error'} state ={negativeFiled} setState={setNegativeFiled}/>
             <Notification  title={'Assinge marks'} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
             <Table column={columns} data={studentTest||[]} showMainHeader={false}>
-                <h3 style={{backgroundColor: '#066599',position: 'relative',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
+                <NavigateSubHeaderStyle>
                     {subject.grade.toLowerCase()} / {classTitle.toLowerCase()} / {testType.toLowerCase()} / {subject.subject.toLowerCase()}
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >students</span>
                     <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
-                </h3>
+                </NavigateSubHeaderStyle>
             </Table>
 
             <ButtonsContainerStyle>
@@ -112,4 +124,11 @@ export default function StudentMarkForm() {
             </ButtonsContainerStyle>
         </>
     )
+}
+
+function RowTest({handleInputChange,marks,testMarkId}){
+    const inputRef = useRef(null)
+    
+    
+    return <input type="text" value={marks[testMarkId]} ref={inputRef} onChange={(e)=>{handleInputChange(e.target.value,testMarkId,inputRef)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} />
 }

@@ -11,6 +11,7 @@ import '../StudentsPaysCom/studnetPays.css'
 import DataServices from '../../../Data/dynamic/DataServices';
 import Notification from '../../Global/Notification';
 import ErrorMessage from '../../shared/ErrorMessage';
+import { errorActionLogic, successActionLogic } from '../../shared/logic/logic';
 
 
 const initialFormInput = { 
@@ -58,15 +59,9 @@ export default function NewBillExternal() {
             DataServices.CreateNewTeacherBill(formInput).then( response => {
                 if(response.status <= 299 ) {
                     setFormInput(initialFormInput) ;
-                    setSuccessAddBill(true) 
-                    setTimeout(() => {
-                        setSuccessAddBill(false)
-                    } ,2000 )
+                    successActionLogic(setSuccessAddBill)
                 }else {
-                    setErrorAddBill(true) 
-                    setTimeout(() => {
-                        setErrorAddBill(false)
-                    } ,2000 )
+                    errorActionLogic(setErrorAddBill)
                 }
             })
         }

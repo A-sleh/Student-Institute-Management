@@ -198,10 +198,13 @@ Optimization nots :
  4 - teachers [] 96%// there are a bug in update the capacity of the class
  5 - sidebar [X] 100%
  6 - navbar [X] 100%
- 7 - classes [] 0%
+ 7 - classes [] 90%
  8 - subject [X] 100%
 
-
+solve the proble: 
+1 - create a parent state to catch the focus input 
+2 - when i click on the input field i will change the parent state to be contain the focused field
+3 - 
 
 
 

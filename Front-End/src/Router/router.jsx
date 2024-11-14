@@ -17,8 +17,8 @@ const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDeta
 const  Subject =  lazy(() => import( ".././components/Subjects/Subject.jsx"))
 const  UpdateStudent =  lazy(() => import( ".././components/Students/NewStudent/UpdateStudent.jsx"))
 const  StudentInformation =  lazy(() => import( ".././components/Students/StudentInformation.jsx"))
-const  InsertNewStudent =  lazy(() => import( ".././components/Classes/InsertNewStudent.jsx"))
-const  MoveStudentsToAnotherClass =  lazy(() => import( ".././components/Classes/MoveStudentsToAnotherClass.jsx"))
+const  InsertNewStudent =  lazy(() => import( ".././components/Classes/ManageClasses/InsertNewStudent.jsx"))
+const  MoveStudentsToAnotherClass =  lazy(() => import( ".././components/Classes/ManageClasses/MoveStudentsToAnotherClass.jsx"))
 const  UpdateTeacher =  lazy(() => import( ".././components/Teachers/teacherDetails/UpdateTeacher.jsx"))
 const  TeacherInformation =  lazy(() => import( ".././components/Teachers/teacherInformation/TeacherInformation.jsx"))
 const  TeacherNewClass =  lazy(() => import( ".././components/Teachers/manageTeachers/TeacherNewClass.jsx"))
@@ -48,7 +48,7 @@ const  LinkTestWithReport =  lazy(() => import( ".././components/Tests/CreateRep
 const  ShowClassReports =  lazy(() => import( "../components/Tests/CreateReportTools/Report details/ClassReports.jsx"))
 const  ReportClassDetails =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ReportClassDetails.jsx"))
 const  StudentReportTests =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/StudentReportTests.jsx"))
-const  RemoveTeachersFromClass =  lazy(() => import( ".././components/Classes/RemoveTeachersFromClass.jsx"))
+const  RemoveTeachersFromClass =  lazy(() => import(".././components/Classes/ManageClasses/RemoveTeachersFromClass.jsx"))
 const  ClassReportPrint =  lazy(() => import( ".././components/Tests/CreateReportTools/Print Report/ClassReportPrint.jsx"))
 
 import { createBrowserRouter } from "react-router-dom";

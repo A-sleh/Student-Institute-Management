@@ -3,7 +3,6 @@ import { useNavigate, useParams, useSearchParams, useLocation } from "react-rout
 import DataServices from "../../../Data/dynamic/DataServices"
 import ShowClassDetails from "../../Classes/ShowClassDetails"
 import './studnetPays.css'
-import { tBStyle, thStyle } from "../../Teachers/teacherInformation/TeacherSubjects"
 import { format } from "date-fns"
 import addSpaceBetweenDigit from "../../Global/globalStyle"
 import DeleteModal from "../../Modal/DeleteModal"

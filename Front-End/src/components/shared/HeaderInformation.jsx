@@ -2,7 +2,7 @@ import { HeaderInformationStyle } from "./style/styleTag"
 
 export default function HeaderInformation({data,title}) {
 
-    const Color = ["#ffbc00","#229edb","#60ff00","ff0000","#0035ff"]
+    const Color = ["#ffbc00","#229edb","#60ff00","red","#0035ff"]
 
     return (
         <HeaderInformationStyle columnNumber={data.length}>

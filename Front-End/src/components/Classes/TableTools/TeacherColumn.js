@@ -2,11 +2,11 @@ import { format } from "date-fns";
 
 export const TEACHERCOLUMN = [
   {
-    Header : 'Name' ,
-    accessor: "full_name",
+    Header : 'First Name' ,
+    accessor: "name",
   },
   {
-    Header: 'Phone Number',
-    accessor: 'phone'
+    Header : 'Last Name' ,
+    accessor: "lastName",
   }
 ];

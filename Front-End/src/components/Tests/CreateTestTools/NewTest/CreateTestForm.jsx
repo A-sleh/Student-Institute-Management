@@ -12,6 +12,7 @@ import ErrorMessage from "../../../shared/ErrorMessage";
 import SearchBodyList from "../../../shared/SearchBodyList";
 import useClasses from "../../../../hooks/useClasses";
 import useGetSubjects from "../../../../hooks/useGetSubjects";
+import { successActionLogic } from "../../../shared/logic/logic";
 
 
 export default function CreateTestForm({form,setForm,initailState,children}) {
@@ -74,10 +75,8 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                         setForm(initailState)
                         setSearchClass('')
                         setSelectedClass({title: null})
+                        successActionLogic(setSuccessCreateTest)
                         setSuccessCreateTest(true)
-                        setTimeout(() => {
-                            setSuccessCreateTest(false)
-                        } , 2000 )
                     })
                 })
             })

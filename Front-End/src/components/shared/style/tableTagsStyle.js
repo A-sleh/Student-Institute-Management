@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const TableContainerStyle = styled.div`
     background-color: #f3f1f1d7;
-    padding: 20px 10px 40px 10px;
+    padding: 20px 10px 20px 10px;
     border-radius: 10px;
     margin-bottom: 15px;
     overflow-x: auto;

@@ -46,7 +46,7 @@ export default function TablePaginated(props) {
     return (
         <div style={{width: '100%' ,flex: '1',display: 'flex' , flexDirection: 'column'}}>  
             { renderHeader() }
-            <TableContainerStyle style={{margin: '0'}}>
+            <TableContainerStyle style={{margin: '0' , paddingBottom: '40px'}}>
                 <TableStyle {...getTableProps()} styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (

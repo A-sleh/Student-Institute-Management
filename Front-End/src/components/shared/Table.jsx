@@ -14,7 +14,7 @@ import { useMemo } from "react";
 export default function Table( props ) {
 
     const { data , column , children , setSelectedRows = ()=>{} , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { unableId = false , selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
+    const { unableId = false , hiddenHeader = false, selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     const gotoPage = useNavigate() ;
     
     const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter,selectedFlatRows} = useTable({
@@ -54,34 +54,36 @@ export default function Table( props ) {
             { renderHeader() }
             <TableContainerStyle >
                 <TableStyle {...getTableProps()} styleObj={styleObj}>
-                    <thead>
-                    {headerGroups.map((headerGroup, index) => (
-                        <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                            {unableId &&  <th></th>}
-                            {headerGroup.headers.map((column, index) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index} >
-                                {column.isSorted ? (
-                                    <span style={{ fontSize: "12px" }}>
-                                    {!column.isSortedDesc ? (
-                                        <i className="bi bi-arrow-up"></i>
-                                    ) : (
-                                        <i className="bi bi-arrow-down"></i>
-                                    )}{" "}
-                                    </span>
-                                ) : (
-                                    <i
-                                    className="bi bi-arrow-up"
-                                    style={{ opacity: "0" }}
-                                    ></i>
-                                )}
-                                <span>
-                                    {column.render("Header")}
-                                </span>
-                                </th>
+                    {   hiddenHeader ?  <></> :                     
+                        <thead>
+                            {headerGroups.map((headerGroup, index) => (
+                                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                                    {unableId &&  <th></th>}
+                                    {headerGroup.headers.map((column, index) => (
+                                        <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index} >
+                                        {column.isSorted ? (
+                                            <span style={{ fontSize: "12px" }}>
+                                            {!column.isSortedDesc ? (
+                                                <i className="bi bi-arrow-up"></i>
+                                            ) : (
+                                                <i className="bi bi-arrow-down"></i>
+                                            )}{" "}
+                                            </span>
+                                        ) : (
+                                            <i
+                                            className="bi bi-arrow-up"
+                                            style={{ opacity: "0" }}
+                                            ></i>
+                                        )}
+                                        <span>
+                                            {column.render("Header")}
+                                        </span>
+                                        </th>
+                                    ))}
+                                </tr>
                             ))}
-                        </tr>
-                    ))}
-                    </thead>
+                        </thead>
+                    }
                     <tbody {...getTableBodyProps()}>
                         {rows.map((row, index) => {
                             prepareRow(row);

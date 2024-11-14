@@ -1,14 +1,19 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import { ButtonsContainerStyle, FormStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import { useEffect, useMemo, useState } from "react";
+import { TeacherSubDetails } from "./TeacherSubDetails";
+import { CLASSDETAILSCOLUMN } from "../columns/ClassDetailsColumn";
+import { FilterGradeHeader } from "../../shared/subHeaderTable/FilterGradeHeader";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Notification from "../../Global/Notification";
-import { TeacherSubDetails } from "./TeacherSubDetails";
-import { ButtonsContainerStyle, FormStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
-import { CLASSDETAILSCOLUMN } from "../columns/ClassDetailsColumn";
 import Table from "../../shared/Table";
-import { FilterGradeHeader } from "../../shared/subHeaderTable/FilterGradeHeader";
-import { SUBJECTMANAGECOLUMN } from "../columns/SubjectManageColumn";
 
 export default function TeacherNewClass() {
 
@@ -90,6 +95,7 @@ export default function TeacherNewClass() {
 
     function handleAddClicked() {
         if(selectedClass.grade != selectedSubject.subject.grade) {
+            
             setCompareGrade(true) ;
             setTimeout(() => {
                 setCompareGrade(false)
@@ -157,7 +163,9 @@ export default function TeacherNewClass() {
             <Notification title={'Teacher was added to all selected classes'} type={'success'} state ={successAddTeacherToClass} setState={setSuccessAddTeacherToClass} />
             <Title title={window.location.pathname} />
 
-            <TeacherSubDetails teacherDetails={teacherDetails}/>
+            {
+                teacherId != 'all' && <TeacherSubDetails teacherDetails={teacherDetails}/>
+            }
             <div style={{display: 'flex' , gap: '10px' , flexWrap : 'wrap'}}>
                 <div style={{flex: '4 1 3em'}}>
                     <SubjectsTable subjects={teacherSubjects} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject} AllTeachers={classId != undefined}/>
@@ -170,7 +178,7 @@ export default function TeacherNewClass() {
 
             <ButtonsContainerStyle>
                 <SubmitBtnStyle onClick={()=>{handleAddClicked()}}>Add</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{gotoPreviousPage('/ManageTeacher',{replace: true})}} >Delete</GoBackBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1,{replace: true})}} >Go back</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
     )

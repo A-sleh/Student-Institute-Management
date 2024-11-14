@@ -1,12 +1,13 @@
-import { COL } from "./TableTools/AllStudentColumns";
-import Title from "../Global/Title";
+import { COL } from "../TableTools/AllStudentColumns";
+import Title from "../../Global/Title";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTable, useRowSelect} from "react-table";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import DataServices from "../../Data/dynamic/DataServices";
-import Notification from "../Global/Notification";
+import DataServices from "../../../Data/dynamic/DataServices";
+import Notification from "../../Global/Notification";
 import { useSelector, useDispatch } from "react-redux"; // test case 
-import { INCREAMENTSTUDENTSNUMBER } from "../../Redux/actions/type";
+import { INCREAMENTSTUDENTSNUMBER } from "../../../Redux/actions/type";
+import { successActionLogic } from "../../shared/logic/logic";
 
 export default function InsertNewStudent() {
 
@@ -105,10 +106,7 @@ function changeStudentsClass(studentSelected) {
 
   function handleAddClicked(studentSelected) {
     changeStudentsClass(studentSelected).then(()=> {
-      setSuccessAddStudent(true) ; 
-      setTimeout(() => {
-        setSuccessAddStudent(false);
-      } ,2000 )
+      successActionLogic(setSuccessAddStudent)
     })
     dispatch({ // test case 
       type: INCREAMENTSTUDENTSNUMBER ,// test case 

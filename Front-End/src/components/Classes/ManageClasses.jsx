@@ -1,22 +1,20 @@
-import React, { useEffect, useState, createContext, useMemo } from "react";
-import Title from "../Global/Title";
-import DataServices from "../../Data/dynamic/DataServices";
-import "./class.css";
-import ClassSetting from "./ClassSetting";
+import React, { useEffect, useState} from "react";
+import DataServices from "./../../Data/dynamic/DataServices";
+import ClassSetting from "./ManageClasses/ClassSetting";
 import Notification from "../Global/Notification";
-import InsertNewStudent from "./InsertNewStudent";
-// import { HeaderControal } from "../Bills/TeacherPaysCom/ShowBillTeacherDetails";
+import Title from "../Global/Title";
+import "./class.css";
+
+
 
 export default function ManageClasses() {
 
-  const [classesId, setClassesId] = useState([null]);
+  const [classesId, setClassesId] = useState([]);
   const [deleteClass, setDeleteClass] = useState(false);
   const [search,setSearch] = useState('')
   
   useEffect(() => {
-  
     DataServices.showCalsses().then((classes) => {
-  
       const ClassesIds = classes.map((res) => {
         return {
           classId : res.classId ,
@@ -31,19 +29,12 @@ export default function ManageClasses() {
   return (
     <>
       <Title title={window.location.pathname} />
-      {/* <HeaderControal searcByName={search}setSearcByName={setSearch}/> */}
-      <Notification
-        title={"Class Was Deleted"}
-        type={"success"}
-        state={deleteClass}
-        setState={setDeleteClass}
-      />
-      <div className="manage-class-container">
-        {classesId[0] != null ? classesId.map((Class, index) => {
+      <Notification title={"Class Was Deleted"} type={"success"} state={deleteClass} setState={setDeleteClass} />
+      {
+        classesId.map((Class, index) => {
           return <ClassSettingMemo ClassId={Class.classId} search={search} title={Class.title} setDeleteClass={setDeleteClass} key={index} />;
-        }) : <span>Loading...</span>
+        })
       }
-      </div>
     </>
   );
 }

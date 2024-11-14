@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
+import { successActionLogic } from "../../shared/logic/logic";
 
 export default function TeacherForm({ initialSatate , requestType ,setSuccessAction}) {
 
@@ -40,10 +41,7 @@ export default function TeacherForm({ initialSatate , requestType ,setSuccessAct
       setTeacherDetails(initialSatate);
     }
 
-    setSuccessAction(true);
-    setTimeout(() => {
-      setSuccessAction(false);
-    }, 2000);
+    successActionLogic(setSuccessAction)
     if( type === 'PUT' ) {
       if(props.setUpdataBtnClicked == undefined ) {  // if i come from manage teacher page
         gotoPreviousPage('/TeachersDetails',{replace: true})
