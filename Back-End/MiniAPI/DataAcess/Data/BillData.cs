@@ -89,33 +89,40 @@ namespace DataAcess.Data
                 return jsonFormat;
             });
         }
-        public async Task<dynamic> GetStudentTotalPays(int studentId)
+        public async Task<dynamic> GetTotalPays(int? studentId, int? teacherId)
         {
-            var studentTotalRequired = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGet", new { Id = studentId })).FirstOrDefault()?.BillRequired ?? 0;
+            dynamic total;
+            dynamic paid;
 
-            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetStudentPays", new { studentId })).First() ?? 0;
+            if (studentId != null)
+            {
+                total = (await _db.LoadData<StudentModel, dynamic>("dbo.StudentGet", new { Id = studentId })).FirstOrDefault()?.BillRequired ?? 0;
+                paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetStudentPays", new { studentId })).First() ?? 0;
+            }
+            else if (teacherId != null)
+            {
+                total = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First() ?? 0;
+                paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First() ?? 0;
+            }
+            else 
+                throw new Exception("cannot get student and teacher pays together, please specifiy one");
 
             var res = new
             {
                 Paid = paid,
-                Required = studentTotalRequired - paid,
-                Total = studentTotalRequired
+                Required = total - paid,
+                Total = total
             };
+
             return res;
         }
-        public async Task<dynamic> GetTeacherTotalPays(int teacherId)
+        public Task<dynamic> GetStudentTotalPays(int studentId)
         {
-            var teacherTotalSalary = (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalTeacherSalary", new { teacherId })).First() ?? 0;
-
-            var paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First() ?? 0;
-
-            var res = new
-            {
-                Paid = paid,
-                Required = teacherTotalSalary - paid,
-                Total = teacherTotalSalary
-            };
-            return res;
+            throw new NotImplementedException("this function is not implemented anymore, and will be removed");
+        }
+        public Task<dynamic> GetTeacherTotalPays(int teacherId)
+        {
+            throw new NotImplementedException("this function is not implemented anymore, and will be removed");
         }
         public async Task<IEnumerable<BillModel>> GetStudentBills(int studentId)
         {

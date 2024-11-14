@@ -72,11 +72,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetAllTeachers(ITeacherData data)
+        private static async Task<IResult> GetAllTeachers(ITeacherData data, int? listSize, int page = 1)
         {
             try
             {
-                var res = await data.GetAllTeachers();
+                var res = await data.GetAllTeachers(listSize,page);
                 return Results.Ok(res);
             }
             catch (Exception e)

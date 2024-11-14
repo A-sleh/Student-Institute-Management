@@ -6,7 +6,7 @@ BEGIN
 	t.Id as TestId, t.Title, t.TestType, t.Date, t.CorrectionDate,
 	sbj.Id as SubjectId, sbj.Subject, sbj.Grade, sbj.MaximumMark
 	FROM Report r 
-	JOIN test t ON r.Id = t.ReportId
+	JOIN Test t ON r.Id = t.ReportId
 	JOIN TestMark ts ON t.Id = ts.TestId
 	JOIN Student s ON ts.StudentId = s.id
 	JOIN Subject sbj ON t.SubjectId = sbj.Id
