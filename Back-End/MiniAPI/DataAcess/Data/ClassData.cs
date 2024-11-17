@@ -136,7 +136,7 @@ namespace DataAcess.Data
                 classModel.Title,
                 classModel.Capacity,
                 classModel.Gender,
-                classModel.Grade
+                classModel.GradeId
             });
         public Task UpdateClass(ClassModel classModel)
         {
@@ -147,7 +147,7 @@ namespace DataAcess.Data
                 classModel.Title,
                 classModel.Capacity,
                 classModel.Gender,
-                classModel.Grade
+                classModel.GradeId
             });
         }
         public Task DeleteClass(int id)

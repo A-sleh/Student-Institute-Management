@@ -59,11 +59,11 @@ namespace MiniAPI.APIs
             app.MapDelete("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", DeleteTeacherFromClass);
         }
 
-        private static async Task<IResult> GetTeacherSubjects(ITeacherData data, string? grade)
+        private static async Task<IResult> GetTeacherSubjects(ITeacherData data, int? gradeId)
         {
             try
             {
-                var res = await data.GetTeacherSubjects(grade);
+                var res = await data.GetTeacherSubjects(gradeId);
                 return Results.Ok(res);
             }
             catch (Exception e)

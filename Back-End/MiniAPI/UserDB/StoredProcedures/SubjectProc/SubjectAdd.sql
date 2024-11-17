@@ -2,8 +2,8 @@
 	@SubjectId INT,
 	@Subject VARCHAR(100),
 	@MaximumMark INT,
-	@Grade varchar(20)
+	@GradeId int
 AS
-	INSERT INTO Subject(Subject, MaximumMark, Grade)
-	VALUES (@Subject, @MaximumMark, @Grade);
+	INSERT INTO Subject(Subject, MaximumMark, gradeId)
+	VALUES (@Subject, @MaximumMark, @GradeId);
 RETURN 0

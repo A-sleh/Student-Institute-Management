@@ -1,12 +1,21 @@
 ﻿GO
+if not exists (select 1 from [dbo].[Grade])
+BEGIN
+	INSERT INTO Grade(grade) VALUES
+	('bachelor'),
+	('ninth');
+END;
+
+
+GO
 if not exists (select 1 from [dbo].[class])
 BEGIN
-	INSERT INTO class(title, capacity, gender, grade)
+	INSERT INTO class(title, capacity, gender, gradeId)
 	VALUES
-	('A', 25, 'male', 'bachelor'),
-	('B', 20, 'female', 'bachelor'),
-	('C', 20, 'female', 'ninth'),
-	('D', 20, 'male', 'ninth');
+	('A', 25, 'male', 1),
+	('B', 20, 'female', 1),
+	('C', 20, 'female', 2),
+	('D', 20, 'male', 2);
 END;
 
 GO
@@ -24,19 +33,19 @@ END;
 GO
 if not exists (select 1 from [dbo].[Subject])
 BEGIN
-	INSERT INTO Subject(Subject.Subject, MaximumMark, Grade)
+	INSERT INTO Subject(Subject.Subject, MaximumMark, gradeId)
 	VALUES
-		('Math', 600, 'bachelor'),
-		('Arabic', 400, 'bachelor'),
-		('Science', 300, 'bachelor'),
-		('Physics', 400, 'bachelor'),
-		('English', 300, 'bachelor'),
-		('France', 300, 'bachelor'),
-		('Chimestry', 200, 'bachelor'),
-		('Religion', 200, 'bachelor'),
-		('History', 200, 'bachelor'),
-		('Math', 600, 'ninth'),
-		('Arabic', 600, 'ninth');
+		('Math', 600, 1),
+		('Arabic', 400, 1),
+		('Science', 300, 1),
+		('Physics', 400, 1),
+		('English', 300, 1),
+		('France', 300, 1),
+		('Chimestry', 200, 1),
+		('Religion', 200, 1),
+		('History', 200, 1),
+		('Math', 600, 2),
+		('Arabic', 600, 2);
 END;
 
 GO

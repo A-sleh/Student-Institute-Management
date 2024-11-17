@@ -1,12 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[TeacherSubjectGetAll]
-	@grade varchar(15) null
+	@gradeId int null
 AS
 	SELECT 
 	ts.Id as TeacherSubjectId, ts.Salary,
 	t.Id as TeacherId, t.Name, t.LastName, t.Phone,
-	s.Id as SubjectId, s.Subject, s.Grade, s.MaximumMark
+	s.Id as SubjectId, s.Subject, g.gradeId, g.grade, s.MaximumMark
 	FROM TeacherSubject ts
 	JOIN Teacher t ON ts.TeacherId = t.Id
 	JOIN Subject s ON ts.SubjectId = s.Id
-	WHERE s.Grade = @grade OR @grade IS NULL
+	LEFT OUTER JOIN Grade g ON s.gradeId = g.gradeId
+	WHERE g.gradeId = @gradeId OR @gradeId IS NULL
 RETURN 0

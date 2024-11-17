@@ -17,10 +17,10 @@ namespace DataAcess.Data
             this._db = _db;
         }
         #region Data Request
-        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(string? grade)
+        public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(int? gradeId)
         {
             var res = await _db.LoadData<dynamic, TeacherSubjectModel, TeacherModel, SubjectModel>(
-                "dbo.TeacherSubjectGetAll", new { grade },
+                "dbo.TeacherSubjectGetAll", new { gradeId },
                 (tsm, teacher, subject) =>
                 {
                     tsm.Subject = subject;
