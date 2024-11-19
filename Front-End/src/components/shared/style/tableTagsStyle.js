@@ -22,6 +22,9 @@ export const TableStyle = styled.table`
     border-spacing: 0;
     width: 100%;
     text-align: center !important;
+    &.class-full input[type='checkBox']:not(:checked) {
+        pointer-events: none;
+    }
 
     thead {
         position: relative;

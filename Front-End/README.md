@@ -190,15 +190,13 @@ Optimization nots :
     }
     - Search header 
 
- 1 - Bills [X] {
-        there are two page needed to optimize
-    }
- 2 - Tests [] 96% // there are a bug in update the mark
+ 1 - Bills [X] 100%
+ 2 - Tests [X] 100% // there are bug in show un correction test
  3 - students [X] 100%
- 4 - teachers [] 96%// there are a bug in update the capacity of the class
+ 4 - teachers [X] 100%
  5 - sidebar [X] 100%
  6 - navbar [X] 100%
- 7 - classes [] 90%
+ 7 - classes [X] 100% 
  8 - subject [X] 100%
 
 solve the proble: 

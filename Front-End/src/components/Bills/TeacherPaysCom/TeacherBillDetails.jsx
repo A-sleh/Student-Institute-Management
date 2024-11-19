@@ -1,55 +1,57 @@
-import { useEffect, useState } from "react"
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
+
+import { useMemo, useState } from "react"
+import { FillterBillsHeader } from "../../shared/FillterBillsHeader"
+import { GoBackBtnStyle } from "../../shared/style/styleTag"
+import { BILLSCOLUMNS } from "../../Teachers/columns/BillsColumn"
 import { useNavigate, useParams, useSearchParams, useLocation } from "react-router-dom"
-import DataServices from "../../../Data/dynamic/DataServices"
-import ShowClassDetails from "../../Classes/ShowClassDetails"
-import '../StudentsPaysCom/studnetPays.css'
-import { tBStyle, thStyle } from "../../Teachers/teacherInformation/TeacherSubjects"
-import { format } from "date-fns"
 import addSpaceBetweenDigit from "../../Global/globalStyle"
 import DeleteModal from "../../Modal/DeleteModal"
 import Notification from "../../Global/Notification"
-import { SeacherInputHeader } from "../StudentsPaysCom/StudentBillDetails"
+import HeaderInformation from "../../shared/HeaderInformation"
+import Table from "../../shared/Table"
+import useGetTeacherBills from "../../../hooks/useGetTeacherBills"
+import useTeacherInfo from "../../../hooks/useTeacherInfo"
 
 export default function TeacherBillDetails() {
 
     const teacherId = useParams().id
-    const fullName = useLocation().state.fullName
-    const type = useLocation().state.type
+    const BillsDecode = JSON.parse(decodeURIComponent( useLocation().state ))
+    const {specialState , name , lastName } = BillsDecode
+    const ManagePage = specialState == 'manage'
     const gotoPreviousPage = useNavigate();
-
-    const [teacherBills,setTeacherBills] = useState([])
-    const [teacherDetails,setTeacherDetails] = useState({}) 
+    // search states
     const [searchFiled,setSearchFiled] = useState('');
     const [radioState,setRadioState] = useState({
         billNo: true , 
         date: false ,
         note : false
     })
-    const [deleteModal,setdeleteModal] = useState(false)
-    const [successDeleteBill,setSuccessDeleteBill] = useState(false)
     const [selectedBillToDelete,setSelectedBillToDelete] = useState({
         billId :'' ,
         billNo : '' 
     })
+    // Notification state
+    const [deleteModal,setdeleteModal] = useState(false)
+    const [successDeleteBill,setSuccessDeleteBill] = useState(false)
+    // data states
+    const [teacherBills] = useGetTeacherBills(teacherId,successDeleteBill)
+    const [teacherDetails] = useTeacherInfo(teacherId,successDeleteBill) 
 
-    useEffect(() => {
-        DataServices.ShowTeacherBillsDetails(teacherId).then( Bills => {
-            setTeacherBills(Bills)
-        })
-            DataServices.ShowAllTeacherSubjects(teacherId).then( teacherSubject => {
-                let subjectsNumber = teacherSubject?.length , classessNumber = 0 , totalSalary = 0;
-                teacherSubject.forEach( teacherClass => {
-                    classessNumber += teacherClass.classes.length
-                    totalSalary += (teacherClass.salary * teacherClass.classes.length)
-                })
-                setTeacherDetails({
-                    subjectsNumber,
-                    classessNumber ,
-                    totalSalary
-                })
-            })
-    } ,[successDeleteBill])
-
+    const manageBillsColumn = useMemo(() => [
+        ...BILLSCOLUMNS,
+        {
+            Header: 'Action' ,
+            Cell: ({row}) => {
+                return <i className="bi bi-trash" style={{color: 'red',cursor: 'pointer'}}onClick={()=>handleDeleteClicked(row.original)}></i>                
+            }
+        }
+    ])
 
     function handleDeleteClicked(bill) {
         const {billNo,billId} = bill
@@ -60,97 +62,61 @@ export default function TeacherBillDetails() {
         })
     }
 
+    function FillterBills() {
+        return teacherBills.filter( bill => {
+            const {billNo,date,note} = bill
+
+            if(radioState.billNo && !`${billNo}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                return false
+            }
+            if(radioState.note && !`${note}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                return false 
+            }
+            if(radioState.date && !`${date}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+                return false
+            }
+            return true
+        })
+    }
+
+    const TeacherBillsFilterd = FillterBills()
+
+    const TeacherStatistics = [
+        {
+            title: "Name",
+            value: name + ' ' + lastName ,
+            icon: "fa-solid fa-user-group"
+        }, 
+        {
+            title: "Total salary",
+            value: addSpaceBetweenDigit(teacherDetails?.totalSalary?.total),
+            icon: "fa-solid fa-graduation-cap",
+        },
+        {
+            title: "Subjects Number",
+            value: teacherDetails?.teacherSubjects?.length,
+            icon: "fa-solid fa-graduation-cap",
+        },
+        {
+            title: "Classes Number",
+            value: teacherDetails?.teacherClasses ,
+            icon: "bi bi-building-fill-exclamation",
+        }
+    ]
+
     return (
         <>
             <Notification  title={'Delete bill'} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>
-            {deleteModal && 
-                <DeleteModal
-                element={selectedBillToDelete.billNo}
-                id={selectedBillToDelete}
-                type={"Bill"}
-                setDeleteModal={setdeleteModal}
-                setSuccessDelete={setSuccessDeleteBill}
-                />
+            {
+                deleteModal && 
+                <DeleteModal element={selectedBillToDelete.billNo} id={selectedBillToDelete} type={"Bill"} setDeleteModal={setdeleteModal} setSuccessDelete={setSuccessDeleteBill} />
             }
-            <div>
-                <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px' , padding: '10px' , margin: '10px 0'}}>
-                    <h3 >Teacher Details</h3>
-                    <div className="student-info-header"  >
-                        <ShowClassDetails
-                            title={"Name"}
-                            value={fullName}
-                            color={"#ffbc00"}
-                            icon={"fa-solid fa-user-group"}
-                        />
-                        <ShowClassDetails
-                            title={"Total salary"}
-                            value={addSpaceBetweenDigit(teacherDetails.totalSalary)}
-                            color={"#229edb"}
-                            icon={"bi bi-cash-coin"}
-                        /> 
-                        <ShowClassDetails
-                            title={"Subjects Number"}
-                            value={teacherDetails?.subjectsNumber}
-                            color={"#60ff00"}
-                            icon={"fa-solid fa-graduation-cap"}
-                        />
-                        <ShowClassDetails
-                            title={"Classes Number"}
-                            value={teacherDetails?.classessNumber}
-                            color={"#ff0000"}
-                            icon={"bi bi-building-fill-exclamation"}
-                        />
-                    </div>
-                </div>
-                <div style={{backgroundColor:'#f3f1f1d7' ,borderRadius: '5px' , padding: '10px' , margin: '10px 0'}}>
-                    <h3 style={{marginBottom: '10px'}}>Teacher bills</h3>
-                    <SeacherInputHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled}/>
-                    <table>
-                        <thead  style={{position: 'relative' , top: '-10px' }}>                    
-                            <tr>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Bill Number </th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Amount</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Date</th>
-                                <th style={{...thStyle,border: 'none' , padding: '15px' }}>Note</th>
-                                { type == 'manage' && <th style={{...thStyle,border: 'none' , padding: '15px' }}>Action</th>}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                teacherBills.map( bill => {
-                                    const {billNo,amount,date,note,billId} = bill
-
-                                    if(radioState.billNo && !`${billNo}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                        return 
-                                    }
-                                    if(radioState.note && !`${note}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                        return 
-                                    }
-                                    if(radioState.date && !`${date}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
-                                        return 
-                                    }
-                                    
-                                    return (
-                                        <tr >
-                                            <td style={tBStyle}>{billNo}</td>
-                                            <td style={tBStyle}>{addSpaceBetweenDigit(amount)}</td>
-                                            <td style={tBStyle}>{format( new Date(date) ,'yyyy / MM / dd' )}</td>
-                                            <td style={tBStyle}>{note}</td>
-                                            {
-                                                type == 'manage' &&
-                                                <td style={{padding: '15px' , backgroundColor: 'white' , margin: '5px 0' , border: 'none' }}>
-                                                    <i className="fa-regular fa-trash-can delete remove-student-btn" onClick={()=>handleDeleteClicked(bill)}></i>
-                                                </td>
-                                            }
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <button onClick={()=>{gotoPreviousPage(-1)}}  style={{padding: '2px 20px' , border: 'none', fontSize: '14px' , fontWeight: '500' , borderRadius: '5px', outline: 'none' , color: 'white' , backgroundColor: 'red' , cursor: 'pointer'}}>Back</button>
-            </div>
+            <HeaderInformation data={TeacherStatistics} title={'Teacher Details'}/>
+            <Table column={ManagePage ? manageBillsColumn : BILLSCOLUMNS} data={TeacherBillsFilterd} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} >
+                <FillterBillsHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled} />
+                <h3 style={{marginBottom: '10px'}}>Teacher bills</h3>
+            </Table>
+            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}}>Back</GoBackBtnStyle>
         </>
     )
 }

@@ -1,20 +1,36 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import DataServices from "../../../../Data/dynamic/DataServices"
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { format } from "date-fns"
-import Notification from "../../../Global/Notification"
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn"
-import Table from "../../../shared/Table"
 import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
+import DataServices from "../../../../Data/dynamic/DataServices"
+import Notification from "../../../Global/Notification"
+import Table from "../../../shared/Table"
+import useTestMarkStudents from "../../../../hooks/Test_hooks/useTestMarkStudents"
 
 export default function StudentMarkForm() {
     
+    const testId = useParams().testId
     const classDetailsEncode = useLocation().state
+    const gotoPage = useNavigate()
     const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode))
     const { title : classTitle,subject,date,testType,classId} = classDetailsDecode
-    const [marks,setMarks] = useState({})
+    // Notification states 
+    const [negativeFiled,setNegativeFiled] = useState(false)
+    const [successAssigne,setSuccessAssigne] = useState(false)
+    // data states
+    const inputRef = useRef(null)
+    const [inputId,setInputId] = useState(-1)
+    const [_,setReRender] = useState(0)
+    const [studentTest,marks,setMarks] = useTestMarkStudents(classId,testId,subject.maximumMark)
     
     const columns =  useMemo(()=>[
         ...TESTMARKCOLUMN
@@ -22,31 +38,15 @@ export default function StudentMarkForm() {
             Header : 'Action' ,
             Cell : ({row}) => {
                 const { testMarkId } = row.original
-                return <RowTest handleInputChange={handleInputChange} marks={marks} testMarkId={testMarkId} key={row.id}/>
+                console.log(inputId ,row.id )
+                return <input type="text" value={marks[testMarkId]} ref={ inputId == row.id  ? inputRef : undefined } onClick={()=>setInputId(row.id)} onChange={(e)=>{handleInputChange(e.target.value,testMarkId)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} /> 
             } 
         }
 
-    ],[marks])
-    
-    const [studentTest,setStudentTest] = useState([])
-    const [negativeFiled,setNegativeFiled] = useState(false)
-    const [successAssigne,setSuccessAssigne] = useState(false)
+    ],[marks,inputId])
 
-    const gotoPage = useNavigate()
-    const Ref = useRef(null)
-    const testId = useParams().testId
-    
-
-    useEffect(() => {
-        DataServices.ShowStudentsMarksInOneClass(classId,testId).then(students => {
-            setStudentTest(students.map(student=>({...student,maximumMark:subject.maximumMark})))
-            let testMark = new Map() ;
-            students.forEach( stduent => {
-                testMark[stduent.testMarkId] = stduent.mark || 0
-            })
-            setMarks(testMark)
-        })
-    } , [])
+    // to keep focus on the input field
+    useEffect(()=>{setReRender(1)},[marks,inputId])
 
     function validMarkInput() {
         const keys = Object.keys(marks) 
@@ -56,10 +56,10 @@ export default function StudentMarkForm() {
 
         for(let i = 0 ; i < keys.length ; ++ i ) {
             markStatus[keys[i]] = value[i] < 0 ;
-            notValid |= (value[i] < 0 ) ;
+            notValid |= (value[i] <= 0 ) ;
         }
 
-        setMarksValid(markStatus)
+        
 
         return !notValid ;
     }
@@ -89,25 +89,17 @@ export default function StudentMarkForm() {
         }
     }
 
-    function abdo(e) {
-        const fofo = setInterval((e) => {
-            e.focus()
-        } , 1000 )  
-        Ref.current = fofo
-    }
-
-    function handleInputChange(newValue,testMarkId,inputRef) {
+    function handleInputChange(newValue,testMarkId) {
         let newMaksObj = new Map() 
         newMaksObj = {...marks}
-        newMaksObj[testMarkId] = newValue.value
+        newMaksObj[testMarkId] = newValue
         setMarks(newMaksObj)
-        inputRef.current?.focus()
     }
 
-    // inputRef?.focus()
+    inputRef.current?.focus()
     
     return (
-        <>ShowClassDetails
+        <>
             <Notification  title={'All mark must be positive'} type={'error'} state ={negativeFiled} setState={setNegativeFiled}/>
             <Notification  title={'Assinge marks'} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
             <Table column={columns} data={studentTest||[]} showMainHeader={false}>
@@ -124,11 +116,4 @@ export default function StudentMarkForm() {
             </ButtonsContainerStyle>
         </>
     )
-}
-
-function RowTest({handleInputChange,marks,testMarkId}){
-    const inputRef = useRef(null)
-    
-    
-    return <input type="text" value={marks[testMarkId]} ref={inputRef} onChange={(e)=>{handleInputChange(e.target.value,testMarkId,inputRef)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} />
 }

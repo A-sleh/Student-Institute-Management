@@ -2,7 +2,7 @@
 import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useStudentBillsDetails(studentId) {
+export default function useStudentBillsDetails(studentId,...reFetch) {
 
     const [studentBills,setStudentBills] = useState([])
 
@@ -10,7 +10,7 @@ export default function useStudentBillsDetails(studentId) {
         DataServices.ShowStudentBillsDetails(studentId).then( bills => {
             setStudentBills(bills)
         })
-    } , [])
+    } , [...reFetch])
 
     return [studentBills]
 }

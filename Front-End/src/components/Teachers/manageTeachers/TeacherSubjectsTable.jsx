@@ -8,6 +8,7 @@ import { successActionLogic } from "../../shared/logic/logic.js";
 import { useMemo, useRef, useState } from "react";
 import { ButtonsContainerStyle } from "../../shared/style/styleTag.js";
 import { SUBJECTMANAGECOLUMN } from "../columns/SubjectManageColumn.js";
+import { useEffect } from "react";
 import DataServices from "../../../Data/dynamic/DataServices.js";
 import Notification from "../../Global/Notification.jsx";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
@@ -17,13 +18,16 @@ import Table from "../../shared/Table.jsx";
 export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject,successDeleteFromSubject}) {
 
     const salaryInput = useRef(null)    
+    const [_,setReRender] = useState(0)
+    // Notification states
     const [successUpdataSalary,setSuccessUpdataSalary] = useState(false)
     const [successDeleteSubject,setSuccessDeleteSubject] = useState(false)
-    const [subjects] = useTeacherSubjects(teacherId,successDeleteFromSubject,successUpdataSalary) ;
     const [errorDeleteSubject,setErrorDeleteSubject] = useState(false)
     const [deletModal,setDeleteModal] = useState(false)
-    const [updateBtn,setUpdataBtn] = useState(null) ;
+    // data states
+    const [subjects] = useTeacherSubjects(teacherId,successDeleteFromSubject,successUpdataSalary) ;
     const [salary,setSalary] = useState('')
+    const [updateBtn,setUpdataBtn] = useState(null) ;
     const [currentSubject,setCurrentSubject] = useState({
       id : '',
       title : ""
@@ -44,21 +48,23 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
             id : 'selection' ,
             Cell : ({row}) => {
               return ( 
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: 'flex-end' , paddingRight: '20px' }}>
-                      <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
-                      {
-                        updateBtn == row.id ?
-                          <ButtonsContainerStyle>
-                            <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
-                            <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
-                          </ButtonsContainerStyle>
-                        : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row)}}></i>
-                      }
-                  </div>
-          )}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: 'flex-end' , paddingRight: '20px' }}>
+                    <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
+                    {
+                      updateBtn == row.id ?
+                        <ButtonsContainerStyle>
+                          <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
+                          <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
+                        </ButtonsContainerStyle>
+                      : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row)}}></i>
+                    }
+                </div>
+            )}
         }
     ],[updateBtn,salary])
 
+    // to keep focus on the input field
+    useEffect(()=>{setReRender(1)},[salary])
 
     function handleApplyClicked(details) {
       DataServices.UpdataSubjectSalary(teacherId,details.subject.subjectId,salary).then(res=> {

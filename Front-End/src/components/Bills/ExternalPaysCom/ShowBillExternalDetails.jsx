@@ -7,7 +7,7 @@
 */
 
 import { CloseButtonStyle, SearchButtonStyle } from "../style/styleComponents";
-import { SeacherInputHeader } from "../StudentsPaysCom/StudentBillDetails";
+import { FillterBillsHeader } from "../../shared/FillterBillsHeader";
 import { useState } from "react"
 import Notification from "../../Global/Notification";
 import useInOutComeBills from "../../../hooks/useInOutComeBills";
@@ -31,9 +31,9 @@ export default function ShowBillExternalDetails() {
             <Notification  title={'Bill Delelte'} type={'success'} state ={successDelete} setState={setSuccessDelete}/>
             {
                 !openSearch ? <SearchButtonStyle onClick={()=>setOpenSearch(true)} >Search </SearchButtonStyle> : 
-                <SeacherInputHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled}>
+                <FillterBillsHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled}>
                     <CloseButtonStyle onClick={()=>{setOpenSearch(false);setSearchFiled('')}}> Close </CloseButtonStyle>
-                </SeacherInputHeader>
+                </FillterBillsHeader>
             }
             <BillsContainer bills={inComeBills} title={'In Come Bills'} radiofilter={radioState} searchInput={searchFiled} cardType={'show'} setSuccessDelete={setSuccessDelete} />
             <BillsContainer bills={outComeBills} title={'Out Come Bills'} radiofilter={radioState} searchInput={searchFiled} cardType={'show'} setSuccessDelete={setSuccessDelete} />

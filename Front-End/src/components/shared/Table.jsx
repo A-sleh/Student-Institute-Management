@@ -12,9 +12,10 @@ import { useMemo } from "react";
 
 
 export default function Table( props ) {
-
+    console.log('render')
+    
     const { data , column , children , setSelectedRows = ()=>{} , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { unableId = false , hiddenHeader = false, selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
+    const { unableId = false ,specialState = '' , hiddenHeader = false, preventAction = false, selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     const gotoPage = useNavigate() ;
     
     const { getTableProps, getTableBodyProps, headerGroups,prepareRow, rows, state, setGlobalFilter,selectedFlatRows} = useTable({
@@ -35,7 +36,7 @@ export default function Table( props ) {
             return 
         }
         if( url == 'unAble') return 
-        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
+        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify({...row,specialState}))})
         else gotoPage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
     }
 
@@ -53,7 +54,7 @@ export default function Table( props ) {
         <div style={{width: '100%'}}>  
             { renderHeader() }
             <TableContainerStyle >
-                <TableStyle {...getTableProps()} styleObj={styleObj}>
+                <TableStyle {...getTableProps()} styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
                     {   hiddenHeader ?  <></> :                     
                         <thead>
                             {headerGroups.map((headerGroup, index) => (

@@ -11,9 +11,9 @@ const  ExternalPays =  lazy(() => import( ".././components/Bills/ExternalPays.js
 const  AllBillDetails =  lazy(() => import( ".././components/Bills/AllBillDetails.jsx"))
 const  Test =  lazy(() => import( ".././components/Tests/Test.jsx"))
 const  CreateReport =  lazy(() => import( ".././components/Tests/CreateReport.jsx"))
-const  NewClass =  lazy(() => import( ".././components/Classes/NewClass.jsx"))
-const  ManageClasses =  lazy(() => import( ".././components/Classes/ManageClasses.jsx"))
-const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDetails.jsx"))
+const  NewClass =  lazy(() => import( ".././components/Classes/NewClass.page.jsx"))
+const  ManageClasses =  lazy(() => import( ".././components/Classes/ManageClasses.page.jsx"))
+const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDetails.page.jsx"))
 const  Subject =  lazy(() => import( ".././components/Subjects/Subject.jsx"))
 const  UpdateStudent =  lazy(() => import( ".././components/Students/NewStudent/UpdateStudent.jsx"))
 const  StudentInformation =  lazy(() => import( ".././components/Students/StudentInformation.jsx"))
@@ -204,7 +204,7 @@ const router = createBrowserRouter(
                             element:  <ManagTeacherBill />,
                         },
                         {
-                            path: 'TeacherBillDetails',
+                            path: 'TeacherBillDetails/:id',
                             element:  <TeacherBillDetails />,
                         },
                         {

@@ -5,7 +5,6 @@ export default function NewStudent() {
     name: "",
     lastName: "",
     fatherName: "",
-    birthdate: "",
     phone: "",
     missedDays: 0,
     billRequired: 0,

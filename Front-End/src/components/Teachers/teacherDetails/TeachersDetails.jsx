@@ -41,7 +41,7 @@ export default function TeachersDetails() {
               <i className="bi bi-person-lines-fill"></i>
             </Link>
             <Link
-              to={`/UpdateTeacher/${row.original.id}?data=${encodeURIComponent(JSON.stringify(row.original) )}`}
+              to={`/UpdateTeacher/${row.original.teacherId}?data=${encodeURIComponent(JSON.stringify(row.original) )}`}
               style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
             >
               <i className="bi bi-person-gear"></i>

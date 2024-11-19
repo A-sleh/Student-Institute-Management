@@ -18,7 +18,7 @@ export default function ManagStudentBill() {
     const [studentBillsBalance] = useGetStudentBills(fileterByClass)
 
     return (
-        <Table data={studentBillsBalance || []} column={COLUMNS} >
+        <Table data={studentBillsBalance || []} column={COLUMNS} idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
             <SubeHeaderFilterByClassName fileterByClass={fileterByClass} setFileterByClass={setFileterByClass}/>
         </Table>
     )

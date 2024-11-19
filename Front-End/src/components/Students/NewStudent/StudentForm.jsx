@@ -25,7 +25,6 @@ export default function StudentForm({title,requestType,studentInformation}) {
     name: false,
     lastName: false,
     fatherName: false,
-    birthdate: false,
     phone: false,
     missedDays: false,
     billRequired: false,
@@ -128,21 +127,12 @@ export default function StudentForm({title,requestType,studentInformation}) {
   }
 
   function validationInputsFeilds() {
-    const {
-      name,
-      lastName,
-      fatherName,
-      birthdate,
-      phone,
-      missedDays,
-      billRequired,
-    } = studentDetails;
+    const { name,lastName, fatherName, phone, missedDays, billRequired} = studentDetails;
 
     const nextStateValid = {
       name: name === "",
       lastName: lastName === "",
       fatherName: fatherName === "",
-      birthdate: birthdate === "",
       phone: phone === "" || phone.length != 10 || /[^0-9]/.test(phone),
       missedDays: missedDays < 0,
       billRequired: billRequired <= 0,
@@ -154,7 +144,6 @@ export default function StudentForm({title,requestType,studentInformation}) {
       name === "" ||
       lastName === "" ||
       fatherName === "" ||
-      birthdate === "" ||
       phone === "" ||
       phone.length != 10 ||
       missedDays < 0 ||
@@ -233,16 +222,10 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
             <FormRowStyle>
 
-              <FormSubRowStyle>
+              <FormSubRowStyle width={'100%'}>
                 <LabelStyle color={'#056699'}>Father Name</LabelStyle>
                 <InputStyle type="text" className={validation.fatherName ? "error" : ""} value={studentDetails.fatherName} onChange={(e) =>handleInputChange(e.target.value,'fatherName')} />
                 <ErrorMessage showMessage={validation.fatherName} message={"Pleas Enter The Father Name"}/>
-              </FormSubRowStyle>
-
-              <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>birthdate</LabelStyle>
-                <InputStyle type="date" className={validation.birthdate ? "error" : ""} value={studentDetails.birthdate} onChange={(e) =>handleInputChange(e.target.value,'birthdate')} />
-                <ErrorMessage showMessage={validation.birthdate} message={"Pleas Enter The Birth Days"}/>
               </FormSubRowStyle>
 
             </FormRowStyle>
@@ -333,7 +316,6 @@ export default function StudentForm({title,requestType,studentInformation}) {
             <main>
               <h3>Name : <span> {studentDetails.name} {studentDetails.lastName}</span></h3>
               <h3>Father :  <span> {studentDetails.fatherName} </span></h3>
-              <h3>Birth Date : <span> {studentDetails.birthdate} </span></h3>
               <h3>phone : <span> {studentDetails.phone} </span></h3>
               <h3>Bill Required : <span> {studentDetails.billRequired} </span></h3>
               <h3>Missed Days : <span> {studentDetails.missedDays} </span></h3>

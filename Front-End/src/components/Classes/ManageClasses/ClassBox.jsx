@@ -12,7 +12,7 @@ import Notification from "../../Global/Notification"
 import Table from "../../shared/Table";
 
 export default function  ClassBox({currentClass,numberOfSelectedStudents,selectedStudents}) {
-
+    console.log('render-parent')
     // Notification states
     const [successUpdate,setSuccessUpate] = useState(false) ;
     const [classWarning,setClassWarning] = useState(false);
@@ -25,6 +25,7 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
     const [validation,setValidation] = useState(false) 
     const [resize,setResize] = useState(false)
     const gotoManageClassPage = useNavigate() ;
+    const [_,setReRender] = useState(0)
     
     useEffect(() => {
         DataServices.showCalsses().then((Classes) => {
@@ -34,6 +35,8 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
         })
     } , [successUpdate] )
 
+    // to keep focus on the input field
+    useEffect(()=>{setReRender(1)},[capacity])
 
     const columns = useMemo(()=> [
         ...ClassColumns , 
@@ -67,7 +70,7 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
     ],[numberOfSelectedStudents,resize,capacity])
 
     function handleInputChange(value) {
-        setCapacity(value) ; 
+        setCapacity(value) 
     }
     
     function handleCancelClicked() {
@@ -124,7 +127,7 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
                 gotoManageClassPage('/ManageClasses' , {replace: true})
             } , 2000 )
         })
-    }   
+    } 
 
     capacityInput.current?.focus();
 

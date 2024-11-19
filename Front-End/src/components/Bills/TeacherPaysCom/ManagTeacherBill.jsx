@@ -14,7 +14,7 @@ export default function ManagTeacherBill() {
 
     return(
         <>
-            <Table data={teacherDetails || []} column={COLUMNS} />
+            <Table data={teacherDetails || []} column={COLUMNS} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
         </>
     )
 }

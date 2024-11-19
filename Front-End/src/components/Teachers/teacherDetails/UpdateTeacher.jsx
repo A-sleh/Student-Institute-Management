@@ -25,7 +25,7 @@ export default function UpdateTeacher() {
         <>
             <Notification  title={'Update Teacher Information'} type={'success'} state ={successUpdateTeacher} setState={setSuccessUpdateTeacher} />
             <Title title={window.location.pathname} />
-            <TeacherForm  initialSatate={teacherInfo}  type ={'PUT'} setSuccessAction={setSuccessUpdateTeacher}/>
+            <TeacherForm  initialSatate={teacherInfo}  requestType ={'PUT'} setSuccessAction={setSuccessUpdateTeacher}/>
         </>
     )
 }

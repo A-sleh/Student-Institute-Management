@@ -5,9 +5,9 @@
   
 */
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { HeightContainerAnimation } from "../Tests/CreateTestTools/EmentsStyle";
-import { FlexContainerStyle } from "../shared/style/styleTag";
+import { FlexContainerStyle, GoBackBtnStyle } from "../shared/style/styleTag";
 import { QuizExamContainerStyle } from "../Tests/style/styleTage";
 import { useState } from "react";
 import Title from "../Global/Title";
@@ -22,6 +22,7 @@ import useStudentTestsNotAddedToReport from "../../hooks/useStudentTestsNotAdded
 export default function StudentInformation() {
 
   const studentId = useParams().id
+  const gotoPage = useNavigate()
   const [selectedReport,setSelectedReport] = useState({})
   const [reportQuiz,reportExam] = useStudentReportTests(studentId,selectedReport.reportId)
   const [quiz,exam] = useStudentTestsNotAddedToReport(studentId)
@@ -48,6 +49,7 @@ export default function StudentInformation() {
             <ShowTestTable title={'exam'} tests={selectedReport.reportId == undefined ? exam : reportExam }/>
           </QuizExamContainerStyle>
         </HeightContainerAnimation>
+        <GoBackBtnStyle onClick={()=>gotoPage(-1,{replace: true})}>Go Backe</GoBackBtnStyle>
     </>
   );
 }

@@ -150,8 +150,6 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                     <option value=""></option>
                                     <option value="QUIZ">QUIZ</option>
                                     <option value="EXAM">EXAM</option>
-                                    <option value="REVISION">REVISION</option>
-                                    <option value="FINAL">FINAL</option>
                                 </FormSelectdStyle>
                                 <ErrorMessage showMessage={validation.testType} message={"You must select test type"}/>
                             </FormSubRowStyle>

@@ -1,11 +1,13 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 import React, { useEffect, useState} from "react";
-import DataServices from "./../../Data/dynamic/DataServices";
+import DataServices from "../../Data/dynamic/DataServices";
 import ClassSetting from "./ManageClasses/ClassSetting";
 import Notification from "../Global/Notification";
 import Title from "../Global/Title";
-import "./class.css";
-
-
 
 export default function ManageClasses() {
 

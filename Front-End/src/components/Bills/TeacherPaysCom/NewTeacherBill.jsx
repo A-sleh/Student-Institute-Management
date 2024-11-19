@@ -10,7 +10,7 @@ import DataServices from '../../../Data/dynamic/DataServices';
 import Notification from '../../Global/Notification';
 import ErrorMessage from '../../shared/ErrorMessage';
 import SearchBodyList from '../../shared/SearchBodyList';
-import { errorActionLogic } from '../../shared/logic/logic';
+import { errorActionLogic, successActionLogic } from '../../shared/logic/logic';
 
 const initialFormInput = { 
     teacher: {
@@ -36,7 +36,7 @@ export default function NewBill() {
         teacherId: '' ,
         date: '' ,
         billNo: '',
-amount: '' 
+        amount: '' 
     })
 
     // search input field functionality 
@@ -100,7 +100,7 @@ amount: ''
     
     return (
         <>
-            <Notification  title={'Add student bill'} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>
+            <Notification  title={'Add Teacher bill'} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>
             <Notification  title={'Bill number is exist already ,Please change it'} type={'error'} state ={errorAddBill} setState={setErrorAddBill}/>
             <FormMainContainer >
                 <FormStyle onSubmit={(e)=> handleSubmitClicked(e)}>

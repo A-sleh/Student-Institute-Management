@@ -13,7 +13,7 @@ export default function ShowBillTeacherDetails() {
     const [teacherDetails] = useGetTeachersBills()
 
     return (
-        <Table data={teacherDetails || []} column={COLUMNS} />
+        <Table data={teacherDetails || []} column={COLUMNS} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} />
     )
 }
 

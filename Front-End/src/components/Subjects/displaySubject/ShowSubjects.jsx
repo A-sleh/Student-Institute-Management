@@ -23,7 +23,7 @@ export default function ShowSubjects() {
         {
             Header: 'Action' ,
             Cell: ({row}) => {
-                return <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px',color: 'red' }}></i>
+                return <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ cursor: "pointer" ,fontSize: '16px',color: 'red' }}></i>
             }
         }
     ], [])

@@ -57,7 +57,7 @@ export const SideBarListStyle = styled.ul`
 
 
 
-    & .list.active {
+    & .list a.active {
         font-weight: 600;
         background-color: white;
         color: black; 
@@ -115,7 +115,7 @@ export const SideBarListStyle = styled.ul`
         &.active ,
         &:has(+ ul .list.active ) {
             font-weight: 600;
-            background-color: white;
+            background-color: white ;
             color: black;
 
             & .linkTitle {
@@ -160,9 +160,11 @@ export const SideBarListStyle = styled.ul`
         }
 
         &.active + ul , &:has(+ ul .list.active ) + ul {
-            height: 100%; 
+            // height: 100%;
+                grid-template-rows : 1fr ; 
             margin-top: 12px;
         }
+
         &.active:first-child ,&:first-child:has(+ ul .list.active ) {
             margin-top: 18px;
         }
@@ -183,10 +185,12 @@ export const SideBarSubListStyle = styled.ul`
     overflow: hidden;
     margin-top: 0px;
     margin-bottom: 10px;
-    position: relative;
     transform-origin: top;
     height: 0;
+    display: grid ; 
+    grid-template-rows : 0 ;
 `
+
 export const CloseBtnForMobileScreen = styled.i`
     font-size: 24px;
     color: white ;
