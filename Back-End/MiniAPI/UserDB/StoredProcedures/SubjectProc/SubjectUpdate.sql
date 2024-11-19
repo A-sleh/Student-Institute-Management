@@ -2,12 +2,12 @@
 	@SubjectId INT,
 	@Subject VARCHAR(100),
 	@MaximumMark INT,
-	@Grade varchar(20)
+	@GradeId int
 AS
 BEGIN
 	UPDATE Subject
 	SET Subject = @Subject,
 		MaximumMark = @MaximumMark,
-		Grade = @Grade
+		gradeId = @GradeId
 	WHERE Id = @SubjectId;
 END

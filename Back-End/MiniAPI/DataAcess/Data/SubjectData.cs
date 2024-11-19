@@ -30,10 +30,17 @@ namespace DataAcess.Data
                 subject.SubjectId,
                 subject.Subject,
                 subject.MaximumMark,
-                subject.Grade
+                subject.GradeId
             });
+
         public Task UpdateSubject(SubjectModel subject) =>
-            _db.ExecuteData("dbo.SubjectUpdate", subject);
+            _db.ExecuteData("dbo.SubjectUpdate", new
+            {
+                subject.SubjectId,
+                subject.Subject,
+                subject.MaximumMark,
+                subject.GradeId
+            });
         public Task DeleteSubject(int id) =>
             _db.ExecuteData("dbo.SubjectDelete", new { Id = id });
     }

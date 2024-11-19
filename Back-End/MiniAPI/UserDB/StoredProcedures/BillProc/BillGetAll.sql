@@ -2,11 +2,11 @@
 	@Limit int null,
 	@Type varchar(15) null,
 	@orderingType varchar(10) null,
-	@orderBy varchar(30) null
+	@orderBy varchar(255) null
 AS
 	if(@Limit is null)
 		set @Limit = 1000
-	declare @declare nvarchar(128) = 'DECLARE @Limit int = ' + CAST(@Limit AS nvarchar(10));
+	declare @declare nvarchar(128) = 'DECLARE @Limit int = ' + CAST(@Limit AS nvarchar(5));
 	declare @non nvarchar(128) = '1 = 1';
 	declare @teacher nvarchar(128) = 'b.TeacherId is not null';
 	declare @student nvarchar(128) = 'b.StudentId is not null';

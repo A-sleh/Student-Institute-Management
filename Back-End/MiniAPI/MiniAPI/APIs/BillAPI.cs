@@ -55,7 +55,6 @@ namespace MiniAPI.APIs
 
         }
 
-
         private static async Task<IResult> GetRestOf(IBillData data, string type)
         {
             try
@@ -122,11 +121,25 @@ namespace MiniAPI.APIs
             }
         }
 
+        /// <summary>
+        /// <item>Gets totals for specified student</item>
+        /// <item>based on <paramref name="studentId"/></item>
+        /// </summary>
+        /// <param name="data">data implementing interface</param>
+        /// <param name="type">balance type (income/outcome)</param>
+        /// <returns>
+        /// dynamic object with memebers:
+        /// <list type="table">
+        /// <item>Paid</item>
+        /// <item>Required</item>
+        /// <item>Total</item>
+        /// </list>
+        /// </returns>
         private static async Task<IResult> GetStudentTotalPays(IBillData data, int studentId)
         {
             try
             {
-                var res = await data.GetStudentTotalPays(studentId);
+                var res = await data.GetTotalPays(studentId, null);
                 return Results.Ok(res);
             }
             catch (Exception e)
@@ -135,11 +148,25 @@ namespace MiniAPI.APIs
             }
         }
 
+        /// <summary>
+        /// <item>Gets totals for specified teacher</item>
+        /// <item>based on <paramref name="teacherId"/></item>
+        /// </summary>
+        /// <param name="data">data implementing interface</param>
+        /// <param name="type">balance type (income/outcome)</param>
+        /// <returns>
+        /// dynamic object with memebers:
+        /// <list type="table">
+        /// <item>Paid</item>
+        /// <item>Required</item>
+        /// <item>Total</item>
+        /// </list>
+        /// </returns>
         private static async Task<IResult> GetTeacherTotalPays(IBillData data, int teacherId)
         {
             try
             {
-                var res = await data.GetTeacherTotalPays(teacherId);
+                var res = await data.GetTotalPays(null, teacherId);
                 return Results.Ok(res);
             }
             catch (Exception e)
