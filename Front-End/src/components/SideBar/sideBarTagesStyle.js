@@ -19,7 +19,7 @@ export const SideBarListStyle = styled.ul`
     top: 10%;
     width: 100%;
 
-    & .list ,& .main-list ,& .list a {
+    & .list , & .main-list , & .list a {
         position: relative;
         padding: 9px 0px;
         display: flex;
@@ -106,14 +106,13 @@ export const SideBarListStyle = styled.ul`
         }
     }
 
-    & .main-list {
+    .main-list {
 
-        &:has(+ ul .list.active ) .down-arrow  {
+         .down-arrow  {
             color: white;
         }
 
-        &.active ,
-        &:has(+ ul .list.active ) {
+        &.active , & + ul .list.active , &:has(+ ul .list.active )   {
             font-weight: 600;
             background-color: white ;
             color: black;
@@ -160,8 +159,7 @@ export const SideBarListStyle = styled.ul`
         }
 
         &.active + ul , &:has(+ ul .list.active ) + ul {
-            // height: 100%;
-                grid-template-rows : 1fr ; 
+            height: 100%;
             margin-top: 12px;
         }
 
@@ -187,8 +185,6 @@ export const SideBarSubListStyle = styled.ul`
     margin-bottom: 10px;
     transform-origin: top;
     height: 0;
-    display: grid ; 
-    grid-template-rows : 0 ;
 `
 
 export const CloseBtnForMobileScreen = styled.i`
