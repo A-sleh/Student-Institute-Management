@@ -190,5 +190,19 @@ Optimization nots :
     }
     - Search header 
 
-    style : 
-        -  do global button style ( add , create , confirm , go back )
+ 1 - Bills [X] 100%
+ 2 - Tests [X] 100% // there are bug in show un correction test
+ 3 - students [X] 100%
+ 4 - teachers [X] 100%
+ 5 - sidebar [X] 100%
+ 6 - navbar [X] 100%
+ 7 - classes [X] 100% 
+ 8 - subject [X] 100%
+
+solve the proble: 
+1 - create a parent state to catch the focus input 
+2 - when i click on the input field i will change the parent state to be contain the focused field
+3 - 
+
+
+

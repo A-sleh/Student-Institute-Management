@@ -2,15 +2,21 @@ import {Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Suspense } from "react";
 import { SideBarStyle } from "./components/SideBar/sideBarTagesStyle";
+import { QueryClient ,QueryClientProvider } from "react-query";
 import SidBar from "./components/SideBar/SidBar";
 import NavBar from "./components/NavBar/NavBar";
 
 export default function App() {
 
   const [openSideBare, setOpenSideBare] = useState(true);
+  const queryClient = new QueryClient()
 
   return (
+<<<<<<< HEAD
     
+=======
+    <QueryClientProvider client={queryClient}>
+>>>>>>> af58ace8da3c6858e6aa399509f952c453753c5f
       <div style={{ display: "flex", position: "relative"}}>
 
         <SideBarStyle openSideBare={openSideBare}>
@@ -27,6 +33,10 @@ export default function App() {
         </main>
 
       </div>
+<<<<<<< HEAD
     
+=======
+    </QueryClientProvider>
+>>>>>>> af58ace8da3c6858e6aa399509f952c453753c5f
   );
 }

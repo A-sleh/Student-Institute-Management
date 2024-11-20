@@ -34,8 +34,8 @@ JSON FORMAT EDITED AT:
 
 JSON FORMAT EDITED AT:
 /Test/{testId}
-FROM :				      TO:
-[				              [
+FROM :				        TO:
+[				                [
   {				                {	
     "testMarkId": 1,		      "testMarkId": 1,	
     "student": {		          "mark": 600,
