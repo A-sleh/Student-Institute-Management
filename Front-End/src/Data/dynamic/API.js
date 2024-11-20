@@ -103,7 +103,6 @@ export default {
       return  fetch(`${URL}/Teacher/${id || ''}`).then((response) =>{
         return response.json()
       }
-
       );
     },
     post: (data) => {
@@ -368,6 +367,22 @@ export default {
           response.json()
         );
       },
+      AllStudentsMarkInCurrentReport : (reportId,classId) => {
+        return fetch(`${URL}/Report/${reportId}/Class/${classId}/Result`).then((response) =>
+          response.json()
+        );
+      },      
+      AllReportsAvgInCurrentClass : (classId) => {
+        return fetch(`${URL}/Report/Class/Average?classId=${classId}`).then((response) =>
+          response.json()
+        );
+      },      
+      StudentReports : (studentId) => {
+        return fetch(`${URL}/Report/Student/${studentId}/Result`).then((response) =>
+          response.json()
+        );
+      }
+
     },
     post: (data) => {
       return fetch(`${URL}/Report`, {

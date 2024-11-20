@@ -10,14 +10,13 @@ import {Provider} from 'react-redux'
 import router from "./Router/router.jsx";
 
 
-// addEventListener('beforeunload',(e)=> {
-//   e.preventDefault();
-// })
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <RouterProvider router={router}>
       <App />
+      
     </RouterProvider>
   </Provider>
 );

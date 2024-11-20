@@ -8,7 +8,7 @@ import SideBarLinks from "./RenderSideBarLink.jsx";
 import { CloseBtnForMobileScreen, SideBarContainerStyle, SideBarListStyle } from "./sideBarTagesStyle.js";
 
 export default function SidBar({setOpenSideBare}) {
-  console.log('render-side-bar')
+
   return (
     <SideBarContainerStyle >
 

@@ -1,6 +1,6 @@
 import { lazy } from "react"
 const  Statistics =  lazy(() => import( ".././components/Statistics/Statistics"))
-const  NewStudent =  lazy(() => import( ".././components/Students/NewStudent.jsx"))
+const  NewStudent =  lazy(() => import( "../components/Students/NewStudent/NewStudent.jsx" ))
 const  StudentsDetails =  lazy(() => import( ".././components/Students/StudentsDetails.jsx"))
 const  NewTeacher =  lazy(() => import( ".././components/Teachers/newTeacher/NewTeacher.jsx"))
 const  ManageTeacher =  lazy(() => import( ".././components/Teachers/manageTeachers/ManageTeacher.jsx"))
@@ -11,14 +11,14 @@ const  ExternalPays =  lazy(() => import( ".././components/Bills/ExternalPays.js
 const  AllBillDetails =  lazy(() => import( ".././components/Bills/AllBillDetails.jsx"))
 const  Test =  lazy(() => import( ".././components/Tests/Test.jsx"))
 const  CreateReport =  lazy(() => import( ".././components/Tests/CreateReport.jsx"))
-const  NewClass =  lazy(() => import( ".././components/Classes/NewClass.jsx"))
-const  ManageClasses =  lazy(() => import( ".././components/Classes/ManageClasses.jsx"))
-const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDetails.jsx"))
+const  NewClass =  lazy(() => import( ".././components/Classes/NewClass.page.jsx"))
+const  ManageClasses =  lazy(() => import( ".././components/Classes/ManageClasses.page.jsx"))
+const  ClassesDetails =  lazy(() => import( ".././components/Classes/ClassesDetails.page.jsx"))
 const  Subject =  lazy(() => import( ".././components/Subjects/Subject.jsx"))
-const  UpdateStudent =  lazy(() => import( ".././components/Students/UpdateStudent.jsx"))
+const  UpdateStudent =  lazy(() => import( ".././components/Students/NewStudent/UpdateStudent.jsx"))
 const  StudentInformation =  lazy(() => import( ".././components/Students/StudentInformation.jsx"))
-const  InsertNewStudent =  lazy(() => import( ".././components/Classes/InsertNewStudent.jsx"))
-const  MoveStudentsToAnotherClass =  lazy(() => import( ".././components/Classes/MoveStudentsToAnotherClass.jsx"))
+const  InsertNewStudent =  lazy(() => import( ".././components/Classes/ManageClasses/InsertNewStudent.jsx"))
+const  MoveStudentsToAnotherClass =  lazy(() => import( ".././components/Classes/ManageClasses/MoveStudentsToAnotherClass.jsx"))
 const  UpdateTeacher =  lazy(() => import( ".././components/Teachers/teacherDetails/UpdateTeacher.jsx"))
 const  TeacherInformation =  lazy(() => import( ".././components/Teachers/teacherInformation/TeacherInformation.jsx"))
 const  TeacherNewClass =  lazy(() => import( ".././components/Teachers/manageTeachers/TeacherNewClass.jsx"))
@@ -37,7 +37,6 @@ const  ShowBillExternalDetails =  lazy(() => import( ".././components/Bills/Exte
 const  NewTest =  lazy(() => import( ".././components/Tests/CreateTestTools/NewTest/NewTest.jsx"))
 const  ShowAllTest =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/ShowAllTest.jsx"))
 const  RecevingMarkes =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/RecevingMarkes.jsx"))
-const  ClassesTestDetails =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/ClassesTestDetails.jsx"))
 const  StudentTestDetails =  lazy(() => import( ".././components/Tests/CreateTestTools/ShowAllTest/StudentTestDetails.jsx"))
 const  TestClassCurrent =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/TestClassCurrent.jsx"))
 const  StudentMarkForm =  lazy(() => import( ".././components/Tests/CreateTestTools/AssineMarke/StudentMarkForm.jsx"))
@@ -46,14 +45,16 @@ const  ManageReports =  lazy(() => import( ".././components/Tests/CreateReportTo
 const  ReportDetails =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ReportDetails.jsx"))
 const  PrintReport =  lazy(() => import( ".././components/Tests/CreateReportTools/Print Report/PrintReport.jsx"))
 const  LinkTestWithReport =  lazy(() => import( ".././components/Tests/CreateReportTools/ManageReport/LinkTestWithReport.jsx"))
-const  ShowClassReports =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ShowClassReports.jsx"))
+const  ShowClassReports =  lazy(() => import( "../components/Tests/CreateReportTools/Report details/ClassReports.jsx"))
 const  ReportClassDetails =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/ReportClassDetails.jsx"))
 const  StudentReportTests =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/StudentReportTests.jsx"))
-const  RemoveTeachersFromClass =  lazy(() => import( ".././components/Classes/RemoveTeachersFromClass.jsx"))
+const  RemoveTeachersFromClass =  lazy(() => import(".././components/Classes/ManageClasses/RemoveTeachersFromClass.jsx"))
 const  ClassReportPrint =  lazy(() => import( ".././components/Tests/CreateReportTools/Print Report/ClassReportPrint.jsx"))
 
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx"
+import NewSubjectForm from "../components/Subjects/NewSubject/NewSubjectForm.jsx"
+import ShowSubjects from "../components/Subjects/displaySubject/ShowSubjects.jsx"
 
 
 const router = createBrowserRouter(
@@ -129,6 +130,20 @@ const router = createBrowserRouter(
                 {
                     path: 'Subject',
                     element: <Subject />,
+                    children : [
+                        {
+                            element: <NewSubjectForm />,
+                            index: true,
+                        },
+                        {
+                            path: 'NewSubject', 
+                            element: <NewSubjectForm />
+                        },
+                        {
+                            path: 'ShowSubjects', 
+                            element: <ShowSubjects />
+                        }
+                    ]
                 },
                 {
                     path: '/StudentInformation/:id',
@@ -159,7 +174,7 @@ const router = createBrowserRouter(
                             element:  <ShowBillStudentDetails />,
                         },
                         {
-                            path: 'StudentBillDetails',
+                            path: 'StudentBillDetails/:id',
                             element:  <StudentBillDetails />,
                         },
                         {
@@ -189,7 +204,7 @@ const router = createBrowserRouter(
                             element:  <ManagTeacherBill />,
                         },
                         {
-                            path: 'TeacherBillDetails',
+                            path: 'TeacherBillDetails/:id',
                             element:  <TeacherBillDetails />,
                         },
                         {
@@ -241,10 +256,6 @@ const router = createBrowserRouter(
                             element:  <RecevingMarkes />,
                         },
                         {
-                            path: 'ClassesTestDetails/:testId',
-                            element:  <ClassesTestDetails />,
-                        },
-                        {
                             path: 'StudentTestDetails/:classId',
                             element:  <StudentTestDetails />,
                         },
@@ -283,7 +294,7 @@ const router = createBrowserRouter(
                             element:  <ClassReportPrint />,
                         },
                         {
-                            path: 'ReportClassDetails/:reportId',
+                            path: 'ReportClassDetails/:classId',
                             element:  <ReportClassDetails />,
                         },
                         {

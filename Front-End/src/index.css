@@ -9,3 +9,9 @@
   display: none;
 }
 
+@property --_w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw;
+}
+

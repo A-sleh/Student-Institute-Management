@@ -156,9 +156,16 @@ export const FormInputFieldStyle = styled.input.attrs( ({type}) =>({
     border-bottom: 1px solid transparent;
     background-color: #dddddd85;
     box-shadow: 0 0 10px -5px gray inset;
+    min-width: 250px;
     outline: none;
     &.error {
         border-bottom: 1px solid red;
+    }
+
+    @media (max-width : 767px ) {
+        & {
+            width: 100%;
+        }
     }
 `
 

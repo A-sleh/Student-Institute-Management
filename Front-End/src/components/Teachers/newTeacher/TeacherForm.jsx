@@ -1,4 +1,3 @@
-
 /***  
   CSS-OPTIMAIZATION : DONE , 
   COMPONENTS OPTIMIZATION : DONE ,
@@ -6,15 +5,17 @@
   
 */
 
-import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/styleTag";
+import { ButtonsContainerStyle, FormMainContainer, FormRowStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
+import { successActionLogic } from "../../shared/logic/logic";
 
-export default function TeacherForm({ initialSatate , requestType ,setSuccessAction}) {
+export default function TeacherForm(props) {
 
+  const { initialSatate , requestType ,setSuccessAction} = props
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
   const gotoPreviousPage = useNavigate();
   const [validation, setValidation] = useState({
@@ -37,15 +38,12 @@ export default function TeacherForm({ initialSatate , requestType ,setSuccessAct
 
   function handleSuccessRequest() {
 
-    if( type === 'POST' ) { // To Reest input feild if we use form to create new teacher
+    if( requestType === 'POST' ) { // To Reest input feild if we use form to create new teacher
       setTeacherDetails(initialSatate);
     }
 
-    setSuccessAction(true);
-    setTimeout(() => {
-      setSuccessAction(false);
-    }, 2000);
-    if( type === 'PUT' ) {
+    successActionLogic(setSuccessAction)
+    if( requestType === 'PUT' ) {
       if(props.setUpdataBtnClicked == undefined ) {  // if i come from manage teacher page
         gotoPreviousPage('/TeachersDetails',{replace: true})
       }
@@ -74,7 +72,7 @@ export default function TeacherForm({ initialSatate , requestType ,setSuccessAct
 
     const flag = validationInputsFeilds();
     if (!flag) {
-      switch (type) {
+      switch (requestType) {
         case "POST":
           DataServices.AddNewTeacher(teacherDetails).then((_) => {
             handleSuccessRequest();
@@ -86,7 +84,6 @@ export default function TeacherForm({ initialSatate , requestType ,setSuccessAct
           });
           break;
         default:
-          // UnValid Input
           break;
       }
     }

@@ -1,6 +1,5 @@
-import { format } from "date-fns";
 
-export const COL = [
+export const STUDENTCOLUMN = [
   {
     Header: "Name",
     accessor: "full_name",
@@ -8,13 +7,6 @@ export const COL = [
   {
     Header: "Father Name",
     accessor: "fatherName",
-  },
-  {
-    Header: "Birth Date",
-    accessor: "birthdate",
-    Cell: ({ value }) => {
-      return format(new Date(value), "yyyy / MM / dd");
-    },
   },
   {
     Header: "Phone",

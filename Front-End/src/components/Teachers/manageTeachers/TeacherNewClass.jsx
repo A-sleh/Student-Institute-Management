@@ -1,19 +1,29 @@
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import { ButtonsContainerStyle, FormStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import { useEffect, useMemo, useState } from "react";
-import Title from "../../Global/Title";
-import { TableHeaderControal, TeacherHeader } from "./TeacherNewSubject";
-import DataServices from "../../../Data/dynamic/DataServices";
+import { TeacherSubDetails } from "./TeacherSubDetails";
+import { CLASSDETAILSCOLUMN } from "../columns/ClassDetailsColumn";
+import { FilterGradeHeader } from "../../shared/subHeaderTable/FilterGradeHeader";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useRowSelect, useTable } from "react-table";
-import { theadThStyle } from "../../Global/globalStyle";
+import Title from "../../Global/Title";
+import DataServices from "../../../Data/dynamic/DataServices";
 import Notification from "../../Global/Notification";
+import Table from "../../shared/Table";
 
 export default function TeacherNewClass() {
 
-    const teacherId = useParams().id ;  
+    // if i came from add new teacher class from manage class page to show all subject 
     const classId = useLocation()?.state?.ClassId || undefined;
     const classTitle = useLocation()?.state?.classTitle || undefined;
     const grade = useLocation()?.state?.grade || undefined;
 
+    // to manage a single teacher 
+    const teacherId = useParams().id ;  
     const gotoPreviousPage = useNavigate();
     const [currentSubjectClass,setCurrentSubjectClass] = useState({}) ;
     const [compareGrade,setCompareGrade] = useState(false)
@@ -85,6 +95,7 @@ export default function TeacherNewClass() {
 
     function handleAddClicked() {
         if(selectedClass.grade != selectedSubject.subject.grade) {
+            
             setCompareGrade(true) ;
             setTimeout(() => {
                 setCompareGrade(false)
@@ -151,7 +162,10 @@ export default function TeacherNewClass() {
             <Notification title={'have been seleted already'} type={'error'} state ={teacherClassAlreadySeleted} setState={setTeacherClassAlreadySeleted} />
             <Notification title={'Teacher was added to all selected classes'} type={'success'} state ={successAddTeacherToClass} setState={setSuccessAddTeacherToClass} />
             <Title title={window.location.pathname} />
-            <TeacherHeader teacherDetails={teacherDetails}/>
+
+            {
+                teacherId != 'all' && <TeacherSubDetails teacherDetails={teacherDetails}/>
+            }
             <div style={{display: 'flex' , gap: '10px' , flexWrap : 'wrap'}}>
                 <div style={{flex: '4 1 3em'}}>
                     <SubjectsTable subjects={teacherSubjects} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject} AllTeachers={classId != undefined}/>
@@ -161,7 +175,11 @@ export default function TeacherNewClass() {
                     <TeacherClassSelected selectedTeacherClass={selectedTeacherClass} setSelectedTeacherClass={setSelectedTeacherClass} handleConfirmClicked={handleConfirmClicked}/>
                 </div>
             </div>
-            <ControlButtons gotoPreviousPage={gotoPreviousPage} handleAddClicked={handleAddClicked}/>
+
+            <ButtonsContainerStyle>
+                <SubmitBtnStyle onClick={()=>{handleAddClicked()}}>Add</SubmitBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1,{replace: true})}} >Go back</GoBackBtnStyle>
+            </ButtonsContainerStyle>
         </>
     )
 }
@@ -178,8 +196,7 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
                 const teahcerDetails = row.original.teacher ; 
                 return teahcerDetails.name + ' ' + teahcerDetails.lastName;
             }
-        }:
-        {   
+        }:{   
             Header: 'Grade' ,
             accessor : 'subject.grade'
         },
@@ -199,160 +216,42 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
             }
         }
     ],[selectedSubject])
-
-    const {
-    getTableProps,
-    headerGroups,
-    getTableBodyProps,
-    rows,
-    prepareRow,
-    selectedFlatRows,
-    } = useTable(
-    {
-        columns: columns,
-        data: subjects,
-    },
-    useRowSelect
-    );
     
     return (
-        <div style={{ backgroundColor: "#dddddd70",padding: "10px",borderRadius: "5px",}} >
-            <h3 style={{ margin: "10px 0" }}>Teacher{AllTeachers && 's'} subjects </h3>
-            <table {...getTableProps()}>
-                <thead className="thead">
-                    {headerGroups.map((headerGroup, index) => (
-                        <tr
-                        {...headerGroup.getHeaderGroupProps()}
-                        key={index}
-                        className="thead-row"
-                        >
-                        {headerGroup.headers.map((column, index) => (
-                            <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
-                            <span
-                                style={{ marginLeft: "5px" }}
-                                className="thead-cell"
-                            >
-                                {column.render("Header")}
-                            </span>
-                            </th>
-                        ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                {rows.map((row, index) => {
-                    prepareRow(row);
-                    return (
-                    <tr {...row.getRowProps()} key={index} style={{backgroundColor: 'white'}}>
-                        {row.cells.map((cell, index) => (
-                        <td {...cell.getCellProps()} key={index} style={{padding: '5px' , border: 'none'}} >
-                            {cell.render("Cell")}
-                        </td>
-                        ))}
-                    </tr>
-                    );
-                })}
-                </tbody>
-            </table>
-        </div>
+        <>
+            <h3>Teacher{AllTeachers && 's'} subjects </h3>
+            <Table column={columns} data={subjects} showMainHeader={false} styleObj = {{padding: '5px' , fontSize : '14px' , sameColor : false}} />
+        </>
     )
 
 }
 
-function ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade,ClassId}) {
+function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
 
     const [filter,setFilter] = useState(selectedGrade != undefined ? selectedGrade :'all')
-    const [hiddenUsedSubject,setHiddenUsedSubject] = useState(false)
     
     const columns = useMemo(() => [
-        {
-            Header: 'Title' ,
-            accessor : 'title'
-        },
-        {   
-            Header: 'Capacity' ,
-            accessor : 'capacity'
-        },
-        {   
-            Header: 'Grade' ,
-            accessor : 'grade'
-        },
-        {   
-            Header: 'Gender' ,
-            accessor : 'gender'
-        },
+        ...CLASSDETAILSCOLUMN ,
         {
             Header: 'Select' ,
             id: 'action' ,
             Cell : ({row}) => {
-                return <input checked={selectedClass.classId == row.original.classId} onChange={(_) => {handleRadioClicked(row.original)}} type="radio" />
+                return <input checked={selectedClass.classId == row.original.classId} onChange={(_) => {setSelectedClass(row.original)}} type="radio" />
             }
         }
     ],[selectedClass])
 
-    const {
-    getTableProps,
-    headerGroups,
-    getTableBodyProps,
-    rows,
-    prepareRow,
-    selectedFlatRows,
-    } = useTable(
-    {
-        columns: columns,
-        data: classes   ,
-    },
-    useRowSelect
-    );
-
-
-    function handleRadioClicked(value){
-        setSelectedClass(value)
-    }
+    const classFiltering = classes.filter( Class => {
+        return (filter.toLowerCase() == Class.grade.toLowerCase() || filter.toLowerCase() == 'all')
+    })
 
     return(
-        <div style={{ backgroundColor: "#dddddd70",padding: "10px",borderRadius: "5px",margin: '5px 0'}} >
-            <h3 style={{ margin: "5px 0" }}>All Classes </h3>
-            <TableHeaderControal setFilter={setFilter} filter={filter} setHiddenUsedSubject={setHiddenUsedSubject} hiddenUsedSubject={hiddenUsedSubject}  hiddenThis={false}/>
-            <table {...getTableProps()}>
-                <thead className="thead">
-                    {headerGroups.map((headerGroup, index) => (
-                        <tr
-                        {...headerGroup.getHeaderGroupProps()}
-                        key={index}
-                        className="thead-row"
-                        >
-                        {headerGroup.headers.map((column, index) => (
-                            <th {...column.getHeaderProps()} key={index} style={theadThStyle}>
-                            <span
-                                style={{ marginLeft: "5px" }}
-                                className="thead-cell"
-                            >
-                                {column.render("Header")}
-                            </span>
-                            </th>
-                        ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                {rows.map((row, index) => {
-                    prepareRow(row);
-                    if( filter == 'ninth' && row.original.grade != filter ) return 
-                    if( filter == 'bachelor' && row.original.grade != filter ) return 
-                    return (
-                        <tr {...row.getRowProps()} key={index} style={{backgroundColor: 'white'}}>
-                            {row.cells.map((cell, index) => (
-                            <td {...cell.getCellProps()} key={index} style={{padding: '5px' , border: 'none'}} >
-                                {cell.render("Cell")}
-                            </td>
-                            ))}
-                        </tr>
-                    );
-                })}
-                </tbody>
-            </table>
-        </div>
+        <>
+            <h3>All Classes </h3>
+            <Table column={columns} data={classFiltering || []} showMainHeader={false} styleObj = {{padding: '5px' , fontSize : '14px' , sameColor : false}}>
+                <FilterGradeHeader setFilter={setFilter} filter={filter} />
+            </Table>
+        </>
     )
 
 }
@@ -384,6 +283,7 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
                     }
                 </div>
             </div>
+
             <div>
                 <button onClick={handleConfirmClicked} style={{marginRight: '5px',padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599' , fontSize: '12px'}}>Confirm</button>
                 <button onClick={()=>{setSelectedTeacherClass([])}} style={{padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red' , fontSize: '12px'}}>Clear All</button>
@@ -392,12 +292,3 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
     )
 }
 
-function ControlButtons({gotoPreviousPage,handleAddClicked}) {
-
-    return (
-        <div style={{margin: '10px 0'}}>
-            <button onClick={()=>handleAddClicked()} style={{marginRight: '10px',padding: '4px 20px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599'}}>Add</button>
-            <button onClick={()=>{gotoPreviousPage(-1,{replace: true})}} style={{padding: '4px 20px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red'}}>Go Back</button>
-        </div>
-    )
-}

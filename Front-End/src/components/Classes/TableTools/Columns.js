@@ -10,13 +10,6 @@ export const COLUMNS = [
     accessor: "fatherName",
   },
   {
-    Header : 'Birth Date' ,
-    accessor: "birthdate",
-    Cell: ({ value }) => {
-      return format(new Date(value), "yyyy / MM / dd");
-    },
-  },
-  {
     Header : 'Phone' ,
     accessor: "phone",
   }

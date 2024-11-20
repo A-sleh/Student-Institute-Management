@@ -1,5 +1,5 @@
 
-import { ShowCardContainerStyle } from "./styleTag";
+import { ShowCardContainerStyle } from "./style/styleTag";
 
 export default function ShowInputCard({iconPath,children}) {
 

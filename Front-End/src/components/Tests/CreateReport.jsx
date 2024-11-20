@@ -1,28 +1,37 @@
-import Title from "../Global/Title"
-import { NavLink, Outlet } from 'react-router-dom'
-import { HeaderNavStyle } from './CreateTestTools/EmentsStyle'
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
 
+import Title from "../Global/Title"
+import { Outlet } from 'react-router-dom'
+import SubNavBar from "../shared/SubNavBar"
+
+const urlList = [
+    {
+        title: 'New Report',
+        path: 'NewReportForm',
+    },
+    {
+        title: 'Manage Report',
+        path : 'ManageReports',
+    },
+    {
+        title: 'Report Details',
+        path : 'ReportDetails',
+    },
+    {
+        title: 'Print Report',
+        path : 'PrintReport',
+    }
+]
 
 export default function CreateReport() {
     return(
         <>
             <Title title={window.location.pathname}/> 
-                <HeaderNavStyle >
-                    <span></span>
-                    <li><NavLink to={'NewReportForm'} style={({ isActive }) => {
-                        return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                    }}>New Report</NavLink></li>
-                    <li><NavLink to={'ManageReports'} style={({ isActive }) => {
-                        return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                        }}>Manage Report</NavLink></li>
-                    <li><NavLink to={'ReportDetails'} style={({ isActive }) => {
-                        return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                        }}>Report Details</NavLink></li>
-                    <li><NavLink to={'PrintReport'} style={({ isActive }) => {
-                        return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'}
-                        }}>Print Report</NavLink></li>
-                    <span></span>
-                </HeaderNavStyle>         
+            <SubNavBar urlList={urlList} />
             <Outlet />
         </>
     )

@@ -1,55 +1,39 @@
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+/***  
+  CSS-OPTIMAIZATION : DONE , 
+  COMPONENTS OPTIMIZATION : DONE ,
+  USING REACT QURY : 
+  
+*/
+
+import { useNavigate, useParams } from "react-router-dom";
+import { HeightContainerAnimation } from "../Tests/CreateTestTools/EmentsStyle";
+import { FlexContainerStyle, GoBackBtnStyle } from "../shared/style/styleTag";
+import { QuizExamContainerStyle } from "../Tests/style/styleTage";
+import { useState } from "react";
 import Title from "../Global/Title";
 import StudentReportCard from "./studnetInformationCOM/StudentReportCard";
 import StudentInfoCard from "./studnetInformationCOM/StudentInfoCard";
 import StudentBillsCard from "./studnetInformationCOM/StudentBillsCard";
-import { useEffect, useState } from "react";
-import DataServices from "../../Data/dynamic/DataServices";
 import ShowTestTable from "../Tests/CreateReportTools/ShowTestTable";
-import { HeightContainerAnimation } from "../Tests/CreateTestTools/EmentsStyle";
+import useStudentReportTests from "../../hooks/useStudentReportTests";
+import useStudentTestsNotAddedToReport from "../../hooks/useStudentTestsNotAddedToReport";
 
 
 export default function StudentInformation() {
 
   const studentId = useParams().id
-  const navLink = useNavigate();
-  const [tests,setTests] = useState({})
-  const [selectedReport,setSelectedReport] = useState(null)
-
-  useEffect(() => {
-
-    // if there is no report was selected we will diplay all tests which no joined in any report
-
-    if(selectedReport == null ) {
-      DataServices.ShowStudentTestNotAddedToReport(studentId).then( tests => {
-        const pendingTests = tests.filter( testCur => {
-          return testCur.test.report == null
-        }) 
-        setTests(
-          Object.groupBy(pendingTests, ({test}) => {
-            return test.testType.toLowerCase() != 'quiz' ? test.testType.toLowerCase() : 'quiz'
-          })
-        )
-      })
-    }else {
-      DataServices.ShowStudentTestInCurrentReport(studentId,selectedReport.reportId).then( tests => {
-        setTests(
-          Object.groupBy(tests, ({test}) => {
-            return test.testType.toLowerCase() != 'quiz' ? test.testType.toLowerCase() : 'quiz'
-          })
-        )
-      })
-    }
-
-  },[selectedReport])
+  const gotoPage = useNavigate()
+  const [selectedReport,setSelectedReport] = useState({})
+  const [reportQuiz,reportExam] = useStudentReportTests(studentId,selectedReport.reportId)
+  const [quiz,exam] = useStudentTestsNotAddedToReport(studentId)
 
   return (
     <>
         <Title title={window.location.pathname } />
-        <div style={{display: 'flex',gap: '10px' , marginBottom: '20px'}}>
+        <FlexContainerStyle>
           <StudentInfoCard studentId={studentId}/>
           <StudentBillsCard studentId={studentId}/>
-        </div>
+        </FlexContainerStyle>
 
         <HeightContainerAnimation delay={'.5s'}>
           <StudentReportCard studentId={studentId} selectedReport={selectedReport}setSelectedReport={setSelectedReport}/>
@@ -60,24 +44,18 @@ export default function StudentInformation() {
         </HeightContainerAnimation>
 
         <HeightContainerAnimation delay={'1.2s'}>
-          <div style={{display: 'flex',gap: '10px',flexWrap: 'wrap' ,backgroundColor: '#f3f1f1d7' , padding: '10px' , paddingTop: '20px' , borderRadius: '10px' , marginTop: '10px'}}>
-            <ShowTestTable title={'quiz'} tests={tests?.quiz || []}/>
-            <ShowTestTable title={'exam'} tests={tests?.exam || []}/>
-          </div>
+          <QuizExamContainerStyle style={{backgroundColor: 'transparent'}}>
+            <ShowTestTable title={'quiz'} tests={selectedReport.reportId == undefined ? quiz : reportQuiz }/>
+            <ShowTestTable title={'exam'} tests={selectedReport.reportId == undefined ? exam : reportExam }/>
+          </QuizExamContainerStyle>
         </HeightContainerAnimation>
+        <GoBackBtnStyle onClick={()=>gotoPage(-1,{replace: true})}>Go Backe</GoBackBtnStyle>
     </>
   );
 }
 
 function TestsHeader({selectedReport}) {
-
-  if(selectedReport == null) {
-    return (
-      <div style={{padding: '10px 0 0 10px',margin: '20px 0 0 0',color: 'white' , backgroundColor: '#056699' , fontWeight: '400',borderRadius: '10px 10px 0 0 '}}>The latest tests</div>
-    )
-  }
-
   return (
-    <div style={{padding: '10px 0 3px 10px',margin: '20px 0 0 0',color: 'white' , backgroundColor: '#056699' , fontWeight: '400',borderRadius: '10px 10px 0 0 '}}>Report : {selectedReport.reportTitle} / tests</div>
+    <div style={{padding: '10px 0 3px 10px',margin: '20px 0 0 0',color: 'white' , backgroundColor: '#056699' , fontWeight: '400',borderRadius: '10px 10px 0 0 '}}>{ selectedReport.reportId == undefined ? 'The latest tests' : `Report :${selectedReport.reportTitle} / tests`}</div>
   )
 }

@@ -1,5 +1,5 @@
 import {Outlet } from "react-router-dom";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { Suspense } from "react";
 import { SideBarStyle } from "./components/SideBar/sideBarTagesStyle";
 import SidBar from "./components/SideBar/SidBar";
@@ -10,21 +10,23 @@ export default function App() {
   const [openSideBare, setOpenSideBare] = useState(true);
 
   return (
-    <div style={{ display: "flex", position: "relative"}}>
+    
+      <div style={{ display: "flex", position: "relative"}}>
 
-      <SideBarStyle openSideBare={openSideBare}>
-        <SidBar setOpenSideBare={setOpenSideBare}/>
-      </SideBarStyle>
+        <SideBarStyle openSideBare={openSideBare}>
+          <SidBar setOpenSideBare={setOpenSideBare}/>
+        </SideBarStyle>
+        
+        <main style={{ flex: "1" , overflow: 'hidden'}}>
+            <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
+            <div style={{ padding: "15px", paddingTop: "5px" , }} >
+                <Suspense>
+                  <Outlet />
+                </Suspense>
+            </div>
+        </main>
 
-      <main style={{ flex: "1" }}>
-          <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
-          <div style={{ padding: "20px", paddingTop: "5px" }} >
-              <Suspense>
-                <Outlet />
-              </Suspense>
-          </div>
-      </main>
-
-    </div>
+      </div>
+    
   );
 }

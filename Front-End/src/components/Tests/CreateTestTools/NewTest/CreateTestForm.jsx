@@ -1,18 +1,29 @@
-import { useEffect, useRef, useState } from "react"
+/***  
+    CSS-OPTIMAIZATION : DONE , 
+    COMPONENTS OPTIMIZATION : DONE ,
+    USING REACT QURY : 
+*/
+
+import { FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from "../../../shared/style/styleTag";
+import { useEffect, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices";
-import { FormInputContainerStyle, FormInputFieldStyle, FormRowStyle, FormSelectdStyle, LabelInputStyle, TextAreaInput } from "../EmentsStyle";
 import Notification from "../../../Global/Notification";
-import { DropDownSearch } from "../../../Global/globalStyle";
+import ErrorMessage from "../../../shared/ErrorMessage";
+import SearchBodyList from "../../../shared/SearchBodyList";
+import useClasses from "../../../../hooks/useClasses";
+import useGetSubjects from "../../../../hooks/useGetSubjects";
+import { successActionLogic } from "../../../shared/logic/logic";
 
 
-export default function CreateTestForm({form,setForm,initailState}) {
+export default function CreateTestForm({form,setForm,initailState,children}) {
+
     
     const [testType,setTestType] = useState('bachelor')
-    const [subjects,setSubjects] = useState([]) ; 
+    const [subjects] = useGetSubjects(testType) ; 
     const [searchClass,setSearchClass] = useState('')
     const [selectedClass,setSelectedClass] = useState({title: null})
     const [successCreateTest,setSuccessCreateTest] = useState(false)
-    const [classes,setClasses] = useState([])
+    const [allClasses] = useClasses(testType)
     const [validation,setValidation] = useState({
         subject : false ,
         testType : false ,
@@ -24,29 +35,16 @@ export default function CreateTestForm({form,setForm,initailState}) {
     // for search feild 
     const [focused, setFocused] = useState(false)
     const onFocus = () => setFocused(true)
-    const onBlur = () => {
-        setTimeout(() => {
-            setFocused(false)
-        },200)
-    }
+    const onBlur = () => { setTimeout(() => { setFocused(false) },200) }
     
-    useEffect(() => {
-        DataServices.ShowAllSubject().then( subjects => {
-            setSubjects(
-                subjects.filter( subject => {
-                    return subject.grade == testType ;
-                })
-            )
+    // services method
+    function handleSelectClassClicked(Class) {
+        setSelectedClass({
+            classId: Class.classId , 
+            title : Class.title
         })
-        DataServices.showCalsses().then( classes => {
-            setClasses(
-                classes.filter( Class => {
-                    return Class.grade == testType
-                })
-            )
-        })
-    },[testType])
-
+        setFocused(false)
+    }
 
     function handleToggleGrade() {
         setTestType(c => c == 'ninth' ? 'bachelor' : 'ninth' ) ;
@@ -67,7 +65,6 @@ export default function CreateTestForm({form,setForm,initailState}) {
         return date == '' || testType == '' || subject.subjectId == '' || selectedClass.title == null || title == ''
     }
 
-
     function handleSubmitClicked(e) {
         e.preventDefault() ;
 
@@ -78,10 +75,8 @@ export default function CreateTestForm({form,setForm,initailState}) {
                         setForm(initailState)
                         setSearchClass('')
                         setSelectedClass({title: null})
+                        successActionLogic(setSuccessCreateTest)
                         setSuccessCreateTest(true)
-                        setTimeout(() => {
-                            setSuccessCreateTest(false)
-                        } , 2000 )
                     })
                 })
             })
@@ -94,83 +89,89 @@ export default function CreateTestForm({form,setForm,initailState}) {
     }
 
     return(
-    <>
-        <Notification title={'create test'} type={'success'} state ={successCreateTest} setState={setSuccessCreateTest}/>
-        <div style={{backgroundColor: '#f3f1f1d7' , padding: '10px' , borderRadius: '5px', flex: '1'}}>
-            <h3 style={{fontSize: '1.3em' , color: '#0e0b0b' , marginBottom: '10px'}}>Test Details</h3>
-            <form style={{display: 'flex' , flexDirection: 'column'}} onSubmit={(e)=>{handleSubmitClicked(e)}}>
-                    <FormRowStyle>
-                        <FormInputContainerStyle >
-                            <LabelInputStyle>Grade</LabelInputStyle>
-                            <div style={{display:'flex' , alignItems:'center' , backgroundColor: 'white' , padding: '10px' , borderRadius: '3px'}}>
-                                <input type="radio"  id="bachelor" checked={testType == 'bachelor'}onChange={handleToggleGrade} style={{boxShadow: 'none', cursor:'pointer'}}/>
-                                <LabelInputStyle htmlFor="bachelor" style={{ marginLeft: '5px', cursor:'pointer'}}>Bachelor</LabelInputStyle>
-                                <input type="radio"  id="ninth" checked={testType == 'ninth'} onChange={handleToggleGrade} style={{boxShadow: 'none' , marginLeft: '30px', cursor:'pointer'}}/>
-                                <LabelInputStyle htmlFor="ninth" style={{ marginLeft: '5px', cursor:'pointer'}}>Ninth</LabelInputStyle>
-                            </div>
-                        </FormInputContainerStyle>
-                    </FormRowStyle>
+        <div>
+            <Notification title={'create test'} type={'success'} state ={successCreateTest} setState={setSuccessCreateTest}/>
+            <FormMainContainer >
+                <FormStyle onSubmit={(e)=>{handleSubmitClicked(e)}}>
+                        <h3 >Test Details</h3>
 
-                    <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
-                        <FormInputContainerStyle style={{position: 'relative' , width: '100%' , zIndex: '100'}}>
-                            <LabelInputStyle style={{padding: '8px 0'}}>Select the class</LabelInputStyle>
-                            <FormInputFieldStyle className={validation.Class ? 'error': ''}  type="text" onFocus={onFocus}  onBlur={onBlur}   value={selectedClass.title != null ? selectedClass.title : searchClass} onChange={(e) => handleSearchField(e.target.value)}/>
-                            <ShowClassesAvilable searchFiled={searchClass} setSelectedClass={setSelectedClass} focused={focused} setFocused={setFocused} classes={classes}/>
-                            { validation.Class && <span style={{marginTop: '4px' , fontSize: '13px' , color: 'red' , transition: '.3s'}}>You must selecte the class</span> }
-                        </FormInputContainerStyle>
-                    </FormRowStyle>
+                        <FormRowStyle>
+                            <FormCheckBoxContainerStyle color={'white'}>
+                                <section>
+                                    <LabelStyle color={'#056699'}>Gender</LabelStyle>
+                                    <div>
+                                        <div>
+                                            <input type="radio" id="Male" checked={testType == 'bachelor'} onChange={handleToggleGrade} />
+                                            <label htmlFor="Male">Bachelor</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="Famale" checked={testType == 'ninth'} onChange={handleToggleGrade} />
+                                            <label htmlFor="Famale">Ninth</label>
+                                        </div>
+                                    </div>
+                                </section>
+                            </FormCheckBoxContainerStyle>
+                        </FormRowStyle>
 
-                    <FormRowStyle>
-                        <FormInputContainerStyle>
-                            <LabelInputStyle>Subjects</LabelInputStyle>
-                            <div style={{display: 'flex',position: 'relative' , gap: '5px' , flexWrap: 'wrap' , backgroundColor: 'white' , padding: '13px'}}>
-                                {
-                                    subjects.map( (subject,index) => {
-                                        return <SubjectTageShow subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
-                                    })
-                                }
-                            </div>
-                            { validation.subject && <span style={{marginTop: '4px' , fontSize: '13px' , color: 'red' , transition: '.3s'}}>You must chose  subject</span>}
-                        </FormInputContainerStyle>
-                    </FormRowStyle>
+                        <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
+                            <FormSubRowStyle width={ '100%' }>
+                                <LabelStyle color={'#056699'}>Select the class</LabelStyle>
+                                <InputStyle className={validation.Class ? 'error': ''}  type="text" onFocus={onFocus}  onBlur={onBlur}   value={selectedClass.title != null ? selectedClass.title : searchClass} onChange={(e) => handleSearchField(e.target.value)}/>
+                                <SearchBodyList searchValue={selectedClass.title != null ? selectedClass.title : searchClass} handleElementClicked={handleSelectClassClicked} data={allClasses} focused={focused}/>
+                                <ErrorMessage showMessage={validation.Class} message={"You must selecte the class"}/>
+                            </FormSubRowStyle>
+                        </FormRowStyle>
 
-                    <FormRowStyle>
+                        <FormRowStyle>
+                            <FormSubRowStyle width={'100%'}>
+                                <LabelStyle color={'#056699'}>Subjects</LabelStyle>
+                                <div style={{display: 'flex',position: 'relative' , gap: '5px' , flexWrap: 'wrap' , backgroundColor: 'white' , padding: '13px'}}>
+                                    {
+                                        subjects.map( (subject,index) => {
+                                            return <SubjectTageShow subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
+                                        })
+                                    }
+                                </div>
+                                <ErrorMessage showMessage={validation.subject} message={"You must chose  subject"}/>
+                            </FormSubRowStyle>
+                        </FormRowStyle>
 
-                        <FormInputContainerStyle>
-                            <LabelInputStyle>Date</LabelInputStyle>
-                            <FormInputFieldStyle type="date" className={validation.date ? 'error': ''} value={form.date} onChange={(e) => setForm({...form,date: e.target.value})}/>
-                            { validation.date && <span style={{marginTop: '4px' , fontSize: '13px' , color: 'red' , transition: '.3s'}}>You must determain the test date</span>}
-                        </FormInputContainerStyle>
+                        <FormRowStyle>
 
-                        <FormInputContainerStyle style={{marginLeft: '10px'}}>
-                            <LabelInputStyle >Test Type</LabelInputStyle>
-                            <FormSelectdStyle className={validation.testType ? 'error': ''} value={form.testType} onChange={(e)=>{setForm({...form,testType: e.target.value})}}>
-                                <option value=""></option>
-                                <option value="QUIZ">QUIZ</option>
-                                <option value="EXAM">EXAM</option>
-                                <option value="REVISION">REVISION</option>
-                                <option value="FINAL">FINAL</option>
-                            </FormSelectdStyle>
-                            { validation.testType && <span style={{marginTop: '4px' , fontSize: '13px' , color: 'red' , transition: '.3s'}}>You must select test type</span>}
-                        </FormInputContainerStyle>
+                            <FormSubRowStyle>
+                                <LabelStyle color={'#056699'} >Date </LabelStyle>
+                                <InputStyle type="date" className={validation.date ? 'error': ''} value={form.date} onChange={(e) => setForm({...form,date: e.target.value})}/>
+                                <ErrorMessage showMessage={validation.date} message={"You must determain the test date"}/>
+                            </FormSubRowStyle>
 
-                    </FormRowStyle>
+                            <FormSubRowStyle >
+                                <LabelStyle color={'#056699'} >Test Type</LabelStyle>
+                                <FormSelectdStyle className={validation.testType ? 'error': ''} value={form.testType} onChange={(e)=>{setForm({...form,testType: e.target.value})}}>
+                                    <option value=""></option>
+                                    <option value="QUIZ">QUIZ</option>
+                                    <option value="EXAM">EXAM</option>
+                                </FormSelectdStyle>
+                                <ErrorMessage showMessage={validation.testType} message={"You must select test type"}/>
+                            </FormSubRowStyle>
 
-                    <FormRowStyle>
-                        <FormInputContainerStyle>
-                            <LabelInputStyle style={{padding: '8px 0'}}>Test Details</LabelInputStyle>
-                            <TextAreaInput className={validation.title ? 'error': ''} value={form.title} onChange={(e)=>setForm({...form,title: e.target.value})}  />
-                            { validation.title && <span style={{marginTop: '4px' , fontSize: '13px' , color: 'red' , transition: '.3s'}}>Please enter the details of test</span>}
-                        </FormInputContainerStyle>
-                    </FormRowStyle>
-                    <input type="submit" value="Create" style={{width: 'fit-content' , margin: '10px 0'}}/>
-            </form>
+                        </FormRowStyle>
+
+                        <FormRowStyle>
+                            <FormSubRowStyle width={'100%'}>
+                                <LabelStyle color={'#056699'} >Test Details</LabelStyle>
+                                <TextAreaInputStyle className={validation.title ? 'error': ''} value={form.title} onChange={(e)=>setForm({...form,title: e.target.value})}  />
+                                <ErrorMessage showMessage={validation.title} message={"Please enter the details of test"}/>
+                            </FormSubRowStyle>
+                        </FormRowStyle>
+
+                        <SubmitBtnStyle >Create</SubmitBtnStyle>
+                </FormStyle>
+
+                {children}
+            </FormMainContainer>
         </div>
-    </>
     )
 }
-
-
 
 function SubjectTageShow({subject,setForm,selectedSubject,delay}) {
 
@@ -179,10 +180,8 @@ function SubjectTageShow({subject,setForm,selectedSubject,delay}) {
         setForm( lastForm => ({...lastForm , subject : {subjectId:subjectId , subject: subject.subject , grade : subject.grade}}))
     }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setShowTage(true)
-        } , delay)
+    useEffect(() => { 
+        setTimeout(() => { setShowTage(true) } , delay)
     },[])
 
 
@@ -191,27 +190,3 @@ function SubjectTageShow({subject,setForm,selectedSubject,delay}) {
 }
 
 
-function ShowClassesAvilable({searchFiled,focused,setSelectedClass, setFocused,classes}) {
-
-    function handleSelectStudentClicked(Class) {
-        setSelectedClass({
-            classId: Class.classId , 
-            title : Class.title
-        })
-        setFocused(false)
-    }
-
-    return ( 
-        <div style={{ ...DropDownSearch ,padding: '10px 5px' , backgroundColor: 'white', marginTop: '2px' , borderRadius: '2px' , transform: focused ? 'translateY(0px) scaleY(1)': 'translateY(30px) scaleY(0)'}} >
-            {
-                classes.map( (Class,index) => {
-                    let {title} = Class
-                    if( title.toLowerCase().includes(searchFiled.toLowerCase()) ) {
-                        return <div className='student-name-option' onClick={()=>{handleSelectStudentClicked(Class)}} key={index}>{title}</div> 
-                    }
-                })
-            }
-        </div>
-    )
-
-}
