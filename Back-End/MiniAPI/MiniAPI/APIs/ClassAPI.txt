@@ -1,0 +1,45 @@
+GET ENDPOINTS:
+/Class - Get all classes with their students
+
+/Class/{id} - Get specified class with its students
+path Params: id (required) represents class ID
+
+/Class/{classId}/Subject - Get all subjects and its teacher in the specified class
+path Params: classId (required)
+
+/Class/{classId}/Test - Get tests of specified class filtered by parameters
+path Params: classId (required)
+query Params: 
+flag (true to show ONLY uncorrected tests, false otherwise) (NOT REQUIRED, DEFAULT: false) 
+REQUIRED showLinked (false to show ONLY tests that is not linked with a report, true To see all)
+
+/Class/{classId}/Teacher - Get all teachers and their subjects in the specified class
+path Params: classId (required)
+
+POST ENDPOINTS:
+/Class - Insert a class using class model
+FORMAT:
+(gradeId is a Foreign key obtained from a grade selector)
+{
+  "classId": 0,
+  "title": "string",
+  "capacity": 0,
+  "gradeId": 0,
+  "gender": "string"
+}
+
+PUT ENDPOINTS:
+/Class - Update a class using class model
+FORMAT:
+(gradeId is a Foreign key obtained from a grade selector)
+{
+  "classId": 0,
+  "title": "string",
+  "capacity": 0,
+  "gradeId": 0,
+  "gender": "string"
+}
+
+DELETE ENDPOINTS:
+/Class/{id} - delete a class
+path Params: id (required)

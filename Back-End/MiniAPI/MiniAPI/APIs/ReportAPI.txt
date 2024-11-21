@@ -1,0 +1,68 @@
+GET ENDPOINTS:
+/Report - Get all reports with its tests (tests can be filtered with classId)
+(IMPORTANT: only gives meaning when you specify a class within classId query parameter)
+query Params: classId (bring the tests related with the class only for each report)
+
+/Report/{id} - Get report with its tests (tests can be filtered with classId)
+(IMPORTANT: only gives meaning when you specify a class within classId query parameter)
+path Params: id - represents Report ID (required)
+query Params: classId
+
+/Report/Student/Average - Get all students average in each report and any test type
+(note: can be simplified with query params provided)
+query Params:
+reportId - choose a specific report
+studentId - choose a specific student
+type - Enum("quiz", "exam") specify a type
+you may use any of them, or all of them
+
+/Report/Class/Average - Get all classes average in each report and any test type
+(note: can be simplified with query params provided)
+same as student averages but it give general view about the whole class,
+all students averages gathered up and became the class average
+query Params:
+reportId - choose a specific report
+studentId - choose a specific student
+type - Enum("quiz", "exam") specify a type
+you may use any of them, or all of them
+
+/Report/{reportId}/Student/Result - Get all students result in every report
+path Params: reportId (required)
+query Params: classId
+
+/Report/Student/{studentId}/Result - Get all reports results for a specific student
+path Params: studentId (required)
+
+/Report/{reportId}/Class/{classId}/Result - Get printable report results for a group of students in a class
+path Params: reportId (required), classId (required)
+
+/Report/{reportId}/Student/{studentId}/Result - Get shortened report result for a student
+path Params: reportId (required), studentId (required)
+
+POST ENDPOINTS:
+/Report - Insert a report using report model
+FORMAT:
+{
+  "reportId": 0,
+  "reportTitle": "string",
+  "startDate": "YYYY/MM/DD",
+  "finishDate": "YYYY/MM/DD"
+}
+
+PUT ENDPOINTS:
+/Report - Update report using report model
+FORMAT:
+{
+  "reportId": 0,
+  "reportTitle": "string",
+  "startDate": "YYYY/MM/DD",
+  "finishDate": "YYYY/MM/DD"
+}
+
+/Report/{reportId}/Test - Set report for a group of tests (by providing List of Tests Ids)
+path Params: reportId (required)
+query Params: List Of Integers (representing tests Ids) (required)
+
+DELETE ENDPONTS:
+/Report/{id} - Delete a report
+path Params: id (represent report Id) (required)
