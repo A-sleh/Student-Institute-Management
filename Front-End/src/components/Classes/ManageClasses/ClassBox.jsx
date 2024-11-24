@@ -12,7 +12,7 @@ import Notification from "../../Global/Notification"
 import Table from "../../shared/Table";
 
 export default function  ClassBox({currentClass,numberOfSelectedStudents,selectedStudents}) {
-    console.log('render-parent')
+
     // Notification states
     const [successUpdate,setSuccessUpate] = useState(false) ;
     const [classWarning,setClassWarning] = useState(false);

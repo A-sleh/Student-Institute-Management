@@ -80,7 +80,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
         {deleteModal &&  <DeleteModal element={currentTeacherInfo.name} type={"Teacher"} id={currentTeacherInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />}
         {   
           updataButtonClicked  ? 
-            <TeacherForm initialSatate={teacherInfo} type={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
+            <TeacherForm initialSatate={teacherInfo} requestType={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
           : 
           <MainContainerStyle >
             <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  handleDeleteClicked={handleDeleteClicked}/>

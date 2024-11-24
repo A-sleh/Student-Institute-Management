@@ -27,10 +27,10 @@ export function FillterBillsHeader({radioState,setRadioState,searchFiled,setSear
                 {children}
             </div>
             <form >
-                <div style={{display: 'flex' , gap: '10px' , alignItems: 'center' , fontWeight: '600' }}>
-                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'billNo'} style={{fontWeight : radioState.billNo ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Bill Number</label>
-                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'note'} style={{fontWeight : radioState.note ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Note</label>
-                    <label onClick={(e)=>{handleRadioClicked(e.target)}} valuse={'date'} style={{fontWeight : radioState.date ?  '600' : '300' , cursor: 'pointer' , fontSize: '14px'}}>Date</label>
+                <div style={{display: 'flex' , gap: '10px' , alignItems: 'center' , fontWeight: '600' , marginBottom: '6px'}}>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'billNo'} style={{borderRadius : '5px',backgroundColor: radioState.billNo ? '#056699' : 'transparent' , color: radioState.billNo ? 'white' : 'black' ,  fontWeight : '400' , padding: '5px', cursor: 'pointer' , fontSize: '14px'}}>Bill Number</label>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} value={'note'} style={{borderRadius : '5px',backgroundColor: radioState.note ? '#056699' : 'transparent' , color: radioState.note ? 'white' : 'black' ,  fontWeight : '400', padding: '5px' , cursor: 'pointer' , fontSize: '14px'}}>Note</label>
+                    <label onClick={(e)=>{handleRadioClicked(e.target)}} valuse={'date'} style={{borderRadius : '5px',backgroundColor: radioState.date ? '#056699' : 'transparent' , color: radioState.date ? 'white' : 'black' , fontWeight : '400', padding: '5px' , cursor: 'pointer' , fontSize: '14px'}}>Date</label>
                 </div>
                 
                 <input

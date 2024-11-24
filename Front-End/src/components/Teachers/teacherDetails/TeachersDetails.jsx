@@ -18,10 +18,10 @@ import useTeachersInfo from "../../../hooks/useTeachersInfo";
 
 export default function TeachersDetails() {
 
-    const [teachersDetails] = useTeachersInfo()
-    const [deleteModal, setDeleteModal] = useState(false);
-    const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
-    const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
+  const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
+  const [teachersDetails] = useTeachersInfo(successDeleteTeacher)
     const [currentStudentInfo, setCurrentStudentInfo] = useState({
         id: null,
         name: "",

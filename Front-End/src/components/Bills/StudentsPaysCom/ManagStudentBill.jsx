@@ -10,6 +10,7 @@ import { COLUMNS } from "../style/COLUMNS.JS"
 import useGetStudentBills from "../../../hooks/useGetStudentBills"
 import Table from "../../shared/Table"
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName"
+import SubHeaderClassBalance from "../../shared/subHeaderTable/SubHeaderClassBalance"
 
 
 export default function ManagStudentBill() {
@@ -20,6 +21,7 @@ export default function ManagStudentBill() {
     return (
         <Table data={studentBillsBalance || []} column={COLUMNS} idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
             <SubeHeaderFilterByClassName fileterByClass={fileterByClass} setFileterByClass={setFileterByClass}/>
+            <SubHeaderClassBalance classId={fileterByClass} />
         </Table>
     )
 }
