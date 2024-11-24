@@ -8,10 +8,8 @@ namespace MiniAPI.APIs
     {
         public static void ConfigureTestAPI(this WebApplication app)
         {
-            // Get Student
             app.MapGet("/Test/Student/{studentId}", GetStudentMarks);
             app.MapGet("/Test/Subject/{subjectId}", GetTestBySubject);
-            
             app.MapGet("/Test/{testId}/Class/{classId}", GetTestClassMarks);
             app.MapGet("/Test", GetTests);
             app.MapGet("/Test/{testId}", GetTestMarksByTestId);
@@ -121,7 +119,7 @@ namespace MiniAPI.APIs
             try
             {
                 await data.UpdateTest(test);
-                return Results.Ok("Update Success");
+                return Results.Ok(test);
             }
             catch (Exception e)
             {

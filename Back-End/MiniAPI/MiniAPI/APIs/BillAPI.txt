@@ -1,0 +1,58 @@
+GET ENDPOINTS:
+/Bill - Get All Available Bills
+
+/Bill/Class/{classId} - Get Total Info of pays in a specific class
+path Params: classId (required)
+
+/Bill/{date} - Get All Types of Bills happened on specific date
+path Params: date (required), Format: MM Or YYYY-MM OR YYYY-MM-DD
+
+/Bill/Student/{studentId} - Get Bills for student
+path Params: studentId (required)
+
+/Bill/Student/{studentId}/Balance - Get Shortened info about student pays (total balance)
+path Params: studentId (required)
+
+/Bill/Teacher/{teacherId}/Balance - Get Shortened info about teacher salary (total balance)
+path Params: teacherId (required)
+
+/Bill/Teacher/{teacherId} - Get Bills for teacher
+path Params: teacherId (required)
+
+/Bill/Total/Income - Get Total Income (any income type)
+
+/Bill/Total/Outcome - Get Total Outcome (any outcome type)
+
+/Bill/External/{Type} - Get external bills by its type (income or outcome)
+path Params: Type (required) Enum("in", "out")
+
+/Bill/Rest/{type} - Get rest of bills by its type (in or out)
+path Params: type (required) Enum("in", "out")
+
+POST ENDPOINTS:
+/Bill - Insert A Bill
+FORMAT: 
+(note: Must Choose Student Either Teacher)
+(External Bill Does not Belong to Teacher neither Student, both null)
+{
+  "billId": 0,
+  "billNo": "string",
+  "student": {
+    "studentId": 0
+  },
+  "teacher": {
+    "teacherId": 0
+  },
+  "amount": 0,
+  "date": "YYYY/MM/DD",
+  "note": "string",
+  "type": "string"
+}
+
+DELETE ENDPOINTS:
+/Bill/{billId} - Delete a Bill
+path Params: billId (required)
+
+
+
+

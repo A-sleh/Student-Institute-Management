@@ -12,7 +12,11 @@ export default function App() {
   const queryClient = new QueryClient()
 
   return (
+<<<<<<< HEAD
+    
+=======
     <QueryClientProvider client={queryClient}>
+>>>>>>> af58ace8da3c6858e6aa399509f952c453753c5f
       <div style={{ display: "flex", position: "relative"}}>
 
         <SideBarStyle openSideBare={openSideBare}>
@@ -29,6 +33,10 @@ export default function App() {
         </main>
 
       </div>
+<<<<<<< HEAD
+    
+=======
     </QueryClientProvider>
+>>>>>>> af58ace8da3c6858e6aa399509f952c453753c5f
   );
 }

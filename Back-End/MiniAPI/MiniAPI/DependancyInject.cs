@@ -20,6 +20,7 @@ namespace MiniAPI
             app.ConfigureTestAPI();
             app.ConfigureTeacherAPI();
             app.ConfigureBillAPI();
+            app.ConfigureGradeAPI();
         }
         /// <summary>
         /// Adds Specified Services
@@ -41,6 +42,7 @@ namespace MiniAPI
             builder.Services.AddSingleton<ITeacherData, TeacherData>();
             builder.Services.AddSingleton<IBillData, BillData>();
             builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
+            builder.Services.AddSingleton<IGradeData, GradeData>();
         }
     }
 
