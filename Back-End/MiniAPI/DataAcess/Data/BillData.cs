@@ -21,11 +21,11 @@ namespace DataAcess.Data
 
         #region Data Request
 
-        public async Task<IEnumerable<dynamic>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
+        public async Task<IEnumerable<dynamic>> GetBills(string? type, int limit, int page, string orderBy, string orderingType)
         {
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
-                new { type, limit, orderBy, orderingType },
+                new { type, limit, page, orderBy, orderingType },
                 (bill, student, teacher) => 
                 {
                     bill.Student = student;

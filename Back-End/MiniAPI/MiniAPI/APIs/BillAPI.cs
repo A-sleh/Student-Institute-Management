@@ -68,11 +68,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetBills(IBillData data, string? type, int? limit, string? orderBy, string? orderingType)
+        private static async Task<IResult> GetBills(IBillData data, string? type, int limit = 100, int page = 1, string orderBy = "BillId", string orderingType = "ASC")
         {
             try
             {
-                var res = await data.GetBills(type, limit, orderBy, orderingType);
+                var res = await data.GetBills(type, limit, page, orderBy, orderingType);
                 return Results.Ok(res);
             }
             catch (Exception e)
