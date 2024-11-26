@@ -30,6 +30,5 @@ export default function App() {
 
       </div>
     </QueryClientProvider>
->>>>>>> af58ace8da3c6858e6aa399509f952c453753c5f
   );
 }
