@@ -16,6 +16,7 @@ export default function ShowSubjects() {
     const [manageButton,setManageButton] = useState(true)
     const [selectedSubject,setSelectedSubject] = useState({})
     const [subjects] = useGetSubjects(filterByGrade)
+    console.log(subjects)
 
     const manageColumn = useMemo(() => [
         ...SUBJECTCOLUMNS ,
@@ -41,6 +42,7 @@ export default function ShowSubjects() {
             }
             <Notification title={"the subject has just deleted successful"} type={"success"} state={unSuccessDeleteSubject} setState={setSuccessDeleteSubject} />
             <Notification title={"The subject has not tought from one of theacher"} type={"error"} state={successDeleteSubject} setState={setUnSuccessDeleteSubject} />
+
             <Table data={subjects} column={manageButton ? SUBJECTCOLUMNS : manageColumn} unableId={true} styleObj={{padding: '8px' , fontSize: '14px'}} showMainHeader={false}>
                 <SubHeaderFilterClassByGrade setSelectedGrade={setFilterByGrade} />
                 <SubmitBtnStyle style={{float: 'right'}} onClick={() => setManageButton(last => !last)}>Setting</SubmitBtnStyle>
