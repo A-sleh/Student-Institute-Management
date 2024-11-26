@@ -1,12 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[TeacherGetAll]
-	@listSize int null,
+	@listSize int = 100,
 	@page int = 1
 AS
 BEGIN
-	SELECT TOP(@listSize)
-	* FROM
-	(SELECT TOP(@listSize*@page)
-	t.Id as TeacherId, t.Name, t.LastName, t.Phone
-	from Teacher t
-	ORDER BY Id desc) as pagination
+	SELECT Id as TeacherId, *
+	FROM Teacher
+	ORDER BY Id ASC
+	OFFSET (@listSize*(@page-1)) ROWS
+	FETCH NEXT @listSize ROWS ONLY
 END
