@@ -12,7 +12,6 @@ import { useMemo } from "react";
 
 
 export default function Table( props ) {
-    console.log('render')
     
     const { data , column , children , setSelectedRows = ()=>{} , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
     const { unableId = false ,specialState = '' , hiddenHeader = false, preventAction = false, selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props

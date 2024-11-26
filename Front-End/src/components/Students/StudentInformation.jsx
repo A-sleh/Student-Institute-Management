@@ -24,7 +24,7 @@ export default function StudentInformation() {
   const studentId = useParams().id
   const gotoPage = useNavigate()
   const [selectedReport,setSelectedReport] = useState({})
-  const [reportQuiz,reportExam] = useStudentReportTests(studentId,selectedReport.reportId)
+  const [reportQuiz,reportExam] = useStudentReportTests(studentId,selectedReport.reportId,selectedReport)
   const [quiz,exam] = useStudentTestsNotAddedToReport(studentId)
 
   return (

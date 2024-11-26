@@ -7,7 +7,6 @@
 
 import { FormMainContainer, FormRadioContainerStyle, FormRowStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from '../../shared/style/styleTag';
 import { useState } from 'react'
-import '../StudentsPaysCom/studnetPays.css'
 import DataServices from '../../../Data/dynamic/DataServices';
 import Notification from '../../Global/Notification';
 import ErrorMessage from '../../shared/ErrorMessage';

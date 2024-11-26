@@ -30,7 +30,6 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     ],
     []
   )
-  console.log(students)
 
   const studentDetails = useMemo(()=> students != undefined ? students.map((student) => {
           if(student == null ) return 

@@ -38,7 +38,6 @@ export default function StudentMarkForm() {
             Header : 'Action' ,
             Cell : ({row}) => {
                 const { testMarkId } = row.original
-                console.log(inputId ,row.id )
                 return <input type="text" value={marks[testMarkId]} ref={ inputId == row.id  ? inputRef : undefined } onClick={()=>setInputId(row.id)} onChange={(e)=>{handleInputChange(e.target.value,testMarkId)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} /> 
             } 
         }

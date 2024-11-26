@@ -15,6 +15,7 @@ import { successActionLogic } from "../../shared/logic/logic";
 
 export default function TeacherForm(props) {
 
+  console.log(props)
   const { initialSatate , requestType ,setSuccessAction} = props
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
   const gotoPreviousPage = useNavigate();
@@ -72,17 +73,18 @@ export default function TeacherForm(props) {
 
     const flag = validationInputsFeilds();
     if (!flag) {
+      
       switch (requestType) {
         case "POST":
           DataServices.AddNewTeacher(teacherDetails).then((_) => {
             handleSuccessRequest();
           });
           break;
-        case "PUT":
-          DataServices.UpdateTeacherInfo(teacherDetails).then((_) => {
-            handleSuccessRequest();
-          });
-          break;
+          case "PUT":
+            DataServices.UpdateTeacherInfo(teacherDetails).then((_) => {
+              handleSuccessRequest();
+            });
+            break;
         default:
           break;
       }
