@@ -39,7 +39,7 @@ namespace DataAcess
 
         public static string validateDigitsOfDate(string? date)
         {
-            if (date == null || date.Length == 0 || date.Length < 4)
+            if (date == null || date.Length < 4 || date.Split('-').Length < 1)
                 throw new InvalidParametersException($"invalid date {date}");
 
             date = date.Replace('/', '-');
@@ -53,8 +53,6 @@ namespace DataAcess
             }
             else if (dates.Length == 2)
             {
-                //if (dates[1].Length == 1)
-                //    dates[1] = DateTime.ParseExact(dates[1], "M", CultureInfo.InvariantCulture).ToString("MM");
                 formatting = DateTime.ParseExact(dates[0] + "-" + dates[1], "yyyy-M", CultureInfo.InvariantCulture);
                 formattedDate = formatting.ToString("yyyy-MM");
             }
