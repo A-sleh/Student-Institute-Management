@@ -13,7 +13,7 @@ namespace DataAcess.Models
         public StudentModel? Student { get; set; }
         public TeacherModel? Teacher { get; set; }
         public int Amount {  get; set; }
-        public string? Date {  get; set; }
+        public DateTime Date {  get; set; }
         public string? Note { get; set; }
         public string? Type { get; set; }
     }

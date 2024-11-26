@@ -21,11 +21,11 @@ namespace DataAcess.Data
 
         #region Data Request
 
-        public async Task<IEnumerable<dynamic>> GetBills(string? type, int? limit, string? orderBy, string? orderingType)
+        public async Task<IEnumerable<dynamic>> GetBills(string? type, int limit, int page, string orderBy, string orderingType)
         {
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
-                new { type, limit, orderBy, orderingType },
+                new { type, limit, page, orderBy, orderingType },
                 (bill, student, teacher) => 
                 {
                     bill.Student = student;
@@ -225,15 +225,9 @@ namespace DataAcess.Data
         public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
-            if(date != null && date.Length > 0)
-            {
-                return res.Where(
-                    x =>
-                    {
-                        return x.Date != null && x.Date.Contains(date);
-                    });
-            } 
-            return res;
+            if(date != null)
+                 date = ValidationMethods.validateDigitsOfDate(date);
+            return res.Where(b => date == null || b.Date.ToString().Contains(date));
         }
         public async Task<dynamic> GetRestOf(string type)
         {
