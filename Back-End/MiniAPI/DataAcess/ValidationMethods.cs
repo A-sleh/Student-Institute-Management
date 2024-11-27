@@ -36,11 +36,7 @@ namespace DataAcess
             else Date = date;
             return Date;
         }
-
-
-        private static DateTime dateTimeParsing(string date, string format) =>
-            DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
-        public static string validateDigitsOfDate(string date)
+        public static string ValidateDigitsOfDate(string date)
         {
             if (date.Length < 4 || date.Split('-').Length < 1)
                 throw new InvalidParametersException($"invalid date {date}");

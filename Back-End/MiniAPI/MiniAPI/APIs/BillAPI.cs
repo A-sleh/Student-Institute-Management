@@ -68,11 +68,20 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetBills(IBillData data, string? type, int limit = 100, int page = 1, string orderBy = "BillId", string orderingType = "ASC")
+        private static async Task<IResult> GetBills(
+            IBillData data,
+            string? type,
+            string? startDate,
+            string? endDate,
+            int limit = 100,
+            int page = 1,
+            string orderBy = "BillId",
+            string orderingType = "ASC"
+            )
         {
             try
             {
-                var res = await data.GetBills(type, limit, page, orderBy, orderingType);
+                var res = await data.GetBills(type, limit, page, orderBy, orderingType, startDate, endDate);
                 return Results.Ok(res);
             }
             catch (Exception e)
@@ -188,11 +197,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalIn(IBillData data)
+        private static async Task<IResult> GetTotalIn(IBillData data, string? startDate, string? endDate)
         {
             try
             {
-                var res = await data.GetTotalIncome();
+                var res = await data.GetTotalIncome(startDate, endDate);
                 return Results.Ok(res);
             }
             catch (Exception e)
@@ -201,11 +210,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalOut(IBillData data)
+        private static async Task<IResult> GetTotalOut(IBillData data, string? startDate, string? endDate)
         {
             try
             {
-                var res = await data.GetTotalOutcome();
+                var res = await data.GetTotalOutcome(startDate, endDate);
                 return Results.Ok(res);
             }
             catch (Exception e)

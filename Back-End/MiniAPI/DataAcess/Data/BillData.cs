@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DataAcess.Exceptions;
 
 namespace DataAcess.Data
 {
@@ -21,9 +22,16 @@ namespace DataAcess.Data
 
         #region Data Request
 
-        public async Task<IEnumerable<dynamic>> GetBills(string? type, int limit, int page, string orderBy, string orderingType)
+        public async Task<IEnumerable<dynamic>> GetBills(
+            string? type,
+            int limit,
+            int page,
+            string orderBy,
+            string orderingType,
+            string? startDate = null,
+            string? endDate = null)
         {
-            var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
+            var bills = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
                 new { type, limit, page, orderBy, orderingType },
                 (bill, student, teacher) => 
@@ -33,61 +41,29 @@ namespace DataAcess.Data
                     return bill;
                 },
                 splitOn: "StudentId, TeacherId");
-            return res.Select(s =>
-            {
-                dynamic jsonFormat;
-                if (s.Student != null)
+
+            if(startDate != null) 
+                startDate = ValidationMethods.ValidateDigitsOfDate(startDate);
+            if(endDate != null)
+                endDate = ValidationMethods.ValidateDigitsOfDate(endDate);
+
+            return bills
+                .Where(c => c.DateFilter(startDate, endDate))
+                .Select(s =>
                 {
-                    jsonFormat = new
+                    dynamic jsonFormat;
+                    if (s.Student != null)
                     {
-                        student = new 
-                        {
-                            s.Student.StudentId,
-                            s.Student.Name,
-                            s.Student.LastName
-                        },
-                        s.BillId,
-                        s.BillNo,
-                        s.Amount,
-                        s.Date,
-                        s.Type,
-                        s.Note,
-                        s.Teacher
-                    };
-                }
-                else if (s.Teacher != null)
-                {
-                    jsonFormat = new
+                        jsonFormat = s.AsStudentBill();
+                    }
+                    else if (s.Teacher != null)
                     {
-                        teacher = new
-                        {
-                            s.Teacher.TeacherId,
-                            s.Teacher.Name,
-                            s.Teacher.LastName
-                        },
-                        s.BillId,
-                        s.BillNo,
-                        s.Amount,
-                        s.Date,
-                        s.Type,
-                        s.Note,
-                        s.Student
-                    };
-                }
-                else
-                    jsonFormat = new
-                    {
-                        s.BillId,
-                        s.BillNo,
-                        s.Amount,
-                        s.Date,
-                        s.Type,
-                        s.Note,
-                        s.Student,
-                        s.Teacher
-                    };
-                return jsonFormat;
-            });
+                        jsonFormat = s.AsTeacherBill();
+                    }
+                    else
+                        jsonFormat = s.AsExternalBill();
+                    return jsonFormat;
+                });     
         }
         public async Task<dynamic> GetTotalPays(int? studentId, int? teacherId)
         {
@@ -105,7 +81,7 @@ namespace DataAcess.Data
                 paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First() ?? 0;
             }
             else 
-                throw new Exception("cannot get student and teacher pays together, please specifiy one");
+                throw new InvalidParametersException("cannot get student and teacher pays together, please specifiy one");
 
             var res = new
             {
@@ -212,22 +188,26 @@ namespace DataAcess.Data
             };
             return Details;
         }
-        public async Task<dynamic> GetTotalIncome()
+        public async Task<dynamic> GetTotalIncome(string? startDate, string? endDate)
         {
-            var res = new { Income = await GetTotalByParam("in") };
-            return res;
+            var bills = (await GetTotalByParam("in"))
+                .Where(b => b.DateFilter(startDate, endDate));
+            int total = bills.Sum(s => s.Amount);
+            return total;
         }
-        public async Task<dynamic> GetTotalOutcome()
+        public async Task<dynamic> GetTotalOutcome(string? startDate, string? endDate)
         {
-            var res = new { Outcome = await GetTotalByParam("out") };
-            return res;
+            var bills = (await GetTotalByParam("out"))
+                .Where(b => b.DateFilter(startDate, endDate));
+            int total = bills.Sum(s => s.Amount);
+            return total;
         }
         public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
             if(date != null)
             {
-                date = ValidationMethods.validateDigitsOfDate(date);
+                date = ValidationMethods.ValidateDigitsOfDate(date);
             }
             return res.Where(b => date == null || b.Date.ToString().Contains(date));
         }
@@ -236,11 +216,11 @@ namespace DataAcess.Data
             var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
             return res.FirstOrDefault();
         }
-        private async Task<int> GetTotalByParam(string param)
+        private async Task<IEnumerable<BillModel>> GetTotalByParam(string param)
         {
             if (param.Equals("in") || param.Equals("out"))
-                return (await _db.LoadData<int?, dynamic>("dbo.BillGetTotalByParam", new { Type = param })).First() ?? 0;
-            else throw new Exception("Invalid Parameter");
+                return (await _db.LoadData<BillModel, dynamic>("dbo.BillGetTotalByParam", new { Type = param }));
+            else throw new InvalidParametersException("param type must be one of (in, out) only");
         }
         #endregion
 
