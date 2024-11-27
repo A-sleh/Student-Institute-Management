@@ -226,7 +226,9 @@ namespace DataAcess.Data
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
             if(date != null)
-                 date = ValidationMethods.validateDigitsOfDate(date);
+            {
+                date = ValidationMethods.validateDigitsOfDate(date);
+            }
             return res.Where(b => date == null || b.Date.ToString().Contains(date));
         }
         public async Task<dynamic> GetRestOf(string type)

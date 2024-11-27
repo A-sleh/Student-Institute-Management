@@ -37,31 +37,28 @@ namespace DataAcess
             return Date;
         }
 
-        public static string validateDigitsOfDate(string? date)
-        {
-            if (date == null || date.Length < 4 || date.Split('-').Length < 1)
-                throw new InvalidParametersException($"invalid date {date}");
 
+        private static DateTime dateTimeParsing(string date, string format) =>
+            DateTime.ParseExact(date, format, CultureInfo.InvariantCulture);
+        public static string validateDigitsOfDate(string date)
+        {
+            if (date.Length < 4 || date.Split('-').Length < 1)
+                throw new InvalidParametersException($"invalid date {date}");
             date = date.Replace('/', '-');
             var dates = date.Split("-");
-            DateTime formatting;
-            string formattedDate = string.Empty;
-            if (dates.Length == 1)
+            date = dates[0];
+            if (dates.Length > 1)
             {
-                formatting = DateTime.ParseExact(dates[0], "yyyy", CultureInfo.InvariantCulture);
-                formattedDate = formatting.ToString("yyyy");
+                dates[1] = dates[1].Length == 1 ? "0" + dates[1] : dates[1];
+                date =  date + "-" + dates[1];
             }
-            else if (dates.Length == 2)
+            if (dates.Length == 3)
             {
-                formatting = DateTime.ParseExact(dates[0] + "-" + dates[1], "yyyy-M", CultureInfo.InvariantCulture);
-                formattedDate = formatting.ToString("yyyy-MM");
+                dates[2] = dates[2].Length == 1 ? "0" + dates[2] : dates[2];
+                date = date + "-" + dates[2];
             }
-            else if (dates.Length == 3)
-            {
-                formatting = DateTime.ParseExact(dates[0] + "-" + dates[1] + "-" + dates[2], "yyyy-M-d", CultureInfo.InvariantCulture);
-                formattedDate = formatting.ToString("yyyy-MM-dd");
-            }
-            return formattedDate;
+            
+            return date;
         }
     }
 }
