@@ -92,14 +92,6 @@ namespace DataAcess.Data
 
             return res;
         }
-        public Task<dynamic> GetStudentTotalPays(int studentId)
-        {
-            throw new NotImplementedException("this function is not implemented anymore, and will be removed");
-        }
-        public Task<dynamic> GetTeacherTotalPays(int teacherId)
-        {
-            throw new NotImplementedException("this function is not implemented anymore, and will be removed");
-        }
         public async Task<IEnumerable<BillModel>> GetStudentBills(int studentId)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByStudentId", new { studentId });
