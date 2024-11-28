@@ -1,12 +1,15 @@
 import Title from "../Global/Title";
-import SimpleChar from "./SimpleColumnChart";
+import GradeCounter from "./Grade/GradeCounter";
+
 
 export default function Statistics() {
   
   return (
       <>
         <Title title={window.location.pathname} />
-        <SimpleChar />
+          <div style={{width: '400px'}}>
+            <GradeCounter />
+        </div>
       </>
   );
 }

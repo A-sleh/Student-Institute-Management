@@ -407,5 +407,14 @@ export default {
         method: "DELETE",
       });
     },
+  },
+  Statistics : {
+    get : {
+      countByType : (subjects,students,classes) => {
+        return fetch(`${URL}/Grade/Count?subjects=${subjects}&students=${students}&classes=${classes}`).then((response) =>
+          response.json()
+        );
+      }
+    }
   }
 };

@@ -186,6 +186,9 @@ export default {
   },
   ShowStudentReports : (studentId) => {
     return API.Report.get.StudentReports(studentId)
+  },
+  ShowGradeCountByType : (subjects,students,classes) => {
+    return API.Statistics.get.countByType(subjects,students,classes)
   }
 };
 
