@@ -1,5 +1,5 @@
 GET ENDPOINTS:
-/Bill - Get All Available Bills
+/Bill - Get All Available Billss
 
 /Bill/Class/{classId} - Get Total Info of pays in a specific class
 path Params: classId (required)

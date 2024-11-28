@@ -71,14 +71,6 @@ namespace DataAcess.Data
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentAvgPure", new {  reportId, classId });
             return res;
         }
-        public async Task LinkReportWithTests(int reportId, List<int> tests)
-        {
-            foreach(var testId in tests)
-            {
-                await _db.ExecuteData("dbo.ReportLinkWithTests", new { reportId, testId });
-            }
-            
-        }
 
         public async Task<IEnumerable<dynamic>> GetStudentResult(int studentId)
         {
@@ -176,6 +168,14 @@ namespace DataAcess.Data
         #endregion
 
         #region Actions
+        public async Task LinkReportWithTests(int reportId, List<int> tests)
+        {
+            foreach (var testId in tests)
+            {
+                await _db.ExecuteData("dbo.ReportLinkWithTests", new { reportId, testId });
+            }
+
+        }
         public Task InsertReport(ReportModel report) =>
             _db.ExecuteData("dbo.ReportAdd", new
             {

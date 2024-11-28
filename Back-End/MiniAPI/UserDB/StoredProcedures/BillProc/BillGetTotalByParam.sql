@@ -1,14 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[BillGetTotalByParam]
 	@Type varchar(5)
 AS
-IF(@Type = 'in')
-	SELECT SUM(Amount) as Income
+	if(@Type <> 'in' AND @Type <> 'out')
+	THROW 55000, 'invalid sp param', 1;
+	SELECT * 
 	FROM Bill
-	WHERE Type = 'in';
-ELSE IF(@Type = 'out')
-	SELECT SUM(Amount) as Outcome
-	FROM Bill
-	WHERE Type = 'out';
-ELSE
-	THROW 55000, 'Invalid Parameter', 0;
+	WHERE Type = @Type
 RETURN 0;
