@@ -6,7 +6,7 @@
 		SET NOCOUNT ON; 
 		
 
-		IF UPDATE(reportId)
+		IF UPDATE(ReportId)
 		BEGIN
 			IF 
 			(

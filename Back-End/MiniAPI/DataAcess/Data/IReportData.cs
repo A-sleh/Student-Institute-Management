@@ -6,11 +6,11 @@ namespace DataAcess.Data
     {
         Task DeleteReport(int id);
         Task<ReportModel?> GetReport(int id, int? classId);
-        Task<IEnumerable<ReportModel>> GetReports(int? classId);
+        Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId = null);
         Task InsertReport(ReportModel report);
         Task UpdateReport(ReportModel report);
-        Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type);
-        Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type);
+        Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type, string? gender = null);
+        Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type, string? gender = null);
         Task<IEnumerable<dynamic>> GetStudentsReportResult(int reportId, int? classId);
         Task<IEnumerable<dynamic>> GetStudentResult(int studentId);
         Task<dynamic?> GetStudentTotalResult(int studentId, int reportId);

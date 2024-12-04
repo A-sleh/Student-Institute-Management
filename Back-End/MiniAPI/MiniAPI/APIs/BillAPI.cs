@@ -41,7 +41,6 @@ namespace MiniAPI.APIs
 
             // Get Bills That is External (not related with a teacher or student)
             // pass date in query to filter the results
-            // MM/DD/YYYY
             app.MapGet("/Bill/External/{Type}", GetExternal);
 
             // Add Bill using Bill Model
@@ -70,9 +69,9 @@ namespace MiniAPI.APIs
 
         private static async Task<IResult> GetBills(
             IBillData data,
-            string? type,
-            string? startDate,
-            string? endDate,
+            string? type = null,
+            string? startDate = null,
+            string? endDate = null,
             int limit = 100,
             int page = 1,
             string orderBy = "BillId",
@@ -197,7 +196,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalIn(IBillData data, string? startDate, string? endDate)
+        private static async Task<IResult> GetTotalIn(IBillData data, string? startDate = null, string? endDate = null)
         {
             try
             {
@@ -210,7 +209,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalOut(IBillData data, string? startDate, string? endDate)
+        private static async Task<IResult> GetTotalOut(IBillData data, string? startDate = null, string? endDate = null)
         {
             try
             {

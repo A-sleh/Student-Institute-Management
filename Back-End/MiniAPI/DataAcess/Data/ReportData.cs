@@ -50,8 +50,8 @@ namespace DataAcess.Data
 
             var res = students.Select(x =>
             {
-                var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam").Result.FirstOrDefault();
-                var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz").Result.FirstOrDefault();
+                var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam", x.Class?.Gender).Result.FirstOrDefault();
+                var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz", x.Class?.Gender).Result.FirstOrDefault();
                 var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
                 var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
                 var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
@@ -89,16 +89,16 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type)
+        public async Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type, string? gender)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentAvg", new { reportId, studentId, type });
-            return res;
+            return res.Where( x => gender == null || x.gender == gender);
         }
 
-        public async Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type)
+        public async Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type, string? gender)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetClassAvg", new { classId, reportId, type });
-            return res;
+            return res.Where(x => gender == null || x.gender == gender);
         }
 
         public async Task<ReportModel?> GetReport(int id, int? classId)
@@ -134,7 +134,7 @@ namespace DataAcess.Data
             }).Distinct().FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ReportModel>> GetReports(int? classId)
+        public async Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId)
         {
             var dic = new Dictionary<int, ReportModel>();
             var reports = await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
@@ -156,12 +156,21 @@ namespace DataAcess.Data
                 },
                 "TestId, SubjectId");
 
-            return reports.Select(x =>
-            {
-                var temp = x.Tests.AsEnumerable();
-                x.Tests = temp.Select(t => { t.Report = null; return t; }).ToList();
-                return x;
-            }).Distinct();
+            return reports
+                .Select(report =>
+                {
+                    if (gradeId != null)
+                    {
+                        var tests = report.Tests.AsEnumerable();
+                        report.Tests = tests
+                        .Where(t => t.Subject?.GradeId == gradeId)
+                        .Select(t => { t.Report = null; return t; })
+                        .ToList();
+                    }
+                    return report;
+                })
+                .Where(report => gradeId == null || report.Tests.Count() != 0)
+                .Distinct();
         }
 
         #endregion

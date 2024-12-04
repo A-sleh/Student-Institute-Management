@@ -5,7 +5,7 @@
 AS
 	SELECT 
 	s.id as StudentId,s.name, s.lastName,
-	c.id as ClassId, c.title, t.TestType,
+	c.id as ClassId, c.title, c.gender, t.TestType,
 	r.Id as ReportId, r.ReportTitle, r.StartDate, r.FinishDate,
 	SUM(ts.Mark) * 100 / SUM(sb.MaximumMark) as Average
 	FROM Student s

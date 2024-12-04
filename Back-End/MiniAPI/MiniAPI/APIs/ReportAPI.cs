@@ -7,8 +7,6 @@ namespace MiniAPI.APIs
 {
     public static class ReportAPI
     {
-        // demo version
-        // release not completed
         public static void ConfigureReportAPI(this WebApplication app)
         {
             app.MapGet("/Report/{id}", GetReport);
@@ -18,12 +16,13 @@ namespace MiniAPI.APIs
             app.MapGet("/Report/{reportId}/Student/Result", GetStudentsReportResult);
             app.MapGet("/Report/Student/{studentId}/Result", GetStudentReportsResults);
             app.MapGet("/Report/{reportId}/Class/{classId}/Result", GetResultsByReportAndClass);
-
             app.MapGet("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
 
             app.MapPut("/Report/{reportId}/Test", LinkReportWithTests);
             app.MapPut("/Report", UpdateReport);
+
             app.MapPost("/Report", InsertReport);
+
             app.MapDelete("/Report/{id}", DeleteReport);
         }
 
@@ -39,7 +38,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> GetStudentReportsResults(IReportData data, int studentId)
         {
             try
@@ -52,7 +50,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> LinkReportWithTests(IReportData data, int reportId, List<int> testIdList)
         {
             try
@@ -65,7 +62,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> GetTotalResult(IReportData data, int studentId, int reportId)
         {
             try
@@ -78,7 +74,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> GetStudentsReportResult(IReportData data, int reportId, int? classId)
         {
             try
@@ -127,19 +122,17 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
-        private static async Task<IResult> GetReports(IReportData data, int? classId)
+        private static async Task<IResult> GetReports(IReportData data, int? classId, int? gradeId)
         {
             try
             {
-                return Results.Ok(await data.GetReports(classId));
+                return Results.Ok(await data.GetReports(classId, gradeId));
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
-
         private static async Task<IResult> UpdateReport(IReportData data, ReportModel report)
         {
             try
@@ -152,7 +145,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> InsertReport(IReportData data, ReportModel report)
         {
             try
@@ -165,7 +157,6 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-
         private static async Task<IResult> DeleteReport(IReportData data, int id)
         {
             try
