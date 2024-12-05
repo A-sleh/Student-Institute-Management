@@ -17,5 +17,6 @@ namespace DataAcess.Data
         Task LinkReportWithTests(int reportId, List<int> tests);
         Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId);
         Task<IEnumerable<dynamic>> GetStudentsResultSpecifiedByReportAndClass(int reportId, int classId);
+        Task<IEnumerable<dynamic>> GetTeachersRate(int subjectId);
     }
 }

@@ -169,8 +169,13 @@ namespace DataAcess.Data
                     }
                     return report;
                 })
-                .Where(report => gradeId == null || report.Tests.Count() != 0)
+                .Where(report => gradeId == null || report.Tests.Count != 0)
                 .Distinct();
+        }
+        public async Task<IEnumerable<dynamic>> GetTeachersRate(int subjectId)
+        {
+            var teachersRates = await _db.LoadData<dynamic, dynamic>("dbo.ReportTeacherRate", new { subjectId });
+            return teachersRates;
         }
 
         #endregion
