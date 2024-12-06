@@ -1,37 +1,30 @@
 ﻿CREATE PROCEDURE [dbo].[GradeGetCount]
-	@students BIT,
-	@subjects BIT,
-	@classes BIT
+	@gradeId INT NULL
 AS
-	IF(@students = 1 AND @subjects = 0 AND @classes = 0) -- get student number for each grade
-	BEGIN
-		SELECT g.gradeId, g.grade, (SELECT COUNT(*)
-		FROM Student
-		WHERE id IN (
-		SELECT s.id 
+	WITH teachers AS (
+		SELECT s.gradeId ,COUNT(*) as TeachersNO
+		FROM Teacher t 
+		JOIN TeacherSubject ts ON t.Id = ts.TeacherId 
+		JOIN Subject s ON ts.SubjectId = s.Id 
+		GROUP BY gradeId
+	),
+	students AS (
+		SELECT c.gradeId, COUNT(*) as StudentsNO
 		FROM Student s 
 		JOIN Class c ON s.classId = c.id 
-		WHERE c.gradeId = g.gradeId)) as count
-		FROM Grade g
-	END
-	ELSE IF(@subjects = 1 AND @students = 0 AND @classes = 0)
-	BEGIN
-		SELECT g.gradeId, g.grade, 
-		(SELECT COUNT(*)
-		FROM Subject
-		WHERE gradeId = g.gradeId
-		) as count
-		FROM Grade g
-	END
-	ELSE IF(@classes = 1 AND @students = 0 AND @subjects = 0)
-	BEGIN
-		SELECT g.gradeId, g.grade, 
-		(SELECT COUNT(*)
-		FROM Class
-		WHERE gradeId = g.gradeId
-		) as count
-		FROM Grade g
-	END
-	ELSE
-		THROW 55000, 'invalid parameters', 1;
+		GROUP BY gradeId
+	),
+	classes AS (
+		SELECT gradeId, COUNT(*) AS ClassesNO
+		FROM Class 
+		GROUP BY gradeId
+	)
+
+	SELECT g.gradeId, t.TeachersNO, s.StudentsNO, c.ClassesNO 
+	FROM Grade g 
+	LEFT OUTER JOIN teachers t ON g.gradeId = t.gradeId 
+	LEFT OUTER JOIN students s ON g.gradeId = s.gradeId
+	LEFT OUTER JOIN classes c ON g.gradeId = c.gradeId
+	WHERE @gradeId IS NULL OR
+	g.gradeId = @gradeId
 RETURN 0

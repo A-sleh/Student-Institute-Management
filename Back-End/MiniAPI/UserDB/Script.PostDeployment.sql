@@ -72,17 +72,17 @@ END;
 GO
 if not exists (select 1 from [dbo].[Test])
 BEGIN
-	INSERT INTO Test(ReportId, SubjectId, TestType, Date, CorrectionDate)
+	INSERT INTO Test(ReportId, SubjectId, TestType, Date, CorrectionDate, Title)
 	VALUES
-		(1, 1, 'exam', '2024/8/15', '2024/8/20'),
-		(1, 2, 'exam', '2024/8/17', '2024/8/22'),
-		(1, 3, 'exam', '2024/8/18', '2024/8/23'),
-		(1, 4, 'exam', '2024/8/19', '2024/8/25'),
-		(1, 5, 'exam', '2024/8/20', '2024/8/25'),
-		(1, 6, 'exam', '2024/8/22', '2024/8/26'),
-		(1, 7, 'exam', '2024/8/24', '2024/8/28'),
-		(1, 8, 'exam', '2024/8/27', '2024/8/30'),
-		(1, 9, 'exam', '2024/8/28', '2024/8/31');
+		(1, 1, 'exam', '2024/8/15', '2024/8/20', 'chapter 1'),
+		(1, 2, 'exam', '2024/8/17', '2024/8/22', 'chapter 1'),
+		(1, 3, 'exam', '2024/8/18', '2024/8/23', 'chapter 1'),
+		(1, 4, 'exam', '2024/8/19', '2024/8/25', 'chapter 1'),
+		(1, 5, 'exam', '2024/8/20', '2024/8/25', 'chapter 1'),
+		(1, 6, 'exam', '2024/8/22', '2024/8/26', 'chapter 1'),
+		(1, 7, 'exam', '2024/8/24', '2024/8/28', 'chapter 1'),
+		(1, 8, 'exam', '2024/8/27', '2024/8/30', 'chapter 1'),
+		(1, 9, 'exam', '2024/8/28', '2024/8/31', 'chapter 1');
 END;
 
 GO

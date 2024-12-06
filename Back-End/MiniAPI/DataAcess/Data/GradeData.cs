@@ -39,21 +39,10 @@ namespace DataAcess.Data
             await _db.ExecuteData("dbo.GradeUpdate", model);
         }
 
-        public async Task<IEnumerable<dynamic>> GetGradesCount(bool subjects, bool students, bool classes)
+        public Task<IEnumerable<dynamic>> GetGradesCount(int? gradeId)
         {
-            if((subjects && students) || (subjects && classes) || (students && classes) )
-                throw new InvalidParametersException("Must Provide only 1 parameter");
-            var result = await _db.LoadData<dynamic, dynamic>("dbo.GradeGetCount", new { subjects, students, classes });
-            return result.Select(x =>
-            {
-                var jsonFormat = new
-                {
-                    x.gradeId,
-                    x.grade,
-                    x.count
-                };
-                return jsonFormat;
-            });
+            var grades = _db.LoadData<dynamic, dynamic>("dbo.GradeGetCount", new { gradeId });
+            return grades;
         }
     }
 }

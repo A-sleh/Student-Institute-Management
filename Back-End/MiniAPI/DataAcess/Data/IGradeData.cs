@@ -13,6 +13,6 @@ namespace DataAcess.Data
         Task AddGrade(GradeModel model);
         Task DeleteGrade(int gradeId);
         Task UpdateGrade(GradeModel model);
-        Task<IEnumerable<dynamic>> GetGradesCount(bool subjects, bool students, bool classes);
+        Task<IEnumerable<dynamic>> GetGradesCount(int? gradeId = null);
     }
 }

@@ -4,8 +4,6 @@
 	AS
 	BEGIN
 		SET NOCOUNT ON; 
-		
-
 		IF UPDATE(ReportId)
 		BEGIN
 			IF 
@@ -15,7 +13,7 @@
 					(
 						SELECT DISTINCT gradeId
 						FROM Test t JOIN Subject s ON t.SubjectId = s.Id
-						WHERE t.ReportId = (SELECT i.ReportId FROM inserted i)
+						WHERE t.ReportId in (SELECT i.ReportId FROM inserted i)
 						GROUP BY s.gradeId
 					) as t1
 				) > 1
