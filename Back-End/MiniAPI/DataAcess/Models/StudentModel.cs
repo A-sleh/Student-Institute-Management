@@ -19,4 +19,23 @@ public class StudentModel
     public decimal BillRequired { get; set; }
     public ClassModel? Class { get; set; }
     public List<TestMarkModel> TestMark { get; set; } = [];
+
+    public dynamic PureFormat() =>
+        new
+        {
+            StudentId,
+            Name,
+            LastName,
+            FatherName,
+            Phone,
+            MissedDays,
+            BillRequired,
+            Class = new
+            {
+                Class?.ClassId,
+                Class?.Title,
+                Class?.GradeId,
+                Class?.Grade
+            }
+        };
 }
