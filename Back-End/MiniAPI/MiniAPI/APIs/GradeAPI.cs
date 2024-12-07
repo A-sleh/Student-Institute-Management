@@ -12,26 +12,43 @@ namespace MiniAPI.APIs
         {
             app.MapGet("/Grade", GetGrades);
             app.MapGet("/Grade/Count", GetGradeCount);
-
+            app.MapGet("/Grade/{gradeId}/Count", GetGradeCountById);
             app.MapPost("/Grade", AddGrade);
 
             app.MapPut("/Grade", UpdateGrade);
 
             app.MapDelete("/Grade/{gradeId}", DeleteGrade);
         }
-
-        private static async Task<IResult> GetGradeCount(IGradeData data, bool subjects, bool students, bool classes)
+        private static async Task<IResult> GetGradeCountById(IGradeData data, int gradeId, int limit = 10, int page = 1)
         {
             try
             {
-                return Results.Ok(await data.GetGradesCount(subjects, students, classes));
+                var gradeCount = await data.GetGradesCount(gradeId);
+                return 
+                    Results.Ok(gradeCount
+                    .Skip(limit*(page-1))
+                    .Take(limit));
             }
             catch (Exception e)
             {
-                if (e.GetType() == typeof(InvalidParametersException))
-                    return Results.BadRequest(e.Message);
-                else
-                    return Results.Problem(e.Message);
+                return Results.Problem(e.Message);
+            }
+        }
+
+        private static async Task<IResult> GetGradeCount(IGradeData data, int limit = 10, int page = 1)
+        {
+            try
+            {
+                var gradesCount = await data.GetGradesCount();
+
+                return 
+                    Results.Ok(gradesCount
+                    .Skip(limit*(page-1))
+                    .Take(limit));
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
             }
         }
 
