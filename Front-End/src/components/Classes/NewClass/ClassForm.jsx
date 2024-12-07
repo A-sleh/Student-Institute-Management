@@ -10,12 +10,14 @@ import { useState } from "react";
 import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
+import useGetAllGrade from '../../../hooks/Grade_hooks/useGetAllGrade';
 
 
 export default function ClassForm({ initialSatate, setSuccessAction, type }) {
   
   const [validation, setValidation] = useState({ title: false, capacity: false, grade: false, gender: false, })
   const [classDetails, setClassDetails] = useState(initialSatate)
+  const [grades] = useGetAllGrade()
 
   function validationInputsFeilds() {
     const { title, capacity, grade, gender } = classDetails;
@@ -37,11 +39,15 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
     }
   }
 
-  function handleInputsChange(value,key) {
+  function handleInputsChange(value,key,key1) {
 
     let copyData = new Map()
     copyData = {...classDetails} 
-    copyData[key] = value 
+    
+    if(key1 != undefined) {
+      copyData[key1] = value.split(' ')[0] 
+      copyData[key] = value.split(' ')[1]
+    }else  copyData[key] = value 
 
     setClassDetails(copyData)
   }
@@ -93,10 +99,13 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
 
         <FormSubRowStyle width={'100%'}>
           <LabelStyle color={'#056699'}>Grade</LabelStyle>
-          <FormSelectdStyle value={classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade')}>
+          <FormSelectdStyle value={classDetails.gradeId+' '+classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade','gradeId')}>
             <option value={""}></option>
-            <option value={"bachelor"}>bachelor</option>
-            <option value={"ninth"}>ninth</option>
+            {
+              grades.map((grade) => {
+                return <option value={grade.gradeId+' '+grade.grade}>{grade.grade}</option>
+              })
+            }
           </FormSelectdStyle>
         </FormSubRowStyle>
 

@@ -75,6 +75,13 @@ export default function DeleteModal(props) {
               }
             })
             break;
+          case "Grade" : 
+             DataServices.DeleteGrade(id).then(response => {
+              if(response.status <= 299 ) {
+                handleSuccessDelete()
+              }else handleUnSuccessDelete()
+            })
+            break;
             
         default:
           // UnValid Type

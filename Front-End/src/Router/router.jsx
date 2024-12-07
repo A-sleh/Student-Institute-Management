@@ -50,6 +50,9 @@ const  ReportClassDetails =  lazy(() => import( ".././components/Tests/CreateRep
 const  StudentReportTests =  lazy(() => import( ".././components/Tests/CreateReportTools/Report details/StudentReportTests.jsx"))
 const  RemoveTeachersFromClass =  lazy(() => import(".././components/Classes/ManageClasses/RemoveTeachersFromClass.jsx"))
 const  ClassReportPrint =  lazy(() => import( ".././components/Tests/CreateReportTools/Print Report/ClassReportPrint.jsx"))
+const Grade = lazy(() => import( ".././components/Grade/Grade.jsx"))
+const NewGrade = lazy(() => import( ".././components/Grade/new form/NewGradeForm.jsx"))
+const ManageGrades = lazy(() => import( ".././components/Grade/manage grades/ManageGrades.jsx"))
 
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx"
@@ -312,6 +315,24 @@ const router = createBrowserRouter(
                         {
                             path: 'PrintReport',
                             element:  <PrintReport />,
+                        }
+                    ]
+                },
+                {
+                    path: 'Grade' ,
+                    element: <Grade />,
+                    children : [
+                        {
+                            index: true ,
+                            element: <NewGrade />
+                        },  
+                        {
+                            path: 'NewGrade' ,
+                            element: <NewGrade />
+                        },  
+                        {
+                            path: 'ManageGrades' ,
+                            element: <ManageGrades />
                         }
                     ]
                 },

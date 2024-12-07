@@ -23,6 +23,18 @@ export const SubmitBtnStyle = styled.button`
     }
 `
 
+export const SmallButtonStyle = styled.button`
+    padding: 0px 5px;
+    font-size: 12px;
+    outline: none;
+    border: none;
+    color: white;
+    background-color: ${ ({color}) => color };
+    border-radius: 2px;
+    margin-left: 5px;
+    cursor: pointer;
+`
+
 export const GoBackBtnStyle = styled(SubmitBtnStyle)`
     background-color: red;
 

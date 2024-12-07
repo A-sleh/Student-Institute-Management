@@ -2,11 +2,10 @@ import styled from 'styled-components'
 
 export const MainContainerStyle = styled.div`
     padding: 10px 20px;
-    margin: 2em 0px;
+    margin-bottom: 2em;
     background-color: rgb(255, 255, 255);
     box-shadow: gray 0px 0px 11px -5px;
-    border-radius: 5px;
-    
+    border-radius: 5px;    
 `
 
 export const TeacherHeaderSubDetailsStyle = styled.div`

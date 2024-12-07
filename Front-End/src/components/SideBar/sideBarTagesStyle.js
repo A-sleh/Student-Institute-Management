@@ -162,10 +162,6 @@ export const SideBarListStyle = styled.ul`
             height: 100%;
             margin-top: 12px;
         }
-
-        &.active:first-child ,&:first-child:has(+ ul .list.active ) {
-            margin-top: 18px;
-        }
     }
 `
 

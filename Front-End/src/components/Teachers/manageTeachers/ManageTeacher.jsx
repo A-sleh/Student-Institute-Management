@@ -13,7 +13,6 @@ export default function ManageTeacher() {
 
     const [search,setSearch] = useState('')
     const [teachersDetails,setTeachersDetails] = useState([]) ;
-    console.log(teachersDetails)
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     useEffect(() => {
         DataServices.TeacherInformaion().then( teachers => { 

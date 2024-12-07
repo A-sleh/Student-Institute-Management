@@ -5,15 +5,11 @@ export const TableContainerStyle = styled.div`
     background-color: #f3f1f1d7;
     padding: 20px 10px 20px 10px;
     border-radius: 10px;
+    margin-top: 10px;
     margin-bottom: 15px;
     overflow-x: auto;
     position: relative;
     flex: 1;
-
-    @media (max-width: 767px ) {
-        
-        
-    }
 `
 
 export const TableStyle = styled.table`

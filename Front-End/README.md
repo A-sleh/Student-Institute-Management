@@ -207,8 +207,8 @@ solve the proble:
 
 Day 23 : 
     1- fix teachers pagination []
-    2 - teachers bills hook ( use new endpoint ) []
-    3 - studnets bills hook ( use new endpoint ) []
+    2 - teachers bills hook ( use new endpoint ) [X]
+    3 - studnets bills hook ( use new endpoint ) [X]
     4 - statistics : 
         - [] 
 

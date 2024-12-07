@@ -238,6 +238,16 @@ export default {
           response.json()
         );
       },
+      inComeBalanceInRange: (startDate,endDate) => {
+        return fetch(`${URL}/Bill/Total/Income?startDate=${startDate}&endDate=${endDate}`).then((response) =>
+          response.json()
+        );
+      },
+      outComeBalanceInRange: (startDate,endDate) => {
+        return fetch(`${URL}/Bill/Total/Outcome?startDate=${startDate}&endDate=${endDate}`).then((response) =>
+          response.json()
+        );
+      },
       restInComeBill : () => {
         return fetch(`${URL}/Bill/Rest/in`).then((response) =>
           response.json()
@@ -299,8 +309,8 @@ export default {
           return response.json()}
         );
       },
-      AllTestInTheClasss : (classId,flag) => {
-        return fetch(`${URL}/Class/${classId}/Test?flag=${flag}&showLinked=false`).then((response) =>{
+      AllTestInTheClasss : (classId,linkedTest,correctionTest) => {
+        return fetch(`${URL}/Class/${classId}/Test?flag=${correctionTest}&showLinked=${linkedTest}`).then((response) =>{
           return response.json()}
         );
       },
@@ -381,7 +391,22 @@ export default {
         return fetch(`${URL}/Report/Student/${studentId}/Result`).then((response) =>
           response.json()
         );
-      }
+      },
+      StudnetReportsAvg : (studnetId) => {
+        return fetch(`${URL}/Report/Student/Average?studentId=${studnetId}`).then((response) =>
+          response.json()
+        );
+      },
+      TopOneStudents : (reportId) => {
+        return fetch(`${URL}/Report/Student/Average?reportId=${reportId}`).then((response) =>
+          response.json()
+        );
+      },
+      TopOneClasses: (reportId) => {
+        return fetch(`${URL}/Report/Class/Average?reportId=${reportId}`).then((response) =>
+          response.json()
+        );
+      },
 
     },
     post: (data) => {
@@ -416,5 +441,37 @@ export default {
         );
       }
     }
+  },
+  Grade : {
+    get : () => {
+      return fetch(`${URL}/Grade`).then((response) =>
+        response.json()
+      );
+    },
+    put: (data) => {
+      return fetch(`${URL}/Grade`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    }
+    ,
+    post : (data) => {
+      return fetch(`${URL}/Grade`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (gradeId) => {
+      return fetch(`${URL}/Grade/${gradeId}`, {
+        method: "DELETE",
+      });
+    },
+  
   }
 };

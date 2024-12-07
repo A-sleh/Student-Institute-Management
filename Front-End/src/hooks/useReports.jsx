@@ -2,7 +2,7 @@
 import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useLatestBills(filterReport,reportDate) {
+export default function useReports(filterReport,reportDate) {
 
 
     const [reports,setReports] = useState([])
@@ -29,5 +29,5 @@ export default function useLatestBills(filterReport,reportDate) {
 
     } ,[filterReport,reportDate])
 
-    return [filteringReports]   
+    return [filteringReports,reports]   
 }

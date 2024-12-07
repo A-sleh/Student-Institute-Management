@@ -12,11 +12,11 @@ export default function useInstituteBillsBalance() {
     const penefite = restIncome - restOutcome + parseInt(income) - parseInt(outcome)
 
     useEffect(() => {
-        DataServices.ShowInComeBillsBalance().then( balance => {
-            setIncome(balance.income)
+        DataServices.ShowInComeBillsBalance().then( income => {
+            setIncome(income)
         })
-        DataServices.ShowOutComeBillsBalance().then( balance => {
-            setOutcome(balance.outcome)
+        DataServices.ShowOutComeBillsBalance().then( outcome => {
+            setOutcome(outcome)
         })
         DataServices.ShowRemeainingIncome().then( remainingMoney => {
             setRestIncome(remainingMoney)

@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import { FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from "../../../shared/style/styleTag";
+import { FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, InputStyle, LabelStyle, SubmitBtnStyle, TextAreaInputStyle } from "../../../shared/style/styleTag";
 import { useEffect, useState } from "react"
 import DataServices from "../../../../Data/dynamic/DataServices";
 import Notification from "../../../Global/Notification";
@@ -13,17 +13,17 @@ import SearchBodyList from "../../../shared/SearchBodyList";
 import useClasses from "../../../../hooks/useClasses";
 import useGetSubjects from "../../../../hooks/useGetSubjects";
 import { successActionLogic } from "../../../shared/logic/logic";
+import useGetAllGrade from "../../../../hooks/Grade_hooks/useGetAllGrade";
 
 
 export default function CreateTestForm({form,setForm,initailState,children}) {
-
     
-    const [testType,setTestType] = useState('bachelor')
-    const [subjects] = useGetSubjects(testType) ; 
+    const [subjects] = useGetSubjects(form.subject.grade) ; 
     const [searchClass,setSearchClass] = useState('')
     const [selectedClass,setSelectedClass] = useState({title: null})
     const [successCreateTest,setSuccessCreateTest] = useState(false)
-    const [allClasses] = useClasses(testType)
+    const [grades] = useGetAllGrade()
+    const [allClasses] = useClasses(form.subject.grade)
     const [validation,setValidation] = useState({
         subject : false ,
         testType : false ,
@@ -46,9 +46,9 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
         setFocused(false)
     }
 
-    function handleToggleGrade() {
-        setTestType(c => c == 'ninth' ? 'bachelor' : 'ninth' ) ;
-        setForm({...form,subject:{subjectId : '' }})
+    function handleToggleGrade(grade) {
+        setSelectedClass({title: null})
+        setForm({...form,subject:{subjectId : '',grade:grade.split(' ')[1] , gradeId: grade.split(' ')[0] }})
     }
 
     function validInputs() {
@@ -95,22 +95,14 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                 <FormStyle onSubmit={(e)=>{handleSubmitClicked(e)}}>
                         <h3 >Test Details</h3>
 
-                        <FormRowStyle>
-                            <FormCheckBoxContainerStyle color={'white'}>
-                                <section>
-                                    <LabelStyle color={'#056699'}>Gender</LabelStyle>
-                                    <div>
-                                        <div>
-                                            <input type="radio" id="Male" checked={testType == 'bachelor'} onChange={handleToggleGrade} />
-                                            <label htmlFor="Male">Bachelor</label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" id="Famale" checked={testType == 'ninth'} onChange={handleToggleGrade} />
-                                            <label htmlFor="Famale">Ninth</label>
-                                        </div>
-                                    </div>
-                                </section>
-                            </FormCheckBoxContainerStyle>
+                        <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
+                            <FormSubRowStyle width={'100%'}>
+                                <LabelStyle color={'#056699'}>Grade</LabelStyle>
+                                <FormSelectdStyle value={form.subject.gradeId +' '+form.subject.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleToggleGrade(e.target.value)}>
+                                    <option value={""}></option>
+                                    { grades.map((grade) => { return <option value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
+                                </FormSelectdStyle>
+                            </FormSubRowStyle>
                         </FormRowStyle>
 
                         <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
@@ -135,7 +127,7 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                 <ErrorMessage showMessage={validation.subject} message={"You must chose  subject"}/>
                             </FormSubRowStyle>
                         </FormRowStyle>
-
+                        
                         <FormRowStyle>
 
                             <FormSubRowStyle>
