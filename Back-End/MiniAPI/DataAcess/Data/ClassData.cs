@@ -80,12 +80,12 @@ namespace DataAcess.Data
             });
             return mappedTeacherSubjects;
         }
-        public async Task<IEnumerable<ClassModel>> GetClasses()
+        public async Task<IEnumerable<ClassModel>> GetClasses(int? gradeId = null)
         {
             var dic = new Dictionary<int, ClassModel>();
             var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetAll",
-                new { },
+                new { gradeId },
                 (Class, Student) =>
                 {
                     if (dic.TryGetValue(Class.ClassId, out var ExistClass))
