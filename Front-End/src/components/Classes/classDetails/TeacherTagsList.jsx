@@ -15,9 +15,9 @@ export default function TeacherTagsList({classId,classHasNoTeachers}) {
     return (
         <>
             {
-                classHasNoTeachers ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no teachers yet ... </p> : 
+                classHasNoTeachers ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no teachers yet ... </span> : 
                 <div style={{display: 'flex' , flexWrap: 'wrap' , gap: '10px' , backgroundColor: '#f3f1f1d7' , padding: '10px'}}>
-                    { teachers?.map((teacher) => <TeacherTag teacher={teacher} /> )  }
+                    { teachers?.map((teacher,index) => <TeacherTag teacher={teacher} key={index}/> )  }
                 </div>
             }
         </>

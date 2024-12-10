@@ -14,8 +14,8 @@ export default function ReportsList({reports}) {
     return (
         <ReportsContainerStyle >
             {
-                reports.map( report => {
-                    return <ReportCard report={report} />
+                reports.map( (report,index) => {
+                    return <ReportCard key={index} report={report} />
                 })
             }
         </ReportsContainerStyle>

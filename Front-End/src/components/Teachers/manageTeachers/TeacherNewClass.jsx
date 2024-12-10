@@ -275,7 +275,7 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
                     {
                         selectedTeacherClass.map( (teacherClass,index) => {
                             const {id,subject,subjectGrade,classTitle,status} = teacherClass ;
-                            return <div style={{  borderLeftWidth: '3px' , borderLeftStyle: 'solid' , borderLeftColor: status ? 'red': '#00ff00' ,padding: '5px 10px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
+                            return <div key={index} style={{  borderLeftWidth: '3px' , borderLeftStyle: 'solid' , borderLeftColor: status ? 'red': '#00ff00' ,padding: '5px 10px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
                                         <div><b>{index + 1}:</b> <span style={{fontSize: '0.9em'}}>{subject}-{subjectGrade}-{classTitle}</span></div>
                                         <i onClick={()=>{handleDeleteClicked(id)}}className="bi bi-x-lg" style={{color: 'red' , cursor: 'pointer' , fontWeight: 'bold',fontSize: '0.9em'}}></i>
                                     </div>

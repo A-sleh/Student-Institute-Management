@@ -13,8 +13,8 @@ export function FilterGradeHeader(props) {
                 <ul style={{}}>
                     <span onClick={() => {setFilter('All')}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == 'All' ? '600': '300' }}>All</span>
                     {
-                        grades.map( grade => {
-                            return <span onClick={() => {setFilter(grade.grade)}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == grade.grade? '600': '300' }}>{grade.grade}</span>
+                        grades.map( (grade,index) => {
+                            return <span key={index} onClick={() => {setFilter(grade.grade)}} style={{fontSize: '16px',marginRight: '10px' , cursor: 'pointer' , fontWeight: filter == grade.grade? '600': '300' }}>{grade.grade}</span>
                         })
                     }
                 </ul>

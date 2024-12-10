@@ -152,7 +152,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
                 <LabelStyle color={'#056699'}>Grade</LabelStyle>
                 <FormSelectdStyle value={studentDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade')}>
                     <option value={""}></option>
-                    { grades.map((grade) => { return <option value={grade.grade}>{grade.grade}</option> }) }
+                    { grades.map((grade,index) => { return <option key={index} value={grade.grade}>{grade.grade}</option> }) }
                 </FormSelectdStyle>
               </FormSubRowStyle>
 

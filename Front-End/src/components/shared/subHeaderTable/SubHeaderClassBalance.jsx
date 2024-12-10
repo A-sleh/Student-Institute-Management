@@ -23,15 +23,15 @@ export default function SubHeaderClassBalance({classId}) {
         <ShowClassBalanceHeaderStyle >
             <div >
                 <span >Total</span>
-                <p >{addSpaceBetweenDigit(classBalance.total)}</p>
+                <span >{addSpaceBetweenDigit(classBalance.total)}</span>
             </div>
             <div>
                 <span>Paid</span>
-                <p>{addSpaceBetweenDigit(classBalance.paid)}</p>
+                <span>{addSpaceBetweenDigit(classBalance.paid)}</span>
             </div>
             <div >
                 <span >Remaining</span>
-                <p >{addSpaceBetweenDigit(classBalance.remaining)}</p>
+                <span >{addSpaceBetweenDigit(classBalance.remaining)}</span>
             </div>
         </ShowClassBalanceHeaderStyle > 
     )

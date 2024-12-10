@@ -212,4 +212,18 @@ Day 23 :
     4 - statistics : 
         - [] 
 
+-- [] testing statistcs page
+-- [] testing students page {
+
+}
+-- [] testing side bar page {
+
+}
+-- [] testing teacher page
+-- [] testing bills page
+-- [] testing test page
+-- [] testing classes page
+-- [] testing grade page
+-- [] testing subject page
+
 

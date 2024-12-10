@@ -100,7 +100,7 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                 <LabelStyle color={'#056699'}>Grade</LabelStyle>
                                 <FormSelectdStyle value={form.subject.gradeId +' '+form.subject.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleToggleGrade(e.target.value)}>
                                     <option value={""}></option>
-                                    { grades.map((grade) => { return <option value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
+                                    { grades.map((grade,index) => { return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
                                 </FormSelectdStyle>
                             </FormSubRowStyle>
                         </FormRowStyle>
@@ -120,7 +120,7 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                 <div style={{display: 'flex',position: 'relative' , gap: '5px' , flexWrap: 'wrap' , backgroundColor: 'white' , padding: '13px'}}>
                                     {
                                         subjects.map( (subject,index) => {
-                                            return <SubjectTageShow subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
+                                            return <SubjectTageShow key={index} subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
                                         })
                                     }
                                 </div>

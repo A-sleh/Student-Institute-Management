@@ -9,8 +9,11 @@ export default function useStudentsInfo(selectedGrade,...reFetch) {
     useEffect(() => {
         DataServices.StudentsInformaion().then((StudentsInfo) => {
             setstudentInfo(
-            StudentsInfo.map((student) => {
+            StudentsInfo.filter(student => {
+                return selectedGrade == student.class.grade 
+            }).map((student) => {
                 const { name, lastName } = student;
+
                 return {
                 ...student,
                 className: student.class?.title,

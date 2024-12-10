@@ -100,14 +100,14 @@ export default function DeleteModal(props) {
           className="bi bi-exclamation-triangle-fill"
           style={{ color: "red", fontSize: "5em" }}
         ></i>
-        <p style={{ fontWeight: "600", fontSize: "1.5em", margin: "5px 0" }}>
+        <span style={{ fontWeight: "600", fontSize: "1.5em", margin: "5px 0" }}>
           Are you sure?
-        </p>
-        <p className="modal-content">
+        </span>
+        <span className="modal-content">
           This action will Delete the {type}{" "}
           <b style={{ color: "#2b2121" }}>{element}</b>.
-        </p>
-        <p className="modal-content">You can not undo this action</p>
+        </span>
+        <span className="modal-content">You can not undo this action</span>
         <div>
           <button onClick={handleDeletClicked}>Yes, delete </button>
           <button

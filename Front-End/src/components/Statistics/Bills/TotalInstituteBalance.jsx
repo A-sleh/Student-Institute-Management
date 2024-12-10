@@ -50,9 +50,9 @@ export default function TotalInstituteBalance() {
     return (
         <div style={{display: 'flex', backgroundColor: '#ddd', flexWrap: 'wrap' , padding: '10px' , marginBottom: '20px' , gap: '5px' , overflow: 'hidden'}}>
             {
-                billCardsList.map( bill => {
+                billCardsList.map( (bill,index) => {
                     const { title ,content ,iconPath ,delay } = bill
-                    return <BillCard title={title} content={content} iconPath={iconPath} delay={delay}/>
+                    return <BillCard title={title} content={content} iconPath={iconPath} delay={delay} key={index}/>
                 })
             }
         </div> 

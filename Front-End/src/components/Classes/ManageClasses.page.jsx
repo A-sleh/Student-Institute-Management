@@ -44,7 +44,6 @@ export default function ManageClasses() {
 
 const ClassSettingMemo = React.memo(({ Class,search, setDeleteClass , selectedGrade }) => {
 
-  console.log(Class)
   if( Class.grade.toLocaleLowerCase() != selectedGrade.toLocaleLowerCase()) return
   if( !Class.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return
   return <ClassSetting ClassId={Class.classId} classTitle={Class.title} setDeleteClass={setDeleteClass} />;

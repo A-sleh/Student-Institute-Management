@@ -29,8 +29,8 @@ function TestList({test,type,percent}) {
             </div>
             <main >
                 {
-                    test?.map(test=> {
-                        return <TestCard test={test} />
+                    test?.map((test,index)=> {
+                        return <TestCard test={test} key={index} />
                     })
                 }
             </main>

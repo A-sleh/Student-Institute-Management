@@ -25,7 +25,7 @@ export default function TeacherTableCurrentClass({classId}) {
             return (
               <div style={{ display: 'flex' ,gap: '3px' , justifyContent: 'center'}}>
                 {
-                  value.map( subject => <span style={{fontSize: '13px',padding: '2px 5px' , borderRadius: '2px' , color: 'white' , backgroundColor: '#056699'}}>{subject.subject.subject}</span>)
+                  value.map( (subject,index) => <span key={index} style={{fontSize: '13px',padding: '2px 5px' , borderRadius: '2px' , color: 'white' , backgroundColor: '#056699'}}>{subject.subject.subject}</span>)
                 }                  
               </div>
             )
@@ -36,7 +36,7 @@ export default function TeacherTableCurrentClass({classId}) {
     return(
       <>
         {
-            teachers?.length == 0 ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no teachers in this class yet ... </p> :
+            teachers?.length == 0 ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no teachers in this class yet ... </span> :
             <>
               <Table column={columns}  data={teachers} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
               <GoBackBtnStyle onClick={()=>gotoPage(`/RemoveTeachersFromClass/${classId}`)}>Remove</GoBackBtnStyle>

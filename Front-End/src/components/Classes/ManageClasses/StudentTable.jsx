@@ -96,7 +96,7 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     <>
       <Notification title={"Please ,Selcet Any Student"} type={"error"} state={changeStudent} setState={setChangeStudent}/>
       {
-        TheClassHasNotStudents()  ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>There are no students yet ...</p> :
+        TheClassHasNotStudents()  ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>There are no students yet ...</span> :
         <>
           <Table column={columns} data={studentDetails || []} setSelectedRows={setSelectedFlatRows} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
           <ButtonsContainerStyle>

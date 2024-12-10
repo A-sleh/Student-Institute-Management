@@ -11,9 +11,9 @@ export default function StudnetsTagsList({students,classHasNoStudents}) {
     return (
         <>
             {
-                classHasNoStudents ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no students yet ... </p> : 
+                classHasNoStudents ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> There are no students yet ... </span> : 
                 <div style={{display: 'flex' , flexWrap: 'wrap' , gap: '10px' , backgroundColor: '#f3f1f1d7' , padding: '10px'}}>
-                    { students?.map((student) => <StudentTag student={student} /> )  }
+                    { students?.map((student,index) => <StudentTag student={student} key={index}/> )  }
                 </div>
             }
         </>

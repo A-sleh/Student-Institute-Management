@@ -15,7 +15,7 @@ export default function PieChart({data}){
             sectorLabelKey: data.sectorLabelKey,
             sectorLabel: {
                 color: "white",
-                fontWeight: "500",
+                fontWeight: "bolder",
             },
 
         }],

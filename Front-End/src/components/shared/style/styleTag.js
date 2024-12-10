@@ -275,7 +275,7 @@ const MoveCircleToLeft = keyframes`
         background-color: white;
     }
 `
-const fullWidth = keyframes`
+const fullWidthFrame = keyframes`
     100% {
         width: 100%;
         height: fit-content;
@@ -301,7 +301,7 @@ export const HeaderNavStyle = styled.ul`
     width: 0;
     margin: auto;
     margin-bottom: 10px;
-    animation: ${fullWidth} 2s  ease-in-out  ;
+    animation: ${fullWidthFrame} 2s  ease-in-out  ;
     animation-fill-mode: forwards;
     height: 35px;
     

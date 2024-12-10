@@ -23,8 +23,7 @@ export default function StudentsDetails() {
     id: null,
     name: "",
   });
-  const [studentInfo] = useStudentsInfo(selectedGrade,successDeleteStudent);
-
+  const [studentInfo] = useStudentsInfo(selectedGrade,successDeleteStudent,selectedGrade);
 
   function handleDleteClicked(student) {
     setCurrentStudentInfo({

@@ -24,11 +24,11 @@ export default function ClassAvgInCurrentReport() {
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
                 <SelectorStyle value={selectedGrade} onChange={(e) =>{ setSelectedGrade(e.target.value)}}>
                     <option value='' ></option>
-                    {grades.map( grade => (<option value={grade.grade}>{grade.grade}</option>) )}
+                    {grades.map( (grade,index) => (<option value={grade.grade} key={index}>{grade.grade}</option>) )}
                 </SelectorStyle>
                 <SelectorStyle  onChange={(e) => setSelectedReport(JSON.parse(decodeURIComponent(e.target.value)))}>
                     <option value=''></option>
-                    {reports.map( report => (<option value={encodeURIComponent(JSON.stringify(report))}>{report.reportTitle}</option>))}
+                    {reports.map( (report,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(report))}>{report.reportTitle}</option>))}
                 </SelectorStyle> 
             </div>
             <SimpleHistogram data={data}/> 

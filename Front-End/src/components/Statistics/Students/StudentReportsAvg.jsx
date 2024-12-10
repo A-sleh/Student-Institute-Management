@@ -45,17 +45,17 @@ export default function StudentReportsAvg() {
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
                 <SelectorStyle value={selectedGrade} onChange={(e) =>{ setSelectedGrade(e.target.value),setSelectedClass('')}}>
                     <option value={''} ></option>
-                    {grades.map( grade => (<option value={grade.grade}>{grade.grade}</option>) )}
+                    {grades.map( (grade,index) => (<option key={index} value={grade.grade}>{grade.grade}</option>) )}
                 </SelectorStyle>
                 { selectedGrade != '' && <SelectorStyle  onChange={(e) => {setSelectedClass(JSON.parse(decodeURIComponent(e.target.value))), setSelectedStudent(null)}}>
                     <option value={encodeURIComponent('{}')}></option>
-                    {classes.map( Class => (<option value={encodeURIComponent(JSON.stringify(Class))}>{Class.title}</option>))}
+                    {classes.map( (Class,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(Class))}>{Class.title}</option>))}
                 </SelectorStyle> }
                 {
                     Object.keys(selectedClass).length != 0 && selectedGrade != '' &&
                     <SelectorStyle onChange={(e) => setSelectedStudent(JSON.parse(decodeURIComponent(e.target.value)))} >
                         <option value=''></option>
-                        {students.map( student => (<option value={encodeURIComponent(JSON.stringify(student))}>{student?.name + '' + student?.lastName}</option>))}
+                        {students.map( (student,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(student))}>{student?.name + '' + student?.lastName}</option>))}
                     </SelectorStyle>
                 }
             </div>

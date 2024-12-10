@@ -11,7 +11,7 @@ export default function HeaderInformation({data,title}) {
                 {
                     data.map( (row,index) => {
                         const { title , icon , value } = row
-                        return <InfoCard title={title} value={value} color={Color[index]} icon={icon}/>
+                        return <InfoCard key={index} title={title} value={value} color={Color[index]} icon={icon}/>
                     })
                 }
             </section>

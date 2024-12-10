@@ -86,7 +86,6 @@ export const TableHeaderStyle = styled.div`
         display: flex;
         align-items: center;
         color: gray;
-        width: ${({fullWidth}) => fullWidth ? '100%' : 'fit-content' };
 
         i {
             margin: 0px 10px;
@@ -98,7 +97,6 @@ export const TableHeaderStyle = styled.div`
             border: none;
             outline: none   ;
             font-weight: 500;
-            width: ${({fullWidth}) => fullWidth ? '100%' : 'fit-content' };
         }
 
         span {

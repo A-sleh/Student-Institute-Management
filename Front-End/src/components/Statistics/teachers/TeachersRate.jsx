@@ -31,11 +31,11 @@ export default function TeachersRate() {
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
                 <SelectorStyle value={selectedGrade} onChange={(e) =>{ setSelectedGrade(e.target.value),setSelectedClass('')}}>
                     <option value='' ></option>
-                    {grades.map( grade => (<option value={grade.grade}>{grade.grade}</option>) )}
+                    {grades.map( (grade,index) => (<option key={index} value={grade.grade}>{grade.grade}</option>) )}
                 </SelectorStyle>
                 <SelectorStyle  onChange={(e) => setSelectedSubject(JSON.parse(decodeURIComponent(e.target.value)))}>
                     <option value=''></option>
-                    {subjects.map( subject => (<option value={decodeURIComponent(JSON.stringify(subject))}>{subject.subject}</option>))}
+                    {subjects.map( (subject,index) => (<option key={index} value={decodeURIComponent(JSON.stringify(subject))}>{subject.subject}</option>))}
                 </SelectorStyle> 
             </div>
             <SimpleFunnel data={data} />

@@ -102,8 +102,8 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
           <FormSelectdStyle value={classDetails.gradeId+' '+classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade','gradeId')}>
             <option value={""}></option>
             {
-              grades.map((grade) => {
-                return <option value={grade.gradeId+' '+grade.grade}>{grade.grade}</option>
+              grades.map((grade,index) => {
+                return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option>
               })
             }
           </FormSelectdStyle>

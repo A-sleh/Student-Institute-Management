@@ -26,8 +26,6 @@ export default function NewSubjectForm() {
         subjectType: false
     })
 
-    console.log(subjectForm)
-
     async function handleInputChange(value,key,key1) {
 
         let copyData = new Map()
@@ -90,7 +88,7 @@ export default function NewSubjectForm() {
                         <LabelStyle color={'#056699'}>Subject Grade</LabelStyle>
                         <FormSelectdStyle value={subjectForm.gradeId+' '+subjectForm.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade','gradeId')}>
                             <option value={""}></option>
-                            { grades.map((grade) => { return <option value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
+                            { grades.map((grade,index) => { return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
                         </FormSelectdStyle>
                     </FormSubRowStyle>
                     {

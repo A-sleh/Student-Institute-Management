@@ -7,8 +7,8 @@ export default function SubNavBar({urlList}) {
             <span></span>
             <ol>
                 {
-                    urlList.map( link => {
-                        return <li><NavLink to={link.path} style={({ isActive }) => { return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'} }}>{link.title}</NavLink></li>
+                    urlList.map( (link,index) => {
+                        return <li key={index}><NavLink to={link.path} style={({ isActive }) => { return {textDecoration: 'none' , fontSize: '16px' , fontWeight: isActive ? '600' : '300' , color: 'white'} }}>{link.title}</NavLink></li>
                     })
                 }
             </ol>
