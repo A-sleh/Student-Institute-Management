@@ -157,6 +157,9 @@ export default {
   ShowAllNativeReports : (id) => {
     return API.Report.get.AllReports(id)
   },
+  ShowAllReportsFilteredByGrade : (gradeId) => {
+    return API.Report.get.spesifyReports(gradeId)
+  },
   LinkTestWithCurrentReport : (classId,data) => {
     return API.Report.put(classId,data)
   },
@@ -187,8 +190,11 @@ export default {
   ShowStudentReports : (studentId) => {
     return API.Report.get.StudentReports(studentId)
   },
-  ShowGradeCountByType : (subjects,students,classes) => {
-    return API.Statistics.get.countByType(subjects,students,classes)
+  ShowGradeCountByType : () => {
+    return API.Statistics.get.countByType()
+  },
+  ShowTeachersRateInCurrentSubject: (subjectId) => {
+    return API.Statistics.get.TeacherRateBySubject(subjectId)
   },
   ShowAllInstituteGrade : () => {
     return API.Grade.get()

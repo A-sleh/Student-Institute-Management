@@ -8,6 +8,7 @@ export default function SimpleHorizontalBar({data}){
         footnote: {
             text: data.title
         },
+        fill : data?.color ,
         series: [{
             type: "bar",
             direction: "horizontal",
@@ -20,7 +21,7 @@ export default function SimpleHorizontalBar({data}){
         axes: [
           {
             type: "category",
-            position: "left",
+            position: data?.direction || "left",
           },
           {
             type: "number",

@@ -16,7 +16,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <div style={{ display: "flex", position: "relative"}}>
 
-        <SideBarStyle openSideBare={openSideBare}>
+        <SideBarStyle opensidebare={openSideBare.toString()}>
           <SidBar setOpenSideBare={setOpenSideBare}/>
         </SideBarStyle>
         

@@ -362,6 +362,11 @@ export default {
           response.json()
         );
       },
+      spesifyReports : (gradeId) => {
+        return fetch(`${URL}/Report?gradeId=${gradeId}`).then((response) =>
+          response.json()
+        );
+      },
       AllClassReports : (classId) => {
         return fetch(`${URL}/Report?classId=${classId}`).then((response) =>
           response.json()
@@ -435,8 +440,13 @@ export default {
   },
   Statistics : {
     get : {
-      countByType : (subjects,students,classes) => {
-        return fetch(`${URL}/Grade/Count?subjects=${subjects}&students=${students}&classes=${classes}`).then((response) =>
+      countByType : () => {
+        return fetch(`${URL}/Grade/Count`).then((response) =>
+          response.json()
+        );
+      },
+      TeacherRateBySubject: (subjectId) => {
+        return fetch(`${URL}/Report/Teacher/rate?subjectId=${subjectId}&limit=200&page=1`).then((response) =>
           response.json()
         );
       }

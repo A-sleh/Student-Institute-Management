@@ -5,8 +5,9 @@ import PieChart from "../charts/PieChart";
 
 export default function GradeCounter() {
  
-    const [filterType,setFilterType] = useState('subjects')
-    const [gradeCount] = useGradeCount(filterType)
+    const [filterType,setFilterType] = useState('TeachersNO')
+    const [gradeCount] = useGradeCount('All')
+
     const filteringGradeCount = {
         title: filterType + ' grade counter' ,
         angleKey: "amount",
@@ -14,7 +15,7 @@ export default function GradeCounter() {
         sectorLabelKey: "amount",
         data : gradeCount.map( gradeC => {
                 return {
-                    amount : gradeC.count ,
+                    amount : gradeC[filterType] ,
                     asset: gradeC.grade    
                 }
         })
@@ -23,9 +24,9 @@ export default function GradeCounter() {
     return (
         <BackgroundLayoutStyle style={{flex: '1'}}>
             <SelectorStyle value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                <option value={'subjects'}>Subjects</option>
-                <option value={'students'}>Students</option>
-                <option value={'classes'}>Classes</option>
+                <option value={'TeachersNO'}>Teacher</option>
+                <option value={'StudentsNO'}>Students</option>
+                <option value={'ClassesNO'}>Classes</option>
             </SelectorStyle>
             <PieChart  data={filteringGradeCount}/>
         </BackgroundLayoutStyle>

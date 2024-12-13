@@ -10,7 +10,7 @@ export default function useGetSubjects(subjectGrade) {
         DataServices.ShowAllSubject().then( subjects => {
             setSubjects(
                 subjects.filter( subject => {
-                    return subject.grade?.toLowerCase() == subjectGrade.toLowerCase() ;
+                    return subject.grade?.toLowerCase() == subjectGrade?.toLowerCase() ;
                 })
             )
         })

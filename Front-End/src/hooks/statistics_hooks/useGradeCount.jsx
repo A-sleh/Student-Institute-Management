@@ -3,16 +3,18 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useGradeCount(type) {
+export default function useGradeCount(filterByGrade) {
 
     const [gradeCount, setGradeCount] = useState([]); 
     
     useEffect(() => {
-        DataServices.ShowGradeCountByType( type == 'subjects' ,type ==  'students' ,type ==  'classes')
-        .then( res => {
-            setGradeCount(res)
+        DataServices.ShowGradeCountByType()
+        .then( res => {    
+            setGradeCount(res.filter(grade => {
+                return grade.grade?.toLowerCase() == filterByGrade?.toLowerCase() || filterByGrade == 'All'
+            }))
         })
-    }, [type])
+    }, [filterByGrade])
     
     return [gradeCount]
 }

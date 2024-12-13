@@ -4,6 +4,7 @@
     USING REACT QURY : 
 */
 
+import { useNavigate } from "react-router-dom";
 import { TeacherTagsContainer } from "../style/styleTags";
 
 export default function StudnetsTagsList({students,classHasNoStudents}) {
@@ -23,10 +24,11 @@ export default function StudnetsTagsList({students,classHasNoStudents}) {
 function StudentTag({student}) {
 
     const { id, name, lastName } = student;
+    const gotoStudentDetails = useNavigate()
 
     return (
-        <TeacherTagsContainer key={id}  onClick={() =>gotoStudentDetails(`/StudentInformation/${id}`)} >
-            <span onClick={() => { handleStudentCicked(student); }} >
+        <TeacherTagsContainer key={id}  >
+            <span  onClick={() =>gotoStudentDetails(`/StudentInformation/${id}`)} >
                 {name} {lastName}
             </span>
         </TeacherTagsContainer>

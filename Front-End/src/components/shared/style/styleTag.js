@@ -362,7 +362,7 @@ export const HeaderInformationStyle = styled.div`
 
     section {
         display: grid;
-        grid-template-columns: ${ ({columnNumber}) => `repeat(${columnNumber},auto)` };
+        grid-template-columns: ${ ({$columnNumber}) => `repeat(${$columnNumber},auto)` };
         gap: 10px;
         padding: 10px 8px;
         border-radius: 5px;
