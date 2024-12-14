@@ -1,9 +1,11 @@
 const URL = "https://localhost:7279";
+import axios from 'axios'
+
 
 export default {
   Student: {
-    get: (id) => {
-      return fetch(`${URL}/Student/${id || ""}`).then((response) =>
+    get: (id,limit=100,page=1) => {
+      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}`).then((response) =>
         response.json()
       );
     },
@@ -99,11 +101,9 @@ export default {
     },
   },
   Teacher: {
-    get: (id) => {
-      return  fetch(`${URL}/Teacher/${id || ''}`).then((response) =>{
-        return response.json()
-      }
-      );
+    
+    get: (id,limit=100,page=1) => {
+      return  axios.get(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`);
     },
     post: (data) => {
       return fetch(`${URL}/Teacher`, {

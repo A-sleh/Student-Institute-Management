@@ -242,7 +242,7 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
     ],[selectedClass])
 
     const classFiltering = classes.filter( Class => {
-        return (filter.toLowerCase() == Class.grade.toLowerCase() || filter.toLowerCase() == 'all')
+        return (filter?.toLowerCase() == Class.grade?.toLowerCase() || filter?.toLowerCase() == 'all')
     })
 
     return(

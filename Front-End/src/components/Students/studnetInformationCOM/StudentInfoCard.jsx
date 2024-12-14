@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import { HeightContainerAnimation } from "../../Tests/CreateTestTools/EmentsStyle"
+import { HeightContainerAnimation } from "../../shared/style/styleTag" 
 import { InformationsCardStyle } from "../../shared/style/styleTag"
 import addSpaceBetweenDigit from "../../Global/globalStyle"
 import useStudentBalance from "../../../hooks/useStudentBalance"

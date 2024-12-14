@@ -12,7 +12,7 @@ export default function useClasses(selectedGrade,fromShowPage = false,...reFetch
         DataServices.showCalsses().then( classes => {
             setClasses(
                 classes.filter( Class => {
-                    return selectedGrade != '' && Class.grade.toLowerCase() == selectedGrade?.toLowerCase() 
+                    return selectedGrade != '' && Class.grade?.toLowerCase() == selectedGrade?.toLowerCase() 
                 }).map( Class => ({...Class,fullName: Class.title,fromShowPage:fromShowPage}))
             )
         })

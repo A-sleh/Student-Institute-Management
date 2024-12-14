@@ -6,6 +6,7 @@ import styled, { keyframes } from "styled-components"
 export const SubmitBtnStyle = styled.button`
     padding: 4px 25px;
     background-color: #066599;
+    width: fit-content;
     border: none;
     cursor: pointer;
     outline: none;
@@ -85,6 +86,9 @@ export const FormStyle = styled.form`
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #f3f1f1d7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     h3 {
         margin-bottom: 10px;
@@ -502,6 +506,28 @@ export const FilterGradeHeaderStyle = styled.div`
     flex-wrap: wrap;
 `
 
+// More information page animation 
+
+const ChangeHeight = keyframes`
+    100%{
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+`
+
+export const HeightContainerAnimation = styled.div`
+
+    display: grid;
+    grid-template-columns: 0fr;
+    grid-template-rows: 0fr;
+    transition: .3s;
+    animation: ${ChangeHeight} .6s ${({delay}) => delay} ease-in-out ;
+    animation-fill-mode: forwards;
+    
+    & > div {
+        overflow: hidden !important;
+    }
+`
 
 export const InputStyle = styled.input.attrs( ({type}) => ({
     type : type

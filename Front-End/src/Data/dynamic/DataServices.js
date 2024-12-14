@@ -1,8 +1,8 @@
 import API from "./API.js";
 
 export default {
-  StudentsInformaion: (id) => {
-    return API.Student.get(id);
+  StudentsInformaion: (id,limit,page) => {
+    return API.Student.get(id,limit,page);
   },
   AddNewStudent: (data) => {
     return API.Student.post(data);

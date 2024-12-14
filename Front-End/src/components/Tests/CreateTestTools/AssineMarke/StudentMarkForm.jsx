@@ -103,7 +103,7 @@ export default function StudentMarkForm() {
             <Notification  title={'Assinge marks'} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
             <Table column={columns} data={studentTest||[]} showMainHeader={false}>
                 <NavigateSubHeaderStyle>
-                    {subject.grade.toLowerCase()} / {classTitle.toLowerCase()} / {testType.toLowerCase()} / {subject.subject.toLowerCase()}
+                    {subject.grade?.toLowerCase()} / {classTitle?.toLowerCase()} / {testType?.toLowerCase()} / {subject.subject?.toLowerCase()}
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >students</span>
                     <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
                 </NavigateSubHeaderStyle>

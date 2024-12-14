@@ -169,7 +169,7 @@ function SubjectTageShow({subject,setForm,selectedSubject,delay}) {
 
     const [showTage,setShowTage] = useState(false);
     const handleSubjectClicked = (subjectId) => {
-        setForm( lastForm => ({...lastForm , subject : {subjectId:subjectId , subject: subject.subject , grade : subject.grade}}))
+        setForm( lastForm => ({...lastForm , subject : { ...lastForm.subject, subjectId:subjectId , subject: subject.subject }}))
     }
 
     useEffect(() => { 

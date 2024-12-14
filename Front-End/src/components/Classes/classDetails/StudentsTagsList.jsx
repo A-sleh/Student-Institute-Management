@@ -23,12 +23,12 @@ export default function StudnetsTagsList({students,classHasNoStudents}) {
 
 function StudentTag({student}) {
 
-    const { id, name, lastName } = student;
+    const { studentId, name, lastName } = student;
     const gotoStudentDetails = useNavigate()
 
     return (
-        <TeacherTagsContainer key={id}  >
-            <span  onClick={() =>gotoStudentDetails(`/StudentInformation/${id}`)} >
+        <TeacherTagsContainer key={studentId}  >
+            <span  onClick={() =>gotoStudentDetails(`/StudentInformation/${studentId}`)} >
                 {name} {lastName}
             </span>
         </TeacherTagsContainer>

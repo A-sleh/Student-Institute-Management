@@ -3,18 +3,18 @@
 import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useClassTests(classId,showUnCorrectionTests,reFreach) {
+export default function useClassTests(classId,reFreach) {
 
     const [tests,setTests] = useState({})
 
     function disjoinTestIntoTypes(tests) {
         return Object.groupBy(tests,({testType})=> {
-            return testType.toLowerCase()
+            return testType?.toLowerCase()
         })
     }
 
     useEffect(() => {
-        DataServices.ShowCurrentClassTests(classId,showUnCorrectionTests).then(tests => {
+        DataServices.ShowCurrentClassTests(classId,false,true).then(tests => {
             setTests(disjoinTestIntoTypes(tests))
         })
     } ,[reFreach])

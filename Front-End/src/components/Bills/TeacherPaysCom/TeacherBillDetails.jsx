@@ -66,13 +66,13 @@ export default function TeacherBillDetails() {
         return teacherBills.filter( bill => {
             const {billNo,date,note} = bill
 
-            if(radioState.billNo && !`${billNo}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+            if(radioState.billNo && !`${billNo}`?.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
                 return false
             }
-            if(radioState.note && !`${note}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+            if(radioState.note && !`${note}`?.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
                 return false 
             }
-            if(radioState.date && !`${date}`.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
+            if(radioState.date && !`${date}`?.toLowerCase().includes(searchFiled.toLocaleLowerCase())) {
                 return false
             }
             return true

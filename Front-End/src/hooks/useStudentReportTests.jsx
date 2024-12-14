@@ -12,7 +12,7 @@ export default function useStudentReportTests(studentId,repotId,...reFetch) {
         DataServices.ShowStudentTestInCurrentReport(studentId,repotId).then( tests => {
         setTests(
             Object.groupBy(tests, ({test}) => {
-            return test.testType.toLowerCase() != 'quiz' ? test.testType.toLowerCase() : 'quiz'
+            return test.testType?.toLowerCase() != 'quiz' ? test.testType?.toLowerCase() : 'quiz'
             })
         )
         })

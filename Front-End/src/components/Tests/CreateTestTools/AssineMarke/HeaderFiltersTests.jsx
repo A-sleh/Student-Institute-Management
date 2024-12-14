@@ -32,7 +32,7 @@ export default function HeaderFiltersTests() {
                     <option value="All" style={{fontSize: '15px' }}>All</option>
                     {
                         subjects.map( (subject,index) => {
-                            return <option key={index} value={subject.subject} style={{fontSize: '15px', display: 'flex'  }}> <span> {subject.subject}</span> <span style={{alignSelf: 'flex-start'}}> / {subject.grade}</span> </option>
+                            return <option key={index} value={subject.subject} style={{fontSize: '15px', display: 'flex'  }}> {subject.subject} <option style={{alignSelf: 'flex-start'}}> / {subject.grade}</option> </option>
                         })
                     }
                 </select>   

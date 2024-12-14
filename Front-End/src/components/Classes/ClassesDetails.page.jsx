@@ -29,7 +29,7 @@ export default function ClassesDetails() {
     const { title ,grade } = Class 
     
     if( grade.toLocaleLowerCase() != selectedGrade.toLocaleLowerCase()) return
-    if( !title.toLowerCase().includes(search.toLocaleLowerCase()) ) return
+    if( !title?.toLowerCase().includes(search?.toLocaleLowerCase()) ) return
     return <ClassInfo classDetails={Class} key={index}/>
   })
   
