@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
 using DataAcess.Data;
 using DataAcess.Models;
@@ -72,12 +73,21 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetAllTeachers(ITeacherData data, int? listSize, int page = 1)
+        private static async Task<IResult> GetAllTeachers(ITeacherData data, int listSize = 100, int page = 1)
         {
             try
             {
                 var res = await data.GetAllTeachers(listSize,page);
-                return Results.Ok(res);
+                return Results.Ok(new
+                {
+                    teachers = res
+                    .Skip(listSize * (page - 1))
+                    .Take(listSize),
+                    totalStudents = res.Count(),
+                    totalPages = res.Count() / listSize + (res.Count() % listSize != 0 ? 1 : 0),
+                    currPage = page
+                }
+                    );
             }
             catch (Exception e)
             {

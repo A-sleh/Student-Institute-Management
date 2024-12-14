@@ -20,7 +20,7 @@ public class StudentData : IStudentData
 
     #region Data Request
     
-    public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null)
+    public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
     {
         var res = await _db.LoadData<StudentModel, dynamic, ClassModel>(
             "dbo.StudentGetAll",
@@ -33,7 +33,7 @@ public class StudentData : IStudentData
             splitOn: "ClassId"
             );
         return res
-            .Where(x => classId == null || x.Class?.ClassId == classId)
+            .Where(x => (classId == null || x.Class?.ClassId == classId) && (gradeId == null || x.Class?.GradeId == gradeId))
             .Select(x =>
         {
             return x.PureFormat();
