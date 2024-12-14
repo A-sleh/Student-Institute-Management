@@ -31,8 +31,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
-                throw;
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -40,12 +39,12 @@ namespace MiniAPI.APIs
         {
             try
             {
-                return Results.Ok(await data.GetSubject(id));
+                var entityRequested = await data.GetSubject(id);
+                return Results.Ok(entityRequested);
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
-                throw;
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -54,12 +53,11 @@ namespace MiniAPI.APIs
             try
             {
                 await data.InsertSubject(subject);
-                return Results.Ok("Insert Success");
+                return Results.Ok();
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
-                throw;
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -73,7 +71,6 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
-                throw;
             }
         }
 
@@ -81,13 +78,15 @@ namespace MiniAPI.APIs
         {
             try
             {
+                var entityDeleted = await data.GetSubject(id);
                 await data.DeleteSubject(id);
-                return Results.Ok("Delete Success");
+                if(entityDeleted == null)
+                    return Results.NotFound("Subject was not found");
+                return Results.Ok(entityDeleted);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return Results.Problem(e.Message);
-                throw;
+                return Results.BadRequest("Make sure that subject is not used anymore and try again");
             }
         }
     }

@@ -43,14 +43,20 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetStudents(IStudentData data, int? classId = null, int limit = 20, int page = 1)
+        private static async Task<IResult> GetStudents(IStudentData data, int? classId = null, int? gradeId = null, int limit = 100, int page = 1)
         {
             try
             {
-                var res = await data.GetStudents(classId);
-                return Results.Ok(res.
-                    Skip(limit * (page-1))
-                    .Take(limit));
+                var res = await data.GetStudents(classId, gradeId);
+                return Results.Ok(new
+                {
+                    students = res
+                    .Skip(limit * (page - 1))
+                    .Take(limit),
+                    totalStudents = res.Count(),
+                    totalPages = res.Count() / limit + res.Count()%(limit),
+                    currPage = page
+                });
             }
             catch (Exception e)
             {
