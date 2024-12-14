@@ -20,8 +20,8 @@ AS
 		GROUP BY gradeId
 	)
 
-	SELECT g.gradeId, t.TeachersNO, s.StudentsNO, c.ClassesNO 
-	FROM Grade g 
+	SELECT g.gradeId, g.grade, t.TeachersNO, s.StudentsNO, c.ClassesNO 
+	FROM Grade g
 	LEFT OUTER JOIN teachers t ON g.gradeId = t.gradeId 
 	LEFT OUTER JOIN students s ON g.gradeId = s.gradeId
 	LEFT OUTER JOIN classes c ON g.gradeId = c.gradeId
