@@ -84,7 +84,7 @@ namespace MiniAPI.APIs
                     .Skip(listSize * (page - 1))
                     .Take(listSize),
                     totalStudents = res.Count(),
-                    totalPages = res.Count() / listSize + res.Count() % (listSize),
+                    totalPages = res.Count() / listSize + (res.Count() % listSize != 0 ? 1 : 0),
                     currPage = page
                 }
                     );
