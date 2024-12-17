@@ -35,7 +35,12 @@ namespace DataAcess.Models
             {
                 billId = BillId,
                 billNo = BillNo,
-                teacher = Teacher,
+                teacher = new
+                {
+                    Teacher.TeacherId,
+                    Teacher.Name,
+                    Teacher.LastName
+                },
                 amount = Amount,
                 date = Date,
                 note = Note,
@@ -50,7 +55,12 @@ namespace DataAcess.Models
             {
                 billId = BillId,
                 billNo = BillNo,
-                student = Student,
+                student = new 
+                { 
+                    Student.StudentId,
+                    Student.Name,
+                    Student.LastName 
+                },
                 amount = Amount,
                 date = Date,
                 note = Note,

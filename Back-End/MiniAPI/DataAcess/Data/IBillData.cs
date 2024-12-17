@@ -12,7 +12,7 @@ namespace DataAcess.Data
             string orderingType,
             string? startDate = null,
             string? endDate = null);
-        Task<IEnumerable<dynamic>> GetBillsByDate(string? date);
+        Task<IEnumerable<dynamic>> GetBillsByDate(string date);
         Task<dynamic> GetClassTotalPays(int classId);
         Task<IEnumerable<BillModel>> GetExternal(string? date, string Type);
         Task<IEnumerable<BillModel>> GetStudentBills(int studentId);

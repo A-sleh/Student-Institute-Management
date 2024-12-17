@@ -12,7 +12,7 @@ namespace DataAcess
 {
     public static class ValidationMethods
     {
-        public static string? TryParseDateForSqlQuery(string? date, string split)
+        public static string? ParseDateForSqlQuery(string? date, string split)
         {
             var s = date?.Split(split);
             string? Date;

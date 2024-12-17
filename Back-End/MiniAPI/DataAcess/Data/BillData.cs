@@ -102,9 +102,9 @@ namespace DataAcess.Data
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
-        public async Task<IEnumerable<dynamic>> GetBillsByDate(string? date)
+        public async Task<IEnumerable<dynamic>> GetBillsByDate(string date)
         {
-            var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
+            var Date = ValidationMethods.ParseDateForSqlQuery(date.Replace("%2F", "-"), "-");
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetByDate",
                 new { Date },
