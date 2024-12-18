@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[TestUpdate]
 	@TestId int,
-	@Title varchar(100),
+	@Title NVARCHAR(100),
 	@TestType varchar(10),
 	@Date DATE,
 	@CorrectionDate DATE,

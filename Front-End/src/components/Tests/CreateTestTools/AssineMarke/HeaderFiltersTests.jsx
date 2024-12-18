@@ -31,8 +31,8 @@ export default function HeaderFiltersTests() {
                 <select value={filterBySubject} onChange={(e)=>{setFilterBySubject(e.target.value)}} style={{width: '100%',padding : '4px 10px' ,border: 'none' , outline: 'none' , fontSize: '18px' , marginBottom: '10px'}}>
                     <option value="All" style={{fontSize: '15px' }}>All</option>
                     {
-                        subjects.map( subject => {
-                            return <option value={subject.subject} style={{fontSize: '15px', display: 'flex'  }}> <span> {subject.subject}</span> <span style={{alignSelf: 'flex-start'}}> / {subject.grade}</span> </option>
+                        subjects.map( (subject,index) => {
+                            return <option key={index} value={subject.subject} style={{fontSize: '15px', display: 'flex'  }}> {subject.subject} <option style={{alignSelf: 'flex-start'}}> / {subject.grade}</option> </option>
                         })
                     }
                 </select>   

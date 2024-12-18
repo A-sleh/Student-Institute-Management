@@ -31,7 +31,7 @@ export default function TestClassCurrent() {
     const [filterBySubject,setFilterBySubject] = useState('All')
     const [testType,setTestType] = useState('All') ;
     const [testState,setTestState] = useState(false)
-    const [tests] = useGetTests(classId,testType,filterBySubject,dateSearch,testState)
+    const [tests] = useGetTests(classId,true,testState,testType,filterBySubject,dateSearch,testState)
     const gotoPage = useNavigate()
 
     return (   

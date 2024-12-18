@@ -56,9 +56,9 @@ export default function BillStatistics() {
             <h1>Total balance information</h1>
             <div className="bills">
                 {
-                    billCardsList.map( bill => {
+                    billCardsList.map( (bill,index) => {
                         const { title ,content ,iconPath ,delay } = bill
-                        return <BillCard title={title} content={content} iconPath={iconPath} delay={delay}/>
+                        return <BillCard key={index} title={title} content={content} iconPath={iconPath} delay={delay}/>
                     })
                 }
             </div>

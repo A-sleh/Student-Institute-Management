@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[ClassUpdate]
 	@ClassId int,
-	@Title VARCHAR(50),
+	@Title NVARCHAR(50),
 	@Capacity INT,
-	@Gender VARCHAR(10),
+	@Gender NVARCHAR(10),
 	@GradeId int
 AS
 	UPDATE Class

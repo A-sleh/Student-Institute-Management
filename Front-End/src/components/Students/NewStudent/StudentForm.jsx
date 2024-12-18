@@ -13,14 +13,15 @@ import DataServices from "../../../Data/dynamic/DataServices.js";
 import Notification from "../../Global/Notification.jsx";
 import ShowInputCard from "../../shared/ShowInputCard.jsx";
 import ErrorMessage from "../../shared/ErrorMessage.jsx";
+import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade.jsx";
+import useClasses from "../../../hooks/useClasses.jsx";
 
 export default function StudentForm({title,requestType,studentInformation}) {
 
   const previousPage = useNavigate();
+  const [grades] = useGetAllGrade()
   const [successAdd, setSuccessAdd] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
-  const [classDetails, setCalssDetails] = useState([]);
-  const [newClassDetails, setNewClassDetails] = useState([]);
   const [validation, setValidation] = useState({
     name: false,
     lastName: false,
@@ -30,100 +31,19 @@ export default function StudentForm({title,requestType,studentInformation}) {
     billRequired: false,
   });
   const [studentDetails, setStudentDetails] = useState(studentInformation);
-  const [ClassType, setClassType] = useState({
-    Gender: {
-      Male: true,
-      Famale: false,
-    },
-    Grade: {
-      Bachelor: true,
-      Ninth: false,
-    },
+  const [ClassType, setClassType] = useState("Male");
+  const [classes] = useClasses(studentDetails.grade)
+  const filteringClasses = classes.filter((currentClass) => {
+    return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
   });
-
-  // fetch classes Details From Data Base
-  useEffect(() => {
-    try {
-      DataServices.showCalsses().then((data) => {
-        setCalssDetails(data);
-      });
-    } catch (error) {
-      // should fix the error here
-    }
-  }, []);
-
-  // Filter The Classes Depanded on Gender And Grade IN THE FIRST RENDER
-  useEffect(() => {
-    FilterClassGnderAndGrade(classDetails);
-  }, [classDetails]);
-
-
-  function FilterClassGnderAndGrade(data, liveState) {
-    let Gender, Grade;
-
-    if (data.length == 0) return; // To Avoide If The data Is Empty
-    if (liveState != undefined) {
-      // The liveState ref to the spanShot state to use the latest value of classType
-      Gender = liveState.Gender.Male ? "male" : "female";
-      Grade = liveState.Grade.Bachelor ? "bachelor" : "ninth";
-    } else {
-      Gender = ClassType.Gender.Male ? "male" : "female";
-      Grade = ClassType.Grade.Bachelor ? "bachelor" : "ninth";
-    }
-    const filteringClasses = data.filter((currentClass) => {
-      return Gender === currentClass?.gender && Grade === currentClass?.grade;
-    });
-
-    setNewClassDetails(filteringClasses);
-  }
   
   function handleCheckBoxGender(value) {
-    if (value) {
-      const nextState = {
-        ...ClassType,
-        Gender: {
-          Male: !ClassType.Gender.Male,
-          Famale: !ClassType.Gender.Famale,
-        },
-      };
 
-      setClassType({
-        ...ClassType,
-        Gender: {
-          Male: !ClassType.Gender.Male,
-          Famale: !ClassType.Gender.Famale,
-        },
-      });
-      FilterClassGnderAndGrade(classDetails, nextState);
+      setClassType(value);
 
       // I reSet The state in order to the empty option
       setStudentDetails({ ...studentDetails, class: {...studentDetails.class,classId: 0} });
-    }
-  }
 
-  function handleCheckBoxGrade(value) {
-    if (value) {
-      const nextState = {
-        ...ClassType,
-        Grade: {
-          Bachelor: !ClassType.Grade.Bachelor,
-          Ninth: !ClassType.Grade.Ninth,
-        },
-      };
-
-      setClassType({
-        ...ClassType,
-        Grade: {
-          Bachelor: !ClassType.Grade.Bachelor,
-          Ninth: !ClassType.Grade.Ninth,
-        },
-      });
-
-      FilterClassGnderAndGrade(classDetails, nextState);
-
-      // I reSet The state in order to the empty option
-      setStudentDetails({ ...studentDetails, classId: 0 });
-    }
   }
 
   function validationInputsFeilds() {
@@ -222,10 +142,18 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
             <FormRowStyle>
 
-              <FormSubRowStyle width={'100%'}>
+              <FormSubRowStyle >
                 <LabelStyle color={'#056699'}>Father Name</LabelStyle>
                 <InputStyle type="text" className={validation.fatherName ? "error" : ""} value={studentDetails.fatherName} onChange={(e) =>handleInputChange(e.target.value,'fatherName')} />
                 <ErrorMessage showMessage={validation.fatherName} message={"Pleas Enter The Father Name"}/>
+              </FormSubRowStyle>
+
+              <FormSubRowStyle>
+                <LabelStyle color={'#056699'}>Grade</LabelStyle>
+                <FormSelectdStyle value={studentDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade')}>
+                    <option value={""}></option>
+                    { grades.map((grade,index) => { return <option key={index} value={grade.grade}>{grade.grade}</option> }) }
+                </FormSelectdStyle>
               </FormSubRowStyle>
 
             </FormRowStyle>
@@ -260,30 +188,16 @@ export default function StudentForm({title,requestType,studentInformation}) {
                   <LabelStyle color={'#056699'}>Gender</LabelStyle>
                   <div>
                     <div>
-                      <input type="checkbox" id="Male" checked={ClassType.Gender.Male}onChange={(e) => handleCheckBoxGender(e.target.checked)} />
+                      <input type="checkbox" id="Male" checked={ClassType == 'Male'} onChange={(e) => handleCheckBoxGender('Male')} />
                       <label htmlFor="Male">Male</label>
                     </div>
                     <div>
-                      <input type="checkbox" id="Famale" checked={ClassType.Gender.Famale} onChange={(e) => handleCheckBoxGender(e.target.checked)} />
+                      <input type="checkbox" id="Famale" checked={ClassType=='Female'} onChange={(e) => handleCheckBoxGender('Female')} />
                       <label htmlFor="Famale">Female</label>
                     </div>
                   </div>
                 </section>
 
-                <section>
-
-                  <LabelStyle color={'#056699'}>Grade</LabelStyle>
-                  <div >
-                    <div>
-                      <input type="checkbox" id="bachelor" checked={ClassType.Grade.Bachelor} onChange={(e) => handleCheckBoxGrade(e.target.checked)}/>
-                      <label htmlFor="bachelor">Bachelor</label>
-                    </div>
-                    <div>
-                      <input type="checkbox" id="ninth" checked={ClassType.Grade.Ninth} onChange={(e) => handleCheckBoxGrade(e.target.checked)} />
-                      <label htmlFor="ninth">Ninth</label>
-                    </div>
-                  </div>
-                </section>
               </FormCheckBoxContainerStyle>
 
             </FormRowStyle>
@@ -292,7 +206,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
               <LabelStyle color={'#056699'}>Class Name</LabelStyle>
               <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value,},'class')}>
                 <option value={0}></option>
-                {newClassDetails.map((currentClass, index) => (
+                {filteringClasses.map((currentClass, index) => (
                   <option value={currentClass.classId} key={index} style={{ padding: "20px" }}>
                     {currentClass.title}
                   </option>

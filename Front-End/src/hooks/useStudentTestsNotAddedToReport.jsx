@@ -13,7 +13,7 @@ export default function useStudentTestsNotAddedToReport(studentId) {
         }) 
         setTests(
             Object.groupBy(pendingTests, ({test}) => {
-            return test.testType.toLowerCase() != 'quiz' ? test.testType.toLowerCase() : 'quiz'
+            return test.testType?.toLowerCase() != 'quiz' ? test.testType?.toLowerCase() : 'quiz'
             })
         )
         })

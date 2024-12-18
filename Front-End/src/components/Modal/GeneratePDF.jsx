@@ -9,13 +9,13 @@ const GeneratePDF = function({setDeleteModal,children}) {
                 className="bi bi-info-circle icon"
                 style={{ color: "#05659997", fontSize: "5em" }}
             ></i>
-            <p style={{ fontWeight: "600",color: "#056699", fontSize: "1.3em", margin: "5px 0" }}>
+            <span style={{ fontWeight: "600",color: "#056699", fontSize: "1.3em", margin: "5px 0" }}>
                 The pdf has been prepared
-            </p>
-            <p className="modal-content">
+            </span>
+            <span className="modal-content">
                 Do you want to download it ? 
                 <b style={{ color: "#2b2121" }}> if not, click cancel</b>.
-            </p>
+            </span>
             <div>
                 {children}
                 <button

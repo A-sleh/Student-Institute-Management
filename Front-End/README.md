@@ -205,4 +205,25 @@ solve the proble:
 3 - 
 
 
+Day 23 : 
+    1- fix teachers pagination []
+    2 - teachers bills hook ( use new endpoint ) [X]
+    3 - studnets bills hook ( use new endpoint ) [X]
+    4 - statistics : 
+        - [] 
+
+-- [] testing statistcs page
+-- [] testing students page {
+
+}
+-- [] testing side bar page {
+
+}
+-- [] testing teacher page
+-- [] testing bills page
+-- [] testing test page
+-- [] testing classes page
+-- [] testing grade page
+-- [] testing subject page
+
 

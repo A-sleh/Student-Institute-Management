@@ -4,7 +4,6 @@
   USING REACT QURY : 
   
 */
-
 import { useMemo, useState } from "react";
 import { COLUMNS } from "./column/Columns";
 import { Link, Outlet } from "react-router-dom";
@@ -12,19 +11,20 @@ import Title from "../Global/Title";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 import TablePaginated from "../shared/TablePaginated";
-import { SubHeaderTableStyle } from "../shared/style/tableTagsStyle";
 import useStudentsInfo from "../../hooks/useStudentsInfo";
+import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 
 export default function StudentsDetails() {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
+  const [selectedGrade,setSelectedGrade] = useState('')
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
-  const [studentInfo] = useStudentsInfo(successDeleteStudent);
-
+  const [currentPage,setCurrentPage] = useState(1)
+  const [studentInfo,totalPageNumber] = useStudentsInfo(selectedGrade,setCurrentPage,1,currentPage,successDeleteStudent);
 
   function handleDleteClicked(student) {
     setCurrentStudentInfo({
@@ -33,6 +33,7 @@ export default function StudentsDetails() {
     });
     setDeleteModal(true);
   }
+
 
   const column = useMemo(
     () => [
@@ -89,11 +90,8 @@ export default function StudentsDetails() {
       <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
 
       <Title title={window.location.pathname} />
-
-      <TablePaginated data={studentInfo || []} column={column}>
-        <SubHeaderTableStyle >
-          Total Students Number : <span>{studentInfo?.length || 0 }</span>
-        </SubHeaderTableStyle>
+      <TablePaginated data={studentInfo || []} column={column} setNextPageState={setCurrentPage} totalPageNumber={totalPageNumber} rowNumber={3}>
+        <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
       </TablePaginated> 
 
     </>

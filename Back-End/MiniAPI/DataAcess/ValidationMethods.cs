@@ -12,6 +12,12 @@ namespace DataAcess
 {
     public static class ValidationMethods
     {
+        /// <summary>
+        /// Parse and prepare a date parameter to be used in 'like' statements into sql query
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="split"></param>
+        /// <returns></returns>
         public static string? ParseDateForSqlQuery(string? date, string split)
         {
             var s = date?.Split(split);
@@ -36,6 +42,12 @@ namespace DataAcess
             else Date = date;
             return Date;
         }
+        /// <summary>
+        /// Validates string date in YMD format
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns>Valid string date (yyyy-MM-dd)</returns>
+        /// <exception cref="InvalidParametersException"></exception>
         public static string ValidateDigitsOfDate(string date)
         {
             if (date.Length < 4 || date.Split('-').Length < 1)

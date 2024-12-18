@@ -12,7 +12,7 @@ import ClassForm from "./NewClass/ClassForm";
 
 
 export default function NewClass() {
-  const initialSatate = { title: "", capacity: 0, grade: "", gender: ""};
+  const initialSatate = { title: "", capacity: 0, grade: "", gender: "",gradeId: 0};
   const [successCreateClasss, setSuccessCreateClasss] = useState(false);
 
   return (

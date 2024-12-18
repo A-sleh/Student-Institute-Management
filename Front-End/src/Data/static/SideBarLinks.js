@@ -54,5 +54,6 @@ export const links = [
         { title: "New Class",path: 'NewClass', iconPath: "bi bi-building-add" },
       ],
     },
+    { title: "Grade", path: 'Grade',iconPath: "bi bi-mortarboard", subLinks: [] },
     { title: "Subject", path: 'Subject',iconPath: "bi bi-book-half", subLinks: [] },
   ];

@@ -13,7 +13,6 @@ export default function ManageTeacher() {
 
     const [search,setSearch] = useState('')
     const [teachersDetails,setTeachersDetails] = useState([]) ;
-    console.log(teachersDetails)
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     useEffect(() => {
         DataServices.TeacherInformaion().then( teachers => { 
@@ -28,8 +27,8 @@ export default function ManageTeacher() {
             {
                 teachersDetails.map( (teacher,index) => {
                     const {teacherId} = teacher ; 
-                    const fullName = teacher.name.toLowerCase() + ' ' + teacher.lastName.toLowerCase() ; 
-                    if( !fullName.includes(search.toLocaleLowerCase()) ) return ;
+                    const fullName = teacher.name?.toLowerCase() + ' ' + teacher.lastName?.toLowerCase() ; 
+                    if( !fullName.includes(search.toLowerCase()) ) return ;
                     return <Teacherinfo teacherId={teacherId} key={index}  setSuccessDeleteTeacher={setSuccessDeleteTeacher}/>
                 })
             }

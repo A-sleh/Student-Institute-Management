@@ -1,11 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[BillAdd]
-	@BillNo varchar(50),
-	@Type varchar(5),
-	@Date varchar(30),
+	@BillNo NVARCHAR(50),
+	@Type VARCHAR(5),
+	@Date NVARCHAR(30),
 	@Amount int,
 	@StudentId int,
 	@TeacherId int,
-	@Note varchar(300)
+	@Note NVARCHAR(300)
 AS
 	if (@TeacherId = 0 AND @StudentId <> 0)
 	BEGIN

@@ -1,9 +1,11 @@
 const URL = "https://localhost:7279";
+import axios from 'axios'
+
 
 export default {
   Student: {
-    get: (id) => {
-      return fetch(`${URL}/Student/${id || ""}`).then((response) =>
+    get: (id,gradId,limit=100,page=1) => {
+      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}&gradeId=${gradId}`).then((response) =>
         response.json()
       );
     },
@@ -99,11 +101,9 @@ export default {
     },
   },
   Teacher: {
-    get: (id) => {
-      return  fetch(`${URL}/Teacher/${id || ''}`).then((response) =>{
-        return response.json()
-      }
-      );
+    
+    get: (id,limit=100,page=1) => {
+      return  axios.get(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`);
     },
     post: (data) => {
       return fetch(`${URL}/Teacher`, {
@@ -238,6 +238,16 @@ export default {
           response.json()
         );
       },
+      inComeBalanceInRange: (startDate,endDate) => {
+        return fetch(`${URL}/Bill/Total/Income?startDate=${startDate}&endDate=${endDate}`).then((response) =>
+          response.json()
+        );
+      },
+      outComeBalanceInRange: (startDate,endDate) => {
+        return fetch(`${URL}/Bill/Total/Outcome?startDate=${startDate}&endDate=${endDate}`).then((response) =>
+          response.json()
+        );
+      },
       restInComeBill : () => {
         return fetch(`${URL}/Bill/Rest/in`).then((response) =>
           response.json()
@@ -255,6 +265,11 @@ export default {
       },
       outComeBillBalance : () => {
         return fetch(`${URL}/Bill/Total/Outcome`).then((response) =>
+          response.json()
+        );
+      },
+      showBill: (sortingType) => {
+        return fetch(`${URL}/Bill?limit=1&page=1&orderBy=Date&orderingType=${sortingType}`).then((response) =>
           response.json()
         );
       }
@@ -299,8 +314,8 @@ export default {
           return response.json()}
         );
       },
-      AllTestInTheClasss : (classId,flag) => {
-        return fetch(`${URL}/Class/${classId}/Test?flag=${flag}&showLinked=false`).then((response) =>{
+      AllTestInTheClasss : (classId,linkedTest,correctionTest) => {
+        return fetch(`${URL}/Class/${classId}/Test?flag=${correctionTest}&showLinked=${linkedTest}`).then((response) =>{
           return response.json()}
         );
       },
@@ -352,6 +367,11 @@ export default {
           response.json()
         );
       },
+      spesifyReports : (gradeId) => {
+        return fetch(`${URL}/Report?gradeId=${gradeId}`).then((response) =>
+          response.json()
+        );
+      },
       AllClassReports : (classId) => {
         return fetch(`${URL}/Report?classId=${classId}`).then((response) =>
           response.json()
@@ -381,7 +401,22 @@ export default {
         return fetch(`${URL}/Report/Student/${studentId}/Result`).then((response) =>
           response.json()
         );
-      }
+      },
+      StudnetReportsAvg : (studnetId) => {
+        return fetch(`${URL}/Report/Student/Average?studentId=${studnetId}`).then((response) =>
+          response.json()
+        );
+      },
+      TopOneStudents : (reportId) => {
+        return fetch(`${URL}/Report/Student/Average?reportId=${reportId}`).then((response) =>
+          response.json()
+        );
+      },
+      TopOneClasses: (reportId) => {
+        return fetch(`${URL}/Report/Class/Average?reportId=${reportId}`).then((response) =>
+          response.json()
+        );
+      },
 
     },
     post: (data) => {
@@ -407,5 +442,51 @@ export default {
         method: "DELETE",
       });
     },
+  },
+  Statistics : {
+    get : {
+      countByType : () => {
+        return fetch(`${URL}/Grade/Count`).then((response) =>
+          response.json()
+        );
+      },
+      TeacherRateBySubject: (subjectId) => {
+        return fetch(`${URL}/Report/Teacher/rate?subjectId=${subjectId}&limit=200&page=1`).then((response) =>
+          response.json()
+        );
+      }
+    }
+  },
+  Grade : {
+    get : () => {
+      return fetch(`${URL}/Grade`).then((response) =>
+        response.json()
+      );
+    },
+    put: (data) => {
+      return fetch(`${URL}/Grade`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    }
+    ,
+    post : (data) => {
+      return fetch(`${URL}/Grade`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    delete: (gradeId) => {
+      return fetch(`${URL}/Grade/${gradeId}`, {
+        method: "DELETE",
+      });
+    },
+  
   }
 };

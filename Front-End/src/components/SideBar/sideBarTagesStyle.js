@@ -162,10 +162,6 @@ export const SideBarListStyle = styled.ul`
             height: 100%;
             margin-top: 12px;
         }
-
-        &.active:first-child ,&:first-child:has(+ ul .list.active ) {
-            margin-top: 18px;
-        }
     }
 `
 
@@ -195,7 +191,7 @@ export const CloseBtnForMobileScreen = styled.i`
 `
 
 export const SideBarStyle = styled.aside`
-    width: ${ ({openSideBare}) => openSideBare ? "250px" : "56px"};
+    width: ${ ({opensidebare}) => opensidebare == 'true' ? "250px" : "56px"};
     transition: 0.5s ;
     z-index: 90000;
 
@@ -207,10 +203,10 @@ export const SideBarStyle = styled.aside`
         position: absolute;
         width: 250px; 
         height: 100vh !important;
-        transform: ${ ({openSideBare}) => !openSideBare ?' translateX(0)': 'translateX(-100%)' };
+        transform: ${ ({opensidebare}) => !opensidebare == 'true' ?' translateX(0)': 'translateX(-100%)' };
 
         & .fa-xmark {
-            display: ${ ({openSideBare}) => openSideBare ? "none" : "flex"};
+            display: ${ ({opensidebare}) => opensidebare == 'true' ? "none" : "flex"};
         }
 
         &::before {

@@ -54,7 +54,7 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
           <DeleteModal element={currentClass.title} type={'TeacherFromClass'} id={currentClass.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteFromClass} />
         }
         {
-          classes.length == 0  ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > There are no classes yet ...</p> :
+          classes.length == 0  ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > There are no classes yet ...</span> :
           <Table data={classes || []} column={columns} showMainHeader={false} styleObj = {{padding: '6px' , fontSize : '15px' , sameColor : false}} unableId={true}/>
         }
       </>

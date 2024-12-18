@@ -74,7 +74,7 @@ export const ShowClassBalanceHeaderStyle = styled.div`
         background-color: white ;
         min-width: 10em ;
 
-        span {
+        span:first-child {
             position: absolute;
             color: #066599 ;
             right: 0;

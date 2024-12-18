@@ -4,10 +4,12 @@ import ErrorMessage from "../../shared/ErrorMessage";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Notification from "../../Global/Notification";
 import { successActionLogic } from "../../shared/logic/logic";
+import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
 
 const initailSubjectState = {
     subject: "",
     grade : '',
+    gradeId: 0,
     maximumMark: 0,
     subjectType: ''
 };
@@ -16,6 +18,7 @@ export default function NewSubjectForm() {
 
     const [subjectForm,setSubjectForm] = useState(initailSubjectState)
     const [successCreateSubject,setSuccessCreateSubject] = useState(false)
+    const [grades] = useGetAllGrade()
     const [validation,setValidation] = useState({
         subject: false,
         grade : false,
@@ -23,11 +26,14 @@ export default function NewSubjectForm() {
         subjectType: false
     })
 
-    function handleInputChange(value,key) {
+    async function handleInputChange(value,key,key1) {
 
         let copyData = new Map()
         copyData = {...subjectForm} 
-        copyData[key] = value 
+        if(key1 != undefined) {
+            copyData[key1] =await value.split(' ')[0] 
+            copyData[key] = await value.split(' ')[1]
+        }else  copyData[key] = value 
     
         setSubjectForm(copyData)
     
@@ -58,7 +64,6 @@ export default function NewSubjectForm() {
         }
     }
     
-
     return (
         <>  
             <Notification title={"create new subject"} type={"success"} state={successCreateSubject} setState={setSuccessCreateSubject} />
@@ -79,17 +84,13 @@ export default function NewSubjectForm() {
                         </FormSubRowStyle>
 
                     </FormRowStyle>
-                    <FormRowStyle >
-                        <FormSubRowStyle width={'100%'}>
-                            <LabelStyle color={'#056699'}>Subject grade</LabelStyle>
-                            <FormSelectdStyle value={subjectForm.grade} className={validation.grade ? "error" : ""} onChange={(e) => handleInputChange(e.target.value,'grade')}>
-                                <option value=""></option>
-                                <option value="ninth">Ninth</option>
-                                <option value="bachelor">Bachelor</option>
-                            </FormSelectdStyle>
-                            <ErrorMessage showMessage={validation.grade} message={"Pleas selcet subject grade"}/>
-                        </FormSubRowStyle>
-                    </FormRowStyle>
+                    <FormSubRowStyle width={'100%'}>
+                        <LabelStyle color={'#056699'}>Subject Grade</LabelStyle>
+                        <FormSelectdStyle value={subjectForm.gradeId+' '+subjectForm.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade','gradeId')}>
+                            <option value={""}></option>
+                            { grades.map((grade,index) => { return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
+                        </FormSelectdStyle>
+                    </FormSubRowStyle>
                     {
                         subjectForm.grade == 'bachelor' && 
                         <FormRowStyle >      

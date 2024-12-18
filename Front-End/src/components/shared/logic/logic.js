@@ -16,7 +16,7 @@ export const errorActionLogic = (setAction) => {
 export function separateTesetsAccordingToType(tests,quizAvg,examAvg) {
 
     const res = Object.groupBy(tests,({testType}) => {
-        return testType.toLowerCase() != 'quiz' ? 'exam' : 'quiz'
+        return testType?.toLowerCase() != 'quiz' ? 'exam' : 'quiz'
     })
     const quizRes = {Avg:quizAvg , tests: res.quiz}
     const examRes = {Avg:examAvg , tests: res.exam}

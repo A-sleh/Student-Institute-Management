@@ -10,12 +10,14 @@ import { useState } from "react";
 import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
+import useGetAllGrade from '../../../hooks/Grade_hooks/useGetAllGrade';
 
 
 export default function ClassForm({ initialSatate, setSuccessAction, type }) {
   
   const [validation, setValidation] = useState({ title: false, capacity: false, grade: false, gender: false, })
   const [classDetails, setClassDetails] = useState(initialSatate)
+  const [grades] = useGetAllGrade()
 
   function validationInputsFeilds() {
     const { title, capacity, grade, gender } = classDetails;
@@ -37,11 +39,15 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
     }
   }
 
-  function handleInputsChange(value,key) {
+  function handleInputsChange(value,key,key1) {
 
     let copyData = new Map()
     copyData = {...classDetails} 
-    copyData[key] = value 
+    
+    if(key1 != undefined) {
+      copyData[key1] = value.split(' ')[0] 
+      copyData[key] = value.split(' ')[1]
+    }else  copyData[key] = value 
 
     setClassDetails(copyData)
   }
@@ -74,41 +80,45 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
     <FormMainContainer>
 
       <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)}>
-        <h3>Class Information</h3>
+        <div>
+          <h3>Class Information</h3>
 
-        <FormRowStyle >
-          <FormSubRowStyle>
-            <LabelStyle color={'#056699'}>Class Title</LabelStyle>
-            <InputStyle className={validation.title ? "error" : ""} type="text" value={classDetails.title} onChange={(e) =>handleInputsChange(e.target.value,'title')}/>
-            <ErrorMessage message={'Pleas Enter The Class Title'} showMessage={validation.title}/>
+          <FormRowStyle >
+            <FormSubRowStyle>
+              <LabelStyle color={'#056699'}>Class Title</LabelStyle>
+              <InputStyle className={validation.title ? "error" : ""} type="text" value={classDetails.title} onChange={(e) =>handleInputsChange(e.target.value,'title')}/>
+              <ErrorMessage message={'Pleas Enter The Class Title'} showMessage={validation.title}/>
+            </FormSubRowStyle>
+            
+            <FormSubRowStyle>
+              <LabelStyle color={'#056699'}>Class Capacity </LabelStyle>
+              <InputStyle type="text" className={validation.capacity ? "error" : ""} value={classDetails.capacity} onChange={(e) =>handleInputsChange(e.target.value,'capacity')}/>
+              <ErrorMessage message={'The Capacity Must Be Positive'} showMessage={validation.capacity}/>
+            </FormSubRowStyle>
+
+          </FormRowStyle >
+
+          <FormSubRowStyle width={'100%'}>
+            <LabelStyle color={'#056699'}>Grade</LabelStyle>
+            <FormSelectdStyle value={classDetails.gradeId+' '+classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade','gradeId')}>
+              <option value={""}></option>
+              {
+                grades.map((grade,index) => {
+                  return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option>
+                })
+              }
+            </FormSelectdStyle>
           </FormSubRowStyle>
-          
-          <FormSubRowStyle>
-            <LabelStyle color={'#056699'}>Class Capacity </LabelStyle>
-            <InputStyle type="text" className={validation.capacity ? "error" : ""} value={classDetails.capacity} onChange={(e) =>handleInputsChange(e.target.value,'capacity')}/>
-            <ErrorMessage message={'The Capacity Must Be Positive'} showMessage={validation.capacity}/>
+
+          <FormSubRowStyle width={'100%'}>
+            <LabelStyle color={'#056699'}>Gender</LabelStyle>
+            <FormSelectdStyle value={classDetails.gender} className={validation.gender ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'gender')}>
+              <option value={""}></option>
+              <option value={"male"}>male</option>
+              <option value={"female"}>female</option>
+            </FormSelectdStyle>
           </FormSubRowStyle>
-
-        </FormRowStyle >
-
-        <FormSubRowStyle width={'100%'}>
-          <LabelStyle color={'#056699'}>Grade</LabelStyle>
-          <FormSelectdStyle value={classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade')}>
-            <option value={""}></option>
-            <option value={"bachelor"}>bachelor</option>
-            <option value={"ninth"}>ninth</option>
-          </FormSelectdStyle>
-        </FormSubRowStyle>
-
-        <FormSubRowStyle width={'100%'}>
-          <LabelStyle color={'#056699'}>Gender</LabelStyle>
-          <FormSelectdStyle value={classDetails.gender} className={validation.gender ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'gender')}>
-            <option value={""}></option>
-            <option value={"male"}>male</option>
-            <option value={"female"}>female</option>
-          </FormSelectdStyle>
-        </FormSubRowStyle>
-
+        </div>
         <ButtonsContainerStyle >
           <SubmitBtnStyle >
             {type ==='POST' ?  'Submit' : 'Update'}

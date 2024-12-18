@@ -13,8 +13,8 @@ import Table from "../../../shared/Table";
 
 export default function ShowAllTest() {
 
-    const [selectedGrade,setSelectedGrade] = useState('bachelor')
-    const [classesGrade] = useClasses(selectedGrade,true); 
+    const [selectedGrade,setSelectedGrade] = useState({})
+    const [classes] = useClasses(selectedGrade?.grade,true) 
 
 
     return (

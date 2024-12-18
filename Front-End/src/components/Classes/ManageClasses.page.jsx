@@ -8,40 +8,43 @@ import DataServices from "../../Data/dynamic/DataServices";
 import ClassSetting from "./ManageClasses/ClassSetting";
 import Notification from "../Global/Notification";
 import Title from "../Global/Title";
+import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
+import SearchSubHeader from "../shared/SearchSubHeader";
 
 export default function ManageClasses() {
 
-  const [classesId, setClassesId] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [deleteClass, setDeleteClass] = useState(false);
+  const [selectedGrade,setSelectedGrade] = useState('')
   const [search,setSearch] = useState('')
   
   useEffect(() => {
     DataServices.showCalsses().then((classes) => {
-      const ClassesIds = classes.map((res) => {
-        return {
-          classId : res.classId ,
-          title : res.title
-        };
-      });
-      setClassesId(ClassesIds);
+      setClasses(classes)
     });
-  }, [deleteClass]);
+  }, [deleteClass])
 
 
   return (
     <>
       <Title title={window.location.pathname} />
       <Notification title={"Class Was Deleted"} type={"success"} state={deleteClass} setState={setDeleteClass} />
+      <div style={{display: 'flex' , alignItems: 'center',justifyContent: 'space-between'}}>
+        <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+        <SearchSubHeader filter={search} setFilter={setSearch}/>
+      </div>
       {
-        classesId.map((Class, index) => {
-          return <ClassSettingMemo ClassId={Class.classId} search={search} title={Class.title} setDeleteClass={setDeleteClass} key={index} />;
+        classes.map((Class, index) => {
+          return <ClassSettingMemo Class={Class} search={search} setDeleteClass={setDeleteClass} key={index} selectedGrade={selectedGrade} />;
         })
       }
     </>
   );
 }
 
-const ClassSettingMemo = React.memo(({ ClassId,title,search, setDeleteClass }) => {
-  if( !title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) return
-  return <ClassSetting ClassId={ClassId} classTitle={title} setDeleteClass={setDeleteClass} />;
+const ClassSettingMemo = React.memo(({ Class,search, setDeleteClass , selectedGrade }) => {
+
+  if( Class.grade?.toLowerCase() != selectedGrade?.grade?.toLowerCase()) return
+  if( !Class.title?.toLowerCase().includes(search?.toLowerCase())) return
+  return <ClassSetting ClassId={Class.classId} classTitle={Class.title} setDeleteClass={setDeleteClass} />;
 });

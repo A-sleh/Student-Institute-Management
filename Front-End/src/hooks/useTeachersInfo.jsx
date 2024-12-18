@@ -1,6 +1,7 @@
 
 import DataServices from "../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
+import {useQuery} from 'react-query'
 
 export default function useTeachersInfo(successDeleteTeacher) {
 
@@ -8,20 +9,19 @@ export default function useTeachersInfo(successDeleteTeacher) {
     const [teachersDetails,setTeachersDetails] = useState([])
 
     async function getTeachersSubjectsClassesNumber(teachers) {
+        return new Promise((resolve) => {
+            let teacher_details = []
+            teachers.map( async (teacher ) => {
+                const { teacherId } = teacher
+                const subjectaNumber = await DataServices.ShowAllTeacherSubjects(teacherId)
+                let  classesNumber = await DataServices.ShowTeacherClass(teacherId)
+                classesNumber = classesNumber.reduce( (sum,teacher) => (sum + teacher.classes.length - (teacher.classes[0] == null))  , 0)
 
-    return new Promise((resolve) => {
-        let teacher_details = []
-        teachers.map( async (teacher ) => {
-            const { teacherId } = teacher
-            const subjectaNumber = await DataServices.ShowAllTeacherSubjects(teacherId)
-            let  classesNumber = await DataServices.ShowTeacherClass(teacherId)
-            classesNumber = classesNumber.reduce( (sum,teacher) => (sum + teacher.classes.length - (teacher.classes[0] == null))  , 0)
-
-            teacher_details.push({...teacher,subjectaNumber: subjectaNumber.length , classesNumber: classesNumber})
-            if(teachers.length == teacher_details.length ) { 
-                resolve(teacher_details)
-            }
-        })
+                teacher_details.push({...teacher,subjectaNumber: subjectaNumber.length , classesNumber: classesNumber})
+                if(teachers.length == teacher_details.length ) { 
+                    resolve(teacher_details)
+                }
+            })
         })
     }
   

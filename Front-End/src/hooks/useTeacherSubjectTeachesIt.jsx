@@ -6,7 +6,7 @@ export default function useTeacherSubjectTeachesIt(teacherId,gradeFilter,usedSub
 
     function filterSubject(subject) {
         const { grade ,  isUsed } = subject
-        return (gradeFilter == 'All' || (gradeFilter != 'All' && grade.toLowerCase() == gradeFilter.toLowerCase())) && !(isUsed && usedSubjectHidden)
+        return (gradeFilter == 'All' || (gradeFilter != 'All' && grade?.toLowerCase() == gradeFilter?.toLowerCase())) && !(isUsed && usedSubjectHidden)
     }
 
     const [allsubjects,setAllsubjects] = useState([]) ;

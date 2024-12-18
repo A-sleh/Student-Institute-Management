@@ -16,7 +16,6 @@ export default function ShowSubjects() {
     const [manageButton,setManageButton] = useState(true)
     const [selectedSubject,setSelectedSubject] = useState({})
     const [subjects] = useGetSubjects(filterByGrade)
-    console.log(subjects)
 
     const manageColumn = useMemo(() => [
         ...SUBJECTCOLUMNS ,

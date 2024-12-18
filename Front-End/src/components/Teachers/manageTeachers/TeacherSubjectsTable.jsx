@@ -100,7 +100,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
         <Notification title={'Delete subject'} type={'success'} state ={successDeleteSubject} setState={setSuccessDeleteSubject}/>
         <Notification title={'This subject is taught in one class'} type={'error'} state ={errorDeleteSubject} setState={setErrorDeleteSubject}/>
         { 
-          subjects.length == 0 ? <p style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > There are no subjects yet ...</p> : 
+          subjects.length == 0 ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > There are no subjects yet ...</span> : 
           <Table data={subjects || []} column={columns} showMainHeader={false} styleObj = {{padding: '6px' , fontSize : '15px' , sameColor : false}} unableId={true}/>
         }
       </>

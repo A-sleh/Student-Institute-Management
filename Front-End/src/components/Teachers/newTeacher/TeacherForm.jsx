@@ -15,7 +15,6 @@ import { successActionLogic } from "../../shared/logic/logic";
 
 export default function TeacherForm(props) {
 
-  console.log(props)
   const { initialSatate , requestType ,setSuccessAction} = props
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
   const gotoPreviousPage = useNavigate();

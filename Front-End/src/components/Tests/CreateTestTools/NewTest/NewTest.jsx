@@ -15,7 +15,8 @@ export default function NewTest() {
         subject : {
             subjectId : '',
             subject: '',
-            grade: ''
+            grade: '',
+            gradeId: 0
         },
         testType : '' ,
         date : '' ,
@@ -23,7 +24,7 @@ export default function NewTest() {
         correctionDate : null
     }
     const [form,setForm] = useState(initailState)
-
+    
     return (
         <CreateTestForm form={form} setForm={setForm} initailState={initailState} >
             <ShowInputCard iconPath={"bi bi-info-circle icon"} >

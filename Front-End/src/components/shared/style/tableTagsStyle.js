@@ -5,15 +5,11 @@ export const TableContainerStyle = styled.div`
     background-color: #f3f1f1d7;
     padding: 20px 10px 20px 10px;
     border-radius: 10px;
+    margin-top: 10px;
     margin-bottom: 15px;
     overflow-x: auto;
     position: relative;
     flex: 1;
-
-    @media (max-width: 767px ) {
-        
-        
-    }
 `
 
 export const TableStyle = styled.table`
@@ -90,7 +86,6 @@ export const TableHeaderStyle = styled.div`
         display: flex;
         align-items: center;
         color: gray;
-        width: ${({fullWidth}) => fullWidth ? '100%' : 'fit-content' };
 
         i {
             margin: 0px 10px;
@@ -102,7 +97,6 @@ export const TableHeaderStyle = styled.div`
             border: none;
             outline: none   ;
             font-weight: 500;
-            width: ${({fullWidth}) => fullWidth ? '100%' : 'fit-content' };
         }
 
         span {

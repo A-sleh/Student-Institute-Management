@@ -19,8 +19,8 @@ export default function ShowLatestBills({bills,billsType,showMoreLink}) {
             <main>
                 <div className="bill-container-cards">
                     {
-                        bills.map( bill => {
-                            return <ShowBillCard type={'show'} bill={bill}  />
+                        bills.map( (bill,index) => {
+                            return <ShowBillCard type={'show'} bill={bill} key={index} />
                         })
                     }
                 </div>

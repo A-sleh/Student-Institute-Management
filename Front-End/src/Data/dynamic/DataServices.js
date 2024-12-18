@@ -1,8 +1,8 @@
 import API from "./API.js";
 
 export default {
-  StudentsInformaion: (id) => {
-    return API.Student.get(id);
+  StudentsInformaion: (id,gradId,limit,page) => {
+    return API.Student.get(id,gradId,limit,page);
   },
   AddNewStudent: (data) => {
     return API.Student.post(data);
@@ -145,8 +145,8 @@ export default {
   ClassTestLink : (classId,testId) => {
     return API.Test.post.ClassTest(classId,testId)
   },
-  ShowCurrentClassTests : (classId,flag) => {
-    return API.Test.get.AllTestInTheClasss(classId,flag)
+  ShowCurrentClassTests : (classId,linkedTest,correctionTest) => {
+    return API.Test.get.AllTestInTheClasss(classId,linkedTest,correctionTest)
   },
   AssingeMarkToTheTest : (testMarkId,mark) => {
     return API.Test.put(testMarkId,mark)
@@ -156,6 +156,9 @@ export default {
   },
   ShowAllNativeReports : (id) => {
     return API.Report.get.AllReports(id)
+  },
+  ShowAllReportsFilteredByGrade : (gradeId) => {
+    return API.Report.get.spesifyReports(gradeId)
   },
   LinkTestWithCurrentReport : (classId,data) => {
     return API.Report.put(classId,data)
@@ -186,7 +189,47 @@ export default {
   },
   ShowStudentReports : (studentId) => {
     return API.Report.get.StudentReports(studentId)
+  },
+  ShowGradeCountByType : () => {
+    return API.Statistics.get.countByType()
+  },
+  ShowTeachersRateInCurrentSubject: (subjectId) => {
+    return API.Statistics.get.TeacherRateBySubject(subjectId)
+  },
+  ShowAllInstituteGrade : () => {
+    return API.Grade.get()
+  },
+  ShowStudentReportsAvg : (studentId) => {
+    return API.Report.get.StudnetReportsAvg(studentId)
+  },
+  ShowTheTopOneInEachClassInCurrentReport: (reportId) => {
+    return API.Report.get.TopOneStudents(reportId)
+  },
+  ShowIncomeBalanceInCurrentRange: (startDate,endDate) => {
+    return API.Bill.get.inComeBalanceInRange(startDate,endDate)
+  },
+  ShowoutcomeBalanceInCurrentRange: (startDate,endDate) => {
+    return API.Bill.get.outComeBalanceInRange(startDate,endDate)
+  },
+  ShowTheAvgForEachClasseInCurrentReport: (reportId) => {
+    return API.Report.get.TopOneClasses(reportId)
+  },
+  CreateNewGrade : (data) => {
+    return API.Grade.post(data)
+  },
+  DeleteGrade : (gradeId) => {
+    return API.Grade.delete(gradeId)
+  },
+  UpdateGrade : (data) => {
+    return API.Grade.put(data)
+  },
+  ShowFirstBill : () => {
+    return API.Bill.get.showBill('ASC')
+  },
+  ShowLastBill : () => {
+    return API.Bill.get.showBill('DESC')
   }
+
 };
 
 

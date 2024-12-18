@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[BillGetAll]
 	@Limit int = 100,
 	@page int = 1,
-	@Type varchar(15) null,
+	@Type NVARCHAR(15) null,
 	@orderingType varchar(10) = 'ASC',
 	@orderBy varchar(255) = 'BillId'
 AS

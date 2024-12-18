@@ -25,7 +25,7 @@ export default function StudentTestDetails() {
         <>
             <Table column={column } data={studentsMarks||[]} showMainHeader={false}>
                 <h3 style={{backgroundColor: '#066599',position: 'relative',padding: '20px 10px 0 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
-                    {subject.grade.toLowerCase()} / {classTitle.toLowerCase()} / {testType.toLowerCase()} / {subject.subject.toLowerCase()}
+                    {subject.grade?.toLowerCase()} / {classTitle?.toLowerCase()} / {testType?.toLowerCase()} / {subject.subject?.toLowerCase()}
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >students</span>
                     <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
                 </h3>

@@ -19,7 +19,7 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
           <b></b>
           <i className={iconPath}></i>
           <LinkContainerStyle>
-              <p className="linkTitle">{title}</p>
+              <span className="linkTitle">{title}</span>
               {hasSubLinks && <i className="bi bi-caret-down down-arrow"></i> }
           </LinkContainerStyle>
         </NavLink>
@@ -35,12 +35,12 @@ function RenderSubLinks({links}) {
 
   return (
       <SideBarSubListStyle>
-          {links.map((link) => {
-              return  <NavLink to={`/${link.path }`} className='list'>
+          {links.map((link,index) => {
+              return  <NavLink to={`/${link.path }`} className='list' key={index}>
                         <b></b>
                         <b></b>
                         <i className={link.iconPath}></i>
-                        <p className="linkTitle">{link.title}</p>
+                        <span className="linkTitle">{link.title}</span>
                       </NavLink>;
           })}
       </SideBarSubListStyle>

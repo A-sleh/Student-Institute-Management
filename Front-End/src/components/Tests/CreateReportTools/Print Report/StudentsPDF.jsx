@@ -169,7 +169,7 @@ export default function StudentsPDF({data}) {
             <Document >
                 {
                     data.students.map( (student ,index) => {
-                        return <Page size="A4" style={styles.page}>
+                        return <Page size="A4" key={index} style={styles.page}>
                                     <ReportTitle  student={student}/>
                                     <ReportSubTitle/>
                                     <ToalResultHeader student={student} order={`${index + 1} / ${data.students.length}`}/>

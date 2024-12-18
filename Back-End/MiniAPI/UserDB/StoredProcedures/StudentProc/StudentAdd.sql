@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[StudentAdd]
 	@StudentId int,
-	@Name VARCHAR(30),
-	@LastName VARCHAR(30),
-	@FatherName VARCHAR(30),
+	@Name NVARCHAR(30),
+	@LastName NVARCHAR(30),
+	@FatherName NVARCHAR(30),
 	@Birthdate DATE,
-	@Phone CHAR(15),
+	@Phone VARCHAR(15),
 	@ClassId INT,
 	@MissedDays INT,
 	@BillRequired INT

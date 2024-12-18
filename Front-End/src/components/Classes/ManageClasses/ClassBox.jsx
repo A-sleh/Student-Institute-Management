@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import DataServices from "../../../Data/dynamic/DataServices"
 import Notification from "../../Global/Notification"
 import Table from "../../shared/Table";
+import { SmallButtonStyle } from "../../shared/style/styleTag"
 
 export default function  ClassBox({currentClass,numberOfSelectedStudents,selectedStudents}) {
 
@@ -55,13 +56,13 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
                     <>
                         { 
                             resize != row.original.classId ? 
-                            <button onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#066599' , borderRadius: '2px' , cursor: 'pointer'}}>Select</button> : ''
+                            <SmallButtonStyle color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >Select</SmallButtonStyle> : ''
                         }
-                        <button onClick={() =>{
+                        <SmallButtonStyle color={'#009744'} onClick={() =>{
                             resize == row.original.classId ? handleApplyResizeClicked(row.original) : handleResizeClicked(row.original.classId,row.original.capacity)  
-                        }} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>{resize == row.original.classId ? 'Apply' : 'Resize Capacity'}</button>
+                        }} >{resize == row.original.classId ? 'Apply' : 'Resize Capacity'}</SmallButtonStyle>
                         {
-                            row.original.classId == resize ? <button onClick={()=>{handleCancelClicked()}} style={{padding: '0px 5px' , fontSize: '12px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button> : ''
+                            row.original.classId == resize ? <SmallButtonStyle color={'red'} onClick={()=>{handleCancelClicked()}} >Cancel</SmallButtonStyle> : ''
                         }
                     </>
                 )

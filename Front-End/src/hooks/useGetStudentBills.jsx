@@ -22,9 +22,14 @@ export default function useGetStudentBills(changeClass = 'All') {
 
     useEffect(() => {
         DataServices.StudentsInformaion().then( students => {
-            setStudents(students.filter(student => {
-                return (changeClass == student.class.classId || changeClass == 'All')
-            }).map(student => {
+            const filteringStudents = students.filter(student => {
+                return (changeClass == student.class.classId || changeClass == 'All') 
+            })
+            
+            if(filteringStudents.length == 0 ) {
+                setStudentsBills([])
+                return
+            }else  setStudents(filteringStudents.map(student => {
                 const {studentId,name,lastName} = student
                 return {studentId,name,lastName}
             }))

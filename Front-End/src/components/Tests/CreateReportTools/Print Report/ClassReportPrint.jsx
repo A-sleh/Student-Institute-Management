@@ -35,7 +35,7 @@ export default function ClassReportPrint() {
 
     async function handleCreateClassPDFClicked(classDetials,pdfTitle) {
         const {ClassId,ReportId} = classDetials
-        const studnetsAvgInTheClass = await DataServices.ShowAllStudentsForCurrentReport(ClassId,ReportId)
+        const studnetsAvgInTheClass = await DataServices.ShowAllStudentsForCurrentReport(ReportId,ClassId)
         setPdfTitle(pdfTitle)
         setGenerateClassPDF(true)
         setSelectedDataToPrint({...classDetials,students:studnetsAvgInTheClass})
