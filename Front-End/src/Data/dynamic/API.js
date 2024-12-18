@@ -4,8 +4,8 @@ import axios from 'axios'
 
 export default {
   Student: {
-    get: (id,limit=100,page=1) => {
-      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}`).then((response) =>
+    get: (id,gradId,limit=100,page=1) => {
+      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}&gradeId=${gradId}`).then((response) =>
         response.json()
       );
     },
@@ -265,6 +265,11 @@ export default {
       },
       outComeBillBalance : () => {
         return fetch(`${URL}/Bill/Total/Outcome`).then((response) =>
+          response.json()
+        );
+      },
+      showBill: (sortingType) => {
+        return fetch(`${URL}/Bill?limit=1&page=1&orderBy=Date&orderingType=${sortingType}`).then((response) =>
           response.json()
         );
       }

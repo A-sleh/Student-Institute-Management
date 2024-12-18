@@ -13,8 +13,8 @@ import Table from "../../../shared/Table";
 
 export default function RecevingMarkes() {
 
-    const [selectedGrade,setSelectedGrade] = useState('bachelor')
-    const [classesGrade] = useClasses(selectedGrade); 
+    const [selectedGrade,setSelectedGrade] = useState({})
+    const [classes] = useClasses(selectedGrade?.grade)
 
 
     return (

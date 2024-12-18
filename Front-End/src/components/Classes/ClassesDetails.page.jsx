@@ -28,8 +28,8 @@ export default function ClassesDetails() {
   const showAllCalsses = classesDetails?.map( (Class,index) => {
     const { title ,grade } = Class 
     
-    if( grade.toLocaleLowerCase() != selectedGrade.toLocaleLowerCase()) return
-    if( !title?.toLowerCase().includes(search?.toLocaleLowerCase()) ) return
+    if( grade?.toLowerCase() != selectedGrade?.grade?.toLowerCase()) return
+    if( !title?.toLowerCase().includes(search?.toLowerCase()) ) return
     return <ClassInfo classDetails={Class} key={index}/>
   })
   

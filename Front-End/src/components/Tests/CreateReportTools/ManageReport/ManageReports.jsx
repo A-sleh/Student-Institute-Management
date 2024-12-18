@@ -13,8 +13,8 @@ import useClasses from "../../../../hooks/useClasses";
 
 export default function ManageReports() {
     
-    const [selectedGrade,setSelectedGrade] = useState('bachelor')
-    const [classes] = useClasses(selectedGrade)
+    const [selectedGrade,setSelectedGrade] = useState({})
+    const [classes] = useClasses(selectedGrade?.grade)
 
     return (
         <Table data={classes || []} column={CLASSCOLUMNS} url={'/CreateReport/LinkTestWithReport'} idKeyParams={'classId'}>

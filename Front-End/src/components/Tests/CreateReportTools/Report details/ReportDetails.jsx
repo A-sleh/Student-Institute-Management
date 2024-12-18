@@ -13,8 +13,8 @@ import SubHeaderFilterClassByGrade from "../../../shared/subHeaderTable/SubHeade
 
 export default function ReportDetails() {
 
-    const [selectedGrade,setSelectedGrade] = useState('bachelor')
-    const [classes] = useClasses(selectedGrade)
+    const [selectedGrade,setSelectedGrade] = useState({})
+    const [classes] = useClasses(selectedGrade?.grade)
 
 
     return (

@@ -12,25 +12,25 @@ import TeachersRate from "./teachers/TeachersRate";
 
 
 export default function Statistics() {
-  
+
   return (
       <>
         <Title title={window.location.pathname} />        
           <TotalInstituteBalance />
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-            <GradeCounter />
-            <StudentReportsAvg />
+            <IncomeOutComeBalanceInRangedMonth />
             <BalanceEachMonth />
           </div>
           <LatestBills />
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
             <FirstStudentInCurrentReport />
-            <IncomeOutComeBalanceInRangedMonth />
+            <GradeCounter />
             <TeachersRate />
           </div>    
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-            <ClassAvgInCurrentReport />
             <ClassesStudentsTeachersCount />    
+            <StudentReportsAvg />
+            <ClassAvgInCurrentReport />
           </div>
 
       </>

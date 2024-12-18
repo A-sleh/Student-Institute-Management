@@ -9,7 +9,7 @@ import TableControalSection2 from "./TableControalSection_2";
 export default function TablePaginated(props) {
 
     const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { unableId = false, setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
+    const { unableId = false,totalPageNumber = 1, setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
 
 
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
@@ -92,10 +92,10 @@ export default function TablePaginated(props) {
                         })}
                     </tbody>
                 </TableStyle>
-                { smallControalSection && <TableControalSection2 pageCount={pageCount} previousPage={previousPage} nextPage={nextPage} pageIndex={pageIndex}  setNextPageState={setNextPageState} /> }
+                { smallControalSection && <TableControalSection2 pageCount={totalPageNumber} previousPage={previousPage} nextPage={nextPage} pageIndex={pageIndex}  setNextPageState={setNextPageState} /> }
             </TableContainerStyle>
             {
-                !smallControalSection &&<TableControalSection pageCount={pageCount} previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} setNextPageState={setNextPageState} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
+                !smallControalSection &&<TableControalSection pageCount={totalPageNumber} previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} setNextPageState={setNextPageState} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
             }
         </div>
     )

@@ -34,7 +34,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
   const [ClassType, setClassType] = useState("Male");
   const [classes] = useClasses(studentDetails.grade)
   const filteringClasses = classes.filter((currentClass) => {
-    return ClassType.toLocaleLowerCase() == currentClass?.gender.toLocaleLowerCase()
+    return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
   });
   
   function handleCheckBoxGender(value) {

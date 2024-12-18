@@ -28,7 +28,7 @@ export default function ManageTeacher() {
                 teachersDetails.map( (teacher,index) => {
                     const {teacherId} = teacher ; 
                     const fullName = teacher.name?.toLowerCase() + ' ' + teacher.lastName?.toLowerCase() ; 
-                    if( !fullName.includes(search.toLocaleLowerCase()) ) return ;
+                    if( !fullName.includes(search.toLowerCase()) ) return ;
                     return <Teacherinfo teacherId={teacherId} key={index}  setSuccessDeleteTeacher={setSuccessDeleteTeacher}/>
                 })
             }

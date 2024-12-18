@@ -12,8 +12,8 @@ export default function GroupedHorizontalBar({data}){
             type: "bar",
             direction: "horizontal",
             xKey: "month",
-            yKey: "menDelta",
-            yName: "Male",
+            yKey: "balance",
+            yName: "Balance",
             cornerRadius: 20,
             label: {
               formatter: ({ value }) => value.toFixed(0),
@@ -23,8 +23,8 @@ export default function GroupedHorizontalBar({data}){
             type: "bar",
             direction: "horizontal",
             xKey: "month",
-            yKey: "womenDelta",
-            yName: "Female",
+            yKey: "percent",
+            yName: "Percent",
             cornerRadius: 20,
             label: {
               formatter: ({ value }) => value.toFixed(0),

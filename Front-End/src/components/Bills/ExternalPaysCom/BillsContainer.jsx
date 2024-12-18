@@ -19,13 +19,13 @@ export default function BillsContainer(props) {
                 {
                     bills.map( (bill,index) => {
                         const {billNo,date,note} = bill
-                        if(radiofilter.billNo && !`${billNo}`?.toLowerCase().includes(searchInput.toLocaleLowerCase())) {
+                        if(radiofilter.billNo && !`${billNo}`?.toLowerCase().includes(searchInput.toLowerCase())) {
                             return 
                         }
-                        if(radiofilter.note && !`${note}`?.toLowerCase().includes(searchInput.toLocaleLowerCase())) {
+                        if(radiofilter.note && !`${note}`?.toLowerCase().includes(searchInput.toLowerCase())) {
                             return 
                         }
-                        if(radiofilter.date && !`${date}`?.toLowerCase().includes(searchInput.toLocaleLowerCase())) {
+                        if(radiofilter.date && !`${date}`?.toLowerCase().includes(searchInput.toLowerCase())) {
                             return 
                         }
                         return <ShowBillCard type={cardType} bill={bill} setSuccessDelete={setSuccessDelete} key={index} />

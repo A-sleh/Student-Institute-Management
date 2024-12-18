@@ -1,8 +1,8 @@
 import API from "./API.js";
 
 export default {
-  StudentsInformaion: (id,limit,page) => {
-    return API.Student.get(id,limit,page);
+  StudentsInformaion: (id,gradId,limit,page) => {
+    return API.Student.get(id,gradId,limit,page);
   },
   AddNewStudent: (data) => {
     return API.Student.post(data);
@@ -222,6 +222,12 @@ export default {
   },
   UpdateGrade : (data) => {
     return API.Grade.put(data)
+  },
+  ShowFirstBill : () => {
+    return API.Bill.get.showBill('ASC')
+  },
+  ShowLastBill : () => {
+    return API.Bill.get.showBill('DESC')
   }
 
 };
