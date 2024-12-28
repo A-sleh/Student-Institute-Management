@@ -68,5 +68,13 @@ namespace DataAcess
             
             return date;
         }
+
+        public static DateTime ValidateDateTime(string date)
+        {
+            if (DateTime.TryParse(date, out var validDate))
+                return validDate;
+            else
+                throw new InvalidParametersException("invalid date provided");
+        }
     }
 }

@@ -18,10 +18,9 @@ namespace DataAcess.Data
         Task<IEnumerable<BillModel>> GetStudentBills(int studentId);
         Task<dynamic> GetTotalPays(int? studentId, int? teacherId);
         Task<IEnumerable<BillModel>> GetTeacherBills(int teacherId);
-        Task<dynamic> GetTotalIncome(string? startDate, string? endDate);
-        Task<dynamic> GetTotalOutcome(string? startDate, string? endDate);
         Task DeleteBill(int BillId);
         Task AddBill(BillModel bill);
         Task<dynamic> GetRestOf(string type);
+        Task<int> GetTotalByParam(string? startDate, string? endDate, string param);
     }
 }
