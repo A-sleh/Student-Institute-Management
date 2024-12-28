@@ -50,6 +50,15 @@ public class StudentData : IStudentData
             splitOn: "ClassId");
         return res == null ? throw new Exception("no student has such Id") : res.First();
     }
+
+    public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed)
+    {
+        var studentAbsences = await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId });
+        if(!detailed)
+            return new { Absences = studentAbsences.Count() };
+        return new { studentAbsences, Absences = studentAbsences.Count() };
+    }
+
     #endregion
 
     #region Actions
@@ -81,6 +90,11 @@ public class StudentData : IStudentData
         });
     public Task DeleteStudent(int id) =>
         _db.ExecuteData("dbo.StudentDelete", new { Id = id });
+    public Task AddAbsence(int studentId, DateTime Date) =>
+        _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
+    public Task DeleteAbsence(int absenceId) =>
+        _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+
     #endregion
 }
 

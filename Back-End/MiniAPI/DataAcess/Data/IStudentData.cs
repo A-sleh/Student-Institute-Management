@@ -9,5 +9,8 @@ namespace DataAcess.Data
         Task<IEnumerable<dynamic>> GetStudents(int? classId, int? gradeId);
         Task InsertStudent(StudentModel student);
         Task UpdateStudent(StudentModel student);
+        Task AddAbsence(int studentId, DateTime date);
+        Task DeleteAbsence(int absenceId);
+        Task<dynamic> GetStudentAbsence(int studentId, bool detailed);
     }
 }

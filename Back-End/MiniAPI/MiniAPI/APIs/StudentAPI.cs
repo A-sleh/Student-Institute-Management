@@ -8,8 +8,6 @@ namespace MiniAPI.APIs
 {
     public static class StudentAPI
     {
-        // not complete
-        // waiting for Test API
         public static void ConfigureStudentAPI(this WebApplication app)
         {
             // Get Student Object Using Id
@@ -18,20 +16,64 @@ namespace MiniAPI.APIs
             // Get All Students
             app.MapGet("/Student", GetStudents);
 
+            app.MapGet("/Student/{studentId}/Absence", GetStudentAbsences);
+
             // Update A Student using the origin Id passed with the object itself
             app.MapPut("/Student", UpdateStudent);
 
             // insert a student careless for the Id value
             app.MapPost("/Student", InsertStudent);
 
+            app.MapPost("/Student/{studentId}/Absence", AddStudentAbsence);
+
+            app.MapDelete("/Student/Absence/{absenceId}", DeleteStudentAbsence);
+
             // delete a student using its Id
             app.MapDelete("/Student/{id}", DeleteStudent);
+        }
+
+        private static async Task<IResult> DeleteStudentAbsence(IStudentData data, int absenceId)
+        {
+            try
+            {
+                await data.DeleteAbsence(absenceId);
+                return Results.Ok();
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
+
+        private static async Task<IResult> AddStudentAbsence(IStudentData data, int studentId, DateTime date)
+        {
+            try
+            {
+                await data.AddAbsence(studentId, date);
+                return Results.Ok();
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
+
+        private static async Task<IResult> GetStudentAbsences(IStudentData data, int studentId, bool detailed = true)
+        {
+            try
+            {
+                var studentAbsences = await data.GetStudentAbsence(studentId, detailed);
+                return Results.Ok(studentAbsences);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         }
 
 
         private static async Task<IResult> GetStudent(IStudentData data, int id)
         {
-            // test
             try
             {
                 var res = await data.GetStudentByID(id);

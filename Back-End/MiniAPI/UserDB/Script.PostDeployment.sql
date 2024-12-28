@@ -30,6 +30,18 @@ BEGIN
 		('Yamen', 'Y.', 'Yaseen', '2005/5/15', 1, 4, '+963910050032', 3650000);
 END;
 
+IF NOT EXISTS (SELECT 1 FROM [dbo].[absence])
+BEGIN
+	INSERT INTO absence(studentId, date) VALUES
+	(1,'2024/1/7'),
+	(1,'2024/1/13'),
+	(1,'2024/1/14'),
+	(2,'2024/1/14'),
+	(3,'2024/1/9'),
+	(4,'2024/1/19'),
+	(4,'2024/1/25');
+END;
+
 GO
 if not exists (select 1 from [dbo].[Subject])
 BEGIN
