@@ -51,9 +51,10 @@ public class StudentData : IStudentData
         return res == null ? throw new Exception("no student has such Id") : res.First();
     }
 
-    public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed)
+    public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
     {
-        var studentAbsences = await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId });
+        var studentAbsences = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId }))
+            .Where(x => (x.Date <= endDate || endDate == null ) && (x.Date >= startDate || startDate == null));
         if(!detailed)
             return new { Absences = studentAbsences.Count() };
         return new { studentAbsences, Absences = studentAbsences.Count() };

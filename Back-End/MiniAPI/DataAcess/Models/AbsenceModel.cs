@@ -9,6 +9,6 @@ namespace DataAcess.Models
     public class AbsenceModel
     {
         public int AbsenceId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

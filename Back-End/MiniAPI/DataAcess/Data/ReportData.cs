@@ -23,8 +23,11 @@ namespace DataAcess.Data
         #region Data Request
         public async Task<IEnumerable<dynamic>> GetStudentsResultSpecifiedByReportAndClass(int reportId, int classId)
         {
+            var report = await GetReport(reportId, null);
             var dic = new Dictionary<int, StudentModel>();
-            var students = await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>("dbo.StudentGetFullResultByRepAndClass",
+            var students = 
+                await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
+                "dbo.StudentGetFullResultByRepAndClass",
                 new
                 {
                     reportId,
@@ -57,7 +60,7 @@ namespace DataAcess.Data
                 var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
                 var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
                 var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
-                var absences = _studentData.GetStudentAbsence(x.StudentId, false).Result.Absences;
+                var absences = _studentData.GetStudentAbsence(x.StudentId, false, report?.StartDate, report?.FinishDate).Result.Absences;
                 var obj = new 
                 {
                     quizAverage = qAvg?.Average ?? 0,
@@ -70,6 +73,7 @@ namespace DataAcess.Data
                 };
                 return obj;
             });
+
             return res.OrderByDescending(o => o.mark);
         }
         public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)

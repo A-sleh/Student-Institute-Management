@@ -58,11 +58,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetStudentAbsences(IStudentData data, int studentId, bool detailed = true)
+        private static async Task<IResult> GetStudentAbsences(IStudentData data, int studentId, bool detailed = true, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
-                var studentAbsences = await data.GetStudentAbsence(studentId, detailed);
+                var studentAbsences = await data.GetStudentAbsence(studentId, detailed, startDate, endDate);
                 return Results.Ok(studentAbsences);
             }
             catch (Exception e)
