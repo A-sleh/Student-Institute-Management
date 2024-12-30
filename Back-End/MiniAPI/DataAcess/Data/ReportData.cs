@@ -14,9 +14,11 @@ namespace DataAcess.Data
     public class ReportData : IReportData
     {
         private readonly ISqlDataAccess _db;
+        private readonly StudentData _studentData;
         public ReportData(ISqlDataAccess _db)
         {
             this._db = _db;
+            _studentData = new StudentData(_db);
         }
         #region Data Request
         public async Task<IEnumerable<dynamic>> GetStudentsResultSpecifiedByReportAndClass(int reportId, int classId)
@@ -55,13 +57,17 @@ namespace DataAcess.Data
                 var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
                 var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
                 var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
-                var obj = new { 
+                var absences = _studentData.GetStudentAbsence(x.StudentId, false).Result.Absences;
+                var obj = new 
+                {
                     quizAverage = qAvg?.Average ?? 0,
-                    examAverage = eAvg?.Average ?? 0, 
+                    examAverage = eAvg?.Average ?? 0,
                     pureMark = pAvg?.PureMark ?? 0,
                     mark = reportResult?[0].mark ?? 0, totalMark = reportResult?[0].totalMark ?? 0,
+                    absences,
                     x.StudentId, x.Name, x.LastName, x.FatherName, 
-                    TestMark };
+                    TestMark 
+                };
                 return obj;
             });
             return res.OrderByDescending(o => o.mark);
