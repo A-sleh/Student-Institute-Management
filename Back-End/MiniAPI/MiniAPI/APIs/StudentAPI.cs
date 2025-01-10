@@ -3,6 +3,8 @@ using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Net.NetworkInformation;
+using Microsoft.AspNetCore.Http;
+using DataAcess.Exceptions;
 
 namespace MiniAPI.APIs
 {
@@ -45,16 +47,20 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> AddStudentAbsence(IStudentData data, int studentId, DateTime date)
+        private static async Task<IResult> AddStudentAbsence(IStudentData data, List<int> studentId, DateTime date)
         {
             try
             {
-                await data.AddAbsence(studentId, date);
+                await data.AddAbsences(studentId, date);
                 return Results.Ok();
+            }
+            catch (InvalidParametersException pe)
+            {
+                return Results.BadRequest(pe.Message);
             }
             catch (Exception e)
             {
-                return Results.BadRequest(e.Message);
+                return Results.Problem(e.Message);
             }
         }
 
@@ -65,9 +71,13 @@ namespace MiniAPI.APIs
                 var studentAbsences = await data.GetStudentAbsence(studentId, detailed, startDate, endDate);
                 return Results.Ok(studentAbsences);
             }
+            catch (InvalidParametersException pe)
+            {
+                return Results.BadRequest(pe.Message);
+            }
             catch (Exception e)
             {
-                return Results.BadRequest(e.Message);
+                return Results.Problem(e.Message);
             }
         }
 
