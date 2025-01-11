@@ -43,6 +43,20 @@ export default {
       });
     },
   },
+  Absence : {
+    get: () => {
+      
+    },
+    post : (userIds,date) => {
+      return fetch(`${URL}/Absence?date=${date}` ,{
+        method: "POST",
+        body: JSON.stringify(userIds),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+    }
+  },
   Class: {
     get: {
       All : (id) => {

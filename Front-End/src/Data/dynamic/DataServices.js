@@ -1,6 +1,9 @@
 import API from "./API.js";
 
 export default {
+  StudentsAbsence: (studentsIds,date) => {
+    return API.Absence.post(studentsIds,date)
+  },
   StudentsInformaion: (id,gradId,limit,page) => {
     return API.Student.get(id,gradId,limit,page);
   },
@@ -237,7 +240,8 @@ export default {
   },
   ShowLastBill : () => {
     return API.Bill.get.showBill('DESC')
-  }
+  },
+
 
 };
 
