@@ -1,0 +1,7 @@
+﻿CREATE TRIGGER [settingsUnDeleteAble]
+	ON [dbo].[settings]
+	FOR DELETE, INSERT, UPDATE
+	AS
+	BEGIN
+		SET NOCOUNT ON
+	END
