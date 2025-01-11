@@ -47,7 +47,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> AddStudentAbsence(IStudentData data, List<int> studentId, DateTime date)
+        private static async Task<IResult> AddStudentAbsence(IStudentData data, int[] studentId, DateTime date)
         {
             try
             {
