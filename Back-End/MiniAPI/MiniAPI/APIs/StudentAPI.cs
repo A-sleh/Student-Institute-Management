@@ -26,7 +26,7 @@ namespace MiniAPI.APIs
             // insert a student careless for the Id value
             app.MapPost("/Student", InsertStudent);
 
-            app.MapPost("/Student/{studentId}/Absence", AddStudentAbsence);
+            app.MapPost("/Student/Absence", AddStudentAbsence);
 
             app.MapDelete("/Student/Absence/{absenceId}", DeleteStudentAbsence);
 
