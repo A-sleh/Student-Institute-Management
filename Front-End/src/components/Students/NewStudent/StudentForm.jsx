@@ -6,7 +6,7 @@
 */
 
 import { ButtonsContainerStyle, FormCheckBoxContainerStyle, FormMainContainer, FormRowStyle, FormSelectdStyle, FormStyle, FormSubRowStyle, GoBackBtnStyle, InputStyle, LabelStyle, SubmitBtnStyle } from "../../shared/style/styleTag.js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Title from "../../Global/Title.jsx";
 import DataServices from "../../../Data/dynamic/DataServices.js";
@@ -15,8 +15,17 @@ import ShowInputCard from "../../shared/ShowInputCard.jsx";
 import ErrorMessage from "../../shared/ErrorMessage.jsx";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade.jsx";
 import useClasses from "../../../hooks/useClasses.jsx";
+import { NewStudentTEXT } from "../../../Data/static/Students/NewStudent/NewStudentTEXT.js";
+import { useSelector } from "react-redux";
 
 export default function StudentForm({title,requestType,studentInformation}) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {subTitle ,studentName ,lastName ,fatherName ,grade ,phone ,missedDay ,billRequired,updateBtn,goBackBtn,
+    gender ,classTitle ,maleGender ,femaleGender ,addBtn ,successAddStudentMES ,successUpdateStudentMES,validationMessages
+  } = NewStudentTEXT[currentLange]
+
+  const {nameVal ,lastNameVal ,fatherNameVal ,phoneNumberVal ,requierBillVal} = validationMessages
 
   const previousPage = useNavigate();
   const [grades] = useGetAllGrade()
@@ -115,27 +124,27 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
   return (
     <>
-      <Notification title={"Add New Student"} type={"success"} state={successAdd} setState={setSuccessAdd} />
-      <Notification title={"Updata Student Information"} type={"success"} state={successUpdate} setState={setSuccessUpdate} />
+      <Notification title={successAddStudentMES} type={"success"} state={successAdd} setState={setSuccessAdd} />
+      <Notification title={successUpdateStudentMES} type={"success"} state={successUpdate} setState={setSuccessUpdate} />
 
       <Title title={title} />
       <FormMainContainer>
 
           <FormStyle onSubmit={(e)=>handleSubmitClicked(e)}>
-            <h3>Student Details</h3>
+            <h3>{subTitle}</h3>
 
             <FormRowStyle>
               
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>First Name</LabelStyle>
+                <LabelStyle color={'#056699'}>{studentName}</LabelStyle>
                 <InputStyle className={validation.name ? "error" : ""} type="text" value={studentDetails.name} onChange={(e) =>handleInputChange(e.target.value,'name')}/>
-                <ErrorMessage showMessage={validation.name} message={"Pleas Enter The First Name"}/>
+                <ErrorMessage showMessage={validation.name} message={nameVal}/>
               </FormSubRowStyle>
 
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>Last Name</LabelStyle>
+                <LabelStyle color={'#056699'}>{lastName}</LabelStyle>
                 <InputStyle type="text" className={validation.lastName ? "error" : ""} value={studentDetails.lastName} onChange={(e) =>handleInputChange(e.target.value,'lastName')}/>
-                <ErrorMessage showMessage={validation.lastName} message={"Pleas Enter The Last Name"}/>
+                <ErrorMessage showMessage={validation.lastName} message={lastNameVal}/>
               </FormSubRowStyle>
 
             </FormRowStyle>
@@ -143,13 +152,13 @@ export default function StudentForm({title,requestType,studentInformation}) {
             <FormRowStyle>
 
               <FormSubRowStyle >
-                <LabelStyle color={'#056699'}>Father Name</LabelStyle>
+                <LabelStyle color={'#056699'}>{fatherName}</LabelStyle>
                 <InputStyle type="text" className={validation.fatherName ? "error" : ""} value={studentDetails.fatherName} onChange={(e) =>handleInputChange(e.target.value,'fatherName')} />
-                <ErrorMessage showMessage={validation.fatherName} message={"Pleas Enter The Father Name"}/>
+                <ErrorMessage showMessage={validation.fatherName} message={fatherNameVal}/>
               </FormSubRowStyle>
 
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>Grade</LabelStyle>
+                <LabelStyle color={'#056699'}>{grade}</LabelStyle>
                 <FormSelectdStyle value={studentDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade')}>
                     <option value={""}></option>
                     { grades.map((grade,index) => { return <option key={index} value={grade.grade}>{grade.grade}</option> }) }
@@ -161,13 +170,13 @@ export default function StudentForm({title,requestType,studentInformation}) {
             <FormRowStyle>
 
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>Phone</LabelStyle>
+                <LabelStyle color={'#056699'}>{phone}</LabelStyle>
                 <InputStyle type="text" value={studentDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'phone')} />
-                <ErrorMessage showMessage={validation.phone} message={"The Number Should Be 10 Digite ,And With Out Letters"}/>
+                <ErrorMessage showMessage={validation.phone} message={phoneNumberVal}/>
               </FormSubRowStyle>
 
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>missed Days</LabelStyle>
+                <LabelStyle color={'#056699'}>{missedDay}</LabelStyle>
                 <InputStyle type="number" className={validation.missedDays ? "error" : ""} value={studentDetails.missedDays} onChange={(e) =>handleInputChange(e.target.value,'missedDays')} />
                 <ErrorMessage showMessage={validation.missedDays} message={"The Miss Days Must Be Positive"}/>
               </FormSubRowStyle>
@@ -177,23 +186,23 @@ export default function StudentForm({title,requestType,studentInformation}) {
             <FormRowStyle>
 
               <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>bill Required</LabelStyle>
+                <LabelStyle color={'#056699'}>{billRequired}</LabelStyle>
                 <InputStyle type="number" className={validation.billRequired ? "error" : ""} value={studentDetails.billRequired} onChange={(e) =>handleInputChange(e.target.value,'billRequired')} />
-                <ErrorMessage showMessage={validation.billRequired} message={"The Bill Must Be Positive"}/>
+                <ErrorMessage showMessage={validation.billRequired} message={requierBillVal}/>
               </FormSubRowStyle>
 
               <FormCheckBoxContainerStyle color={'transparent'}>
 
                 <section>
-                  <LabelStyle color={'#056699'}>Gender</LabelStyle>
+                  <LabelStyle color={'#056699'}>{gender}</LabelStyle>
                   <div>
                     <div>
                       <input type="checkbox" id="Male" checked={ClassType == 'Male'} onChange={(e) => handleCheckBoxGender('Male')} />
-                      <label htmlFor="Male">Male</label>
+                      <label htmlFor="Male" style={{marginRight: '4px'}}>{maleGender}</label>
                     </div>
                     <div>
                       <input type="checkbox" id="Famale" checked={ClassType=='Female'} onChange={(e) => handleCheckBoxGender('Female')} />
-                      <label htmlFor="Famale">Female</label>
+                      <label htmlFor="Famale" style={{marginRight: '4px'}}>{femaleGender}</label>
                     </div>
                   </div>
                 </section>
@@ -203,7 +212,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
             </FormRowStyle>
 
             <FormSubRowStyle width={'100%'}>
-              <LabelStyle color={'#056699'}>Class Name</LabelStyle>
+              <LabelStyle color={'#056699'}>{classTitle}</LabelStyle>
               <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value,},'class')}>
                 <option value={0}></option>
                 {filteringClasses.map((currentClass, index) => (
@@ -216,11 +225,11 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
             <ButtonsContainerStyle>
               <SubmitBtnStyle >
-                {requestType === "POST" ? "Add" : "Update"}
+                {requestType === "POST" ? addBtn : updateBtn}
               </SubmitBtnStyle>
               {
                 requestType != "POST" && 
-                <GoBackBtnStyle onClick={()=>{previousPage('/StudentsDetails',{replace: true})}}>Go Back</GoBackBtnStyle>
+                <GoBackBtnStyle onClick={()=>{previousPage('/StudentsDetails',{replace: true})}}>{goBackBtn}</GoBackBtnStyle>
               }
             </ButtonsContainerStyle>
 
@@ -228,11 +237,11 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
           <ShowInputCard iconPath={"bi bi-person-circle icon"} >
             <main>
-              <h3>Name : <span> {studentDetails.name} {studentDetails.lastName}</span></h3>
-              <h3>Father :  <span> {studentDetails.fatherName} </span></h3>
-              <h3>phone : <span> {studentDetails.phone} </span></h3>
-              <h3>Bill Required : <span> {studentDetails.billRequired} </span></h3>
-              <h3>Missed Days : <span> {studentDetails.missedDays} </span></h3>
+              <h3>{studentName} : <span> {studentDetails.name} {studentDetails.lastName}</span></h3>
+              <h3>{fatherName} :  <span> {studentDetails.fatherName} </span></h3>
+              <h3>{phone} : <span> {studentDetails.phone} </span></h3>
+              <h3>{billRequired} : <span> {studentDetails.billRequired} </span></h3>
+              <h3>{missedDay} : <span> {studentDetails.missedDays} </span></h3>
             </main>
           </ShowInputCard>
 

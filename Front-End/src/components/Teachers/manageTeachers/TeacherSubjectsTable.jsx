@@ -14,8 +14,16 @@ import Notification from "../../Global/Notification.jsx";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
 import useTeacherSubjects from "../../../hooks/useTeacherSubjects.jsx";
 import Table from "../../shared/Table.jsx";
+import { TeacherNewSubjectTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewSubjectTEXT.js";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../../Redux/actions/type.js";
 
 export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject,successDeleteFromSubject}) {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const {cancelBtn ,applyBtn,noSubjectsWOR,successUpdateSubjectMES,successDeleteSubjectMES ,errorDeleteSubjectMES} = TeacherNewSubjectTEXT[currentLange]
+
 
     const salaryInput = useRef(null)    
     const [_,setReRender] = useState(0)
@@ -36,7 +44,10 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
     const columns = useMemo(() => [
         ...SUBJECTMANAGECOLUMN,
         {   
-            Header: 'Salary' ,
+            Header: {
+              english: 'Salary'  ,
+              arabic: 'المبلغ المتفق عليه'
+            },
             accessor: 'salary',
             Cell : ({row}) => {
               return  updateBtn == row.id ? <input type='text' style={{ border: 'none' , outline: 'none' , borderBottom : '1px solid #066599' , textAlign: 'center', backgroundColor: 'transparent' }}
@@ -44,24 +55,28 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
             }
         },
         {
-            Header : 'Actions' ,
+            Header : {
+              english: 'Setting' ,
+              arabic: 'إعدادات'
+            },
             id : 'selection' ,
             Cell : ({row}) => {
+              if(!isAdmin) return '...'
               return ( 
-                <div style={{ display: "flex", alignItems: "center", justifyContent: 'flex-end' , paddingRight: '20px' }}>
-                    <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: 'center' , paddingRight: '20px' }}>
+                    <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{marginLeft: '8px', color: "gray", cursor: "pointer" ,fontSize: '16px' ,marginRight: '2em',color: 'red' }}></i>
                     {
                       updateBtn == row.id ?
                         <ButtonsContainerStyle>
-                          <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Apply</button>
-                          <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>Cancel</button>
+                          <button onClick={()=>handleApplyClicked(row.original)} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: '#009744' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>{applyBtn}</button>
+                          <button onClick={()=>{setUpdataBtn(null)}} style={{padding: '2px 8px' , fontSize: '11px' , outline: 'none' , border: 'none' , color : 'white' , backgroundColor: 'red' ,marginLeft: '5px', borderRadius: '2px' , cursor: 'pointer'}}>{cancelBtn}</button>
                         </ButtonsContainerStyle>
                       : <i className="bi bi-sliders2" style={{ color: "gray", cursor: "pointer" ,fontSize: '16px' , color: 'gray' }} onClick={()=> {handleUpdataBtnClicked(row)}}></i>
                     }
                 </div>
             )}
         }
-    ],[updateBtn,salary])
+    ],[updateBtn,salary,currentLange])
 
     // to keep focus on the input field
     useEffect(()=>{setReRender(1)},[salary])
@@ -96,11 +111,11 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
           deletModal && 
           <DeleteModal element={currentSubject.title} type={'TeacherSubject'} id={currentSubject.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteFromSubject} setUnSuccessDelete={setErrorDeleteSubject} />
         }
-        <Notification title={'Updata Subject Salary'} type={'success'} state ={successUpdataSalary} setState={setSuccessUpdataSalary}/>
-        <Notification title={'Delete subject'} type={'success'} state ={successDeleteSubject} setState={setSuccessDeleteSubject}/>
-        <Notification title={'This subject is taught in one class'} type={'error'} state ={errorDeleteSubject} setState={setErrorDeleteSubject}/>
+        <Notification title={successUpdateSubjectMES} type={'success'} state ={successUpdataSalary} setState={setSuccessUpdataSalary}/>
+        <Notification title={successDeleteSubjectMES} type={'success'} state ={successDeleteSubject} setState={setSuccessDeleteSubject}/>
+        <Notification title={errorDeleteSubjectMES} type={'error'} state ={errorDeleteSubject} setState={setErrorDeleteSubject}/>
         { 
-          subjects.length == 0 ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > There are no subjects yet ...</span> : 
+          subjects.length == 0 ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px", }} > {noSubjectsWOR}</span> : 
           <Table data={subjects || []} column={columns} showMainHeader={false} styleObj = {{padding: '6px' , fontSize : '15px' , sameColor : false}} unableId={true}/>
         }
       </>

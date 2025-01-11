@@ -15,9 +15,14 @@ import DataServices from "../../../../Data/dynamic/DataServices"
 import Notification from "../../../Global/Notification"
 import Table from "../../../shared/Table"
 import useTestMarkStudents from "../../../../hooks/Test_hooks/useTestMarkStudents"
+import { useSelector } from "react-redux"
+import { StudentMarkFormTEXT } from "../../../../Data/static/test/CreateTestTools/AssineMarke/StudentMarkFormTEXT"
 
 export default function StudentMarkForm() {
     
+    const {currentLange} = useSelector( state => state.language)
+    const {backBtn,confirmBtn ,studentsTitle ,successAssignTheMarkMES ,errorAssignTheMarkMES} = StudentMarkFormTEXT[currentLange]
+
     const testId = useParams().testId
     const classDetailsEncode = useLocation().state
     const gotoPage = useNavigate()
@@ -35,14 +40,18 @@ export default function StudentMarkForm() {
     const columns =  useMemo(()=>[
         ...TESTMARKCOLUMN
         ,{
-            Header : 'Action' ,
+            Header : {
+                arabic: 'العلامه' ,
+                english: 'Mark'
+            } ,
+            accessor: 'marks',
             Cell : ({row}) => {
                 const { testMarkId } = row.original
                 return <input type="text" value={marks[testMarkId]} ref={ inputId == row.id  ? inputRef : undefined } onClick={()=>setInputId(row.id)} onChange={(e)=>{handleInputChange(e.target.value,testMarkId)}} style={{border: 'none' ,textAlign: 'center', outline: 'none' , padding: '10px'}} /> 
             } 
         }
 
-    ],[marks,inputId])
+    ],[marks,inputId,currentLange])
 
     // to keep focus on the input field
     useEffect(()=>{setReRender(1)},[marks,inputId])
@@ -99,19 +108,19 @@ export default function StudentMarkForm() {
     
     return (
         <>
-            <Notification  title={'All mark must be positive'} type={'error'} state ={negativeFiled} setState={setNegativeFiled}/>
-            <Notification  title={'Assinge marks'} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
+            <Notification  title={errorAssignTheMarkMES} type={'error'} state ={negativeFiled} setState={setNegativeFiled}/>
+            <Notification  title={successAssignTheMarkMES} type={'success'} state ={successAssigne} setState={setSuccessAssigne}/>
             <Table column={columns} data={studentTest||[]} showMainHeader={false}>
                 <NavigateSubHeaderStyle>
                     {subject.grade?.toLowerCase()} / {classTitle?.toLowerCase()} / {testType?.toLowerCase()} / {subject.subject?.toLowerCase()}
-                    <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >students</span>
+                    <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >{studentsTitle}</span>
                     <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
                 </NavigateSubHeaderStyle>
             </Table>
 
             <ButtonsContainerStyle>
-                <SubmitBtnStyle onClick={()=>{handleConfirmclicked()}}>Confirm</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >Back</GoBackBtnStyle>
+                <SubmitBtnStyle onClick={()=>{handleConfirmclicked()}}>{confirmBtn}</SubmitBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >{backBtn}</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
     )

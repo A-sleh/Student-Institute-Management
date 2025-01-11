@@ -2,11 +2,17 @@ import { format } from "date-fns";
 
 export const TEACHERCOLUMN = [
   {
-    Header : 'First Name' ,
+    Header : {
+      arabic: 'الأسم'  ,
+      english: 'First Name'
+    } ,
     accessor: "name",
   },
   {
-    Header : 'Last Name' ,
+    Header : {
+      arabic: 'الكنيه'  ,
+      english: 'Last Name' 
+    },
     accessor: "lastName",
   }
 ];

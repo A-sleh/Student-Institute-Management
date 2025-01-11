@@ -4,6 +4,8 @@
     USING REACT QURY : 
 */
 
+import { useSelector } from "react-redux";
+import { AllBilldetailsComTEXT } from "../../Data/static/Bills/AllBilldetailsCom/AllBilldetailsComTEXT";
 import useLatestBills from "../../hooks/useLatestBills";
 import Title from "../Global/Title";
 import BillStatistics from "./AllBilldetailsCom/BillStatistics";
@@ -13,6 +15,9 @@ import { AllBillDetailsStyle } from "./style/styleComponents";
 
 export default function AllBillDetails() {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const {teachersBills ,studentsBills ,externalsBills} = AllBilldetailsComTEXT[currentLange]
     const [teacherBills,studentBills,externalBills] = useLatestBills(6) 
 
 
@@ -22,12 +27,12 @@ export default function AllBillDetails() {
             <AllBillDetailsStyle>
                 
                 <div style={{flex: '1'}}>
-                    <ShowLatestBills bills={teacherBills} billsType={'Teachers'} showMoreLink={'TeachersSalaries'}/>
-                    <ShowLatestBills bills={studentBills} billsType={'Students'} showMoreLink={'StudentsPays'}/>
-                    <ShowLatestBills bills={externalBills} billsType={'External'} showMoreLink={'ExternalPays'}/>
+                    <ShowLatestBills bills={teacherBills} billsType={teachersBills} showMoreLink={'TeachersSalaries'}/>
+                    <ShowLatestBills bills={studentBills} billsType={studentsBills} showMoreLink={'StudentsPays'}/>
+                    <ShowLatestBills bills={externalBills} billsType={externalsBills} showMoreLink={'ExternalPays'}/>
                 </div>
 
-                <BillStatistics />
+                { isAdmin && <BillStatistics /> }
             </AllBillDetailsStyle> 
         </>
     )

@@ -15,8 +15,13 @@ import Table from "../../shared/Table"
 import HeaderInformation from "../../shared/HeaderInformation"
 import useStudentBillsDetails from "../../../hooks/useStudentBillsDetails"
 import useStudentInfo from "../../../hooks/useStudentInfo"
+import { ManageStudentBillsTEXT } from "../../../Data/static/Bills/StudentsPaysCom/ManageStudentBillsTEXT"
+import { useSelector } from "react-redux"
 
 export default function StudentBillDetails() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {studentInfoTitle ,studentBillsTitle ,backBtn ,successDeleteBillMES} = ManageStudentBillsTEXT[currentLange]
 
     const studentId = useParams().id
     const BillsDecode = JSON.parse(decodeURIComponent( useLocation().state ))
@@ -48,7 +53,7 @@ export default function StudentBillDetails() {
                 return <i className="bi bi-trash" style={{color: 'red',cursor: 'pointer'}}onClick={()=>handleDeleteClicked(row.original)}></i>                
             }
         }
-    ])
+    ],[currentLange])
 
     function handleDeleteClicked(bill) {
         const {billNo,billId} = bill
@@ -80,22 +85,34 @@ export default function StudentBillDetails() {
 
     const StudentStatistics = [
         {
-            title: "Name",
+            title: {
+                arabic: 'الأسم' ,
+                english: "Name"
+            } ,
             value: studentDetails?.name +' ' +studentDetails?.lastName ,
             icon: "fa-solid fa-user-group"
         }, 
         {
-            title: "Class",
+            title: {
+                arabic: 'الشعبه' ,
+                english: "Class"
+            } ,
             value: studentDetails?.class?.title,
             icon: "bi bi-building-fill-exclamation",
         },
         {
-            title: "Grade",
+            title: {
+                arabic: 'الفئه' ,
+                english: "Grade"
+            } ,
             value: studentDetails?.class?.grade,
             icon: "fa-solid fa-graduation-cap",
         },
         {
-            title: "Gender",
+            title: {
+                arabic: 'الجنس' ,
+                english: "Gender"
+            } ,
             value: studentDetails?.class?.gender ,
             icon: "bi bi-person-fill-exclamation",
         }
@@ -103,17 +120,17 @@ export default function StudentBillDetails() {
 
     return (
         <>
-            <Notification  title={'Delete bill'} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>
+            <Notification  title={successDeleteBillMES} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>
             {
                 deleteModal && 
                 <DeleteModal element={selectedBillToDelete.billNo} id={selectedBillToDelete} type={"Bill"} setDeleteModal={setdeleteModal} setSuccessDelete={setSuccessDeleteBill} />
             }
-            <HeaderInformation data={StudentStatistics} title={'Student Details'}/>
+            <HeaderInformation data={StudentStatistics} title={studentInfoTitle}/>
             <Table column={ManagePage ? manageBillsColumn : BILLSCOLUMNS} data={studentBillsFilterd} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} >
                 <FillterBillsHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled} />
-                <h3 style={{marginBottom: '10px'}}>Student Bills</h3>
+                <h3 style={{marginBottom: '10px'}}>{studentBillsTitle}</h3>
             </Table>
-            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}}>Back</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}}>{backBtn}</GoBackBtnStyle>
         </>
     )
 }

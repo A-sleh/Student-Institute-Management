@@ -28,6 +28,7 @@ const  NewBill =  lazy(() => import( ".././components/Bills/StudentsPaysCom/NewB
 const  NewBillExternal =  lazy(() => import( ".././components/Bills/ExternalPaysCom/NewBill.jsx"))
 const  ManagStudentBill =  lazy(() => import( ".././components/Bills/StudentsPaysCom/ManagStudentBill.jsx"))
 const  StudentBillDetails =  lazy(() => import( ".././components/Bills/StudentsPaysCom/StudentBillDetails.jsx"))
+const StudentMissedDays = lazy(() => import( "../components/Students/studentsMissDays/StudentMissedDays.jsx"))
 const  ShowBillTeacherDetails =  lazy(() => import( ".././components/Bills/TeacherPaysCom/ShowBillTeacherDetails.jsx"))
 const  ManagTeacherBill =  lazy(() => import( ".././components/Bills/TeacherPaysCom/ManagTeacherBill.jsx"))
 const  NewTeacherBill =  lazy(() => import( ".././components/Bills/TeacherPaysCom/NewTeacherBill.jsx"))
@@ -53,12 +54,13 @@ const  ClassReportPrint =  lazy(() => import( ".././components/Tests/CreateRepor
 const Grade = lazy(() => import( ".././components/Grade/Grade.jsx"))
 const NewGrade = lazy(() => import( ".././components/Grade/new form/NewGradeForm.jsx"))
 const ManageGrades = lazy(() => import( ".././components/Grade/manage grades/ManageGrades.jsx"))
+const Setting = lazy(() => import( "../components/setting/Setting.jsx"))
+const ClassStudents = lazy(() => import("../components/Students/studentsMissDays/ClassStudents.jsx"))
 
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx"
 import NewSubjectForm from "../components/Subjects/NewSubject/NewSubjectForm.jsx"
 import ShowSubjects from "../components/Subjects/displaySubject/ShowSubjects.jsx"
-
 
 const router = createBrowserRouter(
     [
@@ -73,6 +75,14 @@ const router = createBrowserRouter(
                 {
                     path: 'Statistics',
                     element: <Statistics />,
+                },
+                {
+                    path: 'StudentMissedDays', 
+                    element: <StudentMissedDays />
+                },
+                {
+                    path: 'ClassStudents/:classId', 
+                    element: <ClassStudents />
                 },
                 {
                     path: 'NewStudent',
@@ -335,6 +345,10 @@ const router = createBrowserRouter(
                             element: <ManageGrades />
                         }
                     ]
+                },
+                {
+                    path: 'Setting' ,
+                    element: <Setting />
                 },
                 {
                     path: '*' ,

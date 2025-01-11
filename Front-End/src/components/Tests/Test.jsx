@@ -10,15 +10,27 @@ import SubNavBar from '../shared/SubNavBar'
 
 const urlList = [
     {
-        title: 'New Test',
+        title:{
+            arabic: 'أختبار جديد' ,
+            english:  'New Test'
+        } ,
+        isAdmin: true,
         path: 'NewTest',
     },
     {
-        title: 'Show All Tests',
+        title: {
+            arabic: 'عرض جميع التقارير' ,
+            english: 'Show All Tests'
+        } ,
+        isAdmin: true,
         path : 'ShowAllTest',
     },
     {
-        title: 'Reciving Marks',
+        title: {
+            arabic: 'إدخال علامات اختبار' ,
+            english: 'Reciving Marks'
+        } ,
+        isAdmin: true,
         path : 'RecivingMarks',
     }
 ]

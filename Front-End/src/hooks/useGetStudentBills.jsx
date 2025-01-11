@@ -21,8 +21,9 @@ export default function useGetStudentBills(changeClass = 'All') {
     }
 
     useEffect(() => {
-        DataServices.StudentsInformaion().then( students => {
-            const filteringStudents = students.filter(student => {
+        DataServices.AllStudentsInfo().then( students => {
+            console.log(students)
+            const filteringStudents = students.students.filter(student => {
                 return (changeClass == student.class.classId || changeClass == 'All') 
             })
             

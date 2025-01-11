@@ -1,27 +1,40 @@
 import { format } from "date-fns";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
 
+
 export const BILLSCOLUMNS = [
     {
-        Header: "Bill Number",
+        Header: {
+            arabic: 'رقم الفاتوره' ,
+            english: "Bill Number"
+        },
         accessor: "billNo",
     },
     {
-        Header: "Amount",
+        Header: {
+            arabic: 'المبلغ المدفوع' ,
+            english: "Amount"
+        },
         accessor: "amount",
         Cell : ({value}) => {
             return addSpaceBetweenDigit(value)
         }
     },
     {
-        Header: "Date",
+        Header: {
+            arabic: 'تاريخ الفاتورة' ,
+            english: "Date"
+        },
         accessor: "date",
         Cell : ({value}) => {
             return format(new Date(value) ,'yyyy / MM / dd')
         }
     },
     {
-        Header: "Note",
+        Header: {
+            arabic: 'ملاحظات' ,
+            english:  "Note"
+        },
         accessor: "note",
     }
 ];

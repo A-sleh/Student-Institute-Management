@@ -4,13 +4,14 @@ import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import TableControalSection from "./TableControalSection";
 import SearchSubHeader from "./SearchSubHeader";
 import TableControalSection2 from "./TableControalSection_2";
+import { useSelector } from "react-redux";
 
 
 export default function TablePaginated(props) {
-
+    
+    const {currentLange} = useSelector( state => state.language)
     const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
-    const { unableId = false,totalPageNumber = 1, setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
-
+    const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
 
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
         data: data,
@@ -44,10 +45,10 @@ export default function TablePaginated(props) {
     }
 
     return (
-        <div style={{width: '100%' ,flex: '1',display: 'flex' , flexDirection: 'column'}}>  
+        <div style={{width: '100%' ,flex: '1',display: 'flex' ,direction: 'ltr', flexDirection: 'column'}}>  
             { renderHeader() }
             <TableContainerStyle style={{margin: '0' , paddingBottom: '40px'}}>
-                <TableStyle {...getTableProps()} styleObj={styleObj}>
+                <TableStyle  language={currentLange} {...getTableProps()} styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -69,7 +70,7 @@ export default function TablePaginated(props) {
                                 ></i>
                             )}
                             <span>
-                                {column.render("Header")}
+                                {column.render("Header")[currentLange]}
                             </span>
                             </th>
                         ))}
@@ -92,10 +93,10 @@ export default function TablePaginated(props) {
                         })}
                     </tbody>
                 </TableStyle>
-                { smallControalSection && <TableControalSection2 pageCount={totalPageNumber} previousPage={previousPage} nextPage={nextPage} pageIndex={pageIndex}  setNextPageState={setNextPageState} /> }
+                { smallControalSection && <TableControalSection2 previousPage={previousPage} nextPage={nextPage} currPage={currPage} totalPages={totalPages} pageIndex={pageIndex}  setNextPageState={setNextPageState} /> }
             </TableContainerStyle>
             {
-                !smallControalSection &&<TableControalSection pageCount={totalPageNumber} previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} setNextPageState={setNextPageState} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
+                !smallControalSection &&<TableControalSection previousPage={previousPage} nextPage={nextPage} currPage={currPage} totalPages={totalPages} canPreviousPage={canPreviousPage} setNextPageState={setNextPageState} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />
             }
         </div>
     )

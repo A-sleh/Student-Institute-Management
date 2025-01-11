@@ -23,8 +23,8 @@ export default function useGetTeachersBills() {
     }
 
     useEffect(() => {
-        DataServices.TeacherInformaion().then( teachers  => {
-            setTeachers(teachers.map( teacher => {
+        DataServices.AllTeacherInformaion().then( teachers  => {
+            setTeachers(teachers.teachers.map( teacher => {
                 return {
                     teacherId : teacher.teacherId , 
                     name : teacher.name , 

@@ -212,18 +212,41 @@ Day 23 :
     4 - statistics : 
         - [] 
 
--- [] testing statistcs page
--- [] testing students page {
+-- [X] testing statistcs page
+-- [X] testing students page {
 
 }
--- [] testing side bar page {
+-- [X] testing side bar page {
 
 }
--- [] testing teacher page
--- [] testing bills page
--- [] testing test page
--- [] testing classes page
--- [] testing grade page
--- [] testing subject page
+-- [X] testing teacher page
+-- [X] testing bills page
+-- [X] testing test page
+-- [X] testing classes page
+-- [X] testing grade page
+-- [X] testing subject page
+
+-- convert to arabic: 
+    - [X] side bar 
+    - [X] subjects page
+    - [X] grades page
+    - [X] bills page
+    - [X] All was done
+-- check style : 
+    - [X] subject page
+    - [X] Grade page
+    - [X] classes page
+    - [X] students page
+    - [] teacher page
+-- some bugs in the code : 
+    -[X] In insert new student page ,The student don't show in screen
+    -[] In Manage teacher page ,The infinite scrolling need to fix
+    -[X] in teachers and students bills doesn't show in the screen
+-- Manager access : 
+    -- total school balance details ( in bills page And in statistics page )
+    -- manage students bills
+    -- manage teachers bills 
+    -- manage external bills 
+    -- manage teacher ( delete and update )
 
 

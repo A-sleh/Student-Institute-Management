@@ -7,10 +7,12 @@
 
 import { NavLink } from "react-router-dom";
 import { LinkContainerStyle, SideBarSubListStyle } from "./sideBarTagesStyle";
+import { useSelector } from "react-redux";
 
 export default function LinkOfSidebar({link,hasSubLinks}) {
 
   const { title, iconPath ,path } = link;
+  const {currentLange} = useSelector( state => state.language)
 
   return (
     <>
@@ -19,7 +21,7 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
           <b></b>
           <i className={iconPath}></i>
           <LinkContainerStyle>
-              <span className="linkTitle">{title}</span>
+              <span className="linkTitle">{title[currentLange]}</span>
               {hasSubLinks && <i className="bi bi-caret-down down-arrow"></i> }
           </LinkContainerStyle>
         </NavLink>
@@ -33,14 +35,16 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
 
 function RenderSubLinks({links}) {
 
+  const {currentLange} = useSelector( state => state.language)
+
   return (
-      <SideBarSubListStyle>
+      <SideBarSubListStyle language={currentLange}>
           {links.map((link,index) => {
               return  <NavLink to={`/${link.path }`} className='list' key={index}>
                         <b></b>
                         <b></b>
                         <i className={link.iconPath}></i>
-                        <span className="linkTitle">{link.title}</span>
+                        <span className="linkTitle">{link.title[currentLange]}</span>
                       </NavLink>;
           })}
       </SideBarSubListStyle>

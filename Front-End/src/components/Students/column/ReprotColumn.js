@@ -3,22 +3,34 @@ import { format } from "date-fns";
 
 export const REPORTCOLUMNS = [
     {
-        Header: "Report Title",
+        Header: {
+          arabic:  'عنوان التقرير' ,
+          english:  "Report Title"
+        },
         accessor: "ReportTitle",
     },
     {
-        Header: "Report Date",
+        Header: {
+          arabic:  'تاريخ الفاتورة' ,
+          english: "Report Date"
+        },
         accessor: "StartDate",
         Cell : ({value}) => {
             return format(new Date(value) ,'yyyy / MM / dd')
         }
     },
     {
-      Header: "Mark",
+      Header: {
+        arabic:  'المجموع' ,
+        english: "Mark"
+      },
       accessor: "mark",
     },
     {
-      Header: "Total Mark",
+      Header: {
+        arabic:  'المجموع العام' ,
+        english: "Total Mark"
+      },
       accessor: "totalMark",
     }
   ];

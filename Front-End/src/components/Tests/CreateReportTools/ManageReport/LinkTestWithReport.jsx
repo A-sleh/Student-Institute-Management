@@ -13,6 +13,8 @@ import Notification from "../../../Global/Notification"
 import useClassTests from "../../../../hooks/useClassTest"
 import useClass from "../../../../hooks/useClass"
 import Loader from "../../../Modal/Loader"
+import { ManageReportTEXT } from "../../../../Data/static/test/CreateReportTools/ManageReportTEXT"
+import { useSelector } from "react-redux"
 const  ControalButtons =  lazy(() => import( "../../../shared/ControalButtons"))
 const  ManageSeletedTests =  lazy(() => import( "./TestsShow/ManageSelectedTests"))
 const  ShowAllReport =  lazy(() => import(  "./ShowAllReports"))
@@ -21,6 +23,9 @@ const  ShowAllReport =  lazy(() => import(  "./ShowAllReports"))
 export const SelectedReportContext = createContext({})
 
 export default function LinkTestWithReport() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {confirmBtn,examType ,quizType ,successLinkTestMES ,errorLinkTestMES} = ManageReportTEXT[currentLange]
 
     const classId = useParams().classId
     const [Class] = useClass(classId)
@@ -32,8 +37,8 @@ export default function LinkTestWithReport() {
     const [quiz,exam] = useClassTests(classId,true,successLinkTest)
     
     //Memoization section
-    const ManageSeletedQuizMemo = useMemo(()=><ManageSeletedTests data={quiz}  type={'Quiz'} selectionTest={selectedQuizId} setSelectionTest={setSelectedQuizId} /> ,[quiz,selectedQuizId])
-    const ManageSeletedExamMemo = useMemo(()=><ManageSeletedTests data={exam}  type={'Exam'} selectionTest={selectedTestId} setSelectionTest={setSelectedTestId} />,[exam,selectedTestId])
+    const ManageSeletedQuizMemo = useMemo(()=><ManageSeletedTests data={quiz}  type={quizType} selectionTest={selectedQuizId} setSelectionTest={setSelectedQuizId} /> ,[quiz,selectedQuizId,currentLange])
+    const ManageSeletedExamMemo = useMemo(()=><ManageSeletedTests data={exam}  type={examType} selectionTest={selectedTestId} setSelectionTest={setSelectedTestId} />,[exam,selectedTestId,currentLange])
 
     function integrationTestsId() {
         let testIds = [];
@@ -61,8 +66,8 @@ export default function LinkTestWithReport() {
 
     return (
         <Suspense fallback={<Loader />}>
-            <Notification title={'Link test with report'} type={'success'} state ={successLinkTest} setState={setSuccessLinkTest}/>
-            <Notification title={'You must select reporat ,And some tests'} type={'error'} state ={wornining} setState={setWornining}/>
+            <Notification title={successLinkTestMES} type={'success'} state ={successLinkTest} setState={setSuccessLinkTest}/>
+            <Notification title={errorLinkTestMES} type={'error'} state ={wornining} setState={setWornining}/>
 
             <NavigateSubHeaderStyle >
                 <span style={{width: '100%'}}>{Class.title} / {Class.grade}</span>
@@ -77,7 +82,7 @@ export default function LinkTestWithReport() {
                 {ManageSeletedExamMemo}
             </QuizExamContainerStyle>
 
-            <ControalButtons titleBtn={'Confirm'} handleBtnClicked={handleCreateReportClicked}/>
+            <ControalButtons titleBtn={confirmBtn} handleBtnClicked={handleCreateReportClicked}/>
 
         </Suspense>
     )

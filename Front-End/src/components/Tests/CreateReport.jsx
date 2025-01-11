@@ -10,19 +10,35 @@ import SubNavBar from "../shared/SubNavBar"
 
 const urlList = [
     {
-        title: 'New Report',
+        title: {
+            arabic: 'تقرير جديد' ,
+            english: 'New Report'
+        } ,
+        isAdmin: true,
         path: 'NewReportForm',
     },
     {
-        title: 'Manage Report',
+        title: {
+            arabic: 'إدارة التقارير' ,
+            english: 'Manage Report'
+        } ,
+        isAdmin: true,
         path : 'ManageReports',
     },
     {
-        title: 'Report Details',
+        title: {
+            arabic: 'عرض التقارير' ,
+            english: 'Report Details'
+        } ,
+        isAdmin: true,
         path : 'ReportDetails',
     },
     {
-        title: 'Print Report',
+        title: {
+            arabic: 'طباعة تقرير' ,
+            english: 'Print Report'
+        } ,
+        isAdmin: true,
         path : 'PrintReport',
     }
 ]

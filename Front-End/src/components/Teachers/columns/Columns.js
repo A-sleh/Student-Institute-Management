@@ -1,23 +1,38 @@
 
 export const COLUMNS = [
   {
-    Header: "First Name",
+    Header: {
+      arabic: 'الأسم',
+      english:  "First Name"
+  } ,
     accessor: "name",
   },
   {
-    Header: "Last Name",
+    Header: {
+      arabic: 'الكنية',
+      english: "Last Name"
+  } ,
     accessor: "lastName",
   },
   {
-    Header: "Phone",
+    Header: {
+      arabic: 'رقم الهاتف',
+      english: "Phone"
+  } ,
     accessor: "phone",
   },
   {
-    Header: "Classes",
+    Header: {
+      arabic: 'عدد الشعب ',
+      english: "Classes"
+  } ,
     accessor: "classesNumber",
   },
   {
-    Header: "Subjects",
+    Header: {
+      arabic: 'عددالمواد',
+      english: "Subjects"
+  } ,
     accessor: "subjectaNumber",
   }
 ];

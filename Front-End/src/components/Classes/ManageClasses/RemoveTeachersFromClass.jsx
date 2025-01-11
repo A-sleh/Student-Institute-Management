@@ -15,8 +15,14 @@ import Notification from "../../Global/Notification"
 import Table from "../../shared/Table"
 import useClass from "../../../hooks/useClass"
 import useClassTeachersSubjectSalrays from "../../../hooks/class_hooks/useClassTeachersSubjectSalrays"
+import { RemoveTeachersFromClassTEXT } from "../../../Data/static/classes/ManageClass/RemoveTeachersFromClassTEXT"
+import { useSelector } from "react-redux"
 
 export default function RemoveTeachersFromClass() {
+
+
+    const {currentLange} = useSelector( state => state.language)
+    const {teacherTitle ,teachersNumberTitle ,goBackBtn ,removeBtn ,successRemoveTeachersMES ,errorInSelectTeachersMES } = RemoveTeachersFromClassTEXT[currentLange]
 
     const gotoPage = useNavigate()
     const classId = useParams().classId
@@ -63,21 +69,21 @@ export default function RemoveTeachersFromClass() {
 
     return (
         <>
-            <Notification title={'select one teacher at least'} type={'error'} state ={wornning} setState={setWornning} />
-            <Notification title={'remove teachers'} type={'success'} state ={successRemoveTeachers} setState={setSuccessRemoveTeachers} />
+            <Notification title={errorInSelectTeachersMES} type={'error'} state ={wornning} setState={setWornning} />
+            <Notification title={successRemoveTeachersMES} type={'success'} state ={successRemoveTeachers} setState={setSuccessRemoveTeachers} />
             <Title title={window.location.pathname}/>
 
             <NavigateSubHeaderStyle>
                 <span style={{textAlign: 'left'}}>{currentClass.title} / {currentClass.grade}</span>
-                <span style={{float: 'right'}}>Teacher Number : {teachers?.length || 0}</span>
+                <span style={{float: 'right'}}>{teachersNumberTitle} : {teachers?.length || 0}</span>
             </NavigateSubHeaderStyle>
 
-            <h3 >Teachers</h3>                
+            <h3 >{teacherTitle}</h3>                
             <Table column={TEACHERSUBJECTCOLUMN} data={teachers} showMainHeader={false} unableId={true} selectionRows={teachersSelectedId} idKeyParams={'teacherSubjectId'} rowClickedFn={handleTeacherRowClicked} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}}/>
             
             <ButtonsContainerStyle handleRemoveClicked={handleRemoveClicked}>
-                <SubmitBtnStyle onClick={()=>handleRemoveClicked()} >Remove</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{gotoPage(-1,{replace: true})}} >Go Back</GoBackBtnStyle>
+                <SubmitBtnStyle onClick={()=>handleRemoveClicked()} >{removeBtn}</SubmitBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPage(-1,{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
         

@@ -1,6 +1,11 @@
+import { useSelector } from "react-redux";
 import "./Global.css";
+import { NotificationStyle } from "./globalComponentStyle";
 
 export default function Notification({ title, type, state , setState}) {
+
+  const {currentLange} = useSelector( state => state.language)
+
   const lable =
     type == "error" ? (
       <>
@@ -14,7 +19,8 @@ export default function Notification({ title, type, state , setState}) {
       </>
     );
   return (
-    <div
+    <NotificationStyle
+      language={currentLange}
       className={"notification " + type}
       style={{
         transform: state ? "scaleX(1)" : `scaleX(0) `,
@@ -29,6 +35,6 @@ export default function Notification({ title, type, state , setState}) {
       {lable}<span style={{fontWeight: '600' , fontSize: '14px' , alignSelf: 'top'}}>{title}</span>
       </div>
       <i className="bi bi-x" style={{fontWeight: 'bold' ,fontSize: '20px' , cursor: 'pointer'}} onClick={() =>{setState(false)}}></i>
-    </div>
+    </NotificationStyle>
   );
 }

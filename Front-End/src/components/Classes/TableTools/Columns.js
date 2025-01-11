@@ -2,15 +2,24 @@ import { format } from "date-fns";
 
 export const COLUMNS = [
   {
-    Header : 'Name' ,
+    Header : {
+      arabic: 'الأسم'  ,
+      english:  'Name' 
+    },
     accessor: "full_name",
   },
   {
-    Header : 'Father Name' ,
+    Header : {
+      arabic: 'أسم الأب'  ,
+      english: 'Father Name' 
+    },
     accessor: "fatherName",
   },
   {
-    Header : 'Phone' ,
+    Header : {
+      arabic: 'رقم الهاتف'  ,
+      english: 'Phone' 
+    },
     accessor: "phone",
   }
 ];

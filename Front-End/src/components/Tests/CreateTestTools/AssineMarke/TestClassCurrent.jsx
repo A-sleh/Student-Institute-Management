@@ -14,10 +14,15 @@ import Table from "../../../shared/Table";
 import useGetSubjects from "../../../../hooks/useGetSubjects";
 import useGetTests from "../../../../hooks/useGetTests";
 import HeaderFiltersTests from "./HeaderFiltersTests";
+import { useSelector } from "react-redux";
+import { RecevingMarkesTEXT } from "../../../../Data/static/test/CreateTestTools/AssineMarke/RecevingMarkesTEXT";
 
 export const FiltersSharedState = createContext()
 
 export default function TestClassCurrent() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {backBtn ,testsTitle ,errorRecivingMarkMES,showCorrectionTestTitle ,showUnCorrectionTestTitle} = RecevingMarkesTEXT[currentLange]
 
     const classId = useParams().classId;
     const classDetailsEncode = useLocation().state
@@ -36,22 +41,22 @@ export default function TestClassCurrent() {
 
     return (   
         <>     
-            <Notification title={'The mark not correction yet'} type={'error'} state ={markNotCorrectionYet} setState={setMarkNotCorrectionYet} />
+            <Notification title={errorRecivingMarkMES} type={'error'} state ={markNotCorrectionYet} setState={setMarkNotCorrectionYet} />
             <FiltersSharedState.Provider value={{dateSearch,subjects,setDateSearch,filterBySubject,setFilterBySubject,testType,setTestType}}>
                 <HeaderFiltersTests />
             </FiltersSharedState.Provider>
 
             <Table column={TESTCOLUMNS} data={tests} showMainHeader={false} url={`/Test/${fromShowPage ? 'StudentTestDetails': 'StudentMarkForm'}`} idKeyParams={'testId'}>
                 <NavigateSubHeaderStyle>
-                    {grade} / {classTitle} / Tests
+                    {grade} / {classTitle} / {testsTitle}
                     <span style={{float: 'right'}}>
-                        <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ? '300': '500' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(false)}>Show correction test</button>
-                        <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ?  '500': '300' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(true)}>Show uncorrection test</button>
+                        <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ? '300': '600' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(false)}>{showCorrectionTestTitle}</button>
+                        <button style={{backgroundColor: 'transparent' , border: 'none' , outline: 'none' , color: 'white',cursor: 'pointer', fontWeight: testState ?  '600': '300' , marginLeft: '15px' , fontSize: '18px'}} onClick={()=>setTestState(true)}>{showUnCorrectionTestTitle}</button>
                     </span>
                 </NavigateSubHeaderStyle>
             </Table>
 
-            <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >Back</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >{backBtn}</GoBackBtnStyle>
         </>
     )
 }

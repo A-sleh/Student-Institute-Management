@@ -10,8 +10,13 @@ import ShowTestTable from "../ShowTestTable"
 import useClass from "../../../../hooks/useClass"
 import HeaderInformation from "../../../shared/HeaderInformation"
 import useGetStudentTestsInReport from "../../../../hooks/useGetStudentTestsInReport"
+import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
+import { useSelector } from "react-redux"
 
 export default function StudentReportTests() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {studentResultTitle ,studentsTestsTitle ,examType ,quizType} = ReportDetailsTEXT[currentLange]
 
     const studnetID = useParams().studentId 
     const studnetDetailsEncode = useLocation().state
@@ -21,9 +26,9 @@ export default function StudentReportTests() {
     const [quiz,exam] = useGetStudentTestsInReport(studnetID,reportId)
 
     const headerList = [
-        { value: 'Name', title: `${name} ${lastName}`, icon: "fa-solid fa-user-group"  } ,
-        { value: 'Mark', title: `${Mark}`, icon: "bi bi-building-fill-exclamation"  } ,
-        { value: 'Total Mark', title: `${TotalMark}`, icon: "fa-solid fa-graduation-cap"  } ,
+        { title:{arabic: 'الأسم', english: 'Name'} , value: `${name} ${lastName}`, icon: "fa-solid fa-user-group"  } ,
+        { title: {arabic: 'العلامه', english: 'Mark'}, value: `${Mark}`, icon: "bi bi-building-fill-exclamation"  } ,
+        { title: {arabic: 'العلامه الإجمالية', english: 'Total Mark'}, value: `${TotalMark}`, icon: "fa-solid fa-graduation-cap"  } ,
     ]
     
     return (
@@ -33,13 +38,13 @@ export default function StudentReportTests() {
                 <span style={{width: '100%'}}>{Class.title} / {Class.grade} / {reportTitle} </span>
             </NavigateSubHeaderStyle >
 
-            <HeaderInformation title={'Student Results'} data={headerList}/>
+            <HeaderInformation title={studentResultTitle} data={headerList}/>
             
-            <h3>Student Tests</h3>
+            <h3>{studentsTestsTitle}</h3>
 
             <StudentTestsContainerStyle >
-                <ShowTestTable title={'Quizs'} tests={quiz.tests || [] } />
-                <ShowTestTable title={'Exam'} tests={exam.tests || [] } />
+                <ShowTestTable title={quizType} tests={quiz.tests || [] } />
+                <ShowTestTable title={examType} tests={exam.tests || [] } />
             </StudentTestsContainerStyle> 
         </div>
     )

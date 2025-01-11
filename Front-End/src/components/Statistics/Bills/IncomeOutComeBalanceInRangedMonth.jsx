@@ -4,10 +4,13 @@ import { BackgroundLayoutStyle, InputStatisticsStyle,  } from "../services/style
 import SimpleDonut from "../charts/SimpleDonut";
 import DataServices from "../../../Data/dynamic/DataServices";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../../Redux/actions/type";
 
 
 export default function IncomeOutComeBalanceInRangedMonth() {
 
+    const {currentLange} = useSelector( state => state.language)
     const [date,setDate] = useState({ startDate: '1990-1-1' , endDate : '1990-1-1'})
     const [inComeBalance,outComeBalance] = useGetMonthIncomOutcomBalance(date.startDate,date.endDate)
 
@@ -21,8 +24,8 @@ export default function IncomeOutComeBalanceInRangedMonth() {
     
     const data = {
         data: [
-            {type: 'Income' , count : inComeBalance },
-            {type: 'Outcome' , count : outComeBalance }
+            {type: currentLange == ARABIC ? 'الدخل' : 'Income' , count : inComeBalance },
+            {type: currentLange == ARABIC ? 'الخرج' : 'Outcome' , count : outComeBalance }
         ],
         balance: inComeBalance - outComeBalance ,
         title: ''

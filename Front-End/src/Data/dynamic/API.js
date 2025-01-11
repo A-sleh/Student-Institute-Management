@@ -4,8 +4,18 @@ import axios from 'axios'
 
 export default {
   Student: {
-    get: (id,gradId,limit=100,page=1) => {
+    get: (id,gradId='1',limit=1000000,page=1) => {
       return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}&gradeId=${gradId}`).then((response) =>
+        response.json()
+      );
+    },
+    getAll: (limit=1000000,page=1) => {
+      return fetch(`${URL}/Student?limit=${limit}&page=${page}`).then((response) =>
+        response.json()
+      );
+    },
+    getAllInCurrentClass: (classId,limit=1000000,page=1) => {
+      return fetch(`${URL}/Student?limit=${limit}&page=${page}&classId=${classId}`).then((response) =>
         response.json()
       );
     },
@@ -101,9 +111,15 @@ export default {
     },
   },
   Teacher: {
-    
     get: (id,limit=100,page=1) => {
-      return  axios.get(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`);
+      return fetch(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`).then((response) =>
+        response.json()
+      );
+    },
+    getAll: (limit=10000000,page=1) => {
+      return fetch(`${URL}/Teacher?listSize=${limit}&page=${page}`).then((response) =>
+        response.json()
+      );
     },
     post: (data) => {
       return fetch(`${URL}/Teacher`, {

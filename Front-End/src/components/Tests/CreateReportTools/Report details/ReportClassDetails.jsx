@@ -14,9 +14,13 @@ import useGetStudentsTestsInCurrentClassAndReport from "../../../../hooks/useGet
 import Table from "../../../shared/Table"
 import ReportTests from "./ReportTests"
 import useClass from "../../../../hooks/useClass"
+import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
+import { useSelector } from "react-redux"
 
 export default function ReportClassDetails() {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {studentsResultTitle ,backBtn} = ReportDetailsTEXT[currentLange]
     const classId = useParams().classId 
     const [Class] = useClass(classId)
     const reportDetailsEncode = useLocation().state
@@ -36,10 +40,10 @@ export default function ReportClassDetails() {
             <ReportTests quiz={quiz} exam={exam}/>
         
             <Table column={STUDENTCOLMN} data={studnets} showMainHeader={false} url={`/CreateReport/StudentReportTests`} idKeyParams={'StudentId'} >
-                <h3 style={{marginTop: '20px' , lineHeight: '10px'}}>Student Reports Result</h3>
+                <h3 style={{marginTop: '20px' , lineHeight: '10px' }}>{studentsResultTitle}</h3>
             </Table>
 
-            <GoBackBtnStyle onClick={()=>{gotoPage(-1)}}>Back</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>{gotoPage(-1)}}>{backBtn}</GoBackBtnStyle>
         </div>
     )
 }

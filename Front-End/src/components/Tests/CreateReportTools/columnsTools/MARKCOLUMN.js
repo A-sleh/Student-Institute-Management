@@ -2,30 +2,45 @@ import { format } from "date-fns"
 
 export const MARKCOLUMN = [
     {
-        Header: 'Subject',
+        Header: {
+            arabic: 'الماده' ,
+            english: 'Subject'
+        } ,
         accessor: 'test.subject.subject'
     },
     {
-        Header: 'Mark',
+        Header:{
+            arabic: 'علامة الطالب' ,
+            english:  'Mark'
+        } ,
         accessor: 'mark',
         Cell : ({ value }) => {
-            return value || 'not corret'
+            return value || '?'
         }
 
     },
     {
-        Header: 'Maximum Mark',
+        Header: {
+            arabic: 'العلامه العظمى' ,
+            english:  'Maximum Mark'
+        },
         accessor: 'test.subject.maximumMark'
     },
     {
-        Header: 'Test Details',
+        Header: {
+            arabic: 'تفاصيل الأختبار' ,
+            english:  'Test Details'
+        } ,
         accessor: 'test.title',
         Cell : ({value}) => {
-            return value || 'there are no notes'
+            return value || '...'
         }
     },
     {
-        Header: 'Date',
+        Header:{
+            arabic: 'تاريخ الأختبار' ,
+            english:  'Date'
+        } ,
         accessor: 'test.date',
         Cell : ({ value }) => {
             return format( new Date(value) , 'yyyy / MM /dd')

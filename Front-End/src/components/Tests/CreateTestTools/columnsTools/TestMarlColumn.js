@@ -2,18 +2,27 @@
 
 export const TESTMARKCOLUMN = [
   {
-    Header: "Name",
+    Header: {
+      arabic:  'أسم الطالب' ,
+      english: "Name"
+    },
     accessor: 'student',
     Cell : ({row}) => {
         return row.original.student.name + ' ' + row.original.student.lastName
     }
   },
   {
-    Header: "Father Name",
+    Header: {
+      arabic:  'أسم الأب' ,
+      english:  "Father Name"
+    },
     accessor: "student.fatherName",
   },
   {
-    Header: "Maximum Mark",
+    Header: {
+      arabic:  'المجموع العام' ,
+      english: "Maximum Mark"
+    },
     accessor: "maximumMark",
     Cell: ({value}) => {
         return value || 0

@@ -7,23 +7,39 @@
 import { Outlet } from "react-router-dom";
 import Title from "../Global/Title";
 import SubNavBar from "../shared/SubNavBar";
+import { useSelector } from "react-redux";
 
-const urlList = [
-    {
-        title: 'Show All Teachers Pays',
-        path: 'ShowBillTeacherDetails',
-    },
-    {
-        title: 'Manage Pays',
-        path : 'ManagTeacherBill',
-    },
-    {
-        title: 'New Pay',
-        path : 'NewTeacherBill',
-    }
-]
 
 export default function TeachersSalaries() {
+
+    const { isAdmin } = useSelector( state => state.admin )
+    const urlList = [
+        {
+            title: {
+                english : 'Show All Teachers Pays' ,  
+                arabic : 'إظهار فواتير الأساتذه'
+            },
+            isAdmin: true,
+            path: 'ShowBillTeacherDetails',
+        },
+        {
+            title: {
+                english : 'Manage Pays' ,  
+                arabic : 'إدارة فواتير الأساتذه'
+            },
+            isAdmin: isAdmin,
+            path : 'ManagTeacherBill',
+        },
+        {
+            title: {
+                english : 'New Pay' ,  
+                arabic : 'فاتوة استاذ جديده'
+            },
+            isAdmin: true,
+            path : 'NewTeacherBill',
+        }
+    ]
+
     return(
         <>
             <Title title={window.location.pathname} />

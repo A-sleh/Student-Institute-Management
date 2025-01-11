@@ -6,8 +6,15 @@ import SubHeaderFilterClassByGrade from "../../shared/subHeaderTable/SubHeaderFi
 import { SubmitBtnStyle } from "../../shared/style/styleTag"
 import Notification from "../../Global/Notification"
 import DeleteModal from "../../Modal/DeleteModal"
+import { ShowSubjectsTEXT } from "../../../Data/static/Subject/ShowSubjectsTEXT" 
+import { useSelector } from "react-redux"
+import Title from "../../Global/Title"
 
 export default function ShowSubjects() {
+
+    // page text content 
+    const {currentLange} = useSelector( state => state.language)
+    const {settingBtn , successDeleteSubjectMES ,errorInDeleteSubjectMES } = ShowSubjectsTEXT[currentLange]
 
     const [filterByGrade,setFilterByGrade] = useState('bachelor')
     const [successDeleteSubject,setSuccessDeleteSubject] = useState(false)
@@ -21,7 +28,11 @@ export default function ShowSubjects() {
         ...SUBJECTCOLUMNS ,
         ,
         {
-            Header: 'Action' ,
+            Header: {
+                english : 'Action' ,  
+                arabic : 'حذف الماده'
+            },
+            accessor: 'action',
             Cell: ({row}) => {
                 return <i className="bi bi-trash" onClick={()=>{handleDeleteClicked(row.original)}} style={{ cursor: "pointer" ,fontSize: '16px',color: 'red' }}></i>
             }
@@ -39,12 +50,12 @@ export default function ShowSubjects() {
                 deleteModal &&
                 <DeleteModal element={selectedSubject?.subject} type={"Subject"} id={selectedSubject?.subjectId} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteSubject} setUnSuccessDelete={setUnSuccessDeleteSubject}/>
             }
-            <Notification title={"the subject has just deleted successful"} type={"success"} state={unSuccessDeleteSubject} setState={setSuccessDeleteSubject} />
-            <Notification title={"The subject has not tought from one of theacher"} type={"error"} state={successDeleteSubject} setState={setUnSuccessDeleteSubject} />
+            <Notification title={successDeleteSubjectMES} type={"success"} state={unSuccessDeleteSubject} setState={setSuccessDeleteSubject} />
+            <Notification title={errorInDeleteSubjectMES} type={"error"} state={successDeleteSubject} setState={setUnSuccessDeleteSubject} />
 
             <Table data={subjects} column={manageButton ? SUBJECTCOLUMNS : manageColumn} unableId={true} styleObj={{padding: '8px' , fontSize: '14px'}} showMainHeader={false}>
                 <SubHeaderFilterClassByGrade setSelectedGrade={setFilterByGrade} />
-                <SubmitBtnStyle style={{float: 'right'}} onClick={() => setManageButton(last => !last)}>Setting</SubmitBtnStyle>
+                <SubmitBtnStyle style={{float: 'left'}} onClick={() => setManageButton(last => !last)}>{settingBtn}</SubmitBtnStyle>
             </Table>
         </>
 

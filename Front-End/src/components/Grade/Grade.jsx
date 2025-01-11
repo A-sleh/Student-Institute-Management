@@ -5,11 +5,19 @@ import useGetBalanceInEachMonth from "../../hooks/bill_hooks/useGetBalanceInEach
 
 const urlList = [
     {
-        title: 'New Grade',
+        title: {
+            english :  'New Grade' ,  
+            arabic : 'إضافة فئه'
+        },
+        isAdmin: true,
         path: 'NewGrade',
     },
     {
-        title: 'Manage Grades',
+        title: {
+            english :  'Manage Grades' ,  
+            arabic : 'إداره الفئات'
+        },
+        isAdmin: true,
         path : 'ManageGrades',
     }
 ]

@@ -14,9 +14,15 @@ import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Notification from "../../Global/Notification";
 import Table from "../../shared/Table";
+import { useSelector } from "react-redux";
+import { TeacherNewClassTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewClassTEXT";
 
 export default function TeacherNewClass() {
 
+
+    const {currentLange} = useSelector( state => state.language)
+    const {successAddTeacherToClassesMES ,errorSelectedAlreadyClassMES ,errorMatchGradeMES ,addBtn,goBackBtn} = TeacherNewClassTEXT[currentLange]
+    
     // if i came from add new teacher class from manage class page to show all subject 
     const classId = useLocation()?.state?.ClassId || undefined;
     const classTitle = useLocation()?.state?.classTitle || undefined;
@@ -158,9 +164,9 @@ export default function TeacherNewClass() {
     return (
         <>
             
-            <Notification title={'class grade must be equal the subject grade'} type={'error'} state ={compareGrade} setState={setCompareGrade} />
-            <Notification title={'have been seleted already'} type={'error'} state ={teacherClassAlreadySeleted} setState={setTeacherClassAlreadySeleted} />
-            <Notification title={'Teacher was added to all selected classes'} type={'success'} state ={successAddTeacherToClass} setState={setSuccessAddTeacherToClass} />
+            <Notification title={errorMatchGradeMES} type={'error'} state ={compareGrade} setState={setCompareGrade} />
+            <Notification title={errorSelectedAlreadyClassMES} type={'error'} state ={teacherClassAlreadySeleted} setState={setTeacherClassAlreadySeleted} />
+            <Notification title={successAddTeacherToClassesMES} type={'success'} state ={successAddTeacherToClass} setState={setSuccessAddTeacherToClass} />
             <Title title={window.location.pathname} />
 
             {
@@ -177,49 +183,67 @@ export default function TeacherNewClass() {
             </div>
 
             <ButtonsContainerStyle>
-                <SubmitBtnStyle onClick={()=>{handleAddClicked()}}>Add</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1,{replace: true})}} >Go back</GoBackBtnStyle>
+                <SubmitBtnStyle onClick={()=>{handleAddClicked()}}>{addBtn}</SubmitBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1,{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
     )
 }
 
 
-function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}) {
+function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}) { 
+
+    const {currentLange} = useSelector( state => state.language)
+    const {teacherSubjects} = TeacherNewClassTEXT[currentLange]
 
     const columns = useMemo(() => [
         AllTeachers ? 
         {
-            Header: 'Teacher Name' ,
+            Header: {
+                arabic: 'أسم المدرس',
+                english: 'Teacher Name'  
+            },
             accessor: 'name' ,
             Cell : ({row}) => {
                 const teahcerDetails = row.original.teacher ; 
                 return teahcerDetails.name + ' ' + teahcerDetails.lastName;
             }
         }:{   
-            Header: 'Grade' ,
+            Header: {
+                arabic: 'الفئه',
+                english: 'Grade' 
+            },
             accessor : 'subject.grade'
         },
         {
-            Header: 'Subject' ,
+            Header: {
+                arabic: 'الماده',
+                english: 'Subject' 
+            },
             accessor : 'subject.subject'
         },
         {   
-            Header: 'Maximum Mark' ,
+            Header: {
+                arabic: 'العلامه العظمى',
+                english: 'Maximum Mark' 
+            },
             accessor : 'subject.maximumMark'
         },
         {
-            Header: 'Select' ,
+            Header: {
+                arabic: 'اختيار', 
+                english: 'Select'
+            } ,
             id: 'action' ,
             Cell : ({row}) => {
                 return <input checked={selectedSubject.teacherSubjectId == row.original.teacherSubjectId} onChange={ () => {setSelectedSubject(row.original)}} type="radio"   />
             }
         }
-    ],[selectedSubject])
+    ],[selectedSubject,currentLange])
     
     return (
         <>
-            <h3>Teacher{AllTeachers && 's'} subjects </h3>
+            <h3>{teacherSubjects[AllTeachers ? 'group':'single']}</h3>
             <Table column={columns} data={subjects} showMainHeader={false} styleObj = {{padding: '5px' , fontSize : '14px' , sameColor : false}} />
         </>
     )
@@ -228,12 +252,17 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
 
 function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {allClassesTitle} = TeacherNewClassTEXT[currentLange]
     const [filter,setFilter] = useState(selectedGrade != undefined ? selectedGrade :'all')
     
     const columns = useMemo(() => [
         ...CLASSDETAILSCOLUMN ,
         {
-            Header: 'Select' ,
+            Header: {
+                arabic: 'اختيار', 
+                english: 'Select'
+            }  ,
             id: 'action' ,
             Cell : ({row}) => {
                 return <input checked={selectedClass.classId == row.original.classId} onChange={(_) => {setSelectedClass(row.original)}} type="radio" />
@@ -247,7 +276,7 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
 
     return(
         <>
-            <h3>All Classes </h3>
+            <h3 style={{marginBottom: '6px'}}>{allClassesTitle}</h3>
             <Table column={columns} data={classFiltering || []} showMainHeader={false} styleObj = {{padding: '5px' , fontSize : '14px' , sameColor : false}}>
                 <FilterGradeHeader setFilter={setFilter} filter={filter} />
             </Table>
@@ -257,6 +286,10 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
 }
 
 function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,handleConfirmClicked}) {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {resetBtn,confirmBtn,teacherClassesSelected} = TeacherNewClassTEXT[currentLange]
+
 
     const handleDeleteClicked = (id) => {
         setSelectedTeacherClass(
@@ -270,7 +303,7 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
     return (
         <div style={{ backgroundColor: "#dddddd70",padding: "10px",borderRadius: "5px", height: '100%' , display: 'flex' , flexDirection: 'column' , justifyContent: 'space-between'}} >
             <div>
-                <h3 style={{ margin: "5px 0" }}>Teacher Class Seleted</h3>
+                <h3 style={{ margin: "5px 0" }}>{teacherClassesSelected}</h3>
                 <div style={{display: 'flex' , flexWrap: 'wrap' , flexDirection: 'column', gap: '5px'}}>
                     {
                         selectedTeacherClass.map( (teacherClass,index) => {
@@ -285,8 +318,8 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
             </div>
 
             <div>
-                <button onClick={handleConfirmClicked} style={{marginRight: '5px',padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599' , fontSize: '12px'}}>Confirm</button>
-                <button onClick={()=>{setSelectedTeacherClass([])}} style={{padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red' , fontSize: '12px'}}>Clear All</button>
+                <button onClick={handleConfirmClicked} style={{margin: '0 5px',padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599' , fontSize: '14px'}}>{confirmBtn}</button>
+                <button onClick={()=>{setSelectedTeacherClass([])}} style={{padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red' , fontSize: '14px'}}>{resetBtn}</button>
             </div>
         </div>  
     )

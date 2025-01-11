@@ -10,7 +10,9 @@ import DataServices from '../../../Data/dynamic/DataServices';
 import Notification from '../../Global/Notification';
 import ErrorMessage from '../../shared/ErrorMessage';
 import SearchBodyList from '../../shared/SearchBodyList';
+import { useSelector } from 'react-redux';
 import { errorActionLogic, successActionLogic } from '../../shared/logic/logic';
+import { NewTeacherBillTEXT } from '../../../Data/static/Bills/TeacherPaysCom/NewTeacherBillTEXT';
 
 const initialFormInput = { 
     teacher: {
@@ -27,6 +29,11 @@ const initialFormInput = {
 }
 
 export default function NewBill() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {teacherName ,billNumber ,billDate ,billAmount ,billNote ,addBtn ,successAddStudentBillMES ,validationMessages,errorAddStudentBillMES } = NewTeacherBillTEXT[currentLange]
+    const {nameVale ,bilNumberVal ,billDateVal ,billAmountVal} = validationMessages
+
 
     const [successAddBill,setSuccessAddBill] = useState(false)
     const [errorAddBill,setErrorAddBill] = useState(false)
@@ -100,45 +107,45 @@ export default function NewBill() {
     
     return (
         <>
-            <Notification  title={'Add Teacher bill'} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>
-            <Notification  title={'Bill number is exist already ,Please change it'} type={'error'} state ={errorAddBill} setState={setErrorAddBill}/>
+            <Notification  title={successAddStudentBillMES} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>
+            <Notification  title={errorAddStudentBillMES} type={'error'} state ={errorAddBill} setState={setErrorAddBill}/>
             <FormMainContainer >
                 <FormStyle onSubmit={(e)=> handleSubmitClicked(e)}>
                     <FormRowStyle >
                         <FormSubRowStyle width={'100%'}>
-                            <LabelStyle color={'#056699'} >Teacher Name</LabelStyle>
+                            <LabelStyle color={'#056699'} >{teacherName}</LabelStyle>
                             <InputStyle type="text"   onFocus={onFocus}  onBlur={onBlur}  className={validationBillInput.teacherId ? 'error' :'' } value={formInput.fullName} onChange={(e)=>{setFormInput({...formInput,fullName: e.target.value})}}/>
-                            <ErrorMessage showMessage={validationBillInput.teacherId} message={"You must select a teacher"}/>
+                            <ErrorMessage showMessage={validationBillInput.teacherId} message={nameVale}/>
                             <SearchBodyList searchValue={formInput.fullName} handleElementClicked={handleSelectedTeacher} data={allTeachers} focused={focused}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
 
                     <FormRowStyle >
                         <FormSubRowStyle >
-                            <LabelStyle color={'#056699'} >Bill Number</LabelStyle>
+                            <LabelStyle color={'#056699'} >{billNumber}</LabelStyle>
                             <InputStyle type="text" value={formInput.billNo} className={ validationBillInput.billNo ? 'error': ''} onChange={(e) => setFormInput({...formInput,billNo: e.target.value})}/>
-                            { validationBillInput.billNo && <span style={{marginTop: '4px' , fontSize: '11px' , color: 'red' , transition: '.3s'}}>Please enter the bill number</span> }
+                            <ErrorMessage showMessage={validationBillInput.billNo} message={bilNumberVal}/>
                         </FormSubRowStyle>
 
                         <FormSubRowStyle >
-                            <LabelStyle color={'#056699'} >Date</LabelStyle>
+                            <LabelStyle color={'#056699'} >{billDate}</LabelStyle>
                             <InputStyle type="date" value={formInput.date} className={ validationBillInput.date ? 'error': ''} onChange={(e) => setFormInput({...formInput,date: e.target.value})}/>
-                            <ErrorMessage showMessage={validationBillInput.date} message={"You must chose the bill date"}/>
+                            <ErrorMessage showMessage={validationBillInput.date} message={billDateVal}/>
                         </FormSubRowStyle>
 
                         <FormSubRowStyle >
-                            <LabelStyle color={'#056699'} >Amount</LabelStyle>
+                            <LabelStyle color={'#056699'} >{billAmount}</LabelStyle>
                             <InputStyle type="number" value={formInput.amount} className={ validationBillInput.amount ? 'error': ''} onChange={(e) => setFormInput({...formInput,amount: e.target.value})}/>
-                            <ErrorMessage showMessage={validationBillInput.amount} message={"the amount must be poistive ,And it requierd!!"}/>
+                            <ErrorMessage showMessage={validationBillInput.amount} message={billAmountVal}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
 
                     <div >
-                        <LabelStyle color={'#056699'}>Note</LabelStyle>
+                        <LabelStyle color={'#056699'}>{billNote}</LabelStyle>
                         <TextAreaInputStyle value={formInput.note} onChange={(e) => setFormInput({...formInput,note: e.target.value})}></TextAreaInputStyle>
                     </div>
 
-                    <SubmitBtnStyle >Add</SubmitBtnStyle>
+                    <SubmitBtnStyle >{addBtn}</SubmitBtnStyle>
                 </FormStyle>
             </FormMainContainer>
         </>
