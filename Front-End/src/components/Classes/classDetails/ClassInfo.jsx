@@ -12,8 +12,13 @@ import DataServices from "./../../../Data/dynamic/DataServices";
 import HeaderInformation from "../../shared/HeaderInformation";
 import TeacherTagsList from './TeacherTagsList'
 import StudnetsTagsList from "./StudentsTagsList";
+import { ClassesDetailsTEXT } from "../../../Data/static/classes/ClassesDetails/ClassesDetailsTEXT";
+import { useSelector } from "react-redux";
 
 export default function ClassInfo({ classDetails }) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {subTitle ,teacherstitle ,studentsTitle,classTitle} = ClassesDetailsTEXT[currentLange]
 
   const { title, gender, grade, students , classId } = classDetails;
   const [teachersNumber,setTeachersNumber] = useState([])
@@ -29,22 +34,34 @@ export default function ClassInfo({ classDetails }) {
 
   const classStatistics = [
     {
-      title: "Students",
+      title: {
+        english: "Students" ,
+        arabic: 'عددالطلاب'
+      },
       value: totalStudentsNumber ,
       icon: "fa-solid fa-user-group"
     }, 
     {
-      title: "Teachers",
+      title: {
+        english: "Teachers",
+        arabic: 'عددالأساتذه'
+      },
       value: teachersNumber,
       icon: "fa-solid fa-person-chalkboard",
     },
     {
-      title: "Gender",
+      title: {
+        english: "Gender",
+        arabic: 'فئه الشعبه'
+      },
       value: grade,
       icon: "fa-solid fa-graduation-cap",
     },
     {
-      title: "Remaining Salary",
+      title: {
+        english: "Gender" ,
+        arabic: 'جنس الطلاب'
+      },
       value: gender,
       icon: "bi bi-person-fill-exclamation",
     }
@@ -54,13 +71,13 @@ export default function ClassInfo({ classDetails }) {
     <>
       <MainContainerStyle>
 
-        <h1 style={{fontWeight: '500' , fontSize: '20px' , margin: '5px 0' , textTransform: 'uppercase'}}>{title}</h1>
+        <h1 style={{fontWeight: '500' , fontSize: '17px' , margin: '5px 0' , textTransform: 'uppercase'}}> <span style={{ fontWeight: '600' , color: '#056699'}}>{classTitle} / </span> {title}</h1>
 
-        <HeaderInformation data={classStatistics} title={'Class Information'}/>
+        <HeaderInformation data={classStatistics} title={subTitle}/>
 
         <section>
           <FlexSpaceBetweenContainerStyle >
-            <h3>Teachers</h3>
+            <h3>{teacherstitle}</h3>
           </FlexSpaceBetweenContainerStyle >
           <TeacherTagsList classId={classId} classHasNoTeachers={teachersNumber == 0 }/>
           
@@ -68,7 +85,7 @@ export default function ClassInfo({ classDetails }) {
 
         <section>
           <FlexSpaceBetweenContainerStyle >
-            <h3>Students</h3>
+            <h3>{studentsTitle}</h3>
           </FlexSpaceBetweenContainerStyle >
           <StudnetsTagsList students={students} classHasNoStudents={totalStudentsNumber == 0}/>
         </section>

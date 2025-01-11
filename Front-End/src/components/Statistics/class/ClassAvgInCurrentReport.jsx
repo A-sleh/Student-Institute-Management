@@ -4,9 +4,12 @@ import useReports from "../../../hooks/useReports";
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
 import SimpleHistogram from "../charts/SimpleHistogram";
 import useGetTheAvgClassesInCurrentReport from "../../../hooks/report_hooks/useGetTheAvgClassesInCurrentReport";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../../Redux/actions/type";
 
 export default function ClassAvgInCurrentReport() {
  
+    const {currentLange} = useSelector( state => state.language)
     const [grades] = useGetAllGrade()
     const [selectedGrade,setSelectedGrade] = useState('')
     const [_,reports] = useReports()
@@ -14,7 +17,7 @@ export default function ClassAvgInCurrentReport() {
     const [classesAvgInCurrentReport] = useGetTheAvgClassesInCurrentReport(selectedReport?.reportId)
     const data = {
         data : classesAvgInCurrentReport ,
-        title : 'Classes average in ' + selectedReport?.reportTitle + ' report',
+        title : (currentLange == ARABIC ? '  معدل الشعب في التقرير' : 'Classes average in ') + selectedReport?.reportTitle +  (currentLange == ARABIC ? '' : ' report'),
         fillColor: '#0964cc'
     }
 

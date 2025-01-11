@@ -4,10 +4,13 @@ import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
 import useGetTheTopStudentsInCurrentReport from "../../../hooks/report_hooks/useGetTheTopStudentsInCurrentReport";
 import SimpleHistogram from "../charts/SimpleHistogram";
 import useGetReportsFilterdByGrade from "../../../hooks/report_hooks/useGetReportsFilterdByGrade";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../../Redux/actions/type";
 
 
 export default function FirstStudentInCurrentReport() {
 
+    const {currentLange} = useSelector( state => state.language)
     const [grades] = useGetAllGrade()
     const [selectedGrade,setSelectedGrade] = useState('')
     const [reports] = useGetReportsFilterdByGrade(selectedGrade?.gradeId || '')
@@ -15,7 +18,7 @@ export default function FirstStudentInCurrentReport() {
     const [topOneStudents] = useGetTheTopStudentsInCurrentReport(selectedReport?.reportId || '')
     const data = {
         data : topOneStudents ,
-        title : 'first one students in ' + selectedReport?.reportTitle + ' report'
+        title : currentLange == ARABIC ? selectedReport?.reportTitle + ' الطلاب الأوائل في التقرير' :'first one students in ' + selectedReport?.reportTitle + ' report' 
     }
     
     useEffect(() => {

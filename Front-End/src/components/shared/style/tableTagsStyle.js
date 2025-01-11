@@ -17,6 +17,7 @@ export const TableStyle = styled.table`
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
+    direction : ${ ({language}) => language == 'arabic' ? 'rtl': 'ltr'} ;
     text-align: center !important;
     &.class-full input[type='checkBox']:not(:checked) {
         pointer-events: none;
@@ -44,7 +45,7 @@ export const TableStyle = styled.table`
 
     tbody {
         tr {
-
+            cursor: pointer;
             border-bottom: 1px solid #f3f1f1d7;
             &:nth-child(odd) {
                 background-color: ${ ({styleObj}) => styleObj.sameColor  ? 'white': '#f3f1f1d7'} ;
@@ -77,8 +78,7 @@ export const TableHeaderStyle = styled.div`
     align-items: center;
     margin-top: 20px;
     margin-bottom: 10px;
-
-
+    
     form {
         padding: 10px 0px;
         border-radius: 5px;
@@ -106,7 +106,7 @@ export const TableHeaderStyle = styled.div`
             background-color: rgb(6, 101, 153);
             border-radius: 2.4px;
             margin-left: auto;
-            margin-right: 6px;
+            margin:0 6px;
         }
     }
 

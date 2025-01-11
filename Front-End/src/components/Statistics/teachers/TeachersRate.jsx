@@ -4,11 +4,14 @@ import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
 import useGetSubjects from "../../../hooks/useGetSubjects";
 import useGetTeachersRating from "../../../hooks/teacher_hooks/useGetTeachersRating";
 import SimpleHorizontalBar from "../charts/SimpleHorizontalBar";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../../Redux/actions/type";
 
 
 
 export default function TeachersRate() {
 
+    const {currentLange} = useSelector( state => state.language)
     const [grades] = useGetAllGrade()
     const [selectedGrade,setSelectedGrade] = useState('')
     const [subjects] = useGetSubjects(selectedGrade?.grade)
@@ -19,11 +22,11 @@ export default function TeachersRate() {
     const data = {
         data : teachers.map( teacher => {            
             return {
-                type : teacher?.Name + ' ' + teacher?.LastName ,
+                type :  teacher?.Name + ' ' + teacher?.LastName ,
                 value : Number(teacher.rate)
             }
         }),
-        title : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
+        title : currentLange == ARABIC ?  selectedSubject?.subject  + ' تقييم الأساتذه في الماده ' : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
         color: '#a6ff00b7',
         direction : 'right'
     }

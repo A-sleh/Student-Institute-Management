@@ -1,9 +1,10 @@
+import { ARABIC } from "../../Redux/actions/type";
 
 export const theadThStyle = {
     color : '#2677a3' , backgroundColor: 'white' , fontSize : '14px' , position: 'relative' , top: '-5px', fontWeight : '600', padding: '5px 0'
 }
 
-export default function addSpaceBetweenDigit(number) {
+export default function addSpaceBetweenDigit(number,language) {
     const convertNumberToSting = `${number}` ; 
     const numberLength = convertNumberToSting?.length
     let newNumber = ''
@@ -16,6 +17,9 @@ export default function addSpaceBetweenDigit(number) {
         newNumber = convertNumberToSting[i] + newNumber
     }
 
+    if(language == ARABIC) {
+        newNumber = newNumber.split(' ').reverse().join(' ');
+    }
     return newNumber
 }
 

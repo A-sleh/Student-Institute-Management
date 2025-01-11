@@ -1,19 +1,31 @@
 
 export const CLASSCOLUMNS = [
     {
-        Header: 'Class Title',
+        Header: {
+            arabic: 'الشعبة' ,
+            english: 'Class Title'
+        } ,
         accessor: 'title'
     },
     {
-        Header: 'Gender',
+        Header: {
+            arabic: 'الجنس' ,
+            english: 'Gender'
+        } ,
         accessor: 'gender'
     },
     {
-        Header: 'Grade',
+        Header: {
+            arabic: 'الفئه' ,
+            english: 'Grade'
+        } ,
         accessor: 'grade'
     },
     {
-        Header: 'Students',
+        Header: {
+            arabic: 'عددالطلاب' ,
+            english: 'Students'
+        } ,
         accessor: 'students',
         Cell : ({ value }) => {
             return value?.length

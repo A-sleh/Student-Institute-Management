@@ -11,9 +11,11 @@ export const SubmitBtnStyle = styled.button`
     cursor: pointer;
     outline: none;
     border: none;
+    font-size: 15px; // arabic
     border-radius: 3px;
     margin-top: 10px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 1px; // arabic
     color: white;
     transition: .4s;
 
@@ -25,8 +27,8 @@ export const SubmitBtnStyle = styled.button`
 `
 
 export const SmallButtonStyle = styled.button`
-    padding: 0px 5px;
-    font-size: 12px;
+    padding: 2px 6px;
+    font-size: 15px; // arabic
     outline: none;
     border: none;
     color: white;
@@ -36,10 +38,26 @@ export const SmallButtonStyle = styled.button`
     cursor: pointer;
 `
 
-export const GoBackBtnStyle = styled(SubmitBtnStyle)`
+export const GoBackBtnStyle = styled.span`
+
+    font-size: 15px !important; // arabic
+    padding: 4px 25px;
+    width: fit-content;
+    line-height: 1em; // arabic
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    margin-top: 10px;
+    font-weight: 500;
+    color: white;
+    transition: .4s;
     background-color: red;
 
     &:hover {
+        background-color: white;
+        box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.438);
         color: red;
     }
 `
@@ -58,7 +76,7 @@ export const FormMainContainer = styled.section`
 export const FormRowStyle = styled.div`
     display: flex;
     gap: 10px ;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 
     @media (max-width: 767px ) {
         flex-direction: column;
@@ -68,6 +86,7 @@ export const FormRowStyle = styled.div`
 export const FormSubRowStyle = styled.div`
     position: relative;
     display: flex;
+    margin-bottom: 4px;
     flex-direction: column;
     width: ${({width}) => width || '50%' };
 
@@ -78,6 +97,7 @@ export const FormSubRowStyle = styled.div`
 
 export const LabelStyle = styled.label`
     font-weight: 600;
+    margin-bottom: 8px; // for arabic
     color: ${({color}) => color};
 `
 
@@ -363,8 +383,9 @@ export const HeaderInformationStyle = styled.div`
     border-radius: 5px ;
     padding: 10px ;
     margin: 10px 0;
-
+    
     section {
+        direction: ltr;
         display: grid;
         grid-template-columns: ${ ({$columnNumber}) => `repeat(${$columnNumber},auto)` };
         gap: 10px;

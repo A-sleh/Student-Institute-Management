@@ -12,9 +12,13 @@ import { REPORTCOLUMNS } from "../columnsTools/REPORTCOLUMNS"
 import useClass from "../../../../hooks/useClass"
 import useReportOfClassStatistics from "../../../../hooks/useReportOfClassStatistics"
 import Table from "../../../shared/Table"
+import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
+import { useSelector } from "react-redux"
 
 export default function ClassReports() {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {backBtn ,classReportsTitle} = ReportDetailsTEXT[currentLange]
     const classId = useParams().classId
     const [Class] = useClass(classId)
     const [reports] = useReportOfClassStatistics(classId)
@@ -30,10 +34,10 @@ export default function ClassReports() {
 
             <Table column={REPORTCOLUMNS || []} data={reports} url={'/CreateReport/ReportClassDetails'} idKeyParams={'classId'}>
                 <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
-                <h3 style={{color: '#056699' }}>Class Reports</h3>
+                <h3 style={{color: '#056699' }}>{classReportsTitle}</h3>
             </Table>
 
-            <GoBackBtnStyle onClick={()=>{gotoPage(-1)} } >Back</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>{gotoPage(-1)} } >{backBtn}</GoBackBtnStyle>
         </div>
     )
 }

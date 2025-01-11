@@ -6,13 +6,15 @@
 
 import { format } from "date-fns";
 import { ReportTestsContainerStyle } from "../../style/styleTage";
+import { useSelector } from "react-redux";
 
 export default function ReportTests({quiz,exam}) {
     
+    const {currentLange} = useSelector( state => state.language)
     return (
         <ReportTestsContainerStyle>
-            <TestList test={quiz.tests} type={'QUIZ'} percent={quiz.Avg}/>
-            <TestList test={exam.tests} type={'EXAM'} percent={exam.Avg}/>
+            <TestList test={quiz.tests} type={currentLange ? 'الأختبارات اليوميه': 'QUIZ'} percent={quiz.Avg}/>
+            <TestList test={exam.tests} type={currentLange ? 'المذاكرات ': 'EXAM'} percent={exam.Avg}/>
         </ReportTestsContainerStyle>    
     )
 }

@@ -2,25 +2,37 @@ import { format } from "date-fns";
 
 export const REPORTCOLUMNS = [
     {
-        Header: 'Report Title',
+        Header: {
+            arabic: 'عنوان التقرير' ,
+            english: 'Report Title'
+        },
         accessor: 'reportTitle'
     },
     {
-        Header: 'Start Date',
+        Header: {
+            arabic: 'تاريخ التقرير' ,
+            english: 'Start Date'
+        },
         accessor: 'startDate',
         Cell: ({ value }) => {
             return format(new Date(value), "yyyy / MM / dd");
         }
     },
     {
-        Header: 'Quiz Avarage',
+        Header: {
+            arabic: 'معدل الأختبارات اليومية' ,
+            english: 'Quiz Avarage'
+        },
         accessor: 'quizAvg',
         Cell: ({ value }) => {
             return `${value} %`;
         }
     },
     {
-        Header: 'Exam Avarage',
+        Header: {
+            arabic: 'معدل المذاكرات' ,
+            english: 'Exam Avarage'
+        },
         accessor: 'examAvg',
         Cell: ({ value }) => {
             return `${value} %`;

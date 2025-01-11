@@ -2,20 +2,32 @@ import { format } from "date-fns";
 
 export const ClassColumns = [
   {
-    Header: 'Title',
+    Header: {
+      arabic: 'عنوان الشعبه'  ,
+      english: 'Title'
+    } ,
     accessor: "title",
   },
   {
-    Header: 'gender',
+    Header: {
+      arabic: 'جنس الطلاب'  ,
+      english: 'gender'
+    } ,
     accessor: "gender",
   },
   {
-    Header: 'grade',
+    Header: {
+      arabic: 'فئه الشعبه'  ,
+      english: 'grade'
+    } ,
     accessor: "grade",
   },
   {
-    Header: 'students',
-    accessor: 'students' ,
+    accessor: 'students',
+    Header: {
+      arabic: 'عدد الطلاب الحاليين'  ,
+      english: 'students' 
+    } ,
     Cell: ({row})=> {
         return row.original.students.length - (row.original.students[0] == null )
     }

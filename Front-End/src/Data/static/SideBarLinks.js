@@ -1,59 +1,170 @@
+
 export const links = [
     {
-      title: "Statistics",
+      title: {
+        'english' :"Statistics" ,
+        'arabic' : "الإحصائيات" ,
+      },
       path: 'Statistics',
       iconPath: "fa-solid fa-chart-line fa-fw",
       subLinks: [],
     },
     {
-      title: "Students",
+      title: {
+        'english' :"Students",
+        'arabic' : "إدارة الطلاب" ,
+      },
       path: 'StudentsDetails',
       iconPath: "bi bi-person-gear",
       subLinks: [
-        { title: "Students Details",path: 'StudentsDetails', iconPath: "bi bi-person-video2" },
-        { title: "New Student",path: 'NewStudent', iconPath: "bi bi-person-fill-add" },
+        { 
+          title: {
+            'english' :"Students Details",
+            'arabic': 'تفاصيل الطلاب' ,
+          },
+          path: 'StudentsDetails', iconPath: "bi bi-person-video2" 
+        },
+        { 
+            title: {
+            'english' :"New Student",
+            'arabic': 'إضافة طالب' ,
+          } ,path: 'NewStudent', iconPath: "bi bi-person-fill-add" 
+        },
+        { 
+            title: {
+            'english' :"Students MissedDays",
+            'arabic': 'أخذ تفقد الطلاب' ,
+          } ,path: 'StudentMissedDays', iconPath: "bi bi-calendar2-day" 
+        },
       ],
     },
     {
-      title: "Teachers",
+      title: {
+        'english' :"Teachers",
+        'arabic': 'إدارة الأساتذة' ,
+      },
       path: 'TeachersDetails',
       iconPath: "bi bi-person-circle",
       subLinks: [
-        { title: "Teachers Details",path: 'TeachersDetails', iconPath: "bi bi-person-video2" },
-        { title: "Manage Teacher",path: 'ManageTeacher', iconPath: "bi bi-person-gear" },
-        { title: "New Teacher",path: 'NewTeacher', iconPath: "bi bi-person-fill-add" },
+        { 
+          title: {
+            'english' :  "Teachers Details",
+            'arabic' : "تفاصيل الأساتذه" ,
+          }
+          ,path: 'TeachersDetails', iconPath: "bi bi-person-video2" 
+        },
+        { 
+          title: {
+            'english' :"Manage Teacher",
+            'arabic': 'إدارة الأساتذه' ,
+          } ,path: 'ManageTeacher', iconPath: "bi bi-person-gear" 
+        },
+        { title: {
+          'english' :"New Teacher",
+          'arabic': 'إضافة إستاذ' ,
+        },path: 'NewTeacher', iconPath: "bi bi-person-fill-add" 
+      },
       ],
     },
     {
-      title: "Bills",
+      title: {
+        'english' :"Bills",
+        'arabic': 'الفواتير' ,
+      },
       path: 'StudentsPays',
       iconPath: "bi bi-wallet",
       subLinks: [
-        { title: "Students Pays", path: 'StudentsPays',iconPath: "bi bi-person-vcard" },
-        { title: "Teachers Salaries",path: 'TeachersSalaries', iconPath: "bi bi-credit-card-2-front" },
-        { title: "External Pays",path: 'ExternalPays', iconPath: "bi bi-cash-coin" },
-        { title: "All Bill Details",path: 'AllBillDetails', iconPath: "bi bi-bank" },
+        { 
+            title: {
+            'english' :"Students Pays",
+            'arabic': 'فواتير الطلاب' ,
+          } , path: 'StudentsPays',iconPath: "bi bi-person-vcard" 
+        },
+        { 
+            title:{
+            'english' :"Teachers Salaries",
+            'arabic': 'اقصات الاساتذه' ,
+          } ,path: 'TeachersSalaries', iconPath: "bi bi-credit-card-2-front" 
+        },
+        { 
+            title: {
+            'english' :"External Pays",
+            'arabic': 'الفواتير الخارجيه' ,
+          } ,path: 'ExternalPays', iconPath: "bi bi-cash-coin" 
+        },
+        { 
+            title: {
+            'english' :"All Bill Details",
+            'arabic': 'تفاصيل جميع الفواتير' ,
+          } ,path: 'AllBillDetails', iconPath: "bi bi-bank" 
+        },
       ],
     },
     {
-      title: "Test",
+      title: {
+        'english' :"Test",
+        'arabic': 'الأختبارات' ,
+      },
       path: 'Test',
       iconPath: "bi bi-textarea-t",
       subLinks: [
-        { title: "Test",path: 'Test', iconPath: "bi bi-file-text" },
-        { title: "Create Report",path: 'CreateReport', iconPath: "bi bi-file-earmark-person" },
+        { 
+            title: {
+            'english' : "Test",
+            'arabic' : "تفاصيل الأختبارات" ,
+          },path: 'Test', iconPath: "bi bi-file-text" 
+        },
+        { 
+            title: {
+            'english' :"Create Report",
+            'arabic': 'إدارة التقارير' ,
+          } ,path: 'CreateReport', iconPath: "bi bi-file-earmark-person"
+        },
       ],
     },
     {
-      title: "Classes",
+      title: {
+        'english' : "Classes",
+        'arabic': 'الشعب' ,
+      },
       path: 'ClassesDetails',
       iconPath: "bi bi-building",
       subLinks: [
-        { title: "Classes Details",path: 'ClassesDetails', iconPath: "bi bi-person-video2" },
-        { title: "Manage Classes",path: 'ManageClasses', iconPath: "bi bi-building-gear" },
-        { title: "New Class",path: 'NewClass', iconPath: "bi bi-building-add" },
+        { 
+            title: {
+            'english' :"Classes Details",
+            'arabic': 'تفاصيل الشعب' ,
+          },path: 'ClassesDetails', iconPath: "bi bi-person-video2" 
+        },
+        { 
+            title: {
+            'english' :"Manage Classes",
+            'arabic': 'إدارة الشعب' ,
+          } ,path: 'ManageClasses', iconPath: "bi bi-building-gear" 
+        },
+        { 
+            title: {
+            'english' : "New Class",
+            'arabic': 'شعبه جديده' ,
+          },path: 'NewClass', iconPath: "bi bi-building-add" 
+        },
       ],
     },
-    { title: "Grade", path: 'Grade',iconPath: "bi bi-mortarboard", subLinks: [] },
-    { title: "Subject", path: 'Subject',iconPath: "bi bi-book-half", subLinks: [] },
+    { title: {
+      'english' :"Grade",
+      'arabic': 'الفئات' ,
+    }, path: 'Grade',iconPath: "bi bi-mortarboard", subLinks: [] },
+    { title: {
+      'english' :"Subject",
+      'arabic': 'المواد' ,
+    }, path: 'Subject',iconPath: "bi bi-book-half", subLinks: [] },
+    {
+      title: {
+        'english' :"Setting",
+        'arabic': 'الإعدادات' ,
+      },
+      path: 'Setting' ,
+      iconPath: 'bi bi-gear' ,
+      subLinks: []
+    }
   ];

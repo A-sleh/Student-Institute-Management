@@ -23,3 +23,24 @@ export function separateTesetsAccordingToType(tests,quizAvg,examAvg) {
 
     return [quizRes,examRes]
 }
+
+
+export function getShortNumberFormat(number) {
+
+    const numberFormat = { number : 0 , unit: ''}
+    const digits = Math.ceil(Math.log10(number)) - 3 // remover the first digits
+    const convertingNumber = number.toString()
+    const Units = ['' , 'K' , 'M']
+
+    for(let i = 0 ; i < 6 ; ++ i ) {            
+        numberFormat.number = numberFormat.number + Math.pow(10, 5 - i ) * (+convertingNumber[i] || 0)
+    }
+
+    const currentUnit = Math.ceil(digits / 3)
+
+    numberFormat.unit = Units[currentUnit]
+    const dividedBy = 3 + (digits % 3 == 1 ? 2 : digits % 3 == 2 ? 1 : 0)
+    numberFormat.number = numberFormat.number / Math.pow(10 , dividedBy ) 
+
+    return numberFormat 
+}

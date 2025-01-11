@@ -24,8 +24,9 @@ export default function StudentsDetails() {
     name: "",
   });
   const [currentPage,setCurrentPage] = useState(1)
-  const [studentInfo,totalPageNumber] = useStudentsInfo(selectedGrade,setCurrentPage,1,currentPage,successDeleteStudent);
-
+  const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,6,currentPage,successDeleteStudent);
+  const { students, totalPages} = studentsInfo
+  
   function handleDleteClicked(student) {
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
@@ -79,7 +80,6 @@ export default function StudentsDetails() {
     ],
     []
   );
-
   
   return (
     <>
@@ -90,7 +90,7 @@ export default function StudentsDetails() {
       <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
 
       <Title title={window.location.pathname} />
-      <TablePaginated data={studentInfo || []} column={column} setNextPageState={setCurrentPage} totalPageNumber={totalPageNumber} rowNumber={3}>
+      <TablePaginated data={students || []} column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={6} >
         <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
       </TablePaginated> 
 

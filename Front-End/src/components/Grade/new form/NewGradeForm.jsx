@@ -4,8 +4,15 @@ import Notification from "../../Global/Notification";
 import ErrorMessage from "../../shared/ErrorMessage";
 import DataServices from "../../../Data/dynamic/DataServices";
 import { successActionLogic } from "../../shared/logic/logic";
+import { NewGradeFormTEXT } from "../../../Data/static/Grade/NewGradeFormTEXT"; 
+import { useSelector } from "react-redux";
 
 export default function NewGradeForm() {
+
+    const {currentLange} = useSelector( state => state.language)
+    const {title , gradeTitle ,createBtn ,successCreateGradeMES ,validationMessages } = NewGradeFormTEXT[currentLange]
+    const {gradeTitleVal} = validationMessages
+
 
     const initailInput = {grade : ''}
     const [successCreate,setSuccessCreate] = useState(false)
@@ -32,18 +39,18 @@ export default function NewGradeForm() {
     
     return(
         <>
-            <Notification title={"create new grade"} type={"success"} state={successCreate} setState={setSuccessCreate} />
+            <Notification title={successCreateGradeMES} type={"success"} state={successCreate} setState={setSuccessCreate} />
             <FormMainContainer>
                 <FormStyle onSubmit={(e)=>handleSubmitClicked(e)}>
-                    <h3>New Grade</h3>
+                    <h3>{title}</h3>
                     <FormRowStyle>  
                         <FormSubRowStyle width={'100%'}>
-                            <LabelStyle color={'#056699'}>Grade Title</LabelStyle>
+                            <LabelStyle color={'#056699'}>{gradeTitle}</LabelStyle>
                             <InputStyle type="text" className={validInputs ? "error" : ""} value={input.grade} onChange={(e) =>setInput({grade : e.target.value})}/>
-                            <ErrorMessage showMessage={validInputs} message={"this field is required"}/>
+                            <ErrorMessage showMessage={validInputs} message={gradeTitleVal}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
-                    <SubmitBtnStyle> Create</SubmitBtnStyle>
+                    <SubmitBtnStyle> {createBtn}</SubmitBtnStyle>
                 </FormStyle>
             </FormMainContainer>
         </>

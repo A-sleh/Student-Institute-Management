@@ -11,10 +11,17 @@ import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
 import useGetAllGrade from '../../../hooks/Grade_hooks/useGetAllGrade';
+import { useSelector } from 'react-redux';
+import { NewClassTEXT } from '../../../Data/static/classes/NewClass/NewClassTEXT';
 
 
-export default function ClassForm({ initialSatate, setSuccessAction, type }) {
-  
+export default function ClassForm(props) {
+
+  const { initialSatate, setSuccessAction, type } = props
+  const {currentLange} = useSelector( state => state.language)
+  const { title , classTitle , classCapacity ,classGrade ,classGender ,submitBtn ,updateBtn ,cancelBtn ,validationMessages } = NewClassTEXT[currentLange]
+  const {classTitleVal ,classCapacityVal ,gradeVal ,genderVal} = validationMessages
+
   const [validation, setValidation] = useState({ title: false, capacity: false, grade: false, gender: false, })
   const [classDetails, setClassDetails] = useState(initialSatate)
   const [grades] = useGetAllGrade()
@@ -81,25 +88,25 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
 
       <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)}>
         <div>
-          <h3>Class Information</h3>
+          <h3>{title}</h3>
 
           <FormRowStyle >
             <FormSubRowStyle>
-              <LabelStyle color={'#056699'}>Class Title</LabelStyle>
+              <LabelStyle color={'#056699'}>{classTitle}</LabelStyle>
               <InputStyle className={validation.title ? "error" : ""} type="text" value={classDetails.title} onChange={(e) =>handleInputsChange(e.target.value,'title')}/>
-              <ErrorMessage message={'Pleas Enter The Class Title'} showMessage={validation.title}/>
+              <ErrorMessage message={classTitleVal} showMessage={validation.title}/>
             </FormSubRowStyle>
             
             <FormSubRowStyle>
-              <LabelStyle color={'#056699'}>Class Capacity </LabelStyle>
+              <LabelStyle color={'#056699'}>{classCapacity} </LabelStyle>
               <InputStyle type="text" className={validation.capacity ? "error" : ""} value={classDetails.capacity} onChange={(e) =>handleInputsChange(e.target.value,'capacity')}/>
-              <ErrorMessage message={'The Capacity Must Be Positive'} showMessage={validation.capacity}/>
+              <ErrorMessage message={classCapacityVal} showMessage={validation.capacity}/>
             </FormSubRowStyle>
 
           </FormRowStyle >
 
           <FormSubRowStyle width={'100%'}>
-            <LabelStyle color={'#056699'}>Grade</LabelStyle>
+            <LabelStyle color={'#056699'}>{classGrade}</LabelStyle>
             <FormSelectdStyle value={classDetails.gradeId+' '+classDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'grade','gradeId')}>
               <option value={""}></option>
               {
@@ -108,37 +115,40 @@ export default function ClassForm({ initialSatate, setSuccessAction, type }) {
                 })
               }
             </FormSelectdStyle>
+            <ErrorMessage message={gradeVal} showMessage={validation.grade}/>
           </FormSubRowStyle>
 
           <FormSubRowStyle width={'100%'}>
-            <LabelStyle color={'#056699'}>Gender</LabelStyle>
+            <LabelStyle color={'#056699'}>{classGender}</LabelStyle>
             <FormSelectdStyle value={classDetails.gender} className={validation.gender ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'gender')}>
               <option value={""}></option>
               <option value={"male"}>male</option>
               <option value={"female"}>female</option>
             </FormSelectdStyle>
+            <ErrorMessage message={genderVal} showMessage={validation.gender}/>
           </FormSubRowStyle>
         </div>
         <ButtonsContainerStyle >
           <SubmitBtnStyle >
-            {type ==='POST' ?  'Submit' : 'Update'}
+            {type ==='POST' ?  submitBtn : updateBtn }
           </SubmitBtnStyle>
           { type !== 'POST' && 
-            <GoBackBtnStyle onClick={()=>{props.setUpdataBtnClicked(false)}} >Back</GoBackBtnStyle> 
+            <GoBackBtnStyle onClick={()=>{props.setUpdataBtnClicked(false)}}>{cancelBtn}</GoBackBtnStyle> 
           }
         </ButtonsContainerStyle>
 
       </FormStyle>
-
-      <ShowInputCard iconPath={"bi bi-info-circle icon"} >
-        <main>
-          <h3>Class Title : <span> {classDetails.title} </span> </h3>
-          <h3>Grade : <span> {classDetails.grade} </span></h3>
-          <h3>Gender : <span> {classDetails.gender} </span></h3>
-          <h3>Class Capacity :  <span> {classDetails.capacity} </span></h3>
-        </main>
-      </ShowInputCard>
-
+      {
+        type != 'PUT' && 
+          <ShowInputCard iconPath={"bi bi-info-circle icon"} >
+          <main>
+            <h3>{classTitle} : <span> {classDetails.title} </span> </h3>
+            <h3>{classGrade} : <span> {classDetails.grade} </span></h3>
+            <h3>{classGender} : <span> {classDetails.gender} </span></h3>
+            <h3>{classCapacity} :  <span> {classDetails.capacity} </span></h3>
+          </main>
+        </ShowInputCard>
+      }
     </FormMainContainer>
   );
 }

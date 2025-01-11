@@ -2,25 +2,38 @@ import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 export const TEACHERSUBJECTCOLUMN = [
     {
-        Header: "subject",
+        Header: {
+            arabic: 'الماده',
+            english: 'Subject' 
+        } ,
         accessor: "subject.subject",
     },
      {
-        Header: "Number of classes",
+        Header: {
+            arabic: 'عدد الشعب',
+            english: "Number of classes"
+        }  ,
         accessor: "classes",
         Cell : ({value}) => {
             return value.length - (value[0] == null)
         }
     },
     {
-        Header: "Salary",
+        Header: {
+            arabic: 'قصت الماده الواحده',
+            english: "Salary"
+        } ,
         accessor: "salary",
         Cell : ({value}) => {
             return addSpaceBetweenDigit(value)
         }
     },
     {
-      Header: "total salary",
+      Header: {
+        arabic: 'الرصيد الكلي',
+        english: "total salary"
+    } ,
+    accessor: "totalSalary",
       Cell : ({row}) => {
         const { salary , classes} = row.original
         return addSpaceBetweenDigit (salary * (classes.length - (classes[0] == null)))

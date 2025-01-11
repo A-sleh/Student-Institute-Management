@@ -12,8 +12,16 @@ import DataServices from "../../../Data/dynamic/DataServices";
 import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
 import { successActionLogic } from "../../shared/logic/logic";
+import { NewTeacherTEXT } from "../../../Data/static/teachers/NewTeacher/NewTeacherTEXT";
+import { useSelector } from "react-redux";
 
 export default function TeacherForm(props) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {teacherTitle,backBtn,updateBtn ,name ,lastName ,phoneNumber ,submitBtn ,validationMessages} = NewTeacherTEXT[currentLange]
+
+  const {nameVal ,lastNameVal ,phoneNumberVal } = validationMessages
+
 
   const { initialSatate , requestType ,setSuccessAction} = props
   const [teacherDetails, setTeacherDetails] = useState(initialSatate);
@@ -94,40 +102,42 @@ export default function TeacherForm(props) {
     <>
       <FormMainContainer>
 
-        <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)}>
-          <h3>Theacher Information</h3>
+        <FormStyle onSubmit={(e) => hanldeSubmitClicked(e)} >
+          <div>
+            <h3>{teacherTitle}</h3>
 
-          <FormRowStyle >
+            <FormRowStyle >
 
-            <FormSubRowStyle >
-              <LabelStyle color={'#056699'}>First Name</LabelStyle>
-              <InputStyle className={validation.name ? "error" : ""} type="text" value={teacherDetails.name} onChange={(e) =>handleInputsChange(e.target.value,'name')}/>
-              <ErrorMessage message={'Pleas Enter The The First Name of Teacher'} showMessage={validation.name}/>
-            </FormSubRowStyle >
+              <FormSubRowStyle >
+                <LabelStyle color={'#056699'}>{name}</LabelStyle>
+                <InputStyle className={validation.name ? "error" : ""} type="text" value={teacherDetails.name} onChange={(e) =>handleInputsChange(e.target.value,'name')}/>
+                <ErrorMessage message={nameVal} showMessage={validation.name}/>
+              </FormSubRowStyle >
 
-            <FormSubRowStyle >
-              <LabelStyle color={'#056699'}>Last Name</LabelStyle>
-              <InputStyle type="text" className={validation.lastName ? "error" : ""} value={teacherDetails.lastName} onChange={(e) =>handleInputsChange(e.target.value,'lastName')}/>
-              <ErrorMessage message={'Pleas Enter The The Last Name of Teacher'} showMessage={validation.lastName}/>
-            </FormSubRowStyle >
+              <FormSubRowStyle >
+                <LabelStyle color={'#056699'}>{lastName}</LabelStyle>
+                <InputStyle type="text" className={validation.lastName ? "error" : ""} value={teacherDetails.lastName} onChange={(e) =>handleInputsChange(e.target.value,'lastName')}/>
+                <ErrorMessage message={lastNameVal} showMessage={validation.lastName}/>
+              </FormSubRowStyle >
 
-          </FormRowStyle >
+            </FormRowStyle >
 
-          
-          <FormRowStyle >
-            <FormSubRowStyle style={{width: '100%' ,marginLeft: '0'}}>
-              <LabelStyle color={'#056699'}>Phoe Number</LabelStyle>
-              <InputStyle type="text" value={teacherDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'phone')}/>
-              <ErrorMessage message={'The number must be positive ,And don\'t containt letters'} showMessage={validation.phone}/>
-            </FormSubRowStyle>
-          </FormRowStyle>
+            
+            <FormRowStyle >
+              <FormSubRowStyle style={{width: '100%' ,marginLeft: '0'}}>
+                <LabelStyle color={'#056699'}>{phoneNumber}</LabelStyle>
+                <InputStyle type="text" value={teacherDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputsChange(e.target.value,'phone')}/>
+                <ErrorMessage message={phoneNumberVal} showMessage={validation.phone}/>
+              </FormSubRowStyle>
+            </FormRowStyle>
+          </div>
 
           <ButtonsContainerStyle >
             <SubmitBtnStyle>
-              {requestType ==='POST' ?  'Submit' : 'Update'}
+              {requestType ==='POST' ?  submitBtn : updateBtn}
             </SubmitBtnStyle>
               { requestType !== 'POST' && 
-                <GoBackBtnStyle onClick={()=>{handleBackClicked()}} >Back</GoBackBtnStyle> 
+                <GoBackBtnStyle onClick={()=>{handleBackClicked()}} >{backBtn}</GoBackBtnStyle> 
               }
           </ButtonsContainerStyle>
 
@@ -135,9 +145,9 @@ export default function TeacherForm(props) {
 
         <ShowInputCard iconPath={"bi bi-person-circle icon"} >
           <main>
-            <h3>First Name : <span> {teacherDetails.name}</span> </h3>
-            <h3>Last Name  :  <span> {teacherDetails.lastName} </span></h3>
-            <h3>phone : <span> {teacherDetails.phone} </span></h3>
+            <h3>{name} : <span> {teacherDetails.name}</span> </h3>
+            <h3>{lastName}  :  <span> {teacherDetails.lastName} </span></h3>
+            <h3>{phoneNumber} : <span> {teacherDetails.phone} </span></h3>
           </main>
         </ShowInputCard>
 

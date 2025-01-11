@@ -66,7 +66,7 @@
 }
 
 /* Notification */ 
-.notification {
+/* .notification {
     position: fixed;
     z-index: 300;
     bottom: 20px;
@@ -87,4 +87,4 @@
 .notification.error {
     background-color: rgba(233, 14, 14, 0.4);
     color: rgb(238, 20, 20);
-}
+} */

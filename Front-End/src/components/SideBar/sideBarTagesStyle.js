@@ -5,6 +5,7 @@ export const SideBarContainerStyle = styled.div`
     min-height: 100vh;
     position: relative;
     background: #056699;
+    padding-left: 5px;
     overflow: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -15,15 +16,17 @@ export const SideBarContainerStyle = styled.div`
 export const SideBarListStyle = styled.ul`
     position: absolute;
     list-style: none;
-    padding-left: 8px;
+    margin-left: ${ ({language}) => language == 'arabic' ? '0px' : '0px'};
+    margin-right: ${ ({language}) => language == 'arabic' ? '8px' : '0'};
     top: 10%;
-    width: 100%;
+    width: 99%;
+    
 
     & .list , & .main-list , & .list a {
         position: relative;
         padding: 9px 0px;
         display: flex;
-        border-radius: 30px 0px 0px 30px;
+        border-radius:  ${ ({language}) => language == 'arabic' ? '0px 30px 30px 0px' : '30px 0px 0px 30px'};
         font-weight: 400;
         color: white;
         cursor: pointer;
@@ -72,7 +75,9 @@ export const SideBarListStyle = styled.ul`
             width: 100%;
             top: -20%;
             height: 12px;
-            border-bottom-right-radius: 25px;
+            border-bottom-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
+            border-bottom-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
+            margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
             background-color: #056699;
         }
 
@@ -82,7 +87,9 @@ export const SideBarListStyle = styled.ul`
             width: 100%;
             bottom: -20%;
             height: 12px;
-            border-top-right-radius: 25px;
+            border-top-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
+            border-top-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
+            margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
             background-color: #056699;
         }
 
@@ -143,7 +150,9 @@ export const SideBarListStyle = styled.ul`
                 width: 100%;
                 top: -20%;
                 height: 12px;
-                border-bottom-right-radius: 25px;
+                border-bottom-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
+                border-bottom-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
+                margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0px'};
                 background-color: #056699;
             }
             & b:nth-child(2)::before {
@@ -152,9 +161,10 @@ export const SideBarListStyle = styled.ul`
                 width: 100%;
                 bottom: -20%;
                 height: 12px;
-                border-top-right-radius: 25px;
+                border-top-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
+                border-top-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
+                margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
                 background-color: #056699;
-
             }
         }
 
@@ -175,7 +185,8 @@ export const LinkContainerStyle = styled.p`
 
 export const SideBarSubListStyle = styled.ul`
     position: relative;
-    margin-left: 8px;
+    margin-left: ${ ({language}) => language == 'arabic' ? '0px' : '8px'};
+    margin-right: ${ ({language}) => language == 'arabic' ? '8px' : '0'};
     overflow: hidden;
     margin-top: 0px;
     margin-bottom: 10px;

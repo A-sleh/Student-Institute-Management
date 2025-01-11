@@ -16,11 +16,15 @@ import Table from "../../shared/Table"
 import Title from "../../Global/Title"
 import ManageStudentStatisticsHeader from "./ManageStudentStatisticsHeader"
 import useGetStudentWithOutClass from "../../../hooks/student_hooks/useGetStudentWithOutClass"
+import { InsertNewStudentTEXT } from "../../../Data/static/classes/ManageClass/InsertNewStudentTEXT"
 
 export default function InsertNewStudent() {
 
+  const {currentLange} = useSelector( state => state.language)
+  const {subTitle ,addBtn ,goBackBtn ,numberOfStudentsWOR ,successAddtudentsMES ,errorInMoveStudentsMES} = InsertNewStudentTEXT[currentLange]
+
   // shared states
-  const {studentNumber} = useSelector( state => state )  
+  const {studentNumber} = useSelector( state => state.studentNumber )  
   const dispatch = useDispatch() 
   // Notification States
   const [successAddStudent,setSuccessAddStudent] = useState(false) 
@@ -39,7 +43,10 @@ export default function InsertNewStudent() {
       ...STUDENTCOLUMN,
       {
         id: "selection",
-        Header: "select",
+        Header: {
+          arabic: 'تحديد' ,
+          english: "select"
+        },
         Cell: ({ row }) => {
           return (
             <div onChange={(e) => handleCheckBoxToggle(e.target.checked)}>
@@ -91,17 +98,17 @@ export default function InsertNewStudent() {
   return (
     <>
       <Title title={window.location.pathname + `To Class - ${title}`} />
-      <Notification title={'Add Studnets to the Class'} type={'success'} state ={successAddStudent} setState={setSuccessAddStudent} />
+      <Notification title={successAddtudentsMES} type={'success'} state ={successAddStudent} setState={setSuccessAddStudent} />
 
       <ManageStudentStatisticsHeader capacity={capacity} selectedFlatRows={selectedFlatRows} currentStudents={studentNumber} allStudentsWithSelected={capacity - ( currentStudents + selectedFlatRows.length)} />
 
-      <h3 style={{ margin: "10px 0" }}>Students Without Class </h3>
+      <h3 style={{ margin: "10px 0" }}>{subTitle} </h3>
       <Table data={studentDetails} column={ALLSTUDENTCOLUMNS} preventAction={!canSelectStudent} showMainHeader={false} setSelectedRows={setSelectedFlatRows} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
-        {!canSelectStudent ?  <span style={{ color: "red", fontSize: "0.9em" }}> Don't you can choose more students ,Class become a full </span> : undefined}
+        {!canSelectStudent ?  <span style={{ color: "red", fontSize: "0.9em" }}>{numberOfStudentsWOR} </span> : undefined}
 
       <ButtonsContainerStyle >
-        <SubmitBtnStyle onClick={()=>handleAddClicked(selectedFlatRows)} >Add</SubmitBtnStyle>
-        <GoBackBtnStyle onClick={()=>{gotoPage(-1,{replace: true})}} >Go Back</GoBackBtnStyle>
+        <SubmitBtnStyle onClick={()=>handleAddClicked(selectedFlatRows)} >{addBtn}</SubmitBtnStyle>
+        <GoBackBtnStyle onClick={()=>{gotoPage(-1,{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
       </ButtonsContainerStyle>
 
     </>

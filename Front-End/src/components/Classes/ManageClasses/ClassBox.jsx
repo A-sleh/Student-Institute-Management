@@ -11,8 +11,14 @@ import DataServices from "../../../Data/dynamic/DataServices"
 import Notification from "../../Global/Notification"
 import Table from "../../shared/Table";
 import { SmallButtonStyle } from "../../shared/style/styleTag"
+import { MoveStudentsToAnotherClassTEXT } from "../../../Data/static/classes/ManageClass/MoveStudentsToAnotherClassTEXT"
+import { useSelector } from "react-redux"
 
 export default function  ClassBox({currentClass,numberOfSelectedStudents,selectedStudents}) {
+
+    const {currentLange} = useSelector( state => state.language)
+    const { selectBtn ,resizeCapacityBtn ,applyBtn ,cancelBtn ,successMoveStudentsMES ,successUpdateClassCapacityMES ,
+        errorMoveStudentsMES , errorUpdateClassCapacityMES } = MoveStudentsToAnotherClassTEXT[currentLange]
 
     // Notification states
     const [successUpdate,setSuccessUpate] = useState(false) ;
@@ -42,7 +48,10 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
     const columns = useMemo(()=> [
         ...ClassColumns , 
         {
-            Header: 'capacity',
+            Header: {
+                arabic: 'سعة الشعبة'  ,
+                english: 'capacity'
+            } ,
             accessor: 'capacity',
             Cell : ({row}) => {
                 return resize != row.original.classId ? row.original.capacity : <input type='text'  min='1' in  ref={capacityInput} value={capacity} onChange={(e) => handleInputChange(e.target.value)} style={{padding: '0 4px' ,backgroundColor: 'transparent',width: '3em', fontSize: '15px' , outline: 'none' , border: 'none' , textAlign: 'center' ,borderBottom: '1px solid #066599' , borderRadius: '2px' }}/>
@@ -50,25 +59,29 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
         },
         {
             id: "selection",
-            Header: 'Actions' ,
+            Header: {
+                arabic: 'إعدادات'  ,
+                english: 'Setting'
+            },
+            accessor: 'selection',
             Cell : ({row}) => {
                 return (
-                    <>
+                    <div>
                         { 
                             resize != row.original.classId ? 
-                            <SmallButtonStyle color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >Select</SmallButtonStyle> : ''
+                            <SmallButtonStyle color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >{selectBtn}</SmallButtonStyle> : ''
                         }
                         <SmallButtonStyle color={'#009744'} onClick={() =>{
                             resize == row.original.classId ? handleApplyResizeClicked(row.original) : handleResizeClicked(row.original.classId,row.original.capacity)  
-                        }} >{resize == row.original.classId ? 'Apply' : 'Resize Capacity'}</SmallButtonStyle>
+                        }} >{resize == row.original.classId ? applyBtn : resizeCapacityBtn}</SmallButtonStyle>
                         {
-                            row.original.classId == resize ? <SmallButtonStyle color={'red'} onClick={()=>{handleCancelClicked()}} >Cancel</SmallButtonStyle> : ''
+                            row.original.classId == resize ? <SmallButtonStyle color={'red'} onClick={()=>{handleCancelClicked()}} >{cancelBtn}</SmallButtonStyle> : ''
                         }
-                    </>
+                    </div>
                 )
             }
         }
-    ],[numberOfSelectedStudents,resize,capacity])
+    ],[numberOfSelectedStudents,resize,capacity,currentLange])
 
     function handleInputChange(value) {
         setCapacity(value) 
@@ -134,10 +147,10 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
 
     return (
         <>
-            <Notification title={'Students cannot be transferred to this class'} type={'error'} state ={classWarning} setState={setClassWarning} />
-            <Notification title={'The capacity must be positive'} type={'error'} state ={resize !=false && validation} setState={setValidation} />
-            <Notification title={'Been transfer students successfully'} type={'success'} state ={successMoveStudents} setState={setSuccessMoveStudents} />
-            <Notification title={'Update class capacity'} type={'success'} state ={successUpdate} setState={setSuccessUpate} />
+            <Notification title={errorMoveStudentsMES} type={'error'} state ={classWarning} setState={setClassWarning} />
+            <Notification title={errorUpdateClassCapacityMES} type={'error'} state ={resize !=false && validation} setState={setValidation} />
+            <Notification title={successMoveStudentsMES} type={'success'} state ={successMoveStudents} setState={setSuccessMoveStudents} />
+            <Notification title={successUpdateClassCapacityMES} type={'success'} state ={successUpdate} setState={setSuccessUpate} />
             <Table data={classes} column={columns} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
         </>
     )

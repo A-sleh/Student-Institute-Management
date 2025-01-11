@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux"
 import { HeaderInformationStyle } from "./style/styleTag"
 
 export default function HeaderInformation({data,title}) {
 
+    const {currentLange} = useSelector( state => state.language)
     const Color = ["#ffbc00","#229edb","#60ff00","red","#0035ff"]
 
     return (
@@ -11,7 +13,7 @@ export default function HeaderInformation({data,title}) {
                 {
                     data.map( (row,index) => {
                         const { title , icon , value } = row
-                        return <InfoCard key={index} title={title} value={value} color={Color[index % Color.length ]} icon={icon}/>
+                        return <InfoCard key={index} title={title[currentLange]} value={value} color={Color[index % Color.length ]} icon={icon}/>
                     })
                 }
             </section>

@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 import { FlexSpaceBetweenContainerStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { errorActionLogic } from "../../shared/logic/logic";
 import { MainContainerStyle } from "../../Teachers/style/styleTags";
 import { UPDATESUTENDSNUMBER } from "../../../Redux/actions/type"; // test case 
@@ -18,9 +18,13 @@ import TeacherTableCurrentClass from "./TeacherTableClass";
 import HeaderInformation from "../../shared/HeaderInformation";
 import TitleAndControalHeader from "../../Teachers/manageTeachers/TitleAndControalHeader";
 import useClass from "../../../hooks/useClass";
+import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT";
 
 export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
 
+  const {currentLange} = useSelector( state => state.language)
+  const { subTitle ,teacherstitle,studentsTitle ,addNewTeacherBtn ,addNewStudentBtn ,successRemoveStudentsMES ,successUpdateClassMES ,errorDeleteClassMES } = ManageClassesTEXT[currentLange]
+  
   // Notification States
   const [SuccessUpdateClasss, setSuccessUpdateClasss] = useState(false);
   const [successRemoveStudent, setSuccessRemoveStudent] = useState(false);
@@ -54,22 +58,34 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
   }
   const classStatistics = [
     {
-      title: "Title",
+      title: {
+        english: "Title" ,
+        arabic: 'عنوان الشعبة'
+      } ,
       value: title ,
       icon: "bi bi-archive-fill"
     }, 
     {
-      title: "Capacity",
+      title: {
+        english: "Capacity" ,
+        arabic: 'سعة الشعبة'
+      },
       value: capacity,
       icon: "fa-solid fa-user-group",
     },
     {
-      title: "Grade",
+      title: {
+        english: "Grade",
+        arabic: 'فئة الشعبة'
+      },
       value: grade,
       icon: "fa-solid fa-graduation-cap",
     },
     {
-      title: "Gender",
+      title: {
+        english: "Gender" ,
+        arabic: 'جنس الطلاب'
+      },
       value: gender,
       icon: "bi bi-person-fill-exclamation",
     }
@@ -77,9 +93,9 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
 
   return (
     <>
-      <Notification title={"Students were removed"} type={"success"} state={successRemoveStudent} setState={setSuccessRemoveStudent} />
-      <Notification title={"Class Mustn't Contain students to delete"} type={"error"} state={NotDeletClass} setState={setNotDeleteClass} />
-      <Notification title={"Updata Class Details"} type={"success"} state={SuccessUpdateClasss} setState={setSuccessUpdateClasss}/>
+      <Notification title={successRemoveStudentsMES} type={"success"} state={successRemoveStudent} setState={setSuccessRemoveStudent} />
+      <Notification title={successUpdateClassMES} type={"success"} state={SuccessUpdateClasss} setState={setSuccessUpdateClasss}/>
+      <Notification title={errorDeleteClassMES} type={"error"} state={NotDeletClass} setState={setNotDeleteClass} />
       {
         deleteModal && 
         <DeleteModal element={title} id={ClassId} type={"class"} setDeleteModal={setDeleteModal} setSuccessDelete={setDeleteClass} classId={ClassId} />
@@ -90,20 +106,20 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
         : 
         <MainContainerStyle>
           <TitleAndControalHeader title={ title}  handleUpdataButtonClicked={() =>setUpdateBtnClicked(true)}  handleDeleteClicked={handleDeleteClicked}/>
-          <HeaderInformation data={classStatistics} title={'Class Information'} />
+          <HeaderInformation data={classStatistics} title={subTitle} />
 
           <section>
                 <FlexSpaceBetweenContainerStyle >
-                  <h3>Teachers</h3>
-                  <SubmitBtnStyle onClick={()=>gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId,grade,classTitle}})}> Add New Teacher</SubmitBtnStyle>
+                  <h3>{teacherstitle}</h3>
+                  <SubmitBtnStyle onClick={()=>gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId,grade,classTitle}})}> {addNewTeacherBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherTableCurrentClass classId={ClassId} /> 
           </section>
 
           <section>
                 <FlexSpaceBetweenContainerStyle >
-                  <h3>Students</h3>
-                  <SubmitBtnStyle onClick={()=>handleAddNewStudentClicked()}> Add New Student</SubmitBtnStyle>
+                  <h3>{studentsTitle}</h3>
+                  <SubmitBtnStyle onClick={()=>handleAddNewStudentClicked()}> {addNewStudentBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <StudentTable students={classDetails.students} classID={ClassId} setSuccessRemoveStudent={setSuccessRemoveStudent} />
           </section>

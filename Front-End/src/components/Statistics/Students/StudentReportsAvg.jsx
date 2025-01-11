@@ -1,12 +1,15 @@
+import { useSelector } from "react-redux";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
 import useClasses from "../../../hooks/useClasses";
 import useStudentReports from "../../../hooks/useStudentReports";
 import LineChart from "../charts/LineChart";
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
 import { useEffect, useMemo, useState } from "react";
+import { ARABIC } from "../../../Redux/actions/type";
 
 export default function StudentReportsAvg() {
 
+    const {currentLange} = useSelector( state => state.language)
     const [grades] = useGetAllGrade()
     const [selectedGrade,setSelectedGrade] = useState('')
     const [classes] = useClasses(selectedGrade?.grade)
@@ -15,12 +18,15 @@ export default function StudentReportsAvg() {
     const [selectedStudent,setSelectedStudent] = useState(null)
     const [_,studentReportsAvg] = useStudentReports(selectedStudent?.studentId)
 
-    let filteringStudentReportsAvg = studentReportsAvg.map( reports => {
-        return {
-            date : new Date(reports.StartDate) ,
-            avg : reports.Average,
-        }
-    })
+    let filteringStudentReportsAvg = {
+        data: studentReportsAvg.map( reports => {
+            return {
+                date : new Date(reports.StartDate) ,
+                avg : reports.Average,
+            }
+        }) ,
+        title : currentLange == ARABIC ? ' معدلات الطلاب في التقرير' : 'students average reports'
+    } 
 
     useEffect(() => {
         setSelectedGrade(grades[0]?.grade || '')

@@ -1,22 +1,34 @@
 
 export const STUDENTCOLMN = [
     {
-        Header: 'Name',
+        Header: {
+            arabic:  'أسم الطالب' ,
+            english: "Name"
+        },
         accessor: 'name'
     },
     {
-        Header: 'Last Name',
+        Header: {
+            arabic:  'الكنيه' ,
+            english: 'Last Name'
+        },
         accessor: 'lastName'
     },
     {
-        Header: 'Mark',
+        Header: {
+            arabic:  'العلامه' ,
+            english: 'Mark'
+        },
         accessor: 'Mark',
         Cell : ({value}) => {
             return value || 0
         }
     },
     {
-        Header: 'Total Mark',
+        Header: {
+            arabic:  'العلامه الإجماليه' ,
+            english: 'Total Mark'
+        },
         accessor: 'TotalMark'
     }
 

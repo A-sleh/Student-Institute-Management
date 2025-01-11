@@ -9,6 +9,7 @@ import { links } from "../../Data/static/SideBarLinks.js";
 import LinkOfSidebar from "./LinkOfSidebar";
 
 export default function SideBarLinks() {
+    
     return (
         <>
             {links.map((link, index) => {

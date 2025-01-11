@@ -1,10 +1,15 @@
 import "./modal.css";
 import DataServices from "../../Data/dynamic/DataServices";
+import { modelTEXT } from "../../Data/static/modelTEXT";
+import { useSelector } from 'react-redux'
 
 export default function DeleteModal(props) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {content ,cancelBtn ,accepteBtn} = modelTEXT[currentLange]
+  
   const { element, type, id, setDeleteModal, setSuccessDelete  } = props;
   
-
   function handleSuccessDelete() {
     setDeleteModal(false);
     setSuccessDelete(true);
@@ -95,27 +100,27 @@ export default function DeleteModal(props) {
   return (
   
     <div className="modal">
-      <div>
+      <div style={{lineHeight: '30px'}}>
         <i
           className="bi bi-exclamation-triangle-fill"
           style={{ color: "red", fontSize: "5em" }}
         ></i>
         <span style={{ fontWeight: "600", fontSize: "1.5em", margin: "5px 0" }}>
-          Are you sure?
+          {content.sub1}
         </span>
         <span className="modal-content">
-          This action will Delete the {type}{" "}
+          {content.sub2}{type}{" "}
           <b style={{ color: "#2b2121" }}>{element}</b>.
         </span>
-        <span className="modal-content">You can not undo this action</span>
+        <span className="modal-content">{content.sub3}</span>
         <div>
-          <button onClick={handleDeletClicked}>Yes, delete </button>
+          <button onClick={handleDeletClicked}>{accepteBtn} </button>
           <button
             onClick={() => {
               setDeleteModal(false);
             }}
           >
-            Cancel
+            {cancelBtn}
           </button>
         </div>
       </div>

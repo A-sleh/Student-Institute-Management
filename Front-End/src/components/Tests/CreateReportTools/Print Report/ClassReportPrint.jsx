@@ -17,9 +17,14 @@ import { GoBackBtnStyle, InputStyle } from "../../../shared/style/styleTag"
 import Table from "../../../shared/Table"
 import useGetClassReportsAvg from "../../../../hooks/useGetClassReportsAvg"
 import { REPORTCOLUMNS_2 } from "../columnsTools/reportCOUMN_2"
+import { PrintReportTEXT } from "../../../../Data/static/test/CreateReportTools/PrintReportTEXT"
+import { useSelector } from "react-redux"
 
 export default function ClassReportPrint() {
     
+    const {currentLange} = useSelector( state => state.language)
+    const {reportsTitle ,backBtn,createClassReportBtn ,createStudentsReportBtn} = PrintReportTEXT[currentLange]
+
     const classDetailsEncode = useLocation().state
     const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode))
     const [reports] = useGetClassReportsAvg(classDetailsDecode.classId)
@@ -61,19 +66,23 @@ export default function ClassReportPrint() {
     const TableHeader = useMemo(() => [
         ...REPORTCOLUMNS_2 , 
         {   
-            Header: 'Action' ,
+            Header: {
+                english: 'Action' ,
+                arabic: 'طباعة'
+            }  ,
+            accessor: 'action',
             Cell: ({row}) => {
                 const {title ,ReportTitle ,ClassId,ReportId} = row.original
                 return (
                     <div>
-                        <button onClick={()=> handleCreateClassPDFClicked(row.original,`report_${ReportTitle}_class_${title}`)} style={{textDecoration: 'none', padding: '4px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Create class result PDF</button>
-                        <button onClick={()=> handleCreateStudentsPDFClicked(row.original,`report_${ReportTitle}_class_${title}_students`)} style={{textDecoration: 'none', padding: '4px 10px' , marginLeft: '2px' ,color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Create students report PDF</button>
+                        <button onClick={()=> handleCreateClassPDFClicked(row.original,`report_${ReportTitle}_class_${title}`)} style={{textDecoration: 'none', padding: '4px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>{createClassReportBtn}</button>
+                        <button onClick={()=> handleCreateStudentsPDFClicked(row.original,`report_${ReportTitle}_class_${title}_students`)} style={{textDecoration: 'none', padding: '4px 10px' , margin: '0 5px' ,color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>{createStudentsReportBtn}</button>
                     </div>
                 )
             }
         }
 
-    ],[])
+    ],[currentLange])
 
     
     return (
@@ -100,9 +109,9 @@ export default function ClassReportPrint() {
                 </NavigateSubHeaderStyle >
                 <Table column={TableHeader} data={reports || []}>
                     <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
-                    <h3 style={{color: '#066599' }}>Reports</h3>
+                    <h3 style={{color: '#066599' }}>{reportsTitle}</h3>
                 </Table>
-                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >Back</GoBackBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >{backBtn}</GoBackBtnStyle>
             </div>
         </>
     )

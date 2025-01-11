@@ -12,6 +12,11 @@
     align-items: center;
     z-index:  100   ;
     text-align: center;
+
+    &>div {
+        display: flex;
+        flex-direction: column;
+    }
 }
 .modal i {
     line-height: 1px;
@@ -38,14 +43,14 @@
 .modal button:first-child {
     background-color: red;
     color: white;
-    margin-right: 10px;
+    margin: 0 10px;
 }
 .modal div:last-child {
     margin-top: 15px;
 }
 .modal .modal-content {
     color: gray;
-    line-height: 18px;
+    line-height: 25px;
     font-weight: 500;
     word-spacing: 2px;
 }

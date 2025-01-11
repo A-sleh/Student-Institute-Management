@@ -10,9 +10,9 @@ export default function LineChart({data}){
     }),
     };
     const chartOptions = {
-        data : data,
+        data : data.data,
         footnote: {
-          text: 'students average reports'
+          text: data.title
         },
         series: [
             {

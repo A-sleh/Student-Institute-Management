@@ -1,19 +1,31 @@
 
 export const CLASSDETAILSCOLUMN = [
     {
-        Header: 'Title' ,
+        Header: {
+            arabic: 'العنوان',
+            english: 'Title'
+        } ,
         accessor : 'title'
     },
     {   
-        Header: 'Capacity' ,
+        Header: {
+            arabic: 'سعة الشعبة',
+            english: 'Capacity' 
+        } ,
         accessor : 'capacity'
     },
     {   
-        Header: 'Grade' ,
+        Header: {
+            arabic: 'الفئه',
+            english: 'Grade' 
+        } ,
         accessor : 'grade'
     },
     {   
-        Header: 'Gender' ,
+        Header: {
+            arabic: 'الجنس',
+            english: 'Gender' 
+        } ,
         accessor : 'gender'
     },
 ];

@@ -2,15 +2,24 @@
 
 export const SUBJECTCOLUMNS = [
     {
-      Header: "Subject",
+      Header: {
+        english : "Subject",  
+        arabic : 'الماده'
+      },      
       accessor: "subject",
     },
     {
-      Header: "Grade",
+      Header: {
+        english : "Grade",  
+        arabic : 'الفئه'
+      },
       accessor: "grade",
     },
     {
-      Header: "Maximum Mark",
+      Header: {
+        english : "Maximum Mark",  
+        arabic : 'العلامه العظمى'
+      },
       accessor: "maximumMark",
     }
   ];

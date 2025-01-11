@@ -2,22 +2,34 @@ import { format } from "date-fns";
 
 export const TESTCOLUMNS = [
   {
-    Header: "Subject",
+    Header: {
+      arabic: 'الماده' ,
+      english: "Subject"
+    },
     accessor: 'subject.subject',
   },
   {
-    Header: "Test Type",
+    Header: {
+      arabic: 'نوع الأختبار' ,
+      english: "Test Type"
+    },
     accessor: "testType",
   },
   {
-    Header: "Test Date",
+    Header: {
+      arabic: 'تاريخ الأختبار' ,
+      english: "Test Date"
+    },
     accessor: "date",
     Cell: ({ value }) => {
       return format(new Date(value), "yyyy / MM / dd");
     },
   },
   {
-    Header: "Correction Date",
+    Header: {
+      arabic: 'تاريخ التصحيح' ,
+      english: "Correction Date"
+    },
     accessor: "correctionDate",
     Cell: ({ value }) => {
         if(value == null ) return 'bending'
@@ -25,7 +37,11 @@ export const TESTCOLUMNS = [
     },
   },
   {
-    Header: "Delay",
+    Header: {
+      arabic: 'مده التأخير' ,
+      english: "Delay"
+    },
+    accessor: "delay",
     Cell: ({ row }) => {
       const {date,correctionDate} = row.original
       const delay = Math.floor((new Date(correctionDate) - new Date(date)) / (60 * 60 *  60 * 365) )
@@ -33,7 +49,10 @@ export const TESTCOLUMNS = [
     },
   },
   {
-    Header: "Details",
+    Header: {
+      english:  "Details",
+      arabic: 'تفاصيل تقرير'
+    },
     accessor: "title",
   }
 ];

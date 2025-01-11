@@ -1,23 +1,38 @@
 
 export const STUDENTCOLUMN = [
   {
-    Header: "Name",
+    Header: {
+      arabic:  'الأسم',
+      english: "Name"
+    } ,
     accessor: "full_name",
   },
   {
-    Header: "Father Name",
+    Header: {
+      arabic: 'اسم الأب' ,
+      english: "Father Name"
+    },
     accessor: "fatherName",
   },
   {
-    Header: "Phone",
+    Header: {
+      arabic: 'رقم الهاتف' ,
+      english: "Phone"
+    },
     accessor: "phone",
   },
   {
-    Header: "Missed Days",
+    Header: {
+      arabic: 'أيام الغياب' ,
+      english: "Missed Days"
+    },
     accessor: "missedDays",
   },
   {
-    Header: "Bill Required",
+    Header: {
+      arabic: 'القصت المتفق عليه' ,
+      english: "Bill Required"
+    },
     accessor: "billRequired",
   }
 ];

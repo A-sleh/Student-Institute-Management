@@ -17,9 +17,13 @@ import HeaderInformation from "../../shared/HeaderInformation"
 import Table from "../../shared/Table"
 import useGetTeacherBills from "../../../hooks/useGetTeacherBills"
 import useTeacherInfo from "../../../hooks/useTeacherInfo"
+import { useSelector } from "react-redux"
+import { ManageTeacherBillsTEXT } from "../../../Data/static/Bills/TeacherPaysCom/ManageTeacherBillsTEXT"
 
 export default function TeacherBillDetails() {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {teacherInfoTitle ,teacherBillsTitle ,backBtn ,successDeleteBillMES} = ManageTeacherBillsTEXT[currentLange]
     const teacherId = useParams().id
     const BillsDecode = JSON.parse(decodeURIComponent( useLocation().state ))
     const {specialState , name , lastName } = BillsDecode
@@ -83,22 +87,34 @@ export default function TeacherBillDetails() {
 
     const TeacherStatistics = [
         {
-            title: "Name",
+            title: {
+                arabic: 'الأسم' ,
+                english: "Name"
+            },
             value: name + ' ' + lastName ,
             icon: "fa-solid fa-user-group"
         }, 
         {
-            title: "Total salary",
+            title:{
+                arabic: 'الرصيد الإجمالي' ,
+                english:  "Total salary"
+            },
             value: addSpaceBetweenDigit(teacherDetails?.totalSalary?.total),
             icon: "fa-solid fa-graduation-cap",
         },
         {
-            title: "Subjects Number",
+            title:{
+                arabic: 'عدد المواد التي يدرسها' ,
+                english:  "Subjects Number"
+            },
             value: teacherDetails?.teacherSubjects?.length,
             icon: "fa-solid fa-graduation-cap",
         },
         {
-            title: "Classes Number",
+            title: {
+                arabic: 'عددالشعب التي يدرس فيها' ,
+                english: "Classes Number"
+            },
             value: teacherDetails?.teacherClasses ,
             icon: "bi bi-building-fill-exclamation",
         }
@@ -106,17 +122,17 @@ export default function TeacherBillDetails() {
 
     return (
         <>
-            <Notification  title={'Delete bill'} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>
+            <Notification  title={successDeleteBillMES} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>
             {
                 deleteModal && 
                 <DeleteModal element={selectedBillToDelete.billNo} id={selectedBillToDelete} type={"Bill"} setDeleteModal={setdeleteModal} setSuccessDelete={setSuccessDeleteBill} />
             }
-            <HeaderInformation data={TeacherStatistics} title={'Teacher Details'}/>
+            <HeaderInformation data={TeacherStatistics} title={teacherInfoTitle}/>
             <Table column={ManagePage ? manageBillsColumn : BILLSCOLUMNS} data={TeacherBillsFilterd} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} >
                 <FillterBillsHeader radioState={radioState} setRadioState={setRadioState} searchFiled={searchFiled} setSearchFiled={setSearchFiled} />
-                <h3 style={{marginBottom: '10px'}}>Teacher bills</h3>
+                <h3 style={{marginBottom: '10px'}}>{teacherBillsTitle}</h3>
             </Table>
-            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}}>Back</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}}>{backBtn}</GoBackBtnStyle>
         </>
     )
 }

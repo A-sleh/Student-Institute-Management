@@ -9,10 +9,14 @@ import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import { useNavigate } from "react-router-dom";
 import SearchSubHeader from "./SearchSubHeader";
 import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { ARABIC } from "../../Redux/actions/type";
 
 
 export default function Table( props ) {
     
+    const {currentLange} = useSelector( state => state.language)
+
     const { data , column , children , setSelectedRows = ()=>{} , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
     const { unableId = false ,specialState = '' , hiddenHeader = false, preventAction = false, selectionRows, styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     const gotoPage = useNavigate() ;
@@ -45,15 +49,15 @@ export default function Table( props ) {
                         {children}
                     </SearchSubHeader>
         }else {
-            return  children
+            return  <div style={{direction: currentLange == ARABIC ? 'rtl' : 'ltr'}}>{children}</div>
         }
     }
 
     return (
-        <div style={{width: '100%'}}>  
+        <div style={{width: '100%',direction: currentLange == ARABIC ? 'ltr' : 'ltr'}}>  
             { renderHeader() }
             <TableContainerStyle >
-                <TableStyle {...getTableProps()} styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
+                <TableStyle language={currentLange} {...getTableProps()} styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
                     {   hiddenHeader ?  <></> :                     
                         <thead>
                             {headerGroups.map((headerGroup, index) => (
@@ -76,7 +80,7 @@ export default function Table( props ) {
                                             ></i>
                                         )}
                                         <span>
-                                            {column.render("Header")}
+                                            {column.render("Header")[currentLange]}
                                         </span>
                                         </th>
                                     ))}

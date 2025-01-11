@@ -16,6 +16,7 @@ export default function ShowBillStudentDetails() {
     const [fileterByClass,setFileterByClass] = useState('All')
     const [studentBillsBalance] = useGetStudentBills(fileterByClass)
     
+    
     return (
         <Table data={studentBillsBalance || []} column={COLUMNS} idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`}>
             <SubeHeaderFilterByClassName fileterByClass={fileterByClass} setFileterByClass={setFileterByClass}/>

@@ -11,8 +11,13 @@ import { COLUMNS } from "./../TableTools/Columns.js"
 import DataServices from "../../../Data/dynamic/DataServices.js"
 import Notification from "../../Global/Notification.jsx"
 import Table from "../../shared/Table.jsx"
+import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT.js"
+import { useSelector } from "react-redux"
 
 export default function StudentTable({students,setSuccessRemoveStudent,classID}) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {removeBtn ,errorInMoveStudentsMES, noStudentsWOR ,moveToBtn } = ManageClassesTEXT[currentLange]
 
   const [changeStudent, setChangeStudent] = useState(false);
   const [selectedFlatRows,setSelectedFlatRows] = useState([])
@@ -21,7 +26,10 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     () => [
       ...COLUMNS,
       {
-        Header : 'Selete' ,
+        Header : {
+          arabic: 'تحديد'  ,
+          english: 'Select'
+        } ,
         id: "selection",
         Cell: ({ row }) => (
           <input type="checkbox" {...row.getToggleRowSelectedProps()} />
@@ -94,14 +102,14 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
 
   return (
     <>
-      <Notification title={"Please ,Selcet Any Student"} type={"error"} state={changeStudent} setState={setChangeStudent}/>
+      <Notification title={errorInMoveStudentsMES} type={"error"} state={changeStudent} setState={setChangeStudent}/>
       {
-        TheClassHasNotStudents()  ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>There are no students yet ...</span> :
+        TheClassHasNotStudents()  ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>{noStudentsWOR}</span> :
         <>
           <Table column={columns} data={studentDetails || []} setSelectedRows={setSelectedFlatRows} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
           <ButtonsContainerStyle>
-              <SubmitBtnStyle onClick={handleRemoveClicked}>Remove</SubmitBtnStyle>
-              <GoBackBtnStyle onClick={handleMoveToClicked}>Move to</GoBackBtnStyle>
+              <SubmitBtnStyle onClick={handleRemoveClicked}>{removeBtn}</SubmitBtnStyle>
+              <GoBackBtnStyle onClick={handleMoveToClicked}>{moveToBtn}</GoBackBtnStyle>
           </ButtonsContainerStyle>
         </>
       }

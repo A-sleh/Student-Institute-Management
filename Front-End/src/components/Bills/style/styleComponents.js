@@ -6,6 +6,7 @@ export const SearchButtonStyle = styled(SubmitBtnStyle)`
     padding: 3px 20px ;
     border-radius: 2.4px;
     display: block;
+    margin-bottom: 10px;
     margin-left: auto;
     font-weight: 400;
 `
@@ -25,11 +26,11 @@ export const HeaderFilterByClassStyle = styled.div`
         position: absolute;
         color: black;
         font-weight: 500 ;
-        top : -15px;
-        left: 8px ;
+        top : -16px;
+        right: 15px ;
         font-size: 15px ;
         background-color: white ;
-        padding: 0px 5px ;
+        padding: 0  8px 3px 8px ;
         border-radius: 5px
     }
 
@@ -73,15 +74,17 @@ export const ShowClassBalanceHeaderStyle = styled.div`
         border-radius: 3px ;
         background-color: white ;
         min-width: 10em ;
+        direction: ltr;
 
         span:first-child {
             position: absolute;
             color: #066599 ;
             right: 0;
-            bottom: 50% ;
+            bottom: 60% ;
             font-weight: 600 ;
             background-color: white ;
             padding: 0px 3px 0 3px ;
+            font-size: 14px;
             border-radius: 5px;
         }
         

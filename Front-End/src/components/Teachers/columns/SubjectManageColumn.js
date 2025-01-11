@@ -2,30 +2,48 @@
 
 export const SUBJECTMANAGECOLUMN = [
     {
-        Header: 'Subject' ,
+        Header: {
+            arabic: 'الماده',
+            english: 'Subject' 
+        } ,
         accessor : 'subject.subject'
     },
     {   
-        Header: 'Maximum Mark' ,
+        Header: {
+            arabic: 'العلامه العظمى',
+            english: 'Maximum Mark' 
+        } ,
         accessor : 'subject.maximumMark'
     },
     {   
-        Header: 'Grade' ,
+        Header: {
+            arabic: 'الفئه',
+            english: 'Grade' 
+        } ,
         accessor : 'subject.grade'
     },
 ];
 
 export const SUBJECTsCOLUMN = [
     {
-        Header: 'Subject' ,
+        Header: {
+            arabic: 'الماده',
+            english: 'Subject' 
+        } ,
         accessor : 'subject'
     },
     {   
-        Header: 'Grade' ,
+        Header: {
+            arabic: 'الفئه',
+            english: 'Grade' 
+        } ,
         accessor : 'grade'
     },
     {   
-        Header: 'Maximum Mark' ,
+        Header: {
+            arabic: 'العلامه العظمى',
+            english: 'Maximum Mark' 
+        } ,
         accessor : 'maximumMark'
     },
 ];

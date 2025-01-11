@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Title from "../Global/Title";
 import BalanceEachMonth from "./Bills/BalanceEachMonth";
 import IncomeOutComeBalanceInRangedMonth from "./Bills/IncomeOutComeBalanceInRangedMonth";
@@ -13,14 +14,19 @@ import TeachersRate from "./teachers/TeachersRate";
 
 export default function Statistics() {
 
+  const { isAdmin } = useSelector( state => state.admin)
+
   return (
       <>
         <Title title={window.location.pathname} />        
-          <TotalInstituteBalance />
-          <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-            <IncomeOutComeBalanceInRangedMonth />
-            <BalanceEachMonth />
-          </div>
+          { isAdmin && <TotalInstituteBalance />}
+          {
+            isAdmin && 
+            <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
+              <IncomeOutComeBalanceInRangedMonth />
+              <BalanceEachMonth />
+            </div>
+          }
           <LatestBills />
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
             <FirstStudentInCurrentReport />

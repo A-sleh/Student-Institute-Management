@@ -14,10 +14,17 @@ import useClasses from "../../../../hooks/useClasses";
 import useGetSubjects from "../../../../hooks/useGetSubjects";
 import { successActionLogic } from "../../../shared/logic/logic";
 import useGetAllGrade from "../../../../hooks/Grade_hooks/useGetAllGrade";
+import { NewTestTEXT } from "../../../../Data/static/test/CreateTestTools/NewTestTEXT";
+import { useSelector } from "react-redux";
 
 
 export default function CreateTestForm({form,setForm,initailState,children}) {
     
+    const {currentLange} = useSelector( state => state.language)
+    const {testTitle ,grade ,selectClassTitle ,subjectsTitle ,testDate ,testTypeTitle ,testDetails ,createBtn,
+        quizTitle ,exameTitle ,successCreateTestMES ,validationMessages} = NewTestTEXT[currentLange]
+    const {gradeVal ,classVal ,subjectVal ,testTypeVal ,testDateVal ,testDetailsVal} =validationMessages
+
     const [subjects] = useGetSubjects(form.subject.grade) ; 
     const [searchClass,setSearchClass] = useState('')
     const [selectedClass,setSelectedClass] = useState({title: null})
@@ -29,7 +36,8 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
         testType : false ,
         date : false ,
         title: false ,
-        Class : false
+        Class : false,
+        grade: false
     })
 
     // for search feild 
@@ -59,8 +67,8 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
             testType : testType == '' ,
             date : date == '' ,
             Class : selectedClass.title == null,
-            title : title == ''
-
+            title : title == '',
+            grade: subject.grade == ''
         })
         return date == '' || testType == '' || subject.subjectId == '' || selectedClass.title == null || title == ''
     }
@@ -90,33 +98,34 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
 
     return(
         <div>
-            <Notification title={'create test'} type={'success'} state ={successCreateTest} setState={setSuccessCreateTest}/>
+            <Notification title={successCreateTestMES} type={'success'} state ={successCreateTest} setState={setSuccessCreateTest}/>
             <FormMainContainer >
                 <FormStyle onSubmit={(e)=>{handleSubmitClicked(e)}}>
-                        <h3 >Test Details</h3>
+                        <h3 >{testTitle}</h3>
 
                         <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
                             <FormSubRowStyle width={'100%'}>
-                                <LabelStyle color={'#056699'}>Grade</LabelStyle>
+                                <LabelStyle color={'#056699'}>{grade}</LabelStyle>
                                 <FormSelectdStyle value={form.subject.gradeId +' '+form.subject.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleToggleGrade(e.target.value)}>
                                     <option value={""}></option>
                                     { grades.map((grade,index) => { return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
                                 </FormSelectdStyle>
+                                <ErrorMessage showMessage={validation.grade} message={gradeVal}/>
                             </FormSubRowStyle>
                         </FormRowStyle>
 
                         <FormRowStyle style={{backgroundColor: 'white' , padding: '10px'}}>
                             <FormSubRowStyle width={ '100%' }>
-                                <LabelStyle color={'#056699'}>Select the class</LabelStyle>
+                                <LabelStyle color={'#056699'}>{selectClassTitle}</LabelStyle>
                                 <InputStyle className={validation.Class ? 'error': ''}  type="text" onFocus={onFocus}  onBlur={onBlur}   value={selectedClass.title != null ? selectedClass.title : searchClass} onChange={(e) => handleSearchField(e.target.value)}/>
                                 <SearchBodyList searchValue={selectedClass.title != null ? selectedClass.title : searchClass} handleElementClicked={handleSelectClassClicked} data={allClasses} focused={focused}/>
-                                <ErrorMessage showMessage={validation.Class} message={"You must selecte the class"}/>
+                                <ErrorMessage showMessage={validation.Class} message={classVal}/>
                             </FormSubRowStyle>
                         </FormRowStyle>
 
                         <FormRowStyle>
                             <FormSubRowStyle width={'100%'}>
-                                <LabelStyle color={'#056699'}>Subjects</LabelStyle>
+                                <LabelStyle color={'#056699'}>{subjectsTitle}</LabelStyle>
                                 <div style={{display: 'flex',position: 'relative' , gap: '5px' , flexWrap: 'wrap' , backgroundColor: 'white' , padding: '13px'}}>
                                     {
                                         subjects.map( (subject,index) => {
@@ -124,39 +133,39 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                         })
                                     }
                                 </div>
-                                <ErrorMessage showMessage={validation.subject} message={"You must chose  subject"}/>
+                                <ErrorMessage showMessage={validation.subject} message={subjectVal}/>
                             </FormSubRowStyle>
                         </FormRowStyle>
                         
                         <FormRowStyle>
 
                             <FormSubRowStyle>
-                                <LabelStyle color={'#056699'} >Date </LabelStyle>
+                                <LabelStyle color={'#056699'} >{testDate} </LabelStyle>
                                 <InputStyle type="date" className={validation.date ? 'error': ''} value={form.date} onChange={(e) => setForm({...form,date: e.target.value})}/>
-                                <ErrorMessage showMessage={validation.date} message={"You must determain the test date"}/>
+                                <ErrorMessage showMessage={validation.date} message={testDateVal}/>
                             </FormSubRowStyle>
 
                             <FormSubRowStyle >
-                                <LabelStyle color={'#056699'} >Test Type</LabelStyle>
+                                <LabelStyle color={'#056699'} >{testTypeTitle}</LabelStyle>
                                 <FormSelectdStyle className={validation.testType ? 'error': ''} value={form.testType} onChange={(e)=>{setForm({...form,testType: e.target.value})}}>
                                     <option value=""></option>
-                                    <option value="QUIZ">QUIZ</option>
-                                    <option value="EXAM">EXAM</option>
+                                    <option value="QUIZ">{quizTitle}</option>
+                                    <option value="EXAM">{exameTitle}</option>
                                 </FormSelectdStyle>
-                                <ErrorMessage showMessage={validation.testType} message={"You must select test type"}/>
+                                <ErrorMessage showMessage={validation.testType} message={testTypeVal}/>
                             </FormSubRowStyle>
 
                         </FormRowStyle>
 
                         <FormRowStyle>
                             <FormSubRowStyle width={'100%'}>
-                                <LabelStyle color={'#056699'} >Test Details</LabelStyle>
+                                <LabelStyle color={'#056699'} >{testDetails}</LabelStyle>
                                 <TextAreaInputStyle className={validation.title ? 'error': ''} value={form.title} onChange={(e)=>setForm({...form,title: e.target.value})}  />
-                                <ErrorMessage showMessage={validation.title} message={"Please enter the details of test"}/>
+                                <ErrorMessage showMessage={validation.title} message={testDetailsVal}/>
                             </FormSubRowStyle>
                         </FormRowStyle>
 
-                        <SubmitBtnStyle >Create</SubmitBtnStyle>
+                        <SubmitBtnStyle >{createBtn}</SubmitBtnStyle>
                 </FormStyle>
 
                 {children}

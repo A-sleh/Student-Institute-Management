@@ -15,16 +15,18 @@ export const ReportsContainerStyle = styled.div`
 `
 
 export const TestHeaderSelectionStyle = styled.div`
-    padding-top:8px;
-    padding-left:10px;
-    padding-right: 10px;
+    
+    padding: 8px 10px 6px 10px;
     font-weight: 300;
     background-color: #056699 ;
     color: white;
+    direction: ltr;
     width: 100%;
 
     section {
         float: right; 
+        display: flex;
+        justify-content: space-between;
         cursor: pointer;
 
         & span:last-child {
@@ -36,9 +38,10 @@ export const QuizExamContainerStyle = styled.div`
     display: flex;
     gap: 10px;
     background-color: rgba(243, 241, 241, 0.843);
-    padding: 20px 10px 10px;
+    /* padding: 20px 10px 10px; */
     border-radius: 10px;
     margin-top: 10px;
+    
 
     @media (max-width : 767px ) {
         flex-direction: column;
@@ -51,8 +54,9 @@ export const NavigateSubHeaderStyle = styled.div`
     background-color: rgb(6, 101, 153);
     padding: 15px 10px 0px;
     text-align: left;
+    line-height: 1.7em; // arabic
     color: white;
-    font-size: 1.6em;
+    font-size: 1.5em; // arbic
     margin-bottom: 10px;
 `
 

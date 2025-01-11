@@ -10,8 +10,13 @@ import Notification from "../Global/Notification";
 import Title from "../Global/Title";
 import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import SearchSubHeader from "../shared/SearchSubHeader";
+import { useSelector } from "react-redux";
+import { ManageClassesTEXT } from "../../Data/static/classes/ManageClass/ManageClassesTEXT";
 
 export default function ManageClasses() {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {successDeleteClassMES} = ManageClassesTEXT[currentLange]
 
   const [classes, setClasses] = useState([]);
   const [deleteClass, setDeleteClass] = useState(false);
@@ -28,7 +33,7 @@ export default function ManageClasses() {
   return (
     <>
       <Title title={window.location.pathname} />
-      <Notification title={"Class Was Deleted"} type={"success"} state={deleteClass} setState={setDeleteClass} />
+      <Notification title={successDeleteClassMES} type={"success"} state={deleteClass} setState={setDeleteClass} />
       <div style={{display: 'flex' , alignItems: 'center',justifyContent: 'space-between'}}>
         <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
         <SearchSubHeader filter={search} setFilter={setSearch}/>

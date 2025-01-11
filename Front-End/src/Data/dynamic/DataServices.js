@@ -4,6 +4,12 @@ export default {
   StudentsInformaion: (id,gradId,limit,page) => {
     return API.Student.get(id,gradId,limit,page);
   },
+  StudentsInCurrentClass: (classId) => {
+    return API.Student.getAllInCurrentClass(classId);
+  },
+  AllStudentsInfo: () => {
+    return API.Student.getAll();
+  },
   AddNewStudent: (data) => {
     return API.Student.post(data);
   },
@@ -40,8 +46,11 @@ export default {
   AddNewTeacher : (data) => {
     return API.Teacher.post(data)
   },
-  TeacherInformaion : (id) => {
-    return API.Teacher.get(id)
+  TeacherInformaion : (id,limit,page) => {
+    return API.Teacher.get(id,limit,page)
+  },
+  AllTeacherInformaion : () => {
+    return API.Teacher.getAll()
   },
   DeleteTeacher : (id) => {
     return API.Teacher.delete(id)

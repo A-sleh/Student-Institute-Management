@@ -16,9 +16,15 @@ import TitleAndControalHeader from "./TitleAndControalHeader";
 import HeaderInformation from "../../shared/HeaderInformation";
 import { FlexSpaceBetweenContainerStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import useTeacherInfo from "../../../hooks/useTeacherInfo";
+import { useSelector } from "react-redux";
+import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
 
 
-export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
+export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,refProp}) {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {subjectsTitle ,classesTitle ,teacherTitleInfo ,teacherSubTitle ,addNewSubjectBtn ,addNewClassBtn,
+    successDeleteTeacherMES ,successDeleteTeacherSubjectMES ,successUpdateTeacherMES ,errorDeleteTeacherMES} = ManageTeachersTEXT[currentLange]
 
   // for Notifications modal
   const changePageTo = useNavigate() ;
@@ -38,22 +44,34 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
   
   const teacherDetailsList = [
     {
-      title: "Phone",
+      title: {
+        arabic: 'رقم الهاتف' ,
+        english: "Phone"
+      } ,
       value: phone ,
       icon: "bi bi-telephone-fill"
     }, 
     {
-      title: "Classes Number",
+      title: {
+        arabic: 'عدد الصفوف' ,
+        english:  "Classes Number"
+      },
       value: teacherClasses,
       icon: "bi bi-building-fill-exclamation",
     },
     {
-      title: "Total Salary",
+      title: {
+        arabic: 'المبلغ الإجمالي' ,
+        english:  "Total Salary"
+      },
       value: addSpaceBetweenDigit(totalSalary?.total),
       icon: "bi bi-cash-coin",
     },
     {
-      title: "Remaining Salary",
+      title: {
+        arabic: 'المبلغ المتبقي' ,
+        english:  "Remaining Salary"
+      },
       value: addSpaceBetweenDigit(totalSalary?.required) ,
       icon: "bi bi-coin",
     }
@@ -73,31 +91,34 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher}) {
 
     return(
       <>
-        <Notification title={'Delete Teacher From Class'} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
-        <Notification title={'Delete Teacher Subject'} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
-        <Notification title={'Updata Teacher Details'} type={'success'} state ={successUpdataTeacher} setState={setSuccessUpdataTeacher}/>
-        <Notification  title={'Teacher is teaching in one of the classes.'} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
+        <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
+        <Notification title={successDeleteTeacherSubjectMES} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
+        <Notification title={successUpdateTeacherMES} type={'success'} state ={successUpdataTeacher} setState={setSuccessUpdataTeacher}/>
+        <Notification  title={errorDeleteTeacherMES} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
         {deleteModal &&  <DeleteModal element={currentTeacherInfo.name} type={"Teacher"} id={currentTeacherInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />}
         {   
           updataButtonClicked  ? 
             <TeacherForm initialSatate={teacherInfo} requestType={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
           : 
-          <MainContainerStyle >
-            <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  handleDeleteClicked={handleDeleteClicked}/>
-            <HeaderInformation data={teacherDetailsList} title={'Teacher Information'}/>
+          <MainContainerStyle ref={refProp}>
+            <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  handleDeleteClicked={handleDeleteClicked}>
+              {teacherSubTitle}
+            </TitleAndControalHeader>
+
+            <HeaderInformation data={teacherDetailsList} title={teacherTitleInfo}/>
 
             <section>
                 <FlexSpaceBetweenContainerStyle >
-                  <h3>Subjects</h3>
-                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewSubject/` + teacherId )}}> Add New Subject</SubmitBtnStyle>
+                  <h3>{subjectsTitle}</h3>
+                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewSubject/` + teacherId )}}>{addNewSubjectBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherSubjectsTable teacherId={teacherId} setSuccessDeleteFromSubject={setSuccessDeleteFromSubject} successDeleteFromSubject={successDeleteFromSubject}/>
             </section>
 
             <section>
                 <FlexSpaceBetweenContainerStyle >
-                  <h3>Classes</h3>
-                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewClass/` + teacherId )}}> Add New Class</SubmitBtnStyle>
+                  <h3>{classesTitle}</h3>
+                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewClass/` + teacherId )}}>{addNewClassBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherClassesTable teacherId={teacherId} successDeleteFromClass={successDeleteFromClass}setSuccessDeleteFromClass={setSuccessDeleteFromClass}/>
             </section>
