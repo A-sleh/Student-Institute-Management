@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using DataAcess.Data;
+using DataAcess.Exceptions;
 using DataAcess.Models;
 using System.Runtime.CompilerServices;
 
@@ -83,11 +84,15 @@ namespace MiniAPI.APIs
                 var res = await data.GetBills(type, limit, page, orderBy, orderingType, startDate, endDate);
                 return Results.Ok(res);
             }
-            catch (Exception e)
+            catch (InvalidParametersException e)
             {
                 return Results.BadRequest(e.Message);
             }
-            
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+
         }
 
         private static async Task<IResult> GetClassTotalBill(IBillData data, int classId)
@@ -110,9 +115,13 @@ namespace MiniAPI.APIs
                 var res = await data.GetBillsByDate(date);
                 return Results.Ok(res);
             }
+            catch (InvalidParametersException e)
+            {
+                return Results.BadRequest(e.Message);
+            }
             catch (Exception e)
             {
-                return Results.Problem($"{e.Message}");
+                return Results.Problem(e.Message);
             }
         }
 
@@ -150,9 +159,13 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalPays(studentId, null);
                 return Results.Ok(res);
             }
-            catch (Exception e)
+            catch (InvalidParametersException e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
             }
         }
 
@@ -177,6 +190,10 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalPays(null, teacherId);
                 return Results.Ok(res);
             }
+            catch (InvalidParametersException e)
+            {
+                return Results.BadRequest(e.Message);
+            }
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
@@ -200,8 +217,12 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalIncome(startDate, endDate);
+                var res = await data.GetTotalByParam(startDate, endDate, "in");
                 return Results.Ok(res);
+            }
+            catch (InvalidParametersException e)
+            {
+                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -213,8 +234,12 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalOutcome(startDate, endDate);
+                var res = await data.GetTotalByParam(startDate, endDate, "out");
                 return Results.Ok(res);
+            }
+            catch (InvalidParametersException e)
+            {
+                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -222,12 +247,16 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetExternal(IBillData data, string? MMDDYYYY, string Type)
+        private static async Task<IResult> GetExternal(IBillData data, string? YYYYMMDD, string Type)
         {
             try
             {
-                var res = await data.GetExternal(MMDDYYYY, Type);
+                var res = await data.GetExternal(YYYYMMDD, Type);
                 return Results.Ok(res);
+            }
+            catch (InvalidParametersException e)
+            {
+                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {

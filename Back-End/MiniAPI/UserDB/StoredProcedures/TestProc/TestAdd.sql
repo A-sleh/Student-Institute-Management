@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[TestAdd]
 	@TestType VARCHAR(20),
-	@Title VARCHAR(100) null,
+	@Title NVARCHAR(100) null,
 	@SubjectId INT,
 	@CorrectionDate DATE,
 	@Date DATE,

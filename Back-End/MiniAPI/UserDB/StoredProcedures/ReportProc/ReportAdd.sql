@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[ReportAdd]
-	@ReportTitle VARCHAR(100),
+	@ReportTitle NVARCHAR(100),
 	@StartDate DATE,
 	@FinishDate DATE
 AS

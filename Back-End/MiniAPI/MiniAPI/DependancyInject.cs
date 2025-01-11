@@ -2,6 +2,8 @@
 using DataAcess.DBAccess;
 using DataAcess.Models;
 using MiniAPI.APIs;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace MiniAPI
 {
@@ -28,6 +30,13 @@ namespace MiniAPI
         /// <param name="builder">application builder</param>
         public static void AddServices(this WebApplicationBuilder builder)
         {
+
+            builder.Services.AddSingleton<HtmlEncoder>(
+                HtmlEncoder.Create(allowedRanges: new[] 
+                { 
+                    UnicodeRanges.All
+                })
+            );
             //Data Access Services
 
             // Main SQL Access Service using Dapper

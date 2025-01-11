@@ -1,4 +1,5 @@
 ﻿using DataAcess.DBAccess;
+using DataAcess.Exceptions;
 using DataAcess.Models;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,23 @@ public class StudentData : IStudentData
             return Student;
         },
             splitOn: "ClassId");
-        return res == null ? throw new Exception("no student has such Id") : res.First();
+        return res.FirstOrDefault();
     }
+
+    public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
+    {
+        if (startDate > endDate)
+            throw new InvalidParametersException("End date must be equal or larger than start date");
+
+        var studentAbsences = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId }))
+            .Where(x => (x.Date <= endDate || endDate == null ) && (x.Date >= startDate || startDate == null));
+
+        if(!detailed)
+            return new { Absences = studentAbsences.Count() };
+
+        return new { studentAbsences, Absences = studentAbsences.Count() };
+    }
+
     #endregion
 
     #region Actions
@@ -81,6 +97,19 @@ public class StudentData : IStudentData
         });
     public Task DeleteStudent(int id) =>
         _db.ExecuteData("dbo.StudentDelete", new { Id = id });
+    public  async Task AddAbsences(IEnumerable<int> studentIds, DateTime Date)
+    {
+        if (studentIds.Count() == 0)
+            throw new InvalidParametersException("Must provide atleast one student id");
+        foreach (int studentId in studentIds)
+        {
+            await _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
+        }
+    }
+
+    public Task DeleteAbsence(int absenceId) =>
+        _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+
     #endregion
 }
 

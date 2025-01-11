@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[SubjectAdd]
 	@SubjectId INT,
-	@Subject VARCHAR(100),
+	@Subject NVARCHAR(100),
 	@MaximumMark INT,
 	@GradeId int
 AS

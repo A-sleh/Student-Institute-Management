@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GradeGetAll]
-	@filter varchar(256) null
+	@filter NVARCHAR(256) null
 AS
 	SELECT *
 	FROM Grade

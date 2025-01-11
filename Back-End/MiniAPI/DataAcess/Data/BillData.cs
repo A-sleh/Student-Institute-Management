@@ -102,9 +102,9 @@ namespace DataAcess.Data
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
-        public async Task<IEnumerable<dynamic>> GetBillsByDate(string? date)
+        public async Task<IEnumerable<dynamic>> GetBillsByDate(string date)
         {
-            var Date = ValidationMethods.TryParseDateForSqlQuery(date, "-");
+            var Date = ValidationMethods.ParseDateForSqlQuery(date.Replace("%2F", "-"), "-");
             var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetByDate",
                 new { Date },
@@ -180,20 +180,6 @@ namespace DataAcess.Data
             };
             return Details;
         }
-        public async Task<dynamic> GetTotalIncome(string? startDate, string? endDate)
-        {
-            var bills = (await GetTotalByParam("in"))
-                .Where(b => b.DateFilter(startDate, endDate));
-            int total = bills.Sum(s => s.Amount);
-            return total;
-        }
-        public async Task<dynamic> GetTotalOutcome(string? startDate, string? endDate)
-        {
-            var bills = (await GetTotalByParam("out"))
-                .Where(b => b.DateFilter(startDate, endDate));
-            int total = bills.Sum(s => s.Amount);
-            return total;
-        }
         public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
         {
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
@@ -208,11 +194,15 @@ namespace DataAcess.Data
             var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
             return res.FirstOrDefault();
         }
-        private async Task<IEnumerable<BillModel>> GetTotalByParam(string param)
+        public async Task<int> GetTotalByParam(string? startDate, string? endDate, string param)
         {
-            if (param.Equals("in") || param.Equals("out"))
-                return (await _db.LoadData<BillModel, dynamic>("dbo.BillGetTotalByParam", new { Type = param }));
-            else throw new InvalidParametersException("param type must be one of (in, out) only");
+            if (!(param.Equals("in") || param.Equals("out")))
+                throw new InvalidParametersException("param type must be one of (in, out) only");
+
+            var bills = (await _db.LoadData<BillModel, dynamic>("dbo.BillGetTotalByParam", new { Type = param }))
+                .Where(b => b.DateFilter(startDate, endDate));
+            int total = bills.Sum(s => s.Amount);
+            return total;
         }
         #endregion
 

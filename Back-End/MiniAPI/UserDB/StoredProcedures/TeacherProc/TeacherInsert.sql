@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[TeacherInsert]
 	@TeacherId int,
-	@Name varchar(30),
-	@LastName varchar(30),
-	@Phone varchar(15)
+	@Name NVARCHAR(30),
+	@LastName NVARCHAR(30),
+	@Phone VARCHAR(15)
 AS
 	INSERT INTO Teacher(Name, LastName, Phone)
 	VALUES (@Name, @LastName, @Phone);

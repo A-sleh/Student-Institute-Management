@@ -11,8 +11,8 @@ namespace DataAcess.Models
     {
         public int ReportId { get; set; }
         public string? ReportTitle { get; set; }
-        public string? StartDate { get; set; }
-        public string? FinishDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? FinishDate { get; set; }
         public List<TestModel> Tests { get; set; } = [];
     }
 }

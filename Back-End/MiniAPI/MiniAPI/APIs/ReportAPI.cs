@@ -1,5 +1,6 @@
 ﻿using DataAcess.Data;
 using DataAcess.DBAccess;
+using DataAcess.Exceptions;
 using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
@@ -176,6 +177,10 @@ namespace MiniAPI.APIs
             {
                 await data.InsertReport(report);
                 return Results.Ok();
+            }
+            catch(InvalidParametersException pException)
+            {
+                return Results.BadRequest(pException.Message);
             }
             catch (Exception e)
             {

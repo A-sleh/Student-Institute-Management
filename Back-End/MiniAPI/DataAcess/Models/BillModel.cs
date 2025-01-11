@@ -29,13 +29,18 @@ namespace DataAcess.Models
         public dynamic AsTeacherBill()
         {
             if(Teacher == null)
-                throw new InvalidConvertException($"Cannot convert To {nameof(Teacher)}");
+                throw new InvalidConvertException($"Cannot convert to {nameof(Teacher)} bill");
 
             return new
             {
                 billId = BillId,
                 billNo = BillNo,
-                teacher = Teacher,
+                teacher = new
+                {
+                    Teacher.TeacherId,
+                    Teacher.Name,
+                    Teacher.LastName
+                },
                 amount = Amount,
                 date = Date,
                 note = Note,
@@ -50,7 +55,12 @@ namespace DataAcess.Models
             {
                 billId = BillId,
                 billNo = BillNo,
-                student = Student,
+                student = new 
+                { 
+                    Student.StudentId,
+                    Student.Name,
+                    Student.LastName 
+                },
                 amount = Amount,
                 date = Date,
                 note = Note,
@@ -71,7 +81,7 @@ namespace DataAcess.Models
             };
         }
         public bool DateFilter(string? startDate, string? endDate) =>
-            (startDate == null || DateTime.Compare(DateTime.Parse(startDate), this.Date) <= 0) &&
-            (endDate == null || DateTime.Compare(this.Date, DateTime.Parse(endDate)) <= 0);
+            (startDate == null || DateTime.Compare(ValidationMethods.ValidateDateTime(startDate), this.Date) <= 0) &&
+            (endDate == null || DateTime.Compare(this.Date, ValidationMethods.ValidateDateTime(endDate)) <= 0);
     }
 }

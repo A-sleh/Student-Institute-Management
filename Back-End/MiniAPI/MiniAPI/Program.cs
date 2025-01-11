@@ -1,7 +1,10 @@
 using DataAcess.Data;
 using DataAcess.DBAccess;
 using MiniAPI.APIs;
+using System.Buffers.Text;
+using System.Diagnostics.SymbolStore;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 namespace MiniAPI
 {
     public class Program
@@ -9,9 +12,14 @@ namespace MiniAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(option => new JsonSerializerOptions() 
+                { 
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(
+                        System.Text.Unicode.UnicodeRanges.All )
+                });
+
             builder.AddServices();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,7 +33,6 @@ namespace MiniAPI
                     );
             });
             var app = builder.Build();
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

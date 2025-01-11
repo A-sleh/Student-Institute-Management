@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[StudentUpdate]
 	@Id int,
-	@Name varchar(30),
-	@LastName varchar(30),
-	@FatherName varchar(30),
+	@Name NVARCHAR(30),
+	@LastName NVARCHAR(30),
+	@FatherName NVARCHAR(30),
 	@Birthdate date,
-	@Phone char(15),
+	@Phone VARCHAR(15),
 	@ClassId int,
 	@MissedDays int,
 	@BillRequired int
