@@ -23,6 +23,7 @@ namespace MiniAPI
             app.ConfigureTeacherAPI();
             app.ConfigureBillAPI();
             app.ConfigureGradeAPI();
+            app.ConfigureSettingsAPI();
         }
         /// <summary>
         /// Adds Specified Services
@@ -32,10 +33,10 @@ namespace MiniAPI
         {
 
             builder.Services.AddSingleton<HtmlEncoder>(
-                HtmlEncoder.Create(allowedRanges: new[] 
-                { 
+                HtmlEncoder.Create(allowedRanges:
+                [
                     UnicodeRanges.All
-                })
+                ])
             );
             //Data Access Services
 
@@ -52,6 +53,7 @@ namespace MiniAPI
             builder.Services.AddSingleton<IBillData, BillData>();
             builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
             builder.Services.AddSingleton<IGradeData, GradeData>();
+            builder.Services.AddSingleton<ISettingsData, SettingsData>();
         }
     }
 
