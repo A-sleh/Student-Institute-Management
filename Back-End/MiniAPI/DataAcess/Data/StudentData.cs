@@ -99,7 +99,7 @@ public class StudentData : IStudentData
         _db.ExecuteData("dbo.StudentDelete", new { Id = id });
     public  async Task AddAbsences(IEnumerable<int> studentIds, DateTime Date)
     {
-        if (studentIds.Count() == 0)
+        if (studentIds.Any())
             throw new InvalidParametersException("Must provide atleast one student id");
         foreach (int studentId in studentIds)
         {

@@ -10,9 +10,9 @@ namespace MiniAPI.APIs
         public static void ConfigureSettingsAPI(this WebApplication app) 
         {
             app.MapGet("/Settings", GetConfigs);
-            app.MapGet("/User/Login", Login);
-            app.MapGet("/User/Logout", Logout);
-            app.MapGet("/User/Password", ChangePassword);
+            app.MapPost("/User/Login", Login);
+            app.MapPost("/User/Logout", Logout);
+            app.MapPost("/User/Password", ChangePassword);
             app.MapPut("/Settings", UpdateConfigs);
         }
         private static async Task<IResult> ChangePassword(ISettingsData data,string oldPassword, string newPassword)
