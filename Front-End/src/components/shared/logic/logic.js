@@ -40,7 +40,7 @@ export function getShortNumberFormat(number) {
 
     numberFormat.unit = Units[currentUnit]
     const dividedBy = 3 + (digits % 3 == 1 ? 2 : digits % 3 == 2 ? 1 : 0)
-    numberFormat.number = numberFormat.number / Math.pow(10 , dividedBy ) 
-
+    numberFormat.number = (Number(`${numberFormat.number}1`) / Math.pow(10 , dividedBy + 1 )).toFixed(3) 
+    
     return numberFormat 
 }

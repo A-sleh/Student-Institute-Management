@@ -21,11 +21,11 @@ export default function App() {
       <div style={{ display: "flex",backgroundColor: 'white', position: "relative" ,fontFamily: currentLange == ARABIC ? "Readex Pro , sans-serif" :"Hind Siliguri ,sans-serif" , direction: currentLange == ARABIC ? 'rtl' : 'ltr'}}>
 
         <SideBarStyle opensidebare={openSideBare.toString()}>
-          <SidBar setOpenSideBare={setOpenSideBare} />
+          <SidBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
         </SideBarStyle>
         
         <main style={{ flex: "1" , overflow: 'hidden'}}>
-            <NavBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
+            <NavBar/>
             <div style={{ padding: "15px", paddingTop: "5px"}} >
                 <Suspense>
                   <Outlet />

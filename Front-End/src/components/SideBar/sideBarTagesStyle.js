@@ -11,6 +11,12 @@ export const SideBarContainerStyle = styled.div`
     scrollbar-width: none;
     position: sticky;
     top: 0;
+
+    >i {
+        color: white ;
+        float: ${({lang}) => lang == 'arabic' ? 'left': 'right'};
+        margin:  10px;
+    }
 `
 
 export const SideBarListStyle = styled.ul`
@@ -202,7 +208,7 @@ export const CloseBtnForMobileScreen = styled.i`
 `
 
 export const SideBarStyle = styled.aside`
-    width: ${ ({opensidebare}) => opensidebare == 'true' ? "250px" : "56px"};
+    width: ${ ({opensidebare}) => opensidebare == 'true' ? "250px" : "54px"};
     transition: 0.5s ;
     z-index: 90000;
 

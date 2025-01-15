@@ -15,8 +15,10 @@ export default function GroupedHorizontalBar({data}){
             yKey: "balance",
             yName: "Balance",
             cornerRadius: 20,
+            
             label: {
-              formatter: (data) => `${data.datum['balance'] + data.datum['unit']}` ,
+              formatter: (data) => `${parseFloat(data.datum['balance']) + data.datum['unit']}`,
+              padding: 100000,
             },
           },
           {
@@ -27,7 +29,10 @@ export default function GroupedHorizontalBar({data}){
             yName: "Percent",
             cornerRadius: 20,
             label: {
-              formatter: ({ value }) => value,
+              formatter: (data) => {
+                return parseFloat(data.datum['balance'])
+              }
+              ,
             },
           },
         ],

@@ -14,7 +14,7 @@ export default function useClassTests(classId,reFreach) {
     }
 
     useEffect(() => {
-        DataServices.ShowCurrentClassTests(classId,false,true).then(tests => {
+        DataServices.ShowCurrentClassTests(classId,false,false).then(tests => {
             setTests(disjoinTestIntoTypes(tests))
         })
     } ,[reFreach])
