@@ -1,6 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[LoadSettings]
-	@param1 int = 0,
-	@param2 int
 AS
-	SELECT @param1, @param2
+	SELECT * FROM settings WHERE attribute NOT IN ('password');
 RETURN 0

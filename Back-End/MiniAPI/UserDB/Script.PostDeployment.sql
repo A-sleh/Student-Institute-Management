@@ -1,4 +1,14 @@
 ﻿GO
+IF NOT EXISTS (SELECT 1 FROM [dbo].[settings])
+BEGIN
+	INSERT INTO settings VALUES
+	('username', 'admin'),
+	('password', 'admin'),
+	('status', 'logged out'),
+	('language', 'en');
+END
+
+GO
 if not exists (select 1 from [dbo].[Grade])
 BEGIN
 	INSERT INTO Grade(grade) VALUES

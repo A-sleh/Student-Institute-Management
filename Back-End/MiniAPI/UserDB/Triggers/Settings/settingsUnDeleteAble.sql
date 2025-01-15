@@ -1,7 +1,7 @@
 ﻿CREATE TRIGGER [settingsUnDeleteAble]
 	ON [dbo].[settings]
-	FOR DELETE, INSERT, UPDATE
+	INSTEAD OF DELETE
 	AS
 	BEGIN
-		SET NOCOUNT ON
+		RAISERROR ('delete statment has been terminated by system: delete unavailable from this table', 55000, 1);
 	END

@@ -51,22 +51,19 @@ namespace DataAcess.Data
                 splitOn: "TestId, SubjectId, TestMarkId");
             students = students.Distinct();
 
-            var pureMark = await GetStudentsPureMark(reportId, classId);
 
             var res = students.Select(x =>
             {
                 var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam", x.Class?.Gender).Result.FirstOrDefault();
                 var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz", x.Class?.Gender).Result.FirstOrDefault();
                 var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
-                var pAvg = pureMark.Where(p => p.StudentId == x.StudentId).FirstOrDefault();
                 var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
                 var absences = _studentData.GetStudentAbsence(x.StudentId, false, report?.StartDate, report?.FinishDate).Result.Absences;
                 var obj = new 
                 {
                     quizAverage = qAvg?.Average ?? 0,
                     examAverage = eAvg?.Average ?? 0,
-                    pureMark = pAvg?.PureMark ?? 0,
-                    mark = reportResult?[0].mark ?? 0, totalMark = reportResult?[0].totalMark ?? 0,
+                    mark = reportResult?.mark ?? 0, totalMark = reportResult?.totalMark ?? 0,
                     absences,
                     x.StudentId, x.Name, x.LastName, x.FatherName, 
                     TestMark 
@@ -91,7 +88,7 @@ namespace DataAcess.Data
         public async Task<dynamic?> GetStudentTotalResult(int studentId, int reportId)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentTotalResult", new { studentId, reportId });
-            return res;
+            return res.FirstOrDefault();
         }
         public async Task<IEnumerable<dynamic>> GetStudentsReportResult(int reportId, int? classId)
         {
@@ -152,7 +149,9 @@ namespace DataAcess.Data
                 new { classId },
                 (report, test, subject) =>
                 {
-                    test.Subject = subject;
+                    if(subject != null)
+                        test.Subject = subject;
+
                     if (dic.TryGetValue(report.ReportId, out var reportModel))
                     {
                         report = reportModel;
@@ -161,26 +160,25 @@ namespace DataAcess.Data
                     {
                         dic.Add(report.ReportId, report);
                     }
-                    report.Tests.Add(test);
+                    if(test != null)
+                        report.Tests.Add(test);
                     return report;
                 },
                 "TestId, SubjectId");
 
-            return reports
-                .Select(report =>
+            return dic
+                .Select(Key =>
                 {
                     if (gradeId != null)
                     {
-                        var tests = report.Tests.AsEnumerable();
-                        report.Tests = tests
+                        var tests = Key.Value.Tests.AsEnumerable();
+                        Key.Value.Tests = tests
                         .Where(t => t.Subject?.GradeId == gradeId)
                         .Select(t => { t.Report = null; return t; })
                         .ToList();
                     }
-                    return report;
-                })
-                .Where(report => gradeId == null || report.Tests.Count != 0)
-                .Distinct();
+                    return Key.Value;
+                });
         }
         public async Task<IEnumerable<dynamic>> GetTeachersRate(int subjectId)
         {

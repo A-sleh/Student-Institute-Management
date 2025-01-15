@@ -13,12 +13,7 @@ namespace MiniAPI
         {
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
-            builder.Services.AddControllers()
-                .AddJsonOptions(option => new JsonSerializerOptions() 
-                { 
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(
-                        System.Text.Unicode.UnicodeRanges.All )
-                });
+            builder.Services.AddControllers();
 
             builder.AddServices();
             builder.Services.AddEndpointsApiExplorer();

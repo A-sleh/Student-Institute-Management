@@ -11,7 +11,7 @@ BEGIN
 	LEFT OUTER JOIN Test t ON r.Id = t.ReportId
 	LEFT OUTER JOIN Subject s ON t.SubjectId = s.Id
 	LEFT OUTER JOIN Grade g ON s.gradeId = g.gradeId
-	JOIN TestMark ts ON t.Id = ts.TestId
-	JOIN Student st ON ts.StudentId = st.id
+	LEFT OUTER JOIN TestMark ts ON t.Id = ts.TestId
+	LEFT OUTER JOIN Student st ON ts.StudentId = st.id
 	WHERE r.Id = @Id AND (@classId IS NULL OR st.classId = @classId);
 END
