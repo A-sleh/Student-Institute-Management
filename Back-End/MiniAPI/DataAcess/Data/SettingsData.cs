@@ -26,11 +26,17 @@ namespace DataAcess.Data
         {
             try
             {
+                oldPass = Encrypt(oldPass);
+                newPass = Encrypt(newPass);
                 await _db.ExecuteData("UpdatePassword", new { oldPass, newPass });
             }
             catch (SqlException)
             {
                 throw;
+            }
+            finally
+            {
+                _loggedIn = false;
             }
         }
 
@@ -83,8 +89,7 @@ namespace DataAcess.Data
         {
             var data = (await _db.LoadData<(string attribute, string value), dynamic>("LoadSettings", new { })).ToDictionary();
 
-            if (data["status"] == "logged in")
-                _loggedIn = true;
+            _loggedIn = data["status"] == "logged in";
 
             return data;
         }
