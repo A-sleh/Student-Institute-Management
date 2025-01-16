@@ -20,10 +20,10 @@ export default function BillCard(props) {
     },[])
 
     return(
-        <div style={{padding: '15px'  , display: 'flex',backgroundColor: 'white' , justifyContent: 'space-between' , alignItems: 'center', flex: '1 0' , transform: move ? 'translateX(0%)' : 'translateX(-100%)', transition: '.3s'}}>
+        <div style={{direction: 'ltr',padding: '15px'  , display: 'flex',backgroundColor: 'white' , justifyContent: 'space-between' , alignItems: 'center', flex: '1 0' , transform: move ? 'translateX(0%)' : 'translateX(-100%)', transition: '.3s'}}>
             <div style={{ width: '100%'}}>
                 <h2 style={{fontSize: currentLange == ARABIC ? '16px' : '18px' , marginBottom: currentLange == ARABIC ? '10px' : '5px' ,color: '#066599' , width: '100%' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center' , textWrap: 'nowrap'}}> <span> {title}</span> <i className={iconPath} style={{fontSize: '18px' ,  lineHeight: '10px' , color: '#056699'}}></i></h2>
-                <span style={{ fontSize: '17px' , fontWeight: '600', direction: 'rtl'}} >{addSpaceBetweenDigit(content)}</span>
+                <span style={{ fontSize: '17px' , fontWeight: '600', direction: 'ltr'}} >{addSpaceBetweenDigit(content)}</span>
             </div>
         </div>
     )

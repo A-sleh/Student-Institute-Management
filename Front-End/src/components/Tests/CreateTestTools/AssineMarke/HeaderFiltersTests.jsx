@@ -14,11 +14,11 @@ import { ARABIC } from "../../../../Redux/actions/type"
 export default function HeaderFiltersTests() {
 
     const {currentLange} = useSelector( state => state.language)
-    const {testStartingDateTitle ,testTypeTitle ,examType ,quizTyp ,allType ,subjectTitle } = HeaderFiltersTestsTEXT[currentLange]
+    const {testStartingDateTitle ,testTypeTitle ,examType ,quizType ,allType ,subjectTitle } = HeaderFiltersTestsTEXT[currentLange]
     const { testType, setTestType, filterBySubject ,setFilterBySubject ,subjects ,dateSearch ,setDateSearch } = useContext(FiltersSharedState)
 
     return(
-        <div style={{display: 'grid',gridTemplateColumns:'repeat(auto-fill,minmax(400px,auto))', gap:'10px' ,backgroundColor: '#ddd' , padding: '4px 10px' , borderRadius: '4px' , marginBottom: '10px' ,flexWrap: 'wrap'}}>
+        <div style={{display: 'grid',gridTemplateColumns:'repeat(auto-fill,minmax(350px,auto))', gap:'10px' ,backgroundColor: '#ddd' , padding: '4px 10px' , borderRadius: '4px' , marginBottom: '10px' ,flexWrap: 'wrap'}}>
             <div >
                 <h1 style={{fontSize: '18px' , marginRight: '10px' , marginBottom: currentLange == ARABIC ? '6px':'0' }}>{testStartingDateTitle}</h1>
                 <InputStyle type="date" value={dateSearch} onChange={(e)=>{setDateSearch(e.target.value)}} style={{width: '100%',backgroundColor: 'white'}}/>
@@ -28,7 +28,7 @@ export default function HeaderFiltersTests() {
                 <select value={testType} onChange={(e)=>{setTestType(e.target.value)}} style={{width: '100%',padding : '8px 15px' ,border: 'none' , outline: 'none' , fontSize: '18px' , marginBottom: '10px'}}>
                     <option value="All" style={{fontSize: '15px' }}>{allType}</option>
                     <option value="EXAM" style={{fontSize: '15px' }}>{examType}</option>
-                    <option value="QUIZ" style={{fontSize: '15px' }}>{quizTyp}</option>
+                    <option value="QUIZ" style={{fontSize: '15px' }}>{quizType}</option>
                 </select>
             </div>
             <div >

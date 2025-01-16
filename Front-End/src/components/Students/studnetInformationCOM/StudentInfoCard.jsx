@@ -20,7 +20,7 @@ export default function StudentInfoCard({studentId}) {
     const [studentBillsBalance] = useStudentBalance(studentId)
     
     return (
-        <div style={{width: '100%' , display: 'flex' ,flexDirection: 'column', flex: '1' }}>
+        <div style={{width: '100%' , display: 'flex' ,flexDirection: 'column', flex: '1.2' }}>
             <span style={{padding: '3px 10px' , borderRadius: '5px 5px 0 0 ' , backgroundColor: '#066599' , color: 'white' , width: '100%' , display: 'block' , marginBottom: '10px'}}>{studetnTitle}</span>
             <HeightContainerAnimation>
                 <InformationsCardStyle >
@@ -36,7 +36,7 @@ export default function StudentInfoCard({studentId}) {
                     </div>
                     <div >
                         <h4>{billRequired} : <span >{addSpaceBetweenDigit(studentInfo?.billRequired,currentLange)}</span></h4>
-                        <h4>{padinBill} : <span>{addSpaceBetweenDigit(studentBillsBalance?.paid || 0,currentLange)}</span></h4>
+                        <h4>{padinBill} : <span style={{direction: 'ltr'}}>{addSpaceBetweenDigit(studentBillsBalance?.paid || 0,currentLange)}</span></h4>
                     </div>
                     <div >
                         <h4>{remaining} : <span>{addSpaceBetweenDigit(studentBillsBalance?.required || 0,currentLange)}</span></h4>

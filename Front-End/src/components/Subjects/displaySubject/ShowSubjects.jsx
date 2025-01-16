@@ -8,7 +8,6 @@ import Notification from "../../Global/Notification"
 import DeleteModal from "../../Modal/DeleteModal"
 import { ShowSubjectsTEXT } from "../../../Data/static/Subject/ShowSubjectsTEXT" 
 import { useSelector } from "react-redux"
-import Title from "../../Global/Title"
 
 export default function ShowSubjects() {
 
@@ -16,13 +15,13 @@ export default function ShowSubjects() {
     const {currentLange} = useSelector( state => state.language)
     const {settingBtn , successDeleteSubjectMES ,errorInDeleteSubjectMES } = ShowSubjectsTEXT[currentLange]
 
-    const [filterByGrade,setFilterByGrade] = useState('bachelor')
+    const [filterByGrade,setFilterByGrade] = useState({grade:'bachelor'})
     const [successDeleteSubject,setSuccessDeleteSubject] = useState(false)
     const [unSuccessDeleteSubject,setUnSuccessDeleteSubject] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [manageButton,setManageButton] = useState(true)
     const [selectedSubject,setSelectedSubject] = useState({})
-    const [subjects] = useGetSubjects(filterByGrade)
+    const [subjects] = useGetSubjects(filterByGrade?.grade)
 
     const manageColumn = useMemo(() => [
         ...SUBJECTCOLUMNS ,

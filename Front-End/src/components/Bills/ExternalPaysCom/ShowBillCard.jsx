@@ -35,7 +35,7 @@ export default function ShowBillCard({type,bill,setSuccessDelete}) {
                     }
                 </section>
                 <section>
-                    <span style={{fontWeight: '500'}}> <span style={{fontSize: '16px',fontWeight: '600',direction: currentLange == 'arabic' ? 'rtl': 'ltr'}}>{currentLange == 'arabic' ? 'المبلغ': 'Amount'} </span> <span style={{direction: 'rtl'}}>{addSpaceBetweenDigit(amount)}</span></span>
+                    <span style={{fontWeight: '500'}}> <span style={{fontSize: '16px',fontWeight: '600',direction: currentLange == 'arabic' ? 'rtl': 'ltr'}}>{currentLange == 'arabic' ? 'المبلغ': 'Amount'} </span> <span style={{direction: 'rtl'}}>{addSpaceBetweenDigit(amount,currentLange)}</span></span>
                     <span>{ format(new Date(date) , 'yyyy / MM / dd')}</span>
                 </section>
                 <footer>

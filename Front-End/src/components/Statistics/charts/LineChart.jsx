@@ -44,6 +44,6 @@ export default function LineChart({data}){
     };
 
     return (
-        <AgCharts options={chartOptions} />
+        <AgCharts options={chartOptions} style={{direction: 'ltr'}}/>
     );
 };
