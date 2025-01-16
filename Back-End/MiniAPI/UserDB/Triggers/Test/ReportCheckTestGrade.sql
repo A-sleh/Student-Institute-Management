@@ -7,7 +7,7 @@
 		IF (SELECT COUNT(*) FROM (SELECT DISTINCT gradeId FROM inserted i JOIN Subject s ON i.SubjectId = s.Id) as t1) > 1
 		BEGIN
 			RAISERROR('you can only insert into 1 report and only 1 grade specified', 16, 1)
-			return;
+			RETURN;
 		END
 		IF (
 			(	SELECT DISTINCT s.gradeId FROM Test t 
@@ -27,5 +27,5 @@
 			INSERT INTO Test(CorrectionDate, Date, ReportId, SubjectId, TestType, Title) (SELECT CorrectionDate, Date, ReportId, SubjectId, TestType, Title FROM inserted);
 		END
 		ELSE
-		THROW 55000, 'grade is not matched', 1;
+		RAISERROR('grades not matched', 16, 1);
 	END

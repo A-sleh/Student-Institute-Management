@@ -189,10 +189,10 @@ namespace DataAcess.Data
             }
             return res.Where(b => date == null || b.Date.ToString().Contains(date));
         }
-        public async Task<dynamic> GetRestOf(string type)
+        public async Task<int?> GetRestOf(string type)
         {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
-            return res.FirstOrDefault();
+            var res = (await _db.LoadData<int?, dynamic>("dbo.BillGetRestOf", new { type })).FirstOrDefault();
+            return res;
         }
         public async Task<int> GetTotalByParam(string? startDate, string? endDate, string param)
         {

@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[UpdateSettings]
-	@attribute varchar(256),
-	@value varchar(1024)
+	@attribute NVARCHAR(256),
+	@value NVARCHAR(1024)
 AS
 	IF @attribute = 'language' OR @attribute = 'fullscreen'
 	BEGIN
