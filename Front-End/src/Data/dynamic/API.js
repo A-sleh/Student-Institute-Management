@@ -534,9 +534,10 @@ export default {
     }
   },
   Authentication : {
-    post : (userName,passWord) => {
-      return fetch(`${URL}/User/Login?username=${userName}&password=${passWord}`, {
+    post : (data) => {
+      return fetch(`${URL}/User/Login`, {
         method: "POST",
+        body: JSON.stringify(data), 
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -551,9 +552,10 @@ export default {
           },
         });
       },
-      changePassword : (oldPassword,newPassword) => {
-        return fetch(`${URL}/User/Password?oldPassword=${oldPassword}&newPassword=${newPassword}`, {
+      changePassword : (data) => {
+        return fetch(`${URL}/User/Password`, {
           method: "POST",
+          body: JSON.stringify(data), 
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },

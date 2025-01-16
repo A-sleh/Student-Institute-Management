@@ -15,7 +15,7 @@ export default function AdminLogin() {
     const {manager ,passwordTitle ,loginBtn ,logoutBtn,mangerLoginTitle ,successLoginMES ,errorLoginMES} = AdminLoginTEXT[currentLange]
     // main state
     const [formValid,setFormValid] = useState({ name: false , password : false })
-    const formFirstState = { adminName : '' , password: '' }
+    const formFirstState = { username : '' , password: '' }
     const {isAdmin} = useSelector( state => state.admin)
     const [form,setForm] = useState(formFirstState)
     const [successLoggin,setSuccessLoggin] = useState(false)
@@ -31,13 +31,13 @@ export default function AdminLogin() {
     }
 
     function validInputs() {
-        const { adminName , password } = form 
+        const { username , password } = form 
         setFormValid({
-            name : adminName == '' ,
+            name : username == '' ,
             password : password == ''
         })
 
-        return (adminName != '' && password != '')
+        return (username != '' && password != '')
     }
 
     function hanldeSubmitClicked(e) {
@@ -50,7 +50,7 @@ export default function AdminLogin() {
         }
         
         if(validInputs()) {
-            DataServices.LogginAsAdmin(form.adminName,form.password).then(res => {
+            DataServices.LogginAsAdmin(form).then(res => {
                 
                 if( res.status < 300 ) {
                     setForm(formFirstState)
@@ -76,7 +76,7 @@ export default function AdminLogin() {
                         <section>
                             <div>
                                 <label style={{color: formValid.name ? 'red' : '#056699'}}>{manager}</label>
-                                <input type="text" value={form.adminName} onChange={(e) => setForm({...form,adminName : e.target.value})}  style={{backgroundColor: formValid.name ? '#ff03033e' : '#ddd'}}/>
+                                <input type="text" value={form.username} onChange={(e) => setForm({...form,username : e.target.value})}  style={{backgroundColor: formValid.name ? '#ff03033e' : '#ddd'}}/>
                             </div>
                             <div>
                                 <label style={{color: formValid.password ? 'red' : '#056699'}}>{passwordTitle }</label>

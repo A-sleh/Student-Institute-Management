@@ -247,14 +247,14 @@ export default {
   ChangeTheLanguage: (data) => {
     return API.Setting.put(data) 
   },
-  LogginAsAdmin : (userName,passWord) => {
-    return API.Authentication.post(userName,passWord) 
+  LogginAsAdmin : (data) => {
+    return API.Authentication.post(data) 
   },
   LoggoutFromAdmin : () => {
     return API.Authentication.put.logout() 
   },
-  ChangeAdminPassword : (oldPassword,newPassword) => {
-    return API.Authentication.put.changePassword(oldPassword,newPassword) 
+  ChangeAdminPassword : (data) => {
+    return API.Authentication.put.changePassword(data) 
   }
 
 };

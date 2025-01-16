@@ -1,5 +1,6 @@
 ﻿using DataAcess.Data;
 using DataAcess.Exceptions;
+using DataAcess.Models;
 using Microsoft.AspNetCore.Rewrite;
 using System.Data.SqlClient;
 
@@ -15,11 +16,15 @@ namespace MiniAPI.APIs
             app.MapPost("/User/Password", ChangePassword);
             app.MapPut("/Settings", UpdateConfigs);
         }
-        private static async Task<IResult> ChangePassword(ISettingsData data,string oldPassword, string newPassword)
+        private static async Task<IResult> ChangePassword(ISettingsData data, Credential[] credentials)
         {
+            if(credentials.Length < 2)
+            {
+                return Results.BadRequest("must pass the old and new credentials");
+            }
             try
             {
-                await data.ChangePassword(oldPassword, newPassword);
+                await data.ChangePassword(credentials[0].Password, credentials[1].Password);
                 return Results.Ok();
             }
             catch (SqlException sqlEx)
@@ -32,11 +37,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private async static Task<IResult> Login(ISettingsData data, string username, string password)
+        private async static Task<IResult> Login(ISettingsData data, Credential credential)
         {
             try
             {
-                await data.Login(username, password);
+                await data.Login(credential.Username, credential.Password);
                 return Results.Accepted();
             }
             catch (SqlException sqlEx)
@@ -56,9 +61,13 @@ namespace MiniAPI.APIs
                 await data.Logout();
                 return Results.Ok();
             }
+            catch (LoginException loginEx)
+            {
+                return Results.BadRequest(loginEx.Message);
+            }
             catch (Exception e)
             {
-                return Results.BadRequest(e.Message);
+                return Results.Problem(e.Message);
             }
         }
         private async static Task<IResult> UpdateConfigs(ISettingsData data, Dictionary<string, string> configs)
@@ -67,6 +76,10 @@ namespace MiniAPI.APIs
             {
                 await data.EditConfig(configs);
                 return Results.Ok();
+            }
+            catch (SqlException sqlEx)
+            {
+                return Results.BadRequest(sqlEx);
             }
             catch (Exception e)
             {
