@@ -13,12 +13,14 @@ import SearchBodyList from '../../shared/SearchBodyList';
 import { useSelector } from 'react-redux';
 import { errorActionLogic, successActionLogic } from '../../shared/logic/logic';
 import { NewTeacherBillTEXT } from '../../../Data/static/Bills/TeacherPaysCom/NewTeacherBillTEXT';
+import useGetAllTeachers from '../../../hooks/teacher_hooks/useGetAllTeachers';
 
 const initialFormInput = { 
     teacher: {
         teacherId: '',
         name: '',
-        lastName: '',},
+        lastName: ''
+    },
     student : null,
     amount: '' ,
     date: '' ,
@@ -34,10 +36,11 @@ export default function NewBill() {
     const {teacherName ,billNumber ,billDate ,billAmount ,billNote ,addBtn ,successAddStudentBillMES ,validationMessages,errorAddStudentBillMES } = NewTeacherBillTEXT[currentLange]
     const {nameVale ,bilNumberVal ,billDateVal ,billAmountVal} = validationMessages
 
+    
 
     const [successAddBill,setSuccessAddBill] = useState(false)
     const [errorAddBill,setErrorAddBill] = useState(false)
-    const [allTeachers,setAllTeachers] = useState([])
+    const [allTeachers] = useGetAllTeachers()
     const [formInput,setFormInput] = useState(initialFormInput)
     const [validationBillInput,setValidationBillInput] = useState({
         teacherId: '' ,
@@ -69,7 +72,7 @@ export default function NewBill() {
             teacherId: teacher.id ,
             name: teacher.name,
             lastName: teacher.lastName ,
-        }, fullName : teacher.fullName })
+        }, fullName : teacher.full_name })
         setFocused(false)
     }
 
@@ -104,7 +107,7 @@ export default function NewBill() {
 
     }
 
-    
+    console.log(formInput)
     return (
         <>
             <Notification  title={successAddStudentBillMES} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>

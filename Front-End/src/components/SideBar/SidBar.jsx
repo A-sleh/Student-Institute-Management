@@ -17,7 +17,7 @@ export default function SidBar(props) {
   return (
     <SideBarContainerStyle lang={currentLange} style={{ direction: currentLange == ARABIC ? 'rtl' : 'ltr'}}s>
       <i className="bi bi-list" onClick={() => setOpenSideBare(!openSideBare)} style={{ cursor: "pointer" ,  fontSize : '27px' }}></i>
-      <CloseBtnForMobileScreen className="fa-solid fa-xmark" onClick={() => setOpenSideBare(true)}/>
+      <CloseBtnForMobileScreen className={openSideBare ? "fa-solid fa-xmark" : "fa-xmark bi bi-caret-left-fill"} onClick={() => openSideBare ? setOpenSideBare(false) : setOpenSideBare(true)}/>
       <SideBarListStyle language={currentLange}>
         <SideBarLinks />
       </SideBarListStyle >

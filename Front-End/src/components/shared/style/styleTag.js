@@ -213,7 +213,7 @@ export const ShowCardContainerStyle = styled.div`
     padding-bottom: 10px;
     display: flex;
     flex-direction: column;
-    min-width: 280px;
+    width: 300px;
     background-color: #f3f1f1d7;
 
     i {
@@ -225,17 +225,16 @@ export const ShowCardContainerStyle = styled.div`
     }
     main {
         padding: 15px;
-        padding-right: 0;
+        padding-right: 10px;
         overflow: hidden;
         border-radius: 10px;
-        text-wrap: nowrap;
         background-color: white;
-    
-
+        
         h3 {
             color: #066599;
             margin-bottom: 5px;
             width: 100%;
+            /* text-wrap: nowrap; */
 
             span {
                 margin-bottom: 5px;
@@ -244,6 +243,8 @@ export const ShowCardContainerStyle = styled.div`
                 font-weight: 600;
                 font-size: 16px;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                text-wrap: wrap;
+                word-wrap: break-word;
             }
         }
     }

@@ -19,7 +19,7 @@ const urlList = [
     },
     {
         title: {
-            arabic: 'عرض جميع التقارير' ,
+            arabic: 'عرض جميع الأختبارات' ,
             english: 'Show All Tests'
         } ,
         isAdmin: true,

@@ -1,13 +1,14 @@
 
 import DataServices from "../Data/dynamic/DataServices"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function useStudentsInfo(selectedGrade,setPage,limit,page,...reFetch) {
 
     const [studentInfo, setstudentInfo] = useState([]);
 
     useEffect(() => {
-        DataServices.StudentsInformaion('',selectedGrade?.gradeId,limit,page).then((StudentsInfo) => {
+        const gradeId = selectedGrade ? `&gradeId=${selectedGrade?.gradeId}` : ''
+        DataServices.StudentsInformaion('',gradeId,limit,page).then((StudentsInfo) => {
             const mapingStudents = StudentsInfo.students.map((student) => {
                 const { name, lastName } = student;
                 return {
@@ -21,7 +22,8 @@ export default function useStudentsInfo(selectedGrade,setPage,limit,page,...reFe
     },[...reFetch,selectedGrade,page]);
 
     useEffect(() => {
-        setPage(1)
+        if(setPage)
+            setPage(1)
     },[selectedGrade])
 
     return [studentInfo]
