@@ -96,6 +96,8 @@ namespace DataAcess.Data
                 //var decryptedValue = Decrypt(value);
                 dic.Add(attribute, value);
             }
+            if (dic["status"] == "logged in")
+                _loggedIn = true;
             //await Console.Out.WriteLineAsync(Encrypt("admin"));
             //await Console.Out.WriteLineAsync(Encrypt("admin"));
             return dic.AsEnumerable();
