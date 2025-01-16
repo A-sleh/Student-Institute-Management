@@ -6,15 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAcess.Exceptions;
 using System.Data.SqlClient;
+using System.Transactions;
 
 namespace DataAcess.Data
 {
     public class SettingsData : ISettingsData
     {
         private readonly ISqlDataAccess _db;
+        private bool _loggedIn;
+        private int currentRandomNumber = -1;
         public SettingsData(ISqlDataAccess db) 
         { 
             _db = db;
+            _loggedIn = false;
         }
 
         public async Task ChangePassword(string oldPass, string newPass)
@@ -31,7 +35,7 @@ namespace DataAcess.Data
 
         public string Decrypt(string encryptedValue)
         {
-            var values = encryptedValue.Split('%');
+            var values = encryptedValue.Split([ 'A', 'B', 'C', 'D', 'E', 'F' ]);
             string decrypedValue = string.Empty;
             foreach (var value in values) 
             {
@@ -45,21 +49,39 @@ namespace DataAcess.Data
 
         public async Task EditConfig(Dictionary<string, string> configs)
         {
-            foreach (var (attribute, value) in configs) 
+            
+
+            foreach (var (attribute, value) in configs)
             {
+
+                await _db.ExecuteData("UpdateSettings", new { attribute, value });
+
+
+
                 //var encryptedAttribute = Encrypt(config.Item1);
                 //var encryptedValue = Encrypt(config.Item2);
-                await _db.ExecuteData("UpdateSettings", new { attribute, value });
+
             }
         }
+
+        private char EncryptionSeperator()
+        {
+            
+            char[] Numbers = ['A', 'B', 'C', 'D','E','F'];
+            return Numbers[(++currentRandomNumber) % Numbers.Length];
+            
+        }
+            
 
         public string Encrypt(string value)
         {
             int encUnit = 13;
             string encryptedValue = string.Empty;
+            currentRandomNumber = -1;
+
             foreach(char c in value)
             {
-                encryptedValue += $"%{(int)c * encUnit}%";
+                encryptedValue += $"{(int)c * encUnit}{EncryptionSeperator()}";
             }
             return encryptedValue;
         }
@@ -74,17 +96,28 @@ namespace DataAcess.Data
                 //var decryptedValue = Decrypt(value);
                 dic.Add(attribute, value);
             }
+            //await Console.Out.WriteLineAsync(Encrypt("admin"));
+            //await Console.Out.WriteLineAsync(Encrypt("admin"));
             return dic.AsEnumerable();
         }
 
-        public Task Login(string username, string password)
+        public async Task Login(string username, string password)
         {
             //username = Encrypt(username);
             //password = Encrypt(password);
-            return _db.ExecuteData("userLogin", new { username, password });
+            if (_loggedIn)
+                throw new LoginException("Already logged in");
+            password = Encrypt(password);
+            await _db.ExecuteData("userLogin", new { username, password });
+            _loggedIn = true;
         }
 
-        public Task Logout() => 
-            _db.ExecuteData("userLogout", new { });
+        public async Task Logout()
+        {
+            if (!_loggedIn)
+                throw new LoginException("Already logged out");
+            await _db.ExecuteData("userLogout", new { });
+            _loggedIn = false;
+        }
     }
 }

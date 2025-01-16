@@ -2,7 +2,7 @@
 	@attribute varchar(256),
 	@value varchar(1024)
 AS
-	IF @attribute = 'language'
+	IF @attribute = 'language' OR @attribute = 'fullscreen'
 	BEGIN
 		UPDATE settings SET value = @value WHERE attribute = @attribute;
 	END

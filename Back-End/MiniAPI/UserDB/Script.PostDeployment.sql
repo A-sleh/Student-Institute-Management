@@ -3,9 +3,10 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[settings])
 BEGIN
 	INSERT INTO settings VALUES
 	('username', 'admin'),
-	('password', 'admin'),
+	('password', '1261A1300B1417C1365D1430E'),
 	('status', 'logged out'),
-	('language', 'en');
+	('language', 'english'),
+	('fullscreen', 'no');
 END
 
 GO
