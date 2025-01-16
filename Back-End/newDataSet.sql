@@ -1,4 +1,4 @@
-﻿GO
+GO
 IF NOT EXISTS (SELECT 1 FROM [dbo].[settings])
 BEGIN
 	INSERT INTO settings VALUES
