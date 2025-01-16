@@ -30,6 +30,6 @@ export default function SimpleHorizontalBar({data}){
     };
       
     return (
-        <AgCharts options={chartOptions} />
+        <AgCharts options={chartOptions} style={{direction: 'ltr'}}/>
     );
 };

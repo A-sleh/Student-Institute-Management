@@ -84,7 +84,7 @@ export default function TablePaginated(props) {
                             <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
                                 { unableId && <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td>}
                                 {row.cells.map((cell, index) => (
-                                <td {...cell.getCellProps()} key={index} >
+                                <td {...cell.getCellProps()} key={index} style={{direction: 'ltr'}}>
                                     {cell.render("Cell")}
                                 </td>
                                 ))}

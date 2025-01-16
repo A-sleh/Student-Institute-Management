@@ -36,7 +36,7 @@ export default function ManageGrades() {
             },
             accessor: 'grade',
             Cell : ({row}) => {
-                return upDateGrade.gradeId != row.original.gradeId ? row.original.grade : <input type='text'  min='1'  ref={gradeRef} value={upDateGrade.grade} onChange={(e) => setUpDateGrade({...upDateGrade,grade : e.target.value})} style={{padding: '0 4px' ,backgroundColor: 'transparent',width: '3em', fontSize: '15px' , outline: 'none' , border: 'none' , textAlign: 'center' ,borderBottom: '1px solid #066599' , borderRadius: '2px' }}/>
+                return upDateGrade.gradeId != row.original.gradeId ? row.original.grade : <input type='text'  min='1'  ref={gradeRef} value={upDateGrade.grade} onChange={(e) => setUpDateGrade({...upDateGrade,grade : e.target.value})} style={{padding: '0 4px' ,backgroundColor: 'transparent',width: '5em', fontSize: '15px' , outline: 'none' , border: 'none' , textAlign: 'center' ,borderBottom: '1px solid #066599' , borderRadius: '2px' }}/>
             }
         },
         {

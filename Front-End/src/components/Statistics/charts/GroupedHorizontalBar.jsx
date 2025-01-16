@@ -185,6 +185,6 @@ export default function GroupedHorizontalBar({data}){
     };
 
     return (
-        <AgCharts options={chartOptions} />
+        <AgCharts options={chartOptions} style={{direction: 'ltr'}}/>
     );
 };

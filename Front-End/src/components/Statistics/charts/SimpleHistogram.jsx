@@ -40,6 +40,6 @@ export default function SimpleHistogram({data}){
     };
 
     return (
-        <AgCharts options={chartOptions} />
+        <AgCharts options={chartOptions} style={{direction: 'ltr'}}/>
     );
 };

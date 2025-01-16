@@ -34,13 +34,13 @@ export default function TeacherInfo({teacherId}) {
                         <h4>{phoneNumber} :  <span>{phone}</span></h4>
                     </div>
                     <div >
-                        <h4>{totalBalance} : <span >{addSpaceBetweenDigit(teacherSalary.total)}</span></h4>
+                        <h4>{totalBalance} : <span >{addSpaceBetweenDigit(teacherSalary.total,currentLange)}</span></h4>
                     </div>
                     <div >
-                        <h4>{remainingBill} : <span >{addSpaceBetweenDigit(teacherSalary.required)}</span></h4>
+                        <h4>{remainingBill} : <span >{addSpaceBetweenDigit(teacherSalary.required,currentLange)}</span></h4>
                     </div>
                     <div >
-                        <h4>{paidBill} : <span >{addSpaceBetweenDigit(teacherSalary.paid)}</span></h4>
+                        <h4>{paidBill} : <span >{addSpaceBetweenDigit(teacherSalary.paid,currentLange)}</span></h4>
                     </div>
                 </InformationsCardStyle >   
             </HeightContainerAnimation> 
