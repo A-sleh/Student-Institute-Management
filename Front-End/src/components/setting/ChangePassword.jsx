@@ -1,16 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import { ADMINLOGUNG, ADMINLOGUNGOUT, ARABIC } from "../../Redux/actions/type";
+import {  useSelector } from "react-redux";
+import {  ARABIC } from "../../Redux/actions/type";
 import { AdminLoginStyle } from "./settingStyle";
 import { useState } from "react";
+import { errorActionLogic, successActionLogic } from "../shared/logic/logic";
+import Notification from "../Global/Notification";
+import DataServices from "../../Data/dynamic/DataServices";
+import { ChangePasswordTEXT } from "../../Data/static/setting/setting";
 
 export default function ChangePassword() {
 
+    const {currentLange} = useSelector( state => state.language)
+    const {chagePasswordTitle,oldPasswordTitle ,newPasswordTitle ,
+           changeBtn ,errorInChangePasswordMES ,successChangePasswordMES} = ChangePasswordTEXT[currentLange] ;
+
     const formFirstState = { newPassword : '' , oldPassword: '' }
     const [form,setForm] = useState(formFirstState)
+    const [unMatchPassword,setUnMatchPassword] = useState(false)
+    const [successChangePassword,setSuccessChangePassword] = useState(false)
     const [formValid,setFormValid] = useState({ old: false , new: false })
-
-    const {currentLange} = useSelector( state => state.language)
-    const adminState = useDispatch() 
 
     function validInputs() {
         const { newPassword , oldPassword } = form 
@@ -19,34 +26,44 @@ export default function ChangePassword() {
             new : newPassword == ''
         })
 
-        return (newPassword != '' && oldPassword != '')
+        return (newPassword != '' && oldPassword != '' )
     }
 
     function hanldeSubmitClicked(e) {
         e.preventDefault()
         
         if(validInputs()) {
-            setForm(formFirstState)
-            // adminState({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: form.adminName }})
+            const { newPassword , oldPassword } = form 
+
+            DataServices.ChangeAdminPassword(oldPassword,newPassword ).then (res => {
+                if( res.status < 300 ) {
+                    successActionLogic(setSuccessChangePassword)
+                    setForm(formFirstState)
+                }else {
+                    errorActionLogic(setUnMatchPassword)
+                }
+            })
         }
         
     }
 
     return(
         <>
-            <h3 style={{margin: '10px 0'}}><i className={currentLange == ARABIC ? "bi bi-caret-left-fill": "bi bi-caret-right-fill"} style={{color: '#056699'}}></i>{currentLange == ARABIC ? ' تغيير كلمة المرور : ': " Change password : "}</h3>
+            <Notification title={errorInChangePasswordMES} type={"error"} state={unMatchPassword} setState={setUnMatchPassword} />   
+            <Notification title={successChangePasswordMES} type={"success"} state={successChangePassword} setState={setSuccessChangePassword} />   
+            <h3 style={{margin: '10px 0'}}><i className={currentLange == ARABIC ? "bi bi-caret-left-fill": "bi bi-caret-right-fill"} style={{color: '#056699'}}></i>{chagePasswordTitle}</h3>
             <AdminLoginStyle onSubmit={(e) => hanldeSubmitClicked(e) }>
                 <section>
                     <div>
-                        <label style={{color: formValid.old ? 'red' : '#056699'}}>{currentLange == ARABIC ? 'كلمة المرور القديمة' : 'Old password' }</label>
+                        <label style={{color: formValid.old ? 'red' : '#056699'}}>{oldPasswordTitle}</label>
                         <input type="password" value={form.oldPassword} onChange={(e) => setForm({...form,oldPassword : e.target.value})}  style={{backgroundColor: formValid.old ? '#ff03033e' : '#ddd'}}/>
                     </div>
                     <div>
-                    <label style={{color: formValid.new ? 'red' : '#056699'}}>{currentLange == ARABIC ? 'كلمة المرور الجديده' : 'New password' }</label>
+                    <label style={{color: formValid.new ? 'red' : '#056699'}}>{newPasswordTitle }</label>
                         <input type="password" value={form.newPassword} onChange={(e) => setForm({...form,newPassword : e.target.value})}  style={{backgroundColor: formValid.new ? '#ff03033e' : '#ddd'}}/>
-                    </div>
+                    </div>f
                 </section>
-                <input type="submit"  value={currentLange == ARABIC ? 'تغيير' : 'Change' } />
+                <input type="submit"  value={changeBtn } />
             </AdminLoginStyle>
         </>
     )

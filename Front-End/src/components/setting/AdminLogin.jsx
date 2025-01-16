@@ -1,16 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ADMINLOGUNG, ADMINLOGUNGOUT, ARABIC } from "../../Redux/actions/type";
 import { AdminLoginStyle } from "./settingStyle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DataServices from "../../Data/dynamic/DataServices";
+import { errorActionLogic, successActionLogic } from "../shared/logic/logic";
+import Notification from "../Global/Notification";
+import useGetAllSetting from "../../hooks/settings/useGetAllSetting";
+import { AdminLoginTEXT } from "../../Data/static/setting/setting";
 
 export default function AdminLogin() {
 
-    const formFirstState = { adminName : '' , password: '' }
+    // Main test content
     const {currentLange} = useSelector( state => state.language)
-    const {isAdmin} = useSelector( state => state.admin)
-    const adminState = useDispatch() 
-    const [form,setForm] = useState(formFirstState)
+    const {manager ,passwordTitle ,loginBtn ,logoutBtn,mangerLoginTitle ,successLoginMES ,errorLoginMES} = AdminLoginTEXT[currentLange]
+    // main state
     const [formValid,setFormValid] = useState({ name: false , password : false })
+    const formFirstState = { adminName : '' , password: '' }
+    const {isAdmin} = useSelector( state => state.admin)
+    const [form,setForm] = useState(formFirstState)
+    const [successLoggin,setSuccessLoggin] = useState(false)
+    const [errorLoggin,setErrorLoggin] = useState(false)
+    const adminState = useDispatch() 
+    
+    function handleLogoutClicked() {
+        DataServices.LoggoutFromAdmin()
+        adminState({
+            payload: false , 
+            type: ADMINLOGUNGOUT
+        })
+    }
 
     function validInputs() {
         const { adminName , password } = form 
@@ -32,30 +50,40 @@ export default function AdminLogin() {
         }
         
         if(validInputs()) {
-            setForm(formFirstState)
-            adminState({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: form.adminName }})
+            DataServices.LogginAsAdmin(form.adminName,form.password).then(res => {
+                
+                if( res.status < 300 ) {
+                    setForm(formFirstState)
+                    successActionLogic(setSuccessLoggin)
+                    adminState({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: form.adminName }})
+                }else { 
+                    errorActionLogic(setErrorLoggin)
+                }
+            })
         }
         
     }
 
     return(
         <>
-            <h3 style={{margin: '10px 0'}}><i className={currentLange == ARABIC ? "bi bi-caret-left-fill": "bi bi-caret-right-fill"} style={{color: '#056699'}}></i>{currentLange == ARABIC ? ' تسجيل الدخول كمدير : ': " Login as manager : "}</h3>
+            <Notification title={successLoginMES} type={"success"} state={successLoggin} setState={setSuccessLoggin} />
+            <Notification title={errorLoginMES} type={"error"} state={errorLoggin} setState={setErrorLoggin} />
+            <h3 style={{margin: '10px 0'}}><i className={currentLange == ARABIC ? "bi bi-caret-left-fill": "bi bi-caret-right-fill"} style={{color: '#056699'}}></i>{mangerLoginTitle}</h3>
             <AdminLoginStyle onSubmit={(e) => hanldeSubmitClicked(e) }>
                 {
-                    isAdmin ? <input className="logout" type="submit" value={currentLange == ARABIC ? 'تسجيل الخروج' : 'Logout' } />
+                    isAdmin ? <input className="logout" type="submit" onClick={()=>handleLogoutClicked()} value={logoutBtn } />
                     : <>
                         <section>
                             <div>
-                                <label style={{color: formValid.name ? 'red' : '#056699'}}>{currentLange == ARABIC ? 'أسم المدير' : 'Manager name' }</label>
+                                <label style={{color: formValid.name ? 'red' : '#056699'}}>{manager}</label>
                                 <input type="text" value={form.adminName} onChange={(e) => setForm({...form,adminName : e.target.value})}  style={{backgroundColor: formValid.name ? '#ff03033e' : '#ddd'}}/>
                             </div>
                             <div>
-                                <label style={{color: formValid.password ? 'red' : '#056699'}}>{currentLange == ARABIC ? 'كلمة المرور' : 'Password' }</label>
+                                <label style={{color: formValid.password ? 'red' : '#056699'}}>{passwordTitle }</label>
                                 <input type="password" value={form.password} onChange={(e) => setForm({...form,password : e.target.value})}  style={{backgroundColor: formValid.password ? '#ff03033e' : '#ddd'}}/>
                             </div>
                         </section>
-                        <input type="submit"  value={currentLange == ARABIC ? 'تسجيل دخول' : 'Login' } />
+                        <input type="submit"  value={loginBtn} />
                     </>
                 }
             </AdminLoginStyle>

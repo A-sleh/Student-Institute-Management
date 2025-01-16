@@ -1,6 +1,4 @@
 const URL = "https://localhost:7279";
-import axios from 'axios'
-
 
 export default {
   Student: {
@@ -518,5 +516,49 @@ export default {
       });
     },
   
+  },
+  Setting : {
+    get : () => {
+      return fetch(`${URL}/Settings`).then((response) =>
+        response.json()
+      );
+    },
+    put: (data) => {
+      return fetch(`${URL}/Settings`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    }
+  },
+  Authentication : {
+    post : (userName,passWord) => {
+      return fetch(`${URL}/User/Login?username=${userName}&password=${passWord}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    },
+    put : {
+      logout : () => {
+        return fetch(`${URL}/User/Logout`, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      },
+      changePassword : (oldPassword,newPassword) => {
+        return fetch(`${URL}/User/Password?oldPassword=${oldPassword}&newPassword=${newPassword}`, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      },
+    } 
   }
 };

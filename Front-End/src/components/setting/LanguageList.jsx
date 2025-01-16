@@ -1,16 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ARABIC, ENGLISH } from "../../Redux/actions/type"
+import useGetAllSetting from "../../hooks/settings/useGetAllSetting"
+import DataServices from "../../Data/dynamic/DataServices"
 
 export default function LanguageList() {
 
+    
     const {currentLange} = useSelector( state => state.language)
     const langList = ['ENGLISH' , 'ARABIC']
     const [open,setOpent] = useState(false)
     const changeLang = useDispatch() 
 
     function handleLanguageClicked(lang) {
-        
+
+        DataServices.ChangeTheLanguage({"language" :lang ==  ENGLISH ? 'en' : 'ar' })
         changeLang({
             payload: lang , 
             type: lang 

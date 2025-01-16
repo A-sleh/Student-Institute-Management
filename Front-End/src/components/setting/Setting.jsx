@@ -12,7 +12,6 @@ export default function Setting() {
             <FullScreen />
             <AdminLogin />
             <ChangePassword />
-
         </>
     )
 }

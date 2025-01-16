@@ -5,9 +5,10 @@
 */
 
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../../assets/logo.png";
-import { ADMINLOGUNGOUT, ARABIC , ENGLISH } from "../../Redux/actions/type";
+
+import { ADMINLOGUNGOUT, ARABIC  } from "../../Redux/actions/type";
 import "./navBar.css";
+import DataServices from "../../Data/dynamic/DataServices";
 
 export default function NavBar(props) {
 
@@ -16,6 +17,7 @@ export default function NavBar(props) {
   const changeLangueg = useDispatch()
 
   const handleLogoutClicked = () => {
+    DataServices.LoggoutFromAdmin()
     changeLangueg({
       payload: false , 
       type: ADMINLOGUNGOUT

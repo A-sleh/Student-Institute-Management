@@ -241,7 +241,21 @@ export default {
   ShowLastBill : () => {
     return API.Bill.get.showBill('DESC')
   },
-
+  ShowCurrentSettings : () => {
+    return API.Setting.get() 
+  },
+  ChangeTheLanguage: (data) => {
+    return API.Setting.put(data) 
+  },
+  LogginAsAdmin : (userName,passWord) => {
+    return API.Authentication.post(userName,passWord) 
+  },
+  LoggoutFromAdmin : () => {
+    return API.Authentication.put.logout() 
+  },
+  ChangeAdminPassword : (oldPassword,newPassword) => {
+    return API.Authentication.put.changePassword(oldPassword,newPassword) 
+  }
 
 };
 
