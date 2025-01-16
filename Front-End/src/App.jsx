@@ -6,7 +6,7 @@ import { QueryClient ,QueryClientProvider } from "react-query";
 import SidBar from "./components/SideBar/SidBar";
 import NavBar from "./components/NavBar/NavBar";
 import { useDispatch, useSelector } from "react-redux";
-import { ADMINLOGUNG, ARABIC, ENGLISH } from "./Redux/actions/type";
+import { ADMINLOGUNG, ARABIC, ENGLISH, FULLSCREEN, UNFULLSCREEN } from "./Redux/actions/type";
 import "./index.css";
 import useGetAllSetting from "./hooks/settings/useGetAllSetting";
 
@@ -17,19 +17,27 @@ export default function App() {
   const queryClient = new QueryClient()
 
   // initial language state
-  const {language,status : isLogin ,username } = useGetAllSetting() 
+  const {language,status : isLogin ,username ,fullscreen} = useGetAllSetting() 
   const changeLang = useDispatch() 
   useEffect(() => {
       
       // To avoid the first state with un valid data
       if(language) { 
           changeLang({
-              payload: language == 'en' ? ENGLISH : ARABIC  , 
-              type: language == 'en' ? ENGLISH : ARABIC
+              payload: language  , 
+              type: language 
           })
       }
+
       if(isLogin == 'logged in') {
         changeLang({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: username }})
+      }
+
+      if(fullscreen == 'no') {
+        changeLang({type: UNFULLSCREEN ,  payload: {isFull: false }})
+      } 
+      else  {
+        changeLang({type: FULLSCREEN ,  payload: { isFull: true }})
       }
   },[language])
   

@@ -6,6 +6,7 @@ import { errorActionLogic, successActionLogic } from "../shared/logic/logic";
 import Notification from "../Global/Notification";
 import DataServices from "../../Data/dynamic/DataServices";
 import { ChangePasswordTEXT } from "../../Data/static/setting/setting";
+import useGetAllSetting from "../../hooks/settings/useGetAllSetting";
 
 export default function ChangePassword() {
 
@@ -13,6 +14,7 @@ export default function ChangePassword() {
     const {chagePasswordTitle,oldPasswordTitle ,newPasswordTitle ,
            changeBtn ,errorInChangePasswordMES ,successChangePasswordMES} = ChangePasswordTEXT[currentLange] ;
 
+    const {username} = useGetAllSetting()
     const formFirstState = { newPassword : '' , oldPassword: '' }
     const [form,setForm] = useState(formFirstState)
     const [unMatchPassword,setUnMatchPassword] = useState(false)
@@ -35,7 +37,7 @@ export default function ChangePassword() {
         if(validInputs()) {
             const { newPassword , oldPassword } = form 
 
-            DataServices.ChangeAdminPassword(oldPassword,newPassword ).then (res => {
+            DataServices.ChangeAdminPassword([{password:oldPassword,username},{password:newPassword,username}] ).then (res => {
                 if( res.status < 300 ) {
                     successActionLogic(setSuccessChangePassword)
                     setForm(formFirstState)
@@ -61,7 +63,7 @@ export default function ChangePassword() {
                     <div>
                     <label style={{color: formValid.new ? 'red' : '#056699'}}>{newPasswordTitle }</label>
                         <input type="password" value={form.newPassword} onChange={(e) => setForm({...form,newPassword : e.target.value})}  style={{backgroundColor: formValid.new ? '#ff03033e' : '#ddd'}}/>
-                    </div>f
+                    </div>
                 </section>
                 <input type="submit"  value={changeBtn } />
             </AdminLoginStyle>

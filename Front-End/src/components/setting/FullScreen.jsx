@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { ARABIC, FULLSCREEN, UNFULLSCREEN } from "../../Redux/actions/type"
-import { useState } from "react"
+import DataServices from "../../Data/dynamic/DataServices"
+import { openAsFullScreen, openAsNormalScreen } from "../shared/logic/logic"
+
 
 export default function FullScreen() {
 
@@ -8,37 +10,17 @@ export default function FullScreen() {
     const {isFull} = useSelector( state => state.fullScreen)
     const changeFullScreenState = useDispatch()
 
-    function open(elem) {
-        if (document.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
-    }
-
-    function close() {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { /* Safari */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE11 */
-            document.msExitFullscreen();
-        }
-    }
-
     function handlFullScreenClicked() {
+
+        DataServices.ChangeTheScreenStatus({fullScreen: !isFull ? 'no' : 'yes' })
 
         changeFullScreenState({
               payload: isFull ? false : true , 
-              type: isFull? UNFULLSCREEN  : FULLSCREEN
+              type: isFull ? UNFULLSCREEN  : FULLSCREEN
         })
         
-        const elem = document.getElementsByTagName('body')[0]
-
-        if( isFull ) open(elem)
-        else close()
+        if( isFull ) openAsFullScreen()
+        else openAsNormalScreen()
     }
 
     return(

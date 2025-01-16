@@ -13,6 +13,29 @@ export const errorActionLogic = (setAction) => {
     } , 3000 )
 }
 
+export const openAsFullScreen = () => {
+
+    const elem = document.getElementsByTagName('body')[0]
+
+    if (document.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
+export const openAsNormalScreen = () => {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+    }
+}
+
 export function separateTesetsAccordingToType(tests,quizAvg,examAvg) {
 
     const res = Object.groupBy(tests,({testType}) => {

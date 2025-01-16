@@ -55,7 +55,7 @@ export default function AdminLogin() {
                 if( res.status < 300 ) {
                     setForm(formFirstState)
                     successActionLogic(setSuccessLoggin)
-                    adminState({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: form.adminName }})
+                    adminState({  type: ADMINLOGUNG ,  payload: { isAdmin: true , adminName: form.username }})
                 }else { 
                     errorActionLogic(setErrorLoggin)
                 }

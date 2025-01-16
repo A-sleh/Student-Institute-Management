@@ -37,3 +37,20 @@ export const ChangePasswordTEXT = {
         successChangePasswordMES: 'The password was changed' 
     }
 } 
+
+export const ChangeAdminNameTEXT= {
+    arabic : {
+        newAdminName: ' تغيير اسم المدير : ' ,
+        adminName: 'أسم المدير الجديد' ,
+        successChangeAdminNameMES: 'تم تغيير اسم المدير بنجاح' ,
+        errorChangeAdminNameMES: 'يجب إدخال اسم المدير الجديد',
+        chageBtn: 'تغيير'
+    },
+    english : {
+        newAdminName: 'Change admin name :' ,
+        adminName: 'New admin name' ,
+        successChangeAdminNameMES: 'Change admin name' ,
+        errorChangeAdminNameMES: 'You must write the new admin name',
+        chageBtn: 'Change'
+    }
+} 

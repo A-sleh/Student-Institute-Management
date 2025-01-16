@@ -255,6 +255,12 @@ export default {
   },
   ChangeAdminPassword : (data) => {
     return API.Authentication.put.changePassword(data) 
+  },
+  ChangeAdminName: (data) => {
+    return API.Setting.put(data) 
+  },
+  ChangeTheScreenStatus: (data) => {
+    return API.Setting.put(data) 
   }
 
 };
