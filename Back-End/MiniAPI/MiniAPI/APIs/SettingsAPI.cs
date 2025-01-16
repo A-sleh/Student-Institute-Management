@@ -77,6 +77,10 @@ namespace MiniAPI.APIs
                 await data.EditConfig(configs);
                 return Results.Ok();
             }
+            catch (SqlException sqlEx)
+            {
+                return Results.BadRequest(sqlEx);
+            }
             catch (Exception e)
             {
                 return Results.Problem(e.Message);

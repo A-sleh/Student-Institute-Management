@@ -14,11 +14,12 @@ namespace DataAcess.Data
     {
         private readonly ISqlDataAccess _db;
         private bool _loggedIn;
-        private int currentRandomNumber = -1;
+        private int _currentRandomNumber;
         public SettingsData(ISqlDataAccess db) 
         { 
             _db = db;
             _loggedIn = false;
+            _currentRandomNumber = -1;
         }
 
         public async Task ChangePassword(string oldPass, string newPass)
@@ -49,64 +50,47 @@ namespace DataAcess.Data
 
         public async Task EditConfig(Dictionary<string, string> configs)
         {
-            
-
             foreach (var (attribute, value) in configs)
             {
-
                 await _db.ExecuteData("UpdateSettings", new { attribute, value });
-
-
-
-                //var encryptedAttribute = Encrypt(config.Item1);
-                //var encryptedValue = Encrypt(config.Item2);
-
             }
         }
 
-        private char EncryptionSeperator()
+        private char HexaEncryptionSeperator()
         {
-            
-            char[] Numbers = ['A', 'B', 'C', 'D','E','F'];
-            return Numbers[(++currentRandomNumber) % Numbers.Length];
-            
+            char[] HexaChars = ['A', 'B', 'C', 'D','E','F'];
+            return HexaChars[(++_currentRandomNumber) % HexaChars.Length];
         }
             
 
         public string Encrypt(string value)
         {
-            int encUnit = 13;
+            int encUnit = 13; // any prime number
             string encryptedValue = string.Empty;
-            currentRandomNumber = -1;
+
+            //reset to preserve the encryption pattern or encrypted values will not match
+            _currentRandomNumber = -1;
 
             foreach(char c in value)
             {
-                encryptedValue += $"{(int)c * encUnit}{EncryptionSeperator()}";
+                encryptedValue += $"{(int)c * encUnit}{HexaEncryptionSeperator()}";
             }
+
             return encryptedValue;
         }
 
         public async Task<IEnumerable<KeyValuePair<string,string>>> LoadConfigs()
         {
-            var data = await _db.LoadData<(string attribute, string value), dynamic>("LoadSettings", new { });
-            var dic = new Dictionary<string, string>();
-            foreach (var (attribute, value) in data)
-            {
-                //var decryptedAttribute = Decrypt(attribute);
-                //var decryptedValue = Decrypt(value);
-                dic.Add(attribute, value);
-            }
-            if (dic["status"] == "logged in")
+            var data = (await _db.LoadData<(string attribute, string value), dynamic>("LoadSettings", new { })).ToDictionary();
+
+            if (data["status"] == "logged in")
                 _loggedIn = true;
-            //await Console.Out.WriteLineAsync(Encrypt("admin"));
-            //await Console.Out.WriteLineAsync(Encrypt("admin"));
-            return dic.AsEnumerable();
+
+            return data;
         }
 
         public async Task Login(string username, string password)
         {
-            //username = Encrypt(username);
-            //password = Encrypt(password);
             if (_loggedIn)
                 throw new LoginException("Already logged in");
             password = Encrypt(password);
