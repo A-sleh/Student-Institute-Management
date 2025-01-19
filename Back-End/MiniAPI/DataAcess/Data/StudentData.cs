@@ -33,12 +33,12 @@ public class StudentData : IStudentData
             },
             splitOn: "ClassId"
             );
-        return res
-            .Where(x => (classId == null || x.Class?.ClassId == classId) && (gradeId == null || x.Class?.GradeId == gradeId))
+        return res.Where(x => (classId == null || x.Class?.ClassId == classId) && (gradeId == null || x.Class?.GradeId == gradeId))
             .Select(x =>
-        {
-            return x.PureFormat();
-        });
+            {
+                var absence = GetStudentAbsence(x.StudentId, false).Result;
+                return x.PureFormat(absence.Absences);
+            });
     }
     public async Task<StudentModel?> GetStudentByID(int id)
     {
@@ -79,7 +79,6 @@ public class StudentData : IStudentData
             student.Birthdate,
             student.Phone,
             student.Class?.ClassId,
-            student.MissedDays,
             student.BillRequired
         });
     public Task UpdateStudent(StudentModel student) =>
@@ -92,7 +91,6 @@ public class StudentData : IStudentData
             student.Birthdate,
             student.Phone,
             student.Class?.ClassId,
-            student.MissedDays,
             student.BillRequired
         });
     public Task DeleteStudent(int id) =>

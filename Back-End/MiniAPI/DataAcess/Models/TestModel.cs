@@ -14,6 +14,11 @@ public class TestModel
     public SubjectModel? Subject { get; set; }
     public string? TestType { get; set; }
     public string? Title { get; set; }
-    public string? Date {  get; set; }
-    public string? CorrectionDate { get; set; }
+    public DateTime? Date {  get; set; }
+    public DateTime? CorrectionDate { get; set; }
+
+    public dynamic AsSqlRow()
+    {
+        return new { TestId, Report?.ReportId, Subject?.SubjectId, TestType, Title, Date, CorrectionDate };
+    }
 }

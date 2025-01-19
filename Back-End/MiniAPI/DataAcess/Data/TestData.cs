@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DataAcess.Data
 {
@@ -126,9 +127,19 @@ namespace DataAcess.Data
         #endregion
 
         #region Actions
-        public async Task UpdateMark(int TestMarkId, int Mark)
+        public async Task UpdateMark(Dictionary<int, int> testMarks, int testId, DateTime correctionDate)
         {
-            await _db.ExecuteData("dbo.TestUpdateMark", new { TestMarkId, Mark });
+            //using var transaction = new TransactionScope();
+                
+            TestModel? test = (await GetTests(testId)).FirstOrDefault() ?? throw new Exception();
+            test.CorrectionDate = correctionDate;
+
+            foreach (var (testMarkId, Mark) in testMarks)
+            {
+                await _db.ExecuteData("dbo.TestUpdateMark", new { testMarkId, Mark });
+            }
+
+            await _db.ExecuteData("TestUpdate", test.AsSqlRow());
         }
         public async Task UpdateTest(TestModel test)
             => await _db.ExecuteData("dbo.TestUpdate", new
