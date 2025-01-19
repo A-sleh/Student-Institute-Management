@@ -83,11 +83,10 @@ namespace MiniAPI.APIs
                     teachers = res
                     .Skip(listSize * (page - 1))
                     .Take(listSize),
-                    totalStudents = res.Count(),
-                    totalPages = res.Count() / listSize + (res.Count() % listSize != 0 ? 1 : 0),
+                    totalTeachers = res.Count(),
+                    totalPages = Math.Ceiling((double)res.Count() / listSize),
                     currPage = page
-                }
-                    );
+                });
             }
             catch (Exception e)
             {
