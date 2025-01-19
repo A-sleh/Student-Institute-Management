@@ -210,19 +210,8 @@ namespace DataAcess.Data
         public async Task AddBill(BillModel bill)
         {
             if (bill == null)
-                throw new Exception("Bill Can not be null");
-            bill.Student ??= new StudentModel();
-            bill.Teacher ??= new TeacherModel();
-            await _db.ExecuteData("dbo.BillAdd", new
-            {
-                bill.BillNo,
-                bill.Type,
-                bill.Date,
-                bill.Amount,
-                bill.Student.StudentId,
-                bill.Teacher.TeacherId,
-                bill.Note
-            });
+                throw new ArgumentNullException("Bill Can not be null");
+            await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
         }
 
         public async Task DeleteBill(int BillId)

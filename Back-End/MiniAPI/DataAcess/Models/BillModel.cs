@@ -11,11 +11,11 @@ namespace DataAcess.Models
     {
 
         [Serializable]
-        public class InvalidConvertException : Exception
+        public class InvalidBillConvertException : Exception
         {
-            public InvalidConvertException() { }
-            public InvalidConvertException(string message) : base(message) { }
-            public InvalidConvertException(string message, Exception inner) : base(message, inner) { }
+            public InvalidBillConvertException() { }
+            public InvalidBillConvertException(string message) : base(message) { }
+            public InvalidBillConvertException(string message, Exception inner) : base(message, inner) { }
         }
         public int BillId { get; set; }
         public string? BillNo { get; set; }
@@ -26,10 +26,14 @@ namespace DataAcess.Models
         public string? Note { get; set; }
         public string? Type { get; set; }
 
+        public dynamic AsSqlRow()
+        {
+            return new { BillNo, Student?.StudentId, Teacher?.TeacherId, Amount, Date, Note, Type };
+        }
         public dynamic AsTeacherBill()
         {
             if(Teacher == null)
-                throw new InvalidConvertException($"Cannot convert to {nameof(Teacher)} bill");
+                throw new InvalidBillConvertException($"Cannot convert to {nameof(Teacher)} bill");
 
             return new
             {
@@ -50,7 +54,7 @@ namespace DataAcess.Models
         public dynamic AsStudentBill()
         {
             if (Student == null)
-                throw new InvalidConvertException($"Cannot convert to {nameof(Student)} bill");
+                throw new InvalidBillConvertException($"Cannot convert to {nameof(Student)} bill");
             return new
             {
                 billId = BillId,
@@ -70,7 +74,7 @@ namespace DataAcess.Models
         public dynamic AsExternalBill()
         {
             if (Student != null || Teacher != null)
-                throw new InvalidConvertException("Cannot convert to external");
+                throw new InvalidBillConvertException("Cannot convert to external");
             return new
             {
                 billId = BillId,
