@@ -16,7 +16,7 @@ export default function IncomeOutComeBalanceInRangedMonth() {
 
     useEffect(() => {
         DataServices.ShowFirstBill().then( Bill => {
-            setDate({ startDate: Bill[0]?.date , endDate : format(new Date(),'yyyy-MM-dd') })
+            setDate({ startDate: Bill[0]?.date || '1990-1-1' , endDate : format(new Date(),'yyyy-MM-dd') })
         })
     } ,[])
 

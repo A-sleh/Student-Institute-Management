@@ -2,8 +2,8 @@ const URL = "https://localhost:7279";
 
 export default {
   Student: {
-    get: (id,gradId='1',limit=1000000,page=1) => {
-      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}&gradeId=${gradId}`).then((response) =>
+    get: (id,gradId,limit=1000000,page=1) => {
+      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}${gradId}`).then((response) =>
         response.json()
       );
     },

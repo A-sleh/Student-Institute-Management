@@ -16,8 +16,8 @@ export default function SearchBodyList(props) {
             {
                 data.map( (element,index) => {
 
-                    if( element.fullName?.toLowerCase().includes(searchValue?.toLowerCase()) ) {                    
-                        return <span className='student-name-option' onClick={()=>{handleElementClicked(element)}} key={index}>{element.fullName}</span> 
+                    if( element.full_name?.toLowerCase().includes(searchValue?.toLowerCase()) ) {                    
+                        return <span className='student-name-option' onClick={()=>{handleElementClicked(element)}} key={index}>{element.full_name}</span> 
                     }
                 })
             }

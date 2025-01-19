@@ -14,6 +14,7 @@ import ErrorMessage from '../../shared/ErrorMessage';
 import SearchBodyList from '../../shared/SearchBodyList';
 import { NewBillTEXT } from '../../../Data/static/Bills/StudentsPaysCom/NewBillTEXT';
 import { useSelector } from 'react-redux';
+import useStudentsInfo from '../../../hooks/useStudentsInfo';
 
 const initialFormInput = {
     teacher: null, student : { studentId: '' , name: '', lastName: '' , }, amount: '' , date: '' , note: '', fullName : '', type: 'in', billNo: ''
@@ -28,7 +29,8 @@ export default function NewBill() {
     const [successAddBill,setSuccessAddBill] = useState(false)
     const [errorAddBill,setErrorAddBill] = useState(false)
     const [formInput,setFormInput] = useState(initialFormInput)
-    const [allStudnets,setAllStudnets] = useState([])
+    const [allStudnets] = useStudentsInfo()
+    console.log(allStudnets)
     const [validationBillInput,setValidationBillInput] = useState({
         studentId: '' ,
         date: '' ,
@@ -37,19 +39,6 @@ export default function NewBill() {
     })
 
     // search input field functionality 
-    useEffect(() => {
-        DataServices.StudentsInformaion().then( studentsDetails => {
-            const studentMaping = studentsDetails.map( student => {
-                return {
-                    id : student.studentId ,
-                    name: student.name ,
-                    lastName: student.lastName,
-                    fullName : student.name + ' ' + student.lastName
-                }
-            })
-            setAllStudnets(studentMaping)
-        })
-    },[])
     const [focused, setFocused] = useState(false)
     const onFocus = () => setFocused(true)
     const onBlur = () => { setTimeout(() => { setFocused(false) },200) }
@@ -59,7 +48,7 @@ export default function NewBill() {
             studentId: student.id ,
             name: student.name,
             lastName: student.lastName ,
-        }, fullName : student.fullName })
+        }, fullName : student.full_name })
         setFocused(false)
     }
         
@@ -107,7 +96,7 @@ export default function NewBill() {
                             <LabelStyle color={'#056699'} >{studentName}</LabelStyle>
                             <InputStyle type="text"  onFocus={onFocus}  onBlur={onBlur}  className={validationBillInput.studentId ? 'error' :'' } value={formInput.fullName} onChange={(e)=>{setFormInput({...formInput,fullName: e.target.value})}}/>
                             <ErrorMessage showMessage={validationBillInput.studentId} message={nameVale}/>
-                            <SearchBodyList searchValue={formInput.fullName} handleElementClicked={handleSelectedStudnet} data={allStudnets} focused={focused}/>
+                            <SearchBodyList searchValue={formInput.fullName} handleElementClicked={handleSelectedStudnet} data={allStudnets?.students || []} focused={focused}/>
                         </FormSubRowStyle>
                     </FormRowStyle>
                     

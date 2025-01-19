@@ -11,7 +11,7 @@ export default function useTeachersInfo(limit,page,...reFetch) {
     async function getTeachersSubjectsClassesNumber(teachers) {
         return new Promise((resolve) => {
             let teacher_details = []
-            console.log(teachers.teachers)
+            
             teachers.teachers.map( async (teacher ) => {
                 const { teacherId } = teacher
                 const subjectaNumber = await DataServices.ShowAllTeacherSubjects(teacherId)

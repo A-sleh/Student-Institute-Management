@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 export const SideBarContainerStyle = styled.div`
     min-height: 100vh;
-    position: relative;
     background: #056699;
     padding-left: 5px;
     overflow: auto;
@@ -16,6 +15,16 @@ export const SideBarContainerStyle = styled.div`
         color: white ;
         float: ${({lang}) => lang == 'arabic' ? 'left': 'right'};
         margin:  10px;
+    }
+    @media (max-width: 767px ) {
+        > i {
+            display: none;
+        }
+
+        & {
+            overflow: visible;
+            overflow-x: visible;
+        }
     }
 `
 
@@ -211,31 +220,32 @@ export const SideBarStyle = styled.aside`
     width: ${ ({opensidebare}) => opensidebare == 'true' ? "250px" : "54px"};
     transition: 0.5s ;
     z-index: 90000;
+    
 
     & .fa-xmark {
-        display: none ;
+        width: 30px ;
+        height: 30px; 
+        font-size: 18px;
+        padding-top: 5px;
+        padding-right: 5px;
+        position: absolute;
+        z-index: 1000;
+        top: 1.5em;
+        left: -40px;
+        border-radius: 8px 0 0 8px;
+        cursor: pointer;
+        background-color: #056699;
+        display: none;
     }
 
     @media (max-width : 767px ) {
         position: absolute;
         width: 250px; 
         height: 100vh !important;
-        transform: ${ ({opensidebare}) => !opensidebare == 'true' ?' translateX(0)': 'translateX(-100%)' };
+        transform: ${ ({opensidebare}) => opensidebare == 'true' ?' translateX(0)': 'translateX(100%)' };
 
         & .fa-xmark {
-            display: ${ ({opensidebare}) => opensidebare == 'true' ? "none" : "flex"};
-        }
-
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 10000%;
-            height: 100%;
-            background-color: #0000008a;
-            transform: ${ ({openSideBare}) => !openSideBare ?' translateX(0)': 'translateX(-10000%)' };
-            transition: 0.5s ;
+            display: flex;
         }
     }
 
