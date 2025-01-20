@@ -30,7 +30,7 @@ export default function SimpleDonut({data}){
             innerRadiusRatio: 0.7,
             innerLabels: [
               {
-                text: numFormatter.format(data.balance),
+                text: numFormatter.format(data.balance) + data.unit,
                 fontSize: 24,
               },
               {

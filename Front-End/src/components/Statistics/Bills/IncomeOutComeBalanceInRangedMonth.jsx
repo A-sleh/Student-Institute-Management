@@ -3,6 +3,7 @@ import useGetMonthIncomOutcomBalance from "../../../hooks/bill_hooks/useGetMonth
 import { BackgroundLayoutStyle, InputStatisticsStyle,  } from "../services/style";
 import SimpleDonut from "../charts/SimpleDonut";
 import DataServices from "../../../Data/dynamic/DataServices";
+import { getShortNumberFormat } from "../../shared/logic/logic";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { ARABIC } from "../../../Redux/actions/type";
@@ -27,7 +28,8 @@ export default function IncomeOutComeBalanceInRangedMonth() {
             {type: currentLange == ARABIC ? 'الدخل' : 'Income' , count : inComeBalance },
             {type: currentLange == ARABIC ? 'الخرج' : 'Outcome' , count : outComeBalance }
         ],
-        balance: inComeBalance - outComeBalance ,
+        balance: `${parseFloat(getShortNumberFormat(inComeBalance - outComeBalance ).number)} `  ,
+        unit : getShortNumberFormat(inComeBalance - outComeBalance ).unit ,
         title: ''
     }
 

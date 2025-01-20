@@ -9,7 +9,7 @@ export default function BalanceEachMonth() {
 
     const {currentLange} = useSelector( state => state.language)
     const [totalBalance] = useGetBalanceInEachMonth()
- 
+    
     const data = {
         data : totalBalance.map( (monthDetails,index) => {
             let percent = 0 

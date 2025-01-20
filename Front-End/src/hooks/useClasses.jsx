@@ -13,7 +13,7 @@ export default function useClasses(selectedGrade,fromShowPage = false,...reFetch
             setClasses(
                 classes.filter( Class => {
                     return selectedGrade != '' && Class.grade?.toLowerCase() == selectedGrade?.toLowerCase() 
-                }).map( Class => ({...Class,fullName: Class.title,fromShowPage:fromShowPage}))
+                }).map( Class => ({...Class,fullName: Class.title,full_name: Class.title,fromShowPage:fromShowPage}))
             )
         })
     } ,[selectedGrade,...reFetch])

@@ -12,11 +12,17 @@ import NOTOKUIFIbold from './Noto_Kufi_Arabic/Zain-Bold.ttf'
 import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
 import { TextDirection } from '@react-pdf-viewer/core';
 import { format } from 'date-fns';
+import { useSelector } from 'react-redux';
+import { ClassReportStructurTEXT } from '../../../../Data/static/test/CreateReportTools/PrintReportTEXT';
+import { ARABIC } from '../../../../Redux/actions/type';
 
-export default function ClassPdfPage({data}) {
+export default function ClassPdfPage({data,currentLange}) {
+
+    const {gradeTEXT ,classTitleTEXT ,orderTEXT ,studentNameTEXT ,markTEXT ,markAvgTEXT ,
+        instituteNameTEXT ,reportTitleTEXT ,reportDateTEXT} = ClassReportStructurTEXT[currentLange]
 
     Font.register({
-        family: "Zain",
+        family: currentLange == ARABIC ? "Zain" : '',
         fonts : [{
             src: NOTOKUIFIregular,
           },
@@ -31,9 +37,9 @@ export default function ClassPdfPage({data}) {
     const styles = StyleSheet.create({
         page: {fontSize: 11,paddingLeft: 20,paddingRight: 20,lineHeight: 1.5,flexDirection: 'column' },
 
-        spaceBetween : {flex : 1,flexDirection: 'row' ,alignItems:'center',justifyContent:'space-between',color: "#3E3E3E"},
+        spaceBetween : {flex : 1,flexDirection:currentLange == ARABIC ? 'row' : 'row-reverse' ,alignItems:'center',justifyContent:'space-between',color: "#3E3E3E"},
 
-        titleContainer: {flexDirection: 'row',marginTop: 14 , alignSelf: 'center' , width: '100%'},
+        titleContainer: {flexDirection: 'row' ,marginTop: 14 , alignSelf: 'center' , width: '100%'},
         
         logo: { width: 90 , alignSelf: 'center' },
 
@@ -64,10 +70,10 @@ export default function ClassPdfPage({data}) {
         return <View style={styles.titleContainer}>
             <View style={styles.spaceBetween}>
                 <Image style={styles.logo} src={logo} />
-                <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: 'flex-end'}}>
-                    <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>معهد رويال</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>تقرير : {data.ReportTitle}</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>تاريخ التقرير : {format( new Date( data.StartDate) , 'yyyy / MM / dd')}  </Text>
+                <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: currentLange == ARABIC ? 'flex-end' : 'flex-start'}}>
+                    <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>{instituteNameTEXT}</Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>{reportTitleTEXT} : {data.ReportTitle}  </Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>{reportDateTEXT} : {format( new Date( data.StartDate) , 'yyyy / MM / dd')}   </Text>
                 </View>
             </View>
         </View>
@@ -78,11 +84,11 @@ export default function ClassPdfPage({data}) {
             <View style={styles.titleContainer}>
                 <View style={[styles.spaceBetween,{display: 'flex' ,  width: '100%' }]} >
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  رتبه : التاسع</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}> {gradeTEXT} : التاسع </Text>
                     </View>
                     
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  شعبه : {data.title}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}> {classTitleTEXT} : {data.title}  </Text>
                     </View>
                 </View>
             </View>
@@ -92,16 +98,16 @@ export default function ClassPdfPage({data}) {
     const TableHead = () => {
         return <View style={{ width:'100%', flexDirection :'row-reverse'}}>
             <View style={[styles.theader, styles.theader2]}>
-                <Text style={styles.arabicText}>الترتيب</Text>   
+                <Text style={styles.arabicText}>{orderTEXT}</Text>   
             </View>
             <View style={styles.theader}>
-                <Text style={styles.arabicText}>اسم الطالب</Text>   
+                <Text style={styles.arabicText}>{studentNameTEXT}</Text>   
             </View>
             <View style={styles.theader}>
-                <Text style={styles.arabicText}>المجموع</Text>   
+                <Text style={styles.arabicText}>{markTEXT}</Text>   
             </View>
             <View style={styles.theader}>
-                <Text style={styles.arabicText}>المعدل النهائي</Text>   
+                <Text style={styles.arabicText}>{markAvgTEXT}</Text>   
             </View>
         </View>
     };
@@ -129,7 +135,7 @@ export default function ClassPdfPage({data}) {
 
     return (
         <Document>
-            <Page size="A4" style={styles.page} theme={{direction: TextDirection.RightToLeft}}>
+            <Page size="A4" style={styles.page} theme={{direction: currentLange == ARABIC? TextDirection.RightToLeft : TextDirection.LeftToRight }}>
                 <ReportTitle  />
                 <ReportSubTitle/>
                 <TableHead/>

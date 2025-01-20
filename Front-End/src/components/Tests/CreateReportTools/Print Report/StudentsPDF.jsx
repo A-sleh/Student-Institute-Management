@@ -8,11 +8,16 @@ import React, { Fragment, useRef, useState } from 'react'
 import logo from '../../../../assets/logo.png'
 import NOTOKUIFIregular from './Noto_Kufi_Arabic/Zain-Regular.ttf'
 import NOTOKUIFIbold from './Noto_Kufi_Arabic/Zain-Bold.ttf'
+import { TextDirection } from '@react-pdf-viewer/core';
 import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/renderer';
 import { format } from 'date-fns';
+import { StudentReportStructurTEXT } from '../../../../Data/static/test/CreateReportTools/PrintReportTEXT';
+import { ARABIC } from '../../../../Redux/actions/type';
 
-export default function StudentsPDF({data}) {
+export default function StudentsPDF({data,currentLange}) {
 
+    const {studentNameTEXT ,instituteNameTEXT ,fatherNameTEXT ,classTitleTEXT ,reportTEXT ,reportDateTEXT ,
+        genderTEXT ,subjectTEXT ,markTEXT ,subjectAvarageTEXT ,finalSumTEXT ,finalAvarageTEXT ,studentOrderTEXT ,quizAvarageTEXT } = StudentReportStructurTEXT[currentLange]
     Font.register({
         family: "Zain",
         fonts : [{
@@ -29,7 +34,7 @@ export default function StudentsPDF({data}) {
     const styles = StyleSheet.create({
         page: {fontSize: 11,paddingLeft: 20,paddingRight: 20,lineHeight: 1.5,flexDirection: 'column' },
 
-        spaceBetween : {flex : 1,flexDirection: 'row' ,alignItems:'center',justifyContent:'space-between',color: "#3E3E3E"},
+        spaceBetween : {flex : 1,flexDirection: currentLange == ARABIC ? 'row' : 'row-reverse' ,alignItems:'center',justifyContent:'space-between',color: "#3E3E3E"},
 
         titleContainer: {flexDirection: 'row',marginTop: 24 , alignSelf: 'center' , width: '100%' , alignItems: 'center'},
         
@@ -61,13 +66,13 @@ export default function StudentsPDF({data}) {
     })
 
     const ReportTitle = ({student}) => {
-        return <View style={styles.titleContainer}>
+        return <View style={styles.titleContainer} >
             <View style={styles.spaceBetween}>
                 <Image style={styles.logo} src={logo} />
-                <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: 'flex-end'}}>
-                    <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>معهد رويال</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>الطالب : {student.name} {student.lastName}</Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}> الاب :{student.fatherName}</Text>
+                <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: currentLange == ARABIC ?  'flex-end' : 'flex-start'}}>
+                    <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>{instituteNameTEXT}</Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>{studentNameTEXT} : {student.name} {student.lastName}</Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}> {fatherNameTEXT} : {student.fatherName}</Text>
                 </View>
             </View>
         </View>
@@ -77,19 +82,19 @@ export default function StudentsPDF({data}) {
         return <View style={styles.titleContainer}>
                 <View style={[styles.spaceBetween,{display: 'flex' ,  width: '100%' }]} >
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  الصف : {data.gender}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  {genderTEXT} : {data.gender}</Text>
                     </View>
                     
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  الشعبه : {data.title}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  {classTitleTEXT} : {data.title}</Text>
                     </View>
                     
                     <View>
-                        <Text style={[styles.invoiceNumber,styles.arabicText]}>تاريخ التقرير : {format( new Date(data.StartDate) , 'yyyy / MM / dd')}  </Text>
+                        <Text style={[styles.invoiceNumber,styles.arabicText]}>{reportDateTEXT}: {format( new Date(data.StartDate) , 'yyyy / MM / dd')}  </Text>
                     </View>
 
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  تقرير : {data.ReportTitle}</Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}>  {reportTEXT} : {data.ReportTitle}</Text>
                     </View>
                     
                 </View>
@@ -100,13 +105,13 @@ export default function StudentsPDF({data}) {
     const TableHead = () => {
         return <View style={{ width:'100%', flexDirection :'row-reverse'}}>
             <View style={[styles.theader, styles.theader2]}>
-                <Text style={styles.arabicText}>الماده</Text>   
+                <Text style={styles.arabicText}>{subjectTEXT}</Text>   
             </View>
             <View style={styles.theader}>
-                <Text style={styles.arabicText}>العلامه</Text>   
+                <Text style={styles.arabicText}>{markTEXT}</Text>   
             </View>
             <View style={styles.theader}>
-                <Text style={styles.arabicText}>المعدل الماده</Text>   
+                <Text style={styles.arabicText}>{subjectAvarageTEXT}</Text>   
             </View>
         </View>
     };
@@ -132,10 +137,10 @@ export default function StudentsPDF({data}) {
     const ToalResultFooter = ({student}) => {
         return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 , marginBottom : 10 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >المعدل : {student.examAverage}</Text>
+                    <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >{finalSumTEXT} : {student.examAverage}</Text>
                 </View>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{textAlign: 'left' , fontSize: 12}]}>المجموع النهائي : {student.mark} / {student.totalMark} </Text>
+                    <Text style={[styles.arabicText,{textAlign: 'left' , fontSize: 12}]}>{finalAvarageTEXT} : {student.mark} / {student.totalMark} </Text>
                 </View>
         </View>
     }
@@ -143,10 +148,10 @@ export default function StudentsPDF({data}) {
     const ToalResultHeader = ({student,order}) => {
         return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={[styles.arabicText,{textAlign: 'right'}]}>
-                    <Text style={styles.arabicText}>معدل المذاكرات اليوميه : {student.quizAverage} </Text>
+                    <Text style={styles.arabicText}>{quizAvarageTEXT} : {student.quizAverage} </Text>
                 </View>
                 <View style={styles.toalResult}>
-                    <Text style={styles.arabicText}>ترتيب الطالب : {order} </Text>
+                    <Text style={styles.arabicText}>{studentOrderTEXT} : {order} </Text>
                 </View >
             </View>
     }
@@ -169,7 +174,7 @@ export default function StudentsPDF({data}) {
             <Document >
                 {
                     data.students.map( (student ,index) => {
-                        return <Page size="A4" key={index} style={styles.page}>
+                        return <Page size="A4" key={index} style={styles.page} theme={{direction: currentLange == ARABIC? TextDirection.RightToLeft : TextDirection.LeftToRight }}>
                                     <ReportTitle  student={student}/>
                                     <ReportSubTitle/>
                                     <ToalResultHeader student={student} order={`${index + 1} / ${data.students.length}`}/>

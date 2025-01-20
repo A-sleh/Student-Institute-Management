@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { format } from "date-fns"
-import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
+import { ButtonsContainerStyle, GoBackBtnStyle, InputStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn"
 import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
@@ -33,6 +33,7 @@ export default function StudentMarkForm() {
     const [successAssigne,setSuccessAssigne] = useState(false)
     // data states
     const inputRef = useRef(null)
+    const [testDate,setTestDate] = useState(format(new Date() , 'yyyy-MM-dd'))
     const [inputId,setInputId] = useState(-1)
     const [_,setReRender] = useState(0)
     const [studentTest,marks,setMarks] = useTestMarkStudents(classId,testId,subject.maximumMark)
@@ -116,6 +117,7 @@ export default function StudentMarkForm() {
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >{studentsTitle}</span>
                     <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
                 </NavigateSubHeaderStyle>
+                <InputStyle type={'date'} style={{width: '100%'}} value={testDate} onChange={(e) => setTestDate(e.target.value)}/>
             </Table>
 
             <ButtonsContainerStyle>

@@ -52,7 +52,7 @@ export const QuizExamContainerStyle = styled.div`
 
 export const NavigateSubHeaderStyle = styled.div`
     background-color: rgb(6, 101, 153);
-    padding: 15px 10px 0px;
+    padding: 15px 10px 5px;
     text-align: left;
     line-height: 1.7em; // arabic
     color: white;

@@ -34,7 +34,7 @@ export default function GradeCounter() {
             <SelectorStyle value={filterType} onChange={(e) => setFilterType(e.target.value)}>
                 <option value={'TeachersNO'}>{currentLange == ARABIC ? 'إحصائيات الأساتذه' : 'Teachers'}</option>
                 <option value={'StudentsNO'}>{currentLange == ARABIC ? 'إحصائيات الطلاب' : 'Student'}</option>
-                <option value={'StudentsNO'}>{currentLange == ARABIC ? 'إحصائيات الشعب' : 'Classes'}</option>
+                <option value={'ClassesNO'}>{currentLange == ARABIC ? 'إحصائيات الشعب' : 'Classes'}</option>
                 
             </SelectorStyle>
             <PieChart  data={filteringGradeCount}/>

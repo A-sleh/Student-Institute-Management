@@ -17,12 +17,13 @@ import { GoBackBtnStyle, InputStyle } from "../../../shared/style/styleTag"
 import Table from "../../../shared/Table"
 import useGetClassReportsAvg from "../../../../hooks/useGetClassReportsAvg"
 import { REPORTCOLUMNS_2 } from "../columnsTools/reportCOUMN_2"
-import { PrintReportTEXT } from "../../../../Data/static/test/CreateReportTools/PrintReportTEXT"
+import { PopupModalTEXT, PrintReportTEXT } from "../../../../Data/static/test/CreateReportTools/PrintReportTEXT"
 import { useSelector } from "react-redux"
 
 export default function ClassReportPrint() {
     
     const {currentLange} = useSelector( state => state.language)
+    const {downloadPdfBtn} = PopupModalTEXT[currentLange]
     const {reportsTitle ,backBtn,createClassReportBtn ,createStudentsReportBtn} = PrintReportTEXT[currentLange]
 
     const classDetailsEncode = useLocation().state
@@ -91,14 +92,14 @@ export default function ClassReportPrint() {
                 generateClassPDF && 
                 <Suspense fallback={<Loader />} >
                     <GeneratePDF data={selectedDataToPrint} pdfTitle={pdfTitle} printingType={'class'} setDeleteModal={setGenerateClassPDF} >
-                        <PDFDownloadLink onClick={()=>handlePrintClicked('class')} document={<ClassPdfPage data={selectedDataToPrint} />} fileName={pdfTitle +".pdf"} style={{marginRight: '5px',textDecoration: 'none', padding: '1px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Download PDF</PDFDownloadLink>
+                        <PDFDownloadLink onClick={()=>handlePrintClicked('class')} document={<ClassPdfPage data={selectedDataToPrint}  currentLange={currentLange}/>} fileName={pdfTitle +".pdf"} style={{marginRight: '5px',textDecoration: 'none', padding: '1px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>{downloadPdfBtn}</PDFDownloadLink>
                     </GeneratePDF> 
                 </Suspense>
                 || 
                 generateStudentsPDF && 
                 <Suspense fallback={<Loader />}>
                     <GeneratePDF data={selectedDataToPrint} pdfTitle={pdfTitle} printingType={'students'} setDeleteModal={setGenerateStudentsPDF} >
-                        <PDFDownloadLink onClick={()=>handlePrintClicked('students')} document={<StudentsPDF data={selectedDataToPrint} />} fileName={pdfTitle +".pdf"} style={{marginRight: '5px',textDecoration: 'none', padding: '1px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>Download PDF</PDFDownloadLink>
+                        <PDFDownloadLink onClick={()=>handlePrintClicked('students')} document={<StudentsPDF data={selectedDataToPrint} currentLange={currentLange}/>} fileName={pdfTitle +".pdf"} style={{marginRight: '5px',textDecoration: 'none', padding: '1px 10px' , color: 'white' , cursor: 'pointer', backgroundColor: '#056699' , outline: 'none' , border: 'none' , borderRadius: '2px'}}>{downloadPdfBtn}</PDFDownloadLink>
                     </GeneratePDF>
                 </Suspense>
             }

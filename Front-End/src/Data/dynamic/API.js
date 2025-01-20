@@ -123,7 +123,7 @@ export default {
     },
   },
   Teacher: {
-    get: (id,limit=100,page=1) => {
+    get: (id,limit=1000000,page=1) => {
       return fetch(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`).then((response) =>
         response.json()
       );

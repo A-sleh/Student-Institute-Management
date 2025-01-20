@@ -169,16 +169,10 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
             <FormRowStyle>
 
-              <FormSubRowStyle>
+              <FormSubRowStyle width={'100%'}>
                 <LabelStyle color={'#056699'}>{phone}</LabelStyle>
                 <InputStyle type="text" value={studentDetails.phone} className={validation.phone ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'phone')} />
                 <ErrorMessage showMessage={validation.phone} message={phoneNumberVal}/>
-              </FormSubRowStyle>
-
-              <FormSubRowStyle>
-                <LabelStyle color={'#056699'}>{missedDay}</LabelStyle>
-                <InputStyle type="number" className={validation.missedDays ? "error" : ""} value={studentDetails.missedDays} onChange={(e) =>handleInputChange(e.target.value,'missedDays')} />
-                <ErrorMessage showMessage={validation.missedDays} message={"The Miss Days Must Be Positive"}/>
               </FormSubRowStyle>
 
             </FormRowStyle>
