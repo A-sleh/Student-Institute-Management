@@ -189,10 +189,10 @@ namespace DataAcess.Data
             }
             return res.Where(b => date == null || b.Date.ToString().Contains(date));
         }
-        public async Task<dynamic> GetRestOf(string type)
+        public async Task<int> GetRestOf(string type)
         {
-            var res = await _db.LoadData<int, dynamic>("dbo.BillGetRestOf", new { type });
-            return res.FirstOrDefault();
+            var res = (await _db.LoadData<int?, dynamic>("dbo.BillGetRestOf", new { type })).FirstOrDefault() ?? 0;
+            return res;
         }
         public async Task<int> GetTotalByParam(string? startDate, string? endDate, string param)
         {
@@ -210,19 +210,8 @@ namespace DataAcess.Data
         public async Task AddBill(BillModel bill)
         {
             if (bill == null)
-                throw new Exception("Bill Can not be null");
-            bill.Student ??= new StudentModel();
-            bill.Teacher ??= new TeacherModel();
-            await _db.ExecuteData("dbo.BillAdd", new
-            {
-                bill.BillNo,
-                bill.Type,
-                bill.Date,
-                bill.Amount,
-                bill.Student.StudentId,
-                bill.Teacher.TeacherId,
-                bill.Note
-            });
+                throw new ArgumentNullException("Bill Can not be null");
+            await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
         }
 
         public async Task DeleteBill(int BillId)

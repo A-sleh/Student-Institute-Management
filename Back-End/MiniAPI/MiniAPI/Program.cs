@@ -40,7 +40,16 @@ namespace MiniAPI
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
-
+            //app.Use((context, next) =>
+            //{
+            //    if (!context.Request.Headers.ContainsKey("login-status"))
+            //    {
+            //        context.Response.StatusCode = 401;
+            //        context.Response.WriteAsync("unauthorized");
+            //        return next();
+            //    }
+            //    return next(context);
+            //});
             app.ConfigureAPI();
 
             app.Run();

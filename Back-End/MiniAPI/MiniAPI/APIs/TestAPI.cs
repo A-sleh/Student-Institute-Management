@@ -1,5 +1,6 @@
 ﻿using DataAcess.Data;
 using DataAcess.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
 namespace MiniAPI.APIs
@@ -19,7 +20,7 @@ namespace MiniAPI.APIs
             app.MapPost("/Test/{testId}/Class/{classId}/", StartATest);
 
             app.MapPut("/Test", UpdateTest);
-            app.MapPut("/Test/Student/{testMarkId}", UpdateStudentMark);
+            app.MapPut("/Test/{testId}/Marks", UpdateStudentMark);
 
             app.MapDelete("/Test", DeleteTest);
         } 
@@ -153,11 +154,11 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> UpdateStudentMark(ITestData data, int testMarkId, int Mark)
+        private static async Task<IResult> UpdateStudentMark(ITestData data, int testId, [FromBody] Dictionary<int, int> testmarks,[FromQuery] DateTime correctionDate)
         {
             try
             {
-                await data.UpdateMark(testMarkId, Mark);
+                await data.UpdateMark(testmarks, testId, correctionDate);
                 return Results.Ok();
             }
             catch (Exception e)

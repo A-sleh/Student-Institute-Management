@@ -20,7 +20,7 @@ namespace DataAcess.Data
         Task<IEnumerable<BillModel>> GetTeacherBills(int teacherId);
         Task DeleteBill(int BillId);
         Task AddBill(BillModel bill);
-        Task<dynamic> GetRestOf(string type);
+        Task<int> GetRestOf(string type);
         Task<int> GetTotalByParam(string? startDate, string? endDate, string param);
     }
 }

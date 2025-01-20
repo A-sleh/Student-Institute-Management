@@ -19,9 +19,9 @@
 				) > 1
 			)
 			BEGIN
-				RAISERROR ('grade is not matched', 16, -1)
+				RAISERROR ('grade is not matched', 16, 1)
 				ROLLBACK TRANSACTION
-				RETURN
+				RETURN;
 			END
 		END
 	END

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[userLogin]
-	@username varchar(256),
+	@username NVARCHAR(256),
 	@password NVARCHAR(1024)
 AS
 	

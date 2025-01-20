@@ -2,6 +2,7 @@
 using DataAcess.Data;
 using DataAcess.Exceptions;
 using DataAcess.Models;
+using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 
 namespace MiniAPI.APIs
@@ -270,6 +271,14 @@ namespace MiniAPI.APIs
             {
                 await data.AddBill(model);
                 return Results.Ok("Insert Success");
+            }
+            catch (ArgumentNullException ArgEx)
+            {
+                return Results.BadRequest(ArgEx.Message);
+            }
+            catch (SqlException sqlEx)
+            {
+                return Results.BadRequest(sqlEx.Message);
             }
             catch (Exception e)
             {

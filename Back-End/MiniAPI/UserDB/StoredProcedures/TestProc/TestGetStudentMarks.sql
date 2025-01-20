@@ -3,7 +3,7 @@
 	@ReportId int null
 AS
 	SELECT tm.Id as TestMarkId, tm.Mark,
-	t.Id as TestId, t.TestType, t.Date, t.CorrectionDate,
+	t.Id as TestId, t.TestType, t.Date, t.CorrectionDate, t.Title,
 	s.Id as SubjectId, s.Subject, g.gradeId, g.grade, s.MaximumMark,
 	r.Id as ReportId, r.ReportTitle, r.StartDate, r.FinishDate
 	FROM TestMark tm

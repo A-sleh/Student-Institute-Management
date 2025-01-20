@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[UpdatePassword]
-	@oldPass varchar(1024),
-	@newPass varchar(1024)
+	@oldPass NVARCHAR(1024),
+	@newPass NVARCHAR(1024)
 AS
 	IF (SELECT value FROM settings WHERE attribute = 'password') = @oldPass
 	BEGIN
