@@ -270,7 +270,7 @@ namespace MiniAPI.APIs
             try
             {
                 await data.AddBill(model);
-                return Results.Ok("Insert Success");
+                return Results.Ok(model);
             }
             catch (ArgumentNullException ArgEx)
             {

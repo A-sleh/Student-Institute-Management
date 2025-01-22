@@ -6,7 +6,6 @@
 	@Birthdate date,
 	@Phone VARCHAR(15),
 	@ClassId int,
-	@MissedDays int,
 	@BillRequired int
 AS
 BEGIN
@@ -17,7 +16,6 @@ BEGIN
 		birthdate = @Birthdate,
 		phone = @Phone,
 		classId = @ClassId,
-		missedDays = @MissedDays,
 		billRequired = @BillRequired
 	WHERE id = @Id
 END
