@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Title from "../../Global/Title";
-import useClasses from "../../../hooks/useClasses";
+import useClasses from "../../../hooks/class_hooks/useClasses";
 import { CLASSCOLUMNS } from "../../Tests/CreateReportTools/columnsTools/CLASSCOLUMNS.JS";
 import Table from "../../shared/Table";
 import SubHeaderFilterClassByGrade from "../../shared/subHeaderTable/SubHeaderFilterClassByGrade";

@@ -9,8 +9,8 @@ import { HeightContainerAnimation } from "../../shared/style/styleTag"
 import { InformationsCardStyle } from "../../shared/style/styleTag"
 import { useSelector } from "react-redux";
 import addSpaceBetweenDigit from "../../Global/globalStyle"
-import useStudentBalance from "../../../hooks/useStudentBalance"
-import useStudentInfo from "../../../hooks/useStudentInfo"
+import useStudentBalance from "../../../hooks/student_hooks/useStudentBalance"
+import useStudentInfo from "../../../hooks/student_hooks/useStudentInfo"
 
 export default function StudentInfoCard({studentId}) {
 

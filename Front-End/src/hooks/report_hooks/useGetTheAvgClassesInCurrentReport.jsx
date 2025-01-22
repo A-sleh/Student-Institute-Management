@@ -8,6 +8,9 @@ export default function useGetTheAvgClassesInCurrentReport(reportId) {
     const [classes,setClasses] = useState([])
     
     useEffect(() => {
+        
+        if(reportId == '' || reportId == undefined) return 
+
         DataServices.ShowTheAvgForEachClasseInCurrentReport(reportId).then( students => setClasses(students) ) 
     },[reportId])
 

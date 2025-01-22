@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import useInstituteBillsBalance from "../../../hooks/useInstituteBillsBalance";
+import useInstituteBillsBalance from "../../../hooks/bill_hooks/useInstituteBillsBalance";
 import BillCard from "../../Bills/AllBilldetailsCom/BillCard";
 
 

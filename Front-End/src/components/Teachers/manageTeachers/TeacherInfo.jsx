@@ -15,7 +15,7 @@ import addSpaceBetweenDigit from "../../Global/globalStyle";
 import TitleAndControalHeader from "./TitleAndControalHeader";
 import HeaderInformation from "../../shared/HeaderInformation";
 import { FlexSpaceBetweenContainerStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
-import useTeacherInfo from "../../../hooks/useTeacherInfo";
+import useTeacherInfo from "../../../hooks/teacher_hooks/useTeacherInfo";
 import { useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
 

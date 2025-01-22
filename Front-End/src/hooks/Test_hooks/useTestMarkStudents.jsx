@@ -8,6 +8,8 @@ export default function useTestMarkStudents(classId,testId,maximumMark) {
     const [marks,setMarks] = useState({})
 
     useEffect(() => {
+
+        if(classId == '' || classId == undefined || testId == '' || testId == undefined) return 
         DataServices.ShowStudentsMarksInOneClass(classId,testId).then(students => {
             setStudentTest(students.map(student=>({...student,maximumMark})))
             let testMark = new Map() ;

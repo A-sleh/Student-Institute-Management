@@ -8,6 +8,7 @@ export default function useGetReportsFilterdByGrade(gradeId) {
     const [reports,setReports] = useState([])
     
     useEffect(() => {
+        if(gradeId == '' || gradeId == undefined) return 
         DataServices.ShowAllReportsFilteredByGrade(gradeId).then( res => setReports(res) ) 
     },[gradeId])
 

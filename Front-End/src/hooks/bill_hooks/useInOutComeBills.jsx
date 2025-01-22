@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useInOutComeBills(reFrach) {

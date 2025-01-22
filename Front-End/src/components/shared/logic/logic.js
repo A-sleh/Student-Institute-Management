@@ -17,7 +17,7 @@ export const openAsFullScreen = () => {
 
     const elem = document.getElementsByTagName('body')[0]
 
-    if (document.requestFullscreen) {
+    if (elem.requestFullscreen) {
         elem.requestFullscreen();
     } else if (elem.webkitRequestFullscreen) { /* Safari */
         elem.webkitRequestFullscreen();
@@ -51,7 +51,7 @@ export function separateTesetsAccordingToType(tests,quizAvg,examAvg) {
 export function getShortNumberFormat(number) {
 
     const numberFormat = { number : 0 , unit: ''}
-    const digits = Math.ceil(Math.log10(number)) - 3 // remover the first digits
+    const digits = Math.ceil(Math.log10(( number < 0 ? -1 : +1 ) * number)) - 3 // remover the first digits
     const convertingNumber = number.toString()
     const Units = ['' , 'K' , 'M']
 
@@ -60,10 +60,9 @@ export function getShortNumberFormat(number) {
     }
 
     const currentUnit = Math.ceil(digits / 3)
-
     numberFormat.unit = Units[currentUnit]
     const dividedBy = 3 + (digits % 3 == 1 ? 2 : digits % 3 == 2 ? 1 : 0)
-    numberFormat.number = (Number(`${numberFormat.number}1`) / Math.pow(10 , dividedBy + 1 )).toFixed(3) 
+    numberFormat.number = (number < 0 ? -1 : +1 ) * (Number(`${numberFormat.number}1`) / Math.pow(10 , dividedBy + 1 )).toFixed(3) 
     
     return numberFormat 
 }

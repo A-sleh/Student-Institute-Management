@@ -1,7 +1,7 @@
 import { SUBJECTCOLUMNS } from "../column/SubjectColumn"
 import { useMemo, useState } from "react"
 import Table from "../../shared/Table"
-import useGetSubjects from "../../../hooks/useGetSubjects"
+import useGetSubjects from "../../../hooks/subjects_hooks/useGetSubjects"
 import SubHeaderFilterClassByGrade from "../../shared/subHeaderTable/SubHeaderFilterClassByGrade"
 import { SubmitBtnStyle } from "../../shared/style/styleTag"
 import Notification from "../../Global/Notification"

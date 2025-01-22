@@ -7,9 +7,9 @@
 import { NavigateSubHeaderStyle, StudentTestsContainerStyle } from "../../style/styleTage"
 import { useLocation, useParams } from "react-router-dom"
 import ShowTestTable from "../ShowTestTable"
-import useClass from "../../../../hooks/useClass"
+import useClass from "../../../../hooks/class_hooks/useClass"
 import HeaderInformation from "../../../shared/HeaderInformation"
-import useGetStudentTestsInReport from "../../../../hooks/useGetStudentTestsInReport"
+import useGetStudentTestsInReport from "../../../../hooks/student_hooks/useGetStudentTestsInReport"
 import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
 import { useSelector } from "react-redux"
 

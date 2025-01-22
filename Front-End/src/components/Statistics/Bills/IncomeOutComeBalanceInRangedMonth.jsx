@@ -28,11 +28,11 @@ export default function IncomeOutComeBalanceInRangedMonth() {
             {type: currentLange == ARABIC ? 'الدخل' : 'Income' , count : inComeBalance },
             {type: currentLange == ARABIC ? 'الخرج' : 'Outcome' , count : outComeBalance }
         ],
-        balance: `${parseFloat(getShortNumberFormat(inComeBalance - outComeBalance ).number)} `  ,
+        balance: parseFloat(getShortNumberFormat(inComeBalance - outComeBalance ).number)  ,
         unit : getShortNumberFormat(inComeBalance - outComeBalance ).unit ,
         title: ''
     }
-
+    
     return (
         <BackgroundLayoutStyle style={{flex: '1.5'}}>
             <div style={{display: 'flex' , gap: '5px'}}>

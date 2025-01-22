@@ -7,7 +7,7 @@
 import { useState } from "react"
 import { COLUMNS } from "../style/COLUMNS.JS";
 import Table from "../../shared/Table";
-import useGetStudentBills from "../../../hooks/useGetStudentBills";
+import useGetStudentBills from "../../../hooks/student_hooks/useGetStudentBills";
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName";
 import SubHeaderClassBalance from "../../shared/subHeaderTable/SubHeaderClassBalance";
 

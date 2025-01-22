@@ -7,7 +7,7 @@
 import { TEACHERCLASSCOLUMNS } from "../columns/TeacherClassColumn.js";
 import { useMemo, useState } from "react";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
-import useTeacherClassDetails from "../../../hooks/useTeacherClassDetails.jsx";
+import useTeacherClassDetails from "../../../hooks/teacher_hooks/useTeacherClassDetails.jsx";
 import Table from "../../shared/Table.jsx";
 import { useSelector } from "react-redux";
 import { TeacherNewSubjectTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewSubjectTEXT.js";

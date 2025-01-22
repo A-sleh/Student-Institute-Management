@@ -8,6 +8,8 @@ export default function useGetStudentsInCurrentClass(Class,...reFetch) {
     const [students,setStudents] = useState([])
     
     useEffect(() => {
+
+        if(Class?.classId == '' || Class?.classId == undefined ) return 
         DataServices.StudentsInCurrentClass(Class.classId).then(students => {
             const studentsMaping = students.students.map( student => {
                 const {lastName,name} = student

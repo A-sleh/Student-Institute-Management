@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
-import useClasses from "../../../hooks/useClasses";
-import useStudentReports from "../../../hooks/useStudentReports";
+import useClasses from "../../../hooks/class_hooks/useClasses";
+import useStudentReports from "../../../hooks/student_hooks/useStudentReports";
 import LineChart from "../charts/LineChart";
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
 import { useEffect, useMemo, useState } from "react";
@@ -29,7 +29,7 @@ export default function StudentReportsAvg() {
     } 
 
     useEffect(() => {
-        setSelectedGrade(grades[0]?.grade || '')
+        setSelectedGrade(grades[0] || '')
     } ,[grades])
     
     useEffect(() => {
@@ -43,18 +43,17 @@ export default function StudentReportsAvg() {
     return (
         <BackgroundLayoutStyle style={{flex : '1'}}>
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
-                <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedGrade))} onChange={(e) =>{ setSelectedGrade(e.target.value),setSelectedClass('')}}>
-                    <option value={''} ></option>
+                <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedGrade))} onChange={(e) =>{ setSelectedGrade(JSON.parse(decodeURIComponent(e.target.value))),setSelectedClass('')}}>
                     {grades.map( (grade,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(grade))} >{grade.grade}</option>) )}
                 </SelectorStyle>
                 { selectedGrade != '' && <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedClass))} onChange={(e) => {setSelectedClass(JSON.parse(decodeURIComponent(e.target.value))), setSelectedStudent(null)}}>
-                    <option value={encodeURIComponent('{}')}></option>
+                    {/* <option value={encodeURIComponent('{}')}></option> */}
                     {classes.map( (Class,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(Class))}>{Class.title}</option>))}
                 </SelectorStyle> }
                 {
                     Object.keys(selectedClass).length != 0 && selectedGrade != '' &&
                     <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedStudent))} onChange={(e) => setSelectedStudent(JSON.parse(decodeURIComponent(e.target.value)))} >
-                        <option value=''></option>
+                        {/* <option value=''></option> */}
                         {students.map( (student,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(student))}>{student?.name + '' + student?.lastName}</option>))}
                     </SelectorStyle>
                 }

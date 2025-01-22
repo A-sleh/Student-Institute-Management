@@ -47,7 +47,7 @@ function TestCard({test}) {
     return (
         <div style={{padding: '10px' ,display: 'flex', justifyContent: 'space-between', borderRadius: '3px' , backgroundColor: 'white'}}>
             <span style={{fontSize: '15px'}}>{subject.subject} / {title}</span>
-            <span style={{fontSize: '15px'}}>{format(new Date(date),'yyyy / MM / dd')} </span>
+            <span style={{fontSize: '15px' , textWrap: 'nowrap'}}>{format(new Date(date),'yyyy / MM / dd')} </span>
         </div>
     )
 }

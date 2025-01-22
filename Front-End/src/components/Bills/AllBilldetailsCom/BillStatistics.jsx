@@ -5,7 +5,7 @@
 */
 
 import BillCard from "./BillCard";
-import useInstituteBillsBalance from "../../../hooks/useInstituteBillsBalance";
+import useInstituteBillsBalance from "../../../hooks/bill_hooks/useInstituteBillsBalance";
 import { BillStatisticesContainerStyle } from "../style/styleComponents";
 import { useSelector } from "react-redux";
 import { ARABIC } from "../../../Redux/actions/type";

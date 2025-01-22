@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useStudentReports(studentId) {
@@ -8,6 +8,9 @@ export default function useStudentReports(studentId) {
     const [studentsReportsAvg,setStudentsReportsAvg] = useState([])
 
     useEffect(() => {
+
+        if(studentId == '' || studentId == undefined) return 
+        
         DataServices.ShowStudentReports(studentId).then((studentReports) => {
             setStudentReports(studentReports);
         });

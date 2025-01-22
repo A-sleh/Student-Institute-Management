@@ -6,7 +6,7 @@
 
 import { TEACHERSUBJECTCOLUMN } from "../columns/TeacherSubjectColumn";
 import Table from "../../shared/Table";
-import useTeacherSubjects from "../../../hooks/useTeacherSubjects";
+import useTeacherSubjects from "../../../hooks/teacher_hooks/useTeacherSubjects";
 import { useSelector } from "react-redux";
 import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDetails/TeacherInformationTEXT";
 

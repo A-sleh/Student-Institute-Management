@@ -5,7 +5,7 @@
 */
 
 import { BILLSCOLUMNS } from "../columns/BillsColumn";
-import useGetTeacherBills from "../../../hooks/useGetTeacherBills";
+import useGetTeacherBills from "../../../hooks/teacher_hooks/useGetTeacherBills";
 import Table from "../../shared/Table";
 import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDetails/TeacherInformationTEXT";
 import { useSelector } from "react-redux";

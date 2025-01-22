@@ -5,7 +5,7 @@
 */
 
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import useStudentsMarkClass from "../../../../hooks/useStudentsMarkClass";
+import useStudentsMarkClass from "../../../../hooks/student_hooks/useStudentsMarkClass";
 import { ButtonsContainerStyle, GoBackBtnStyle } from "../../../shared/style/styleTag";
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn";
 import Table from "../../../shared/Table";

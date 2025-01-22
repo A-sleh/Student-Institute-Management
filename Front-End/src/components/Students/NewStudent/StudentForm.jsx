@@ -14,7 +14,7 @@ import Notification from "../../Global/Notification.jsx";
 import ShowInputCard from "../../shared/ShowInputCard.jsx";
 import ErrorMessage from "../../shared/ErrorMessage.jsx";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade.jsx";
-import useClasses from "../../../hooks/useClasses.jsx";
+import useClasses from "../../../hooks/class_hooks/useClasses.jsx";
 import { NewStudentTEXT } from "../../../Data/static/Students/NewStudent/NewStudentTEXT.js";
 import { useSelector } from "react-redux";
 

@@ -8,6 +8,8 @@ export default function useGetTeachersRating(subjectId,...reFetch) {
     const [teachersRating, setTeachersRating] = useState([]); 
     
     useEffect(() => {
+
+        if(subjectId == '' || subjectId == undefined) return 
         DataServices.ShowTeachersRateInCurrentSubject(subjectId).then((res) => {
             setTeachersRating(res)
         })

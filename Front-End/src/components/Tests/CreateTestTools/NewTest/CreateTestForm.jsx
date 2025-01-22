@@ -10,8 +10,8 @@ import DataServices from "../../../../Data/dynamic/DataServices";
 import Notification from "../../../Global/Notification";
 import ErrorMessage from "../../../shared/ErrorMessage";
 import SearchBodyList from "../../../shared/SearchBodyList";
-import useClasses from "../../../../hooks/useClasses";
-import useGetSubjects from "../../../../hooks/useGetSubjects";
+import useClasses from "../../../../hooks/class_hooks/useClasses";
+import useGetSubjects from "../../../../hooks/subjects_hooks/useGetSubjects";
 import { successActionLogic } from "../../../shared/logic/logic";
 import useGetAllGrade from "../../../../hooks/Grade_hooks/useGetAllGrade";
 import { NewTestTEXT } from "../../../../Data/static/test/CreateTestTools/NewTestTEXT";
@@ -22,7 +22,7 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
     
     const {currentLange} = useSelector( state => state.language)
     const {testTitle ,grade ,selectClassTitle ,subjectsTitle ,testDate ,testTypeTitle ,testDetails ,createBtn,
-        quizTitle ,exameTitle ,successCreateTestMES ,validationMessages} = NewTestTEXT[currentLange]
+        quizTitle ,exameTitle ,successCreateTestMES ,validationMessages,displaySubjectPlaceholder} = NewTestTEXT[currentLange]
     const {gradeVal ,classVal ,subjectVal ,testTypeVal ,testDateVal ,testDetailsVal} =validationMessages
 
     const [subjects] = useGetSubjects(form.subject.grade) ; 
@@ -128,7 +128,9 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                 <LabelStyle color={'#056699'}>{subjectsTitle}</LabelStyle>
                                 <div style={{display: 'flex',position: 'relative' , gap: '5px' , flexWrap: 'wrap' , backgroundColor: 'white' , padding: '13px'}}>
                                     {
-                                        subjects.map( (subject,index) => {
+                                        form.subject.grade == '' || form.subject.grade == undefined ? <h4 style={{color: 'red'}}> {displaySubjectPlaceholder}</h4>
+                                        : subjects.map( (subject,index) => {
+                                            console.log('here')
                                             return <SubjectTageShow key={index} subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
                                         })
                                     }

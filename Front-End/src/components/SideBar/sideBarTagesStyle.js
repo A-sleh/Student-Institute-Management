@@ -11,7 +11,7 @@ export const SideBarContainerStyle = styled.div`
     position: sticky;
     top: 0;
 
-    >i {
+    > i {
         color: white ;
         float: ${({lang}) => lang == 'arabic' ? 'left': 'right'};
         margin:  10px;
@@ -227,22 +227,24 @@ export const SideBarStyle = styled.aside`
         height: 30px; 
         font-size: 18px;
         padding-top: 5px;
-        padding-right: 5px;
+        padding-right: ${({lang}) => lang == 'arabic' ? '5px' : 'none' } ;;
+        padding-left: ${({lang}) => lang != 'arabic' ? '5px' : 'none' } ;;
         position: absolute;
         z-index: 1000;
         top: 1.5em;
-        left: -40px;
-        border-radius: 8px 0 0 8px;
+        left: ${({lang}) => lang == 'arabic' ? '-40px' : 'none' } ;
+        right: ${({lang}) => lang != 'arabic' ? '-40px' : 'none' } ;
+        border-radius: ${({lang}) => lang == 'arabic' ? "8px 0 0 8px" : "0 8px 8px 0" };
         cursor: pointer;
         background-color: #056699;
         display: none;
     }
 
     @media (max-width : 767px ) {
-        position: absolute;
+        position: fixed;
         width: 250px; 
         height: 100vh !important;
-        transform: ${ ({opensidebare}) => opensidebare == 'true' ?' translateX(0)': 'translateX(100%)' };
+        transform: ${ ({opensidebare}) => opensidebare == 'true' ?' translateX(0)': ({lang}) => lang == 'arabic' ? 'translateX(100%)' : 'translateX(-100%)'};
 
         & .fa-xmark {
             display: flex;

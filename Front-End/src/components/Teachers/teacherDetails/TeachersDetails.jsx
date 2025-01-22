@@ -14,7 +14,7 @@ import Title from "../../Global/Title";
 import Notification from "../../Global/Notification";
 import DeleteModal from "../../Modal/DeleteModal";
 import TablePaginated from "../../shared/TablePaginated";
-import useTeachersInfo from "../../../hooks/useTeachersInfo";
+import useTeachersInfo from "../../../hooks/teacher_hooks/useTeachersInfo";
 import { TeachersDetailsTEXT } from "../../../Data/static/teachers/teachersDetails/TeachersDetailsTEXT";
 import { useSelector } from "react-redux";
 
@@ -23,13 +23,13 @@ export default function TeachersDetails() {
   const {currentLange} = useSelector( state => state.language)
   const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES} = TeachersDetailsTEXT[currentLange]
 
-  const limitNumber = 6
+  const limitNumber = 12
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
   const [currentPage,setCurrentPage] = useState(1)
   const [teachers] = useTeachersInfo(limitNumber,currentPage,successDeleteTeacher)
-  const { teachers : teachersDetails , totalPages, totalStudents : teachersNumber} = teachers
+  const { teachers : teachersDetails , totalPages, totalTeachers} = teachers
 
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
       id: null,
@@ -83,7 +83,7 @@ export default function TeachersDetails() {
 
           <TablePaginated data={teachersDetails || []} column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={limitNumber}>
             <SubHeaderTableStyle >
-              {totalTeachersTitle} : <span>{teachersNumber || 0 }</span>
+              {totalTeachersTitle} : <span>{totalTeachers || 0 }</span>
             </SubHeaderTableStyle>
           </TablePaginated>
       </>

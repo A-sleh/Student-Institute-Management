@@ -7,8 +7,8 @@
 import { HeightContainerAnimation } from "../../shared/style/styleTag"; 
 import { InformationsCardStyle } from "../../shared/style/styleTag";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
-import useGetTeacherBillBalance from "../../../hooks/useGetTeacherBillBalance";
-import useTeacherInfo from "../../../hooks/useTeacherInfo";
+import useGetTeacherBillBalance from "../../../hooks/teacher_hooks/useGetTeacherBillBalance";
+import useTeacherInfo from "../../../hooks/teacher_hooks/useTeacherInfo";
 import { useSelector } from "react-redux";
 import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDetails/TeacherInformationTEXT";
 

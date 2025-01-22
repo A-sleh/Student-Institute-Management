@@ -68,29 +68,28 @@ export default function StudentMarkForm() {
             notValid |= (value[i] <= 0 ) ;
         }
 
-        
-
         return !notValid ;
     }
 
-    function assingeMarkToTheTest(marks) {
-        return new Promise( resolve => {
-            const testMarkIds = Object.keys(marks) 
-            const mark = Object.values(marks)     
-            for(let i = 0 ; i < testMarkIds.length ; ++ i ) {
-                DataServices.AssingeMarkToTheTest(testMarkIds[i],mark[i])
-                if( i == testMarkIds.length - 1 ) {
-                    resolve('done')
-                }
-            }
+    function convertKeyToChar() {
+
+        const keys = Object.keys(marks) 
+        const value = Object.values(marks) 
+        let mark = new Map()
+        
+        keys.map((key,index) => {
+            console.log(key,value[index])
+            mark[`"${key}"`] = value[index]
         })
+
+        return mark
     }
 
     function handleConfirmclicked() {
         const doRquest = validMarkInput() ; 
-
+        
         if(doRquest) {
-            assingeMarkToTheTest(marks).then( _ => {
+            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,testDate).then( _ => {
                 successActionLogic(setSuccessAssigne)
             })
         }else {

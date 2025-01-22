@@ -528,6 +528,32 @@ export const FilterGradeHeaderStyle = styled.div`
     flex-wrap: wrap;
 `
 
+export const HeaderFilterTestsStyle = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    background-color: rgb(221, 221, 221);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+
+    h1 {
+        text-wrap: nowrap;
+    }
+
+    @media (max-width: 767px ) {
+        & {
+            grid-template-columns: repeat(1,1fr);
+        }
+    }
+
+    @media (max-width: 1021px ) {
+        & {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+`
+
 // More information page animation 
 
 const ChangeHeight = keyframes`

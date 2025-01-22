@@ -16,7 +16,7 @@ export default function useGetMonthIncomOutcomBalance(startDate,endDate) {
     }
 
     useEffect(() => {
-        if( startDate == '' || endDate == '' ) return 
+        if( startDate == '' || endDate == '' || startDate == undefined || endDate == undefined) return 
         DataServices.ShowIncomeBalanceInCurrentRange(startDate,endDate).then( incomeBalance => {
             setInComeBalance(incomeBalance)
         })

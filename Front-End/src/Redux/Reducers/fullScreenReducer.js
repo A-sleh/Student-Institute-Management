@@ -8,7 +8,6 @@ const fullScreenReducer = ( state = {isFull : true } , action ) => {
     }
     switch(action.type) {
         case FULLSCREEN :
-            console.log(action.payload )
             sessionStorage.setItem('fullScreen',JSON.stringify({isFull: action.payload }))
             return {isFull: action.payload }
         case UNFULLSCREEN :

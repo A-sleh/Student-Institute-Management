@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import useGetTeachersBills from "../../../hooks/useGetTeachersBills";
+import useGetTeachersBills from "../../../hooks/teacher_hooks/useGetTeachersBills";
 import Table from "../../shared/Table";
 import { COLUMNS } from "../style/COLUMNS.JS";
 

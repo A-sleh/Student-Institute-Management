@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useStudentReportTests(studentId,repotId,...reFetch) {
@@ -9,6 +9,7 @@ export default function useStudentReportTests(studentId,repotId,...reFetch) {
 
     useEffect(() => { 
 
+        if(studentId == '' || studentId == undefined || repotId == '' || repotId == undefined) return 
         DataServices.ShowStudentTestInCurrentReport(studentId,repotId).then( tests => {
         setTests(
             Object.groupBy(tests, ({test}) => {

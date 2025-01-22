@@ -15,8 +15,8 @@ import StudentReportCard from "./studnetInformationCOM/StudentReportCard";
 import StudentInfoCard from "./studnetInformationCOM/StudentInfoCard";
 import StudentBillsCard from "./studnetInformationCOM/StudentBillsCard";
 import ShowTestTable from "../Tests/CreateReportTools/ShowTestTable";
-import useStudentReportTests from "../../hooks/useStudentReportTests";
-import useStudentTestsNotAddedToReport from "../../hooks/useStudentTestsNotAddedToReport";
+import useStudentReportTests from "../../hooks/student_hooks/useStudentReportTests";
+import useStudentTestsNotAddedToReport from "../../hooks/student_hooks/useStudentTestsNotAddedToReport";
 import { useSelector } from "react-redux";
 import { StudentInformationTEXT } from "../../Data/static/Students/StudentsInformation/StudentInformationTEXT";
 

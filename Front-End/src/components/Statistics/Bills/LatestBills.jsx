@@ -1,6 +1,6 @@
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
 import { BILLSCOLUMNS } from "../../Teachers/columns/BillsColumn";
-import useLatestBills from "../../../hooks/useLatestBills";
+import useLatestBills from "../../../hooks/bill_hooks/useLatestBills";
 import { useMemo, useState } from "react";
 import Table from "../../shared/Table";
 import { useSelector } from "react-redux";

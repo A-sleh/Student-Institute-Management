@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useTeacherClassDetails(teacherId,...reFetch) {
@@ -7,6 +7,8 @@ export default function useTeacherClassDetails(teacherId,...reFetch) {
     const [classes,setClasses] = useState([]) ;
 
     useEffect(() => {
+
+        if(teacherId == '' || teacherId == undefined) return 
         DataServices.ShowTeacherClass(teacherId).then( subjects => {
             let  classesMaping= [] ;
             subjects.map((subjects) => {

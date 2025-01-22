@@ -69,7 +69,7 @@ export default function NewBill() {
 
     function handleSelectedTeacher(teacher) {
         setFormInput({...formInput , teacher : {
-            teacherId: teacher.id ,
+            teacherId: teacher.teacherId ,
             name: teacher.name,
             lastName: teacher.lastName ,
         }, fullName : teacher.full_name })
@@ -107,7 +107,6 @@ export default function NewBill() {
 
     }
 
-    console.log(formInput)
     return (
         <>
             <Notification  title={successAddStudentBillMES} type={'success'} state ={successAddBill} setState={setSuccessAddBill}/>

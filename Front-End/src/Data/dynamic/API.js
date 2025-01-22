@@ -374,9 +374,10 @@ export default {
         });
       } 
     },
-    put: (testMarkId,mark) => {
-      return fetch(`${URL}/Test/Student/${testMarkId}?Mark=${mark}`, {
+    put: (testMark,testId,testDate) => {
+      return fetch(`${URL}/Test/${testId}/Marks?correctionDate =${testDate}`, {
         method: "PUT",
+        body: JSON.stringify(testMark),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },

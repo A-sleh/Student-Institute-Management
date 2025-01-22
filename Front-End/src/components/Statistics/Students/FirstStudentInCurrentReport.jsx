@@ -28,11 +28,11 @@ export default function FirstStudentInCurrentReport() {
     useEffect(() => {
         setSelectedReport(reports[0])
     },[reports])
-
+    
     return (
         <BackgroundLayoutStyle style={{flex: '1'}}>
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
-                <SelectorStyle onChange={(e) =>{ setSelectedGrade(JSON.parse(decodeURIComponent(e.target.value)))}}>
+                <SelectorStyle onChange={(e) =>{setSelectedGrade(JSON.parse(decodeURIComponent(e.target.value)))}} value={encodeURIComponent(JSON.stringify(selectedGrade))}>
                     {grades.map( (grade,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(grade))}>{grade.grade}</option>) )}
                 </SelectorStyle>
                 <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedReport))}  onChange={(e) => setSelectedReport(JSON.parse(decodeURIComponent(e.target.value)))}>

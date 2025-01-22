@@ -11,6 +11,7 @@ export const NewTestTEXT  = {
         createBtn: 'إنشاء' ,
         quizTitle: 'أختبار يومي' ,
         exameTitle: 'مذاكره',
+        displaySubjectPlaceholder: 'حدد الفئه لعرض المواد المتاحه ...' ,
         successCreateTestMES:'تم إنشاء الأختبار بنجاح',
         validationMessages: {
             gradeVal: 'الرجاء تحديد فئة الأختبار' ,
@@ -32,6 +33,7 @@ export const NewTestTEXT  = {
         createBtn: 'Create' ,
         quizTitle: 'QUIZ' ,
         exameTitle: 'EXAM',
+        displaySubjectPlaceholder: 'Please select the grade to display the avilable subjects' ,
         successCreateTestMES: 'Create test',
         validationMessages: {
             gradeVal: 'You must determain test grade' ,

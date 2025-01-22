@@ -14,7 +14,7 @@ import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Notification from "../../Global/Notification";
 import Table from "../../shared/Table";
-import useTeacherSubjectTeachesIt from "../../../hooks/useTeacherSubjectTeachesIt";
+import useTeacherSubjectTeachesIt from "../../../hooks/teacher_hooks/useTeacherSubjectTeachesIt";
 import { TeacherNewSubjectTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewSubjectTEXT";
 import { useSelector } from "react-redux";
 
@@ -123,7 +123,7 @@ export default function TeacherNewSubject() {
             </FormStyle>
 
             <FormStyle style={{marginTop:'10px'}}>
-                <h4> <span style={{color : 'red' }}>*</span> {selectedSubjectsTitle} </h4>
+                <h4 style={{marginBottom: '10px'}}> <span style={{color : 'red' }}>*</span> {selectedSubjectsTitle} </h4>
                 <SelectedSubjectsContainer selectedSubjects={selectedSubjects} handlChangeInput={handlChangeInput}/>
             </FormStyle>
 

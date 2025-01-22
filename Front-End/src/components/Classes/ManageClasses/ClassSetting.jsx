@@ -17,7 +17,7 @@ import StudentTable from "./StudentTable";
 import TeacherTableCurrentClass from "./TeacherTableClass";
 import HeaderInformation from "../../shared/HeaderInformation";
 import TitleAndControalHeader from "../../Teachers/manageTeachers/TitleAndControalHeader";
-import useClass from "../../../hooks/useClass";
+import useClass from "../../../hooks/class_hooks/useClass";
 import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT";
 
 export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {

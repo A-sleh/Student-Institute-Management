@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useReportOfClassStatistics(classId,classTitle) {
@@ -25,6 +25,8 @@ export default function useReportOfClassStatistics(classId,classTitle) {
     }
 
     useEffect(() => {
+
+        if(classId == '' || classId == undefined ) return 
         DataServices.ShowAllClassReports(classId).then( reportsRES => {
             setReports(reportsRES)
         })

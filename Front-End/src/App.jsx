@@ -42,12 +42,11 @@ export default function App() {
   },[language])
   
   
-
   return (
     <QueryClientProvider client={queryClient}>
       <div style={{ display: "flex",backgroundColor: 'white', position: "relative" ,fontFamily: currentLange == ARABIC ? "Readex Pro , sans-serif" :"Hind Siliguri ,sans-serif" , direction: currentLange == ARABIC ? 'rtl' : 'ltr'}}>
 
-        <SideBarStyle opensidebare={openSideBare.toString()}>
+        <SideBarStyle opensidebare={openSideBare.toString()} lang={currentLange}>
           <SidBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
         </SideBarStyle>
         

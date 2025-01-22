@@ -5,7 +5,7 @@
 */
 
 import { TEACHERCLASSCOLUMNS } from "../columns/TeacherClassColumn";
-import useTeacherClassDetails from "../../../hooks/useTeacherClassDetails";
+import useTeacherClassDetails from "../../../hooks/teacher_hooks/useTeacherClassDetails";
 import TablePaginated from "../../shared/TablePaginated";
 import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDetails/TeacherInformationTEXT";
 import { useSelector } from "react-redux";

@@ -33,6 +33,11 @@ export default function ManageTeacher() {
     useEffect(() => {
 
         if( currentPage > totalPages ) return
+
+        // this case to avoid reapation data
+        if(setTeachersDetails.length == 1 && currentPage == 1 ) {
+            return 
+        }
         const loadMoreTeachers = async () => {
             setFetchingData(true);
             const newTeachers = await fetch(`https://localhost:7279/Teacher?listSize=${limmitNumber}&page=${currentPage}`);
@@ -49,7 +54,7 @@ export default function ManageTeacher() {
           if (observer.current) observer.current.disconnect();
         
           observer.current = new IntersectionObserver((entries) => {
-            console.log(entries)
+            
             if (entries[0].isIntersecting) {
                 setCurrentPage((prevPage) => prevPage + 1); // trigger loading of new posts by chaging page no
             }

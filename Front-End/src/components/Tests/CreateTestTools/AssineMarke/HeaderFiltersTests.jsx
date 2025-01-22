@@ -6,7 +6,7 @@
 
 import { useContext } from "react"
 import { FiltersSharedState } from "./TestClassCurrent"
-import { InputStyle } from "../../../shared/style/styleTag"
+import { HeaderFilterTestsStyle, InputStyle } from "../../../shared/style/styleTag"
 import { HeaderFiltersTestsTEXT } from "../../../../Data/static/test/CreateTestTools/AssineMarke/HeaderFiltersTestsTEXT"
 import { useSelector } from "react-redux"
 import { ARABIC } from "../../../../Redux/actions/type"
@@ -18,7 +18,7 @@ export default function HeaderFiltersTests() {
     const { testType, setTestType, filterBySubject ,setFilterBySubject ,subjects ,dateSearch ,setDateSearch } = useContext(FiltersSharedState)
 
     return(
-        <div style={{display: 'grid',gridTemplateColumns:'repeat(auto-fill,minmax(350px,auto))', gap:'10px' ,backgroundColor: '#ddd' , padding: '4px 10px' , borderRadius: '4px' , marginBottom: '10px' ,flexWrap: 'wrap'}}>
+        <HeaderFilterTestsStyle>
             <div >
                 <h1 style={{fontSize: '18px' , marginRight: '10px' , marginBottom: currentLange == ARABIC ? '6px':'0' }}>{testStartingDateTitle}</h1>
                 <InputStyle type="date" value={dateSearch} onChange={(e)=>{setDateSearch(e.target.value)}} style={{width: '100%',backgroundColor: 'white'}}/>
@@ -42,6 +42,6 @@ export default function HeaderFiltersTests() {
                     }
                 </select>   
             </div>
-        </div>
+        </HeaderFilterTestsStyle>
     )
 }

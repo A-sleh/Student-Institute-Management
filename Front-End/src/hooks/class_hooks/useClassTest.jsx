@@ -1,6 +1,6 @@
 
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useClassTests(classId,reFreach) {
@@ -14,6 +14,8 @@ export default function useClassTests(classId,reFreach) {
     }
 
     useEffect(() => {
+        
+        if(classId == '' || classId == undefined ) return 
         DataServices.ShowCurrentClassTests(classId,false,false).then(tests => {
             setTests(disjoinTestIntoTypes(tests))
         })

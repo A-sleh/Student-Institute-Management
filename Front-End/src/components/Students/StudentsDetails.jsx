@@ -11,7 +11,7 @@ import Title from "../Global/Title";
 import Notification from "../Global/Notification";
 import DeleteModal from "../Modal/DeleteModal";
 import TablePaginated from "../shared/TablePaginated";
-import useStudentsInfo from "../../hooks/useStudentsInfo";
+import useStudentsInfo from "../../hooks/student_hooks/useStudentsInfo";
 import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 
 export default function StudentsDetails() {
@@ -90,7 +90,7 @@ export default function StudentsDetails() {
       <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
 
       <Title title={window.location.pathname} />
-      <TablePaginated data={students || []} column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={6} >
+      <TablePaginated data={students || []} column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={12} >
         <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
       </TablePaginated> 
 

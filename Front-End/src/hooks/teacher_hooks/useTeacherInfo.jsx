@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useTeacherInfo(teacherId,...reFetch) {
@@ -7,6 +7,8 @@ export default function useTeacherInfo(teacherId,...reFetch) {
     const [teacherDetails,setTeacherDetails] = useState({}) ;
 
     useEffect(() => {
+
+        if(teacherId == '' || teacherId == undefined) return 
         DataServices.TeacherInformaion(teacherId).then( async teacherInfo => {
             const teacherClasses = await DataServices.ShowTeacherClass(teacherId).then( classes => {
                 let classesNumber = 0 ;

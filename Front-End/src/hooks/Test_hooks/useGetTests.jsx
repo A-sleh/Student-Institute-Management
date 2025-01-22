@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useGetTests(classId,likedTests,correctionTests,testType,filterBySubject,dateSearch,testState) {
@@ -7,6 +7,8 @@ export default function useGetTests(classId,likedTests,correctionTests,testType,
     const [tests,setTset] = useState([])
 
     useEffect(() => {
+
+        if(classId == '' || classId == undefined) return 
         DataServices.ShowCurrentClassTests(classId,likedTests,correctionTests).then( tests => {
             setTset(tests.filter(test => {
                 if ((dateSearch != '' && ( new Date(dateSearch) - new Date(test.date)) < 0 )) return false

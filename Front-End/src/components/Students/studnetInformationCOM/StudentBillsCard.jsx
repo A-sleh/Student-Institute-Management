@@ -5,7 +5,7 @@
 */
 import { BILLSCOLUMNS } from "../../Teachers/columns/BillsColumn";
 import TablePaginated from "../../shared/TablePaginated"
-import useStudentBillsDetails from "../../../hooks/useStudentBillsDetails"
+import useStudentBillsDetails from "../../../hooks/student_hooks/useStudentBillsDetails"
 import { useSelector } from "react-redux";
 import { StudentInformationTEXT } from "../../../Data/static/Students/StudentsInformation/StudentInformationTEXT";
 

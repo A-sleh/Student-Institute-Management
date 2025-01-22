@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 export default function useGetStudentBills(changeClass = 'All') {
@@ -22,7 +22,7 @@ export default function useGetStudentBills(changeClass = 'All') {
 
     useEffect(() => {
         DataServices.AllStudentsInfo().then( students => {
-            console.log(students)
+            
             const filteringStudents = students.students.filter(student => {
                 return (changeClass == student.class.classId || changeClass == 'All') 
             })

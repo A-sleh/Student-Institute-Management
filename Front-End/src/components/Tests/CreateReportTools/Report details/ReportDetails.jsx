@@ -6,7 +6,7 @@
 
 import { CLASSCOLUMNS } from "../columnsTools/CLASSCOLUMNS.JS";
 import { useState } from "react";
-import useClasses from "../../../../hooks/useClasses";
+import useClasses from "../../../../hooks/class_hooks/useClasses";
 import Table from "../../../shared/Table";
 import SubHeaderFilterClassByGrade from "../../../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT";

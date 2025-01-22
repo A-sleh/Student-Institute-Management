@@ -6,7 +6,7 @@
 
 import { useSelector } from "react-redux";
 import { AllBilldetailsComTEXT } from "../../Data/static/Bills/AllBilldetailsCom/AllBilldetailsComTEXT";
-import useLatestBills from "../../hooks/useLatestBills";
+import useLatestBills from "../../hooks/bill_hooks/useLatestBills";
 import Title from "../Global/Title";
 import BillStatistics from "./AllBilldetailsCom/BillStatistics";
 import ShowLatestBills from "./AllBilldetailsCom/ShowLatestBills";

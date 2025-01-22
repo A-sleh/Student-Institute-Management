@@ -14,7 +14,7 @@ import ErrorMessage from '../../shared/ErrorMessage';
 import SearchBodyList from '../../shared/SearchBodyList';
 import { NewBillTEXT } from '../../../Data/static/Bills/StudentsPaysCom/NewBillTEXT';
 import { useSelector } from 'react-redux';
-import useStudentsInfo from '../../../hooks/useStudentsInfo';
+import useStudentsInfo from '../../../hooks/student_hooks/useStudentsInfo';
 
 const initialFormInput = {
     teacher: null, student : { studentId: '' , name: '', lastName: '' , }, amount: '' , date: '' , note: '', fullName : '', type: 'in', billNo: ''
@@ -30,7 +30,7 @@ export default function NewBill() {
     const [errorAddBill,setErrorAddBill] = useState(false)
     const [formInput,setFormInput] = useState(initialFormInput)
     const [allStudnets] = useStudentsInfo()
-    console.log(allStudnets)
+    
     const [validationBillInput,setValidationBillInput] = useState({
         studentId: '' ,
         date: '' ,
@@ -44,10 +44,11 @@ export default function NewBill() {
     const onBlur = () => { setTimeout(() => { setFocused(false) },200) }
 
     function handleSelectedStudnet(student) {
+        
         setFormInput({...formInput , student : {
-            studentId: student.id ,
+            studentId: student.studentId ,
             name: student.name,
-            lastName: student.lastName ,
+            lastName: student.lastName 
         }, fullName : student.full_name })
         setFocused(false)
     }

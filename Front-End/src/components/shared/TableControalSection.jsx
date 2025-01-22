@@ -5,7 +5,7 @@ import { TableControalSectionTEXT } from "../../Data/static/subHeaderTable/subHe
 
 export default function TableControalSection(props) {
 
-  const { pageCount, nextPage, previousPage, canNextPage,currPage,totalPages, canPreviousPage, pageIndex, gotoPage ,setNextPageState } = props
+  const { currPage,totalPages,gotoPage ,setNextPageState } = props
   const {currentLange} = useSelector( state => state.language)
   const {nextBtn ,previousBtn} = TableControalSectionTEXT[currentLange]
 
@@ -30,7 +30,7 @@ export default function TableControalSection(props) {
       <button onClick={() => handlePreviousPageClicked()}  > {previousBtn} </button>
       <div onClick={()=>{gotoPage(1)}}>{'<<'}</div>
       <span >
-        {currPage} of {totalPages}
+        {totalPages == '0' ? '0' : currPage} of {totalPages}
       </span>
       <div onClick={()=>gotoPage(totalPages - 1)}>{'>>'}</div>
       <button onClick={() =>handleNextPageClicked()} > {nextBtn} </button>

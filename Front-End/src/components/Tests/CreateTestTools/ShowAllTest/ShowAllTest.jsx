@@ -7,7 +7,7 @@
 import { useState } from "react"
 import SubHeaderFilterClassByGrade from "../../../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import { CLASSCOLUMNS } from "../../CreateReportTools/columnsTools/CLASSCOLUMNS.JS";
-import useClasses from "../../../../hooks/useClasses";
+import useClasses from "../../../../hooks/class_hooks/useClasses";
 import Table from "../../../shared/Table";
 import { ShowAllTestTEXT } from "../../../../Data/static/test/CreateTestTools/ShowAllTestTEXT";
 import { useSelector } from "react-redux";

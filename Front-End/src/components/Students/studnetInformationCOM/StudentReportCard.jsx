@@ -5,7 +5,7 @@
 */
 
 import { REPORTCOLUMNS } from "../column/ReprotColumn"
-import useStudentReports from "../../../hooks/useStudentReports"
+import useStudentReports from "../../../hooks/student_hooks/useStudentReports"
 import Table from "../../shared/Table"
 import { useSelector } from "react-redux"
 import { StudentInformationTEXT } from "../../../Data/static/Students/StudentsInformation/StudentInformationTEXT"

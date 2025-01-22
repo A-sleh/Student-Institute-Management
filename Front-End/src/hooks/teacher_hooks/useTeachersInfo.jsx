@@ -1,5 +1,5 @@
 
-import DataServices from "../Data/dynamic/DataServices"
+import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
 
@@ -12,7 +12,7 @@ export default function useTeachersInfo(limit,page,...reFetch) {
         return new Promise((resolve) => {
             let teacher_details = []
             
-            teachers.teachers.map( async (teacher ) => {
+            teachers?.teachers?.map( async (teacher ) => {
                 const { teacherId } = teacher
                 const subjectaNumber = await DataServices.ShowAllTeacherSubjects(teacherId)
                 let  classesNumber = await DataServices.ShowTeacherClass(teacherId)

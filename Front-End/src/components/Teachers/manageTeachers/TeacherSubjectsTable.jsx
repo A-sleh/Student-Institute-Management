@@ -12,11 +12,11 @@ import { useEffect } from "react";
 import DataServices from "../../../Data/dynamic/DataServices.js";
 import Notification from "../../Global/Notification.jsx";
 import DeleteModal from "../../Modal/DeleteModal.jsx";
-import useTeacherSubjects from "../../../hooks/useTeacherSubjects.jsx";
+import useTeacherSubjects from "../../../hooks/teacher_hooks/useTeacherSubjects.jsx";
 import Table from "../../shared/Table.jsx";
 import { TeacherNewSubjectTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewSubjectTEXT.js";
 import { useSelector } from "react-redux";
-import { ARABIC } from "../../../Redux/actions/type.js";
+
 
 export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject,successDeleteFromSubject}) {
 

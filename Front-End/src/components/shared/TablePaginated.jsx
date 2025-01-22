@@ -93,7 +93,7 @@ export default function TablePaginated(props) {
                         })}
                     </tbody>
                 </TableStyle>
-                { smallControalSection && <TableControalSection2 previousPage={previousPage} nextPage={nextPage} currPage={currPage} totalPages={totalPages} pageIndex={pageIndex}  setNextPageState={setNextPageState} /> }
+                { smallControalSection && <TableControalSection2 previousPage={previousPage} nextPage={nextPage} currPage={currPage} totalPages={pageCount} pageIndex={pageIndex} setNextPageState={setNextPageState} /> }
             </TableContainerStyle>
             {
                 !smallControalSection &&<TableControalSection previousPage={previousPage} nextPage={nextPage} currPage={currPage} totalPages={totalPages} canPreviousPage={canPreviousPage} setNextPageState={setNextPageState} canNextPage={canNextPage} pageIndex={pageIndex} gotoPage={gotoPage} />

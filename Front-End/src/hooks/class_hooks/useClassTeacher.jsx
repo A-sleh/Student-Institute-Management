@@ -8,6 +8,8 @@ export default function useClassTeacher(classId,...reFetch) {
     const [teachers,setTeachers] = useState([])
     
     useEffect(() => {
+        
+        if(classId == '' || classId == undefined ) return 
         DataServices.ShowTeacherInSideClass(classId).then(teachers => {
             const teachersDetailsMaping = teachers.map( teacher => {
                 const {lastName,name} = teacher

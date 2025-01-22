@@ -25,9 +25,9 @@ This file will contain the progress in build the main interfaces :
             3 - [X] in/out external pays
             4 - [] show details
         5 - [x] test :
-            1 - [] create ( quiz - exam - final  - revision ) and chose the class And {Or chose report}
-            2 - [] create report ( quiz ) + selector ( exam - final - revision )  
-            3 - [] show the last ( quiz - exam - final  - revision ) and assign the mark
+            1 - [X] create ( quiz - exam - final  - revision ) and chose the class And {Or chose report}
+            2 - [X] create report ( quiz ) + selector ( exam - final - revision )  
+            3 - [X] show the last ( quiz - exam - final  - revision ) and assign the mark
         6 - [x] class :
             1 - [X] create new class 
             2 - [X] manage the class (add - delete - move ) student
@@ -206,7 +206,7 @@ solve the proble:
 
 
 Day 23 : 
-    1- fix teachers pagination []
+    1- fix teachers pagination [X]
     2 - teachers bills hook ( use new endpoint ) [X]
     3 - studnets bills hook ( use new endpoint ) [X]
     4 - statistics : 
@@ -242,11 +242,25 @@ Day 23 :
     -[X] In insert new student page ,The student don't show in screen
     -[] In Manage teacher page ,The infinite scrolling need to fix
     -[X] in teachers and students bills doesn't show in the screen
+
 -- Manager access : 
     -- total school balance details ( in bills page And in statistics page )
     -- manage students bills
     -- manage teachers bills 
     -- manage external bills 
     -- manage teacher ( delete and update )
+
+There are some bugs in the code : 
+    - [X] linke test with mark ( testmarkid must be char)
+    -- [X] in statistics page : the title doesn't displayed in the first render ;
+    -- [X] in teacher page : the teachers number doesn't showing ;
+    -- [X] in teachers , studentd in more information page ( the table which display bills 
+    the total number doesn't showing )
+    -- [X]in manage  teacher in add new teacher subject : in add price section need to add a little margin bottom to title ;
+    -- [X] in new test page : I will add a placeholder in subjects field to tell the user 
+    to select a grade to display the subjects ;
+    -- [X] in test class details the header filter need to restyle ;
+    -- [Xin report class details : the date of test need to be it in one line
+
 
 

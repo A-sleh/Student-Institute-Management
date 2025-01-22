@@ -1,7 +1,7 @@
 import { BackgroundLayoutStyle, SelectorStyle} from "../services/style";
 import { useEffect, useState } from "react";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
-import useGetSubjects from "../../../hooks/useGetSubjects";
+import useGetSubjects from "../../../hooks/subjects_hooks/useGetSubjects";
 import useGetTeachersRating from "../../../hooks/teacher_hooks/useGetTeachersRating";
 import SimpleHorizontalBar from "../charts/SimpleHorizontalBar";
 import { useSelector } from "react-redux";

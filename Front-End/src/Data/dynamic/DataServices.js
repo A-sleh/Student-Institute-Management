@@ -160,8 +160,8 @@ export default {
   ShowCurrentClassTests : (classId,linkedTest,correctionTest) => {
     return API.Test.get.AllTestInTheClasss(classId,linkedTest,correctionTest)
   },
-  AssingeMarkToTheTest : (testMarkId,mark) => {
-    return API.Test.put(testMarkId,mark)
+  AssingeMarkToTheTest : (testMark,testId,testDate) => {
+    return API.Test.put(testMark,testId,testDate)
   },
   CreateNewReport: (data) => {
     return API.Report.post(data)

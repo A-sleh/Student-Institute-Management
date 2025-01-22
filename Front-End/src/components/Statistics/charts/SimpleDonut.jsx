@@ -4,6 +4,7 @@ import { AgCharts } from 'ag-charts-react';
 export default function SimpleDonut({data}){
     // Chart Options: Control & configure the chart
     const numFormatter = new Intl.NumberFormat("en-US");
+    
     const chartOptions = {
         data : data.data,
         // footnote: {
@@ -30,7 +31,7 @@ export default function SimpleDonut({data}){
             innerRadiusRatio: 0.7,
             innerLabels: [
               {
-                text: numFormatter.format(data.balance) + data.unit,
+                text: (data.balance) + data.unit,
                 fontSize: 24,
               },
               {

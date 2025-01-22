@@ -19,7 +19,7 @@ export default function BalanceEachMonth() {
             }
             return {
                 month: monthDetails.month , 
-                balance : parseFloat(getShortNumberFormat(monthDetails.balance).number),
+                balance : parseFloat(getShortNumberFormat(monthDetails.balance).number) ,
                 percent : percent ,
                 unit : getShortNumberFormat(monthDetails.balance).unit 
             }
