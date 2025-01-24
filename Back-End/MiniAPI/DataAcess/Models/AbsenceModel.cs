@@ -10,5 +10,8 @@ namespace DataAcess.Models
     {
         public int AbsenceId { get; set; }
         public DateTime? Date { get; set; }
+
+        public bool DateFilter(DateTime? startDate, DateTime? endDate) => 
+            (Date <= endDate || endDate == null) && (Date >= startDate || startDate == null);
     }
 }

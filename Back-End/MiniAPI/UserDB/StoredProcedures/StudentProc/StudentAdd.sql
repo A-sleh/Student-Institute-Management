@@ -6,7 +6,6 @@
 	@Birthdate DATE,
 	@Phone VARCHAR(15),
 	@ClassId INT,
-	@MissedDays INT,
 	@BillRequired INT
 AS
 BEGIN
@@ -17,7 +16,6 @@ BEGIN
 		birthdate,
 		phone,
 		classId,
-		missedDays,
 		billRequired
 	)
 	VALUES(
@@ -27,7 +25,7 @@ BEGIN
 		@Birthdate,
 		@Phone,
 		@ClassId,
-		@MissedDays,
 		@BillRequired
 	)
+	SELECT SCOPE_IDENTITY();
 END
