@@ -134,7 +134,7 @@ namespace DataAcess.DBAccess
             string connectionString = "Default")
         {
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
-            return await connection.QuerySingleAsync<int>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            return await connection.QuerySingleOrDefaultAsync<int>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
     }
