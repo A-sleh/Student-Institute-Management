@@ -15,7 +15,7 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
-    private Dictionary<int, StudentModel> _studentsCache = [];
+    private readonly Dictionary<int, StudentModel> _studentsCache = [];
     public StudentData(ISqlDataAccess db)
     { 
         this._db = db;
@@ -44,6 +44,18 @@ public class StudentData : IStudentData
         }
     }
 
+    private async Task<StudentModel?> GetStudentModelById(int id)
+    {
+        var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
+                parameters: new { Id = id },
+                (StudentModel Student, ClassModel Class) =>
+                {
+                    Student.Class = Class;
+                    return Student;
+                },
+                splitOn: "ClassId");
+        return res.FirstOrDefault();
+    }
 
     public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
     {
@@ -56,19 +68,6 @@ public class StudentData : IStudentData
             {
                 return student.Value.PureFormat();
             });
-    }
-
-    private async Task<StudentModel?> GetStudentModelById(int id)
-    {
-        var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
-                parameters: new { Id = id },
-                (StudentModel Student, ClassModel Class) =>
-                {
-                    Student.Class = Class;
-                    return Student;
-                },
-                splitOn: "ClassId");
-        return res.FirstOrDefault();
     }
 
     public async Task<dynamic?> GetStudentByID(int id)
@@ -132,20 +131,27 @@ public class StudentData : IStudentData
 
     public async Task UpdateStudent(StudentModel student)
     {
-        await _db.ExecuteData("dbo.StudentUpdate", new
+        try
         {
-            Id = student.StudentId,
-            student.Name,
-            student.LastName,
-            student.FatherName,
-            student.Birthdate,
-            student.Phone,
-            student.Class?.ClassId,
-            student.BillRequired
-        });
+            await _db.ExecuteData("dbo.StudentUpdate", new
+            {
+                Id = student.StudentId,
+                student.Name,
+                student.LastName,
+                student.FatherName,
+                student.Birthdate,
+                student.Phone,
+                student.Class?.ClassId,
+                student.BillRequired
+            });
 
-        student.MissedDays = _studentsCache[student.StudentId].MissedDays;
-        _studentsCache[student.StudentId] = student;
+            student.MissedDays = _studentsCache[student.StudentId].MissedDays;
+            _studentsCache[student.StudentId] = student;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public async Task DeleteStudent(int id)

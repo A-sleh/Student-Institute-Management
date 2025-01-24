@@ -209,6 +209,12 @@ namespace DataAcess.Data
             _db.ExecuteData("dbo.ReportUpdate", report);
         public Task DeleteReport(int id) =>
             _db.ExecuteData("dbo.ReportDelete", new { Id = id });
+
+        public async Task<IEnumerable<dynamic>> GetTopStudentsInEachClass(int reportId)
+        {
+            var topStudents = await _db.LoadData<dynamic, dynamic>("dbo.ReportTopStudentInEachClass", new { reportId });
+            return topStudents.OrderByDescending(student => student.Average);
+        }
         #endregion
 
     }
