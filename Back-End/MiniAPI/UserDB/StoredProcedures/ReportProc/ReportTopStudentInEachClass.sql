@@ -9,7 +9,7 @@ AS
 	JOIN Subject sb ON t.SubjectId = sb.Id
 	JOIN Report r ON t.ReportId = r.Id
 	WHERE t.TestType = 'exam' AND r.Id = 1
-	GROUP BY s.id, s.classId)
+	GROUP BY s.id,s.name, s.lastName, s.classId)
 
 	SELECT * FROM top_students WHERE mark_rank = 1
 RETURN 0

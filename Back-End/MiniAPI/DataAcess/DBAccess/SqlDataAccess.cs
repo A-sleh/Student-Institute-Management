@@ -128,13 +128,13 @@ namespace DataAcess.DBAccess
         /// <param name="storedProcedure">stored procedure name</param>
         /// <param name="parameters">parameter args</param>
         /// <param name="connectionString">the required database connection string</param>
-        public async Task ExecuteData<T>(
+        public async Task<int> ExecuteData<T>(
             string storedProcedure,
             T parameters,
             string connectionString = "Default")
         {
             using IDbConnection connection = new SqlConnection(_cofing.GetConnectionString(connectionString));
-            await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            return await connection.QuerySingleAsync<int>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
     }

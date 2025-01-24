@@ -15,6 +15,8 @@ namespace DataAcess.Models
         public int GradeId { get; set; }
         public string? Gender { get; set; }
         public List<StudentModel> Students { get; set; } = [];
+
+        public dynamic PureFormat() => new { ClassId, Title, Capacity, GradeId, Grade, Gender };
     }
     
 }

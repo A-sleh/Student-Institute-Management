@@ -15,11 +15,12 @@ public class StudentModel
     public string? FatherName { get; set; }
     public string? Birthdate { get; set; }
     public string? Phone { get; set; }
+    public int? MissedDays {  get; set; }
     public decimal BillRequired { get; set; }
     public ClassModel? Class { get; set; }
     public List<TestMarkModel> TestMark { get; set; } = [];
 
-    public dynamic PureFormat(int absence = 0) =>
+    public dynamic PureFormat() =>
         new
         {
             StudentId,
@@ -27,14 +28,8 @@ public class StudentModel
             LastName,
             FatherName,
             Phone,
-            MissedDays = absence,
+            MissedDays,
             BillRequired,
-            Class = new
-            {
-                Class?.ClassId,
-                Class?.Title,
-                Class?.GradeId,
-                Class?.Grade
-            }
+            Class = Class?.PureFormat()
         };
 }
