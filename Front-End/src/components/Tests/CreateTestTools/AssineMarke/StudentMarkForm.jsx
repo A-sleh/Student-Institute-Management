@@ -89,7 +89,7 @@ export default function StudentMarkForm() {
         const doRquest = validMarkInput() ; 
         
         if(doRquest) {
-            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,testDate).then( _ => {
+            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,format(testDate, 'dd-MM-yyyy')).then( _ => {
                 successActionLogic(setSuccessAssigne)
             })
         }else {
