@@ -23,7 +23,9 @@ public class StudentData : IStudentData
 
     #region Data Request
     
-    // Expensive Method
+    /*
+     * Expensive Method, Must Be Forced on first loading
+     */
     private async Task LoadStudentModelList()
     {
 
@@ -160,12 +162,14 @@ public class StudentData : IStudentData
         foreach (int studentId in studentIds)
         {
             await _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
+            _studentsCache[studentId].MissedDays++;
         }
     }
 
-    public Task DeleteAbsence(int absenceId)
+    public async Task DeleteAbsence(int absenceId)
     {
-        return _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+        var studentId = await _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+        _studentsCache[studentId].MissedDays--;
     }
 
     #endregion
