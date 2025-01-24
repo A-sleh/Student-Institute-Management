@@ -16,7 +16,6 @@ public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
     private Dictionary<int, StudentModel> _studentsCache = [];
-    private Dictionary<int, List<AbsenceModel>> _absenceCache = [];
     public StudentData(ISqlDataAccess db)
     { 
         this._db = db;
@@ -25,57 +24,41 @@ public class StudentData : IStudentData
     #region Data Request
     
     // Expensive Method
-    private async Task GetStudentsList()
+    private async Task LoadStudentModelList()
     {
-        if (_studentsCache.Count == 0)
-        {
-            _studentsCache = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
-                "dbo.StudentGetAll",
-                parameters: new { },
-                (StudentModel Student, ClassModel Class) =>
-                {
-                    Student.Class = Class;
-                    return Student;
-                },
-                splitOn: "ClassId"
-                ))
-                .ToDictionary(Key => Key.StudentId, Student => Student);
-        }
 
-        //Loading Absences Cache
-        foreach (var student in _studentsCache)
+        var students = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
+            "dbo.StudentGetAll",
+            parameters: new { },
+            (StudentModel Student, ClassModel Class) =>
+            {
+                Student.Class = Class;
+                return Student;
+            },
+            splitOn: "ClassId")).Where(studnet => !_studentsCache.ContainsKey(studnet.StudentId));
+        foreach(var student in students)
         {
-            await GetStudentAbsencesList(student.Key);
+            _studentsCache.Add(student.StudentId, student);
         }
     }
 
-    private async Task GetStudentAbsencesList(int studentId)
-    {
-        if (!_absenceCache.ContainsKey(studentId))
-        {
-            _absenceCache.Add(studentId, []);
-            _absenceCache[studentId] = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId })).ToList();
-        }
-    }
 
     public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
     {
-        if(_studentsCache.Count == 0)
-            await GetStudentsList();
+       await LoadStudentModelList();
 
         return _studentsCache
             .Where(student => (classId == null || student.Value.Class?.ClassId == classId) && (gradeId == null || student.Value.Class?.GradeId == gradeId))
+            .OrderBy(student => student.Value.StudentId)
             .Select(student =>
             {
                 return student.Value.PureFormat();
             });
     }
 
-    public async Task<StudentModel?> GetStudentByID(int id)
+    private async Task<StudentModel?> GetStudentModelById(int id)
     {
-        if (!_studentsCache.TryGetValue(id, out StudentModel? value))
-        {
-            var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
+        var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
                 parameters: new { Id = id },
                 (StudentModel Student, ClassModel Class) =>
                 {
@@ -83,17 +66,24 @@ public class StudentData : IStudentData
                     return Student;
                 },
                 splitOn: "ClassId");
+        return res.FirstOrDefault();
+    }
 
-            if (res.First() == null)
-                return null;
+    public async Task<dynamic?> GetStudentByID(int id)
+    {
 
-            value = res.First();
-            _studentsCache.Add(id, value);
-
-            return _studentsCache[id];
+        if (!_studentsCache.TryGetValue(id, out StudentModel? cachedStudent))
+        {
+            var student = await GetStudentModelById(id);
+            if (student != null)
+            {
+                _studentsCache.Add(id, student);
+                return _studentsCache[id].PureFormat();
+            }
+            return student;
         }
 
-        return value;
+        return cachedStudent.PureFormat();
     }
 
     public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
@@ -101,14 +91,15 @@ public class StudentData : IStudentData
         if (startDate > endDate)
             throw new InvalidParametersException("End date must be equal or larger than start date");
 
-        await GetStudentAbsencesList(studentId);
+        var studentAbsences = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId }))
+            .Where(x => x.DateFilter(startDate, endDate));
 
-        var Absences = _absenceCache[studentId].Count;
+        var Absences = studentAbsences.Count();
 
         if (!detailed)
             return new { Absences };
 
-        return new { studentAbsences = _absenceCache[studentId], Absences };
+        return new { studentAbsences, Absences };
     }
 
     #endregion
@@ -116,20 +107,24 @@ public class StudentData : IStudentData
     #region Actions
     public async Task InsertStudent(StudentModel student)
     {
-        int id = await _db.ExecuteData("dbo.StudentAdd", new
+        try
         {
-            student.StudentId,
-            student.Name,
-            student.LastName,
-            student.FatherName,
-            student.Birthdate,
-            student.Phone,
-            student.Class?.ClassId,
-            student.BillRequired
-        });
-        if (_studentsCache.Count > 0)
-        {
+            int id = await _db.ExecuteData("dbo.StudentAdd", new
+            {
+                student.StudentId,
+                student.Name,
+                student.LastName,
+                student.FatherName,
+                student.Birthdate,
+                student.Phone,
+                student.Class?.ClassId,
+                student.BillRequired
+            });
             await GetStudentByID(id);
+        }
+        catch(Exception)
+        {
+            throw new Exception($"student {student.Name} has not been added!");
         }
     }
 
@@ -165,8 +160,6 @@ public class StudentData : IStudentData
         foreach (int studentId in studentIds)
         {
             await _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
-            // TODO GET THE GENERATED ID
-            _absenceCache[studentId].Add(new AbsenceModel { Date = Date });
         }
     }
 

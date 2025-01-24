@@ -130,8 +130,9 @@ namespace DataAcess.Data
         public async Task UpdateMark(Dictionary<int, int> testMarks, int testId, DateTime correctionDate)
         {
             //using var transaction = new TransactionScope();
-                
-            TestModel? test = (await GetTests(testId)).FirstOrDefault() ?? throw new Exception();
+
+            TestModel? test = (await GetTests(null))
+                .Where(test => test.TestId == testId).FirstOrDefault() ?? throw new Exception("No Test such Id");
             test.CorrectionDate = correctionDate;
 
             foreach (var (testMarkId, Mark) in testMarks)
