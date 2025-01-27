@@ -24,8 +24,9 @@ namespace DataAcess.Data
         public async Task<IEnumerable<dynamic>> GetStudentsResultSpecifiedByReportAndClass(int reportId, int classId)
         {
             var report = await GetReport(reportId, null);
-            var dic = new Dictionary<int, StudentModel>();
-            var students = 
+            var mappedStudents = new Dictionary<int, StudentModel>();
+
+            var classStudentsWithTestMarks = 
                 await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
                 "dbo.StudentGetFullResultByRepAndClass",
                 new
@@ -37,41 +38,32 @@ namespace DataAcess.Data
                 {
                     test.Subject = subject;
                     testMark.Test = test;
-                    if (dic.TryGetValue(student.StudentId, out var studentModel))
+                    if (mappedStudents.TryGetValue(student.StudentId, out var studentModel))
                     {
                         student = studentModel;
                     }
                     else
                     {
-                        dic.Add(student.StudentId, student);
+                        mappedStudents.Add(student.StudentId, student);
                     }
                     student.TestMark.Add(testMark);
                     return student;
                 },
                 splitOn: "TestId, SubjectId, TestMarkId");
-            students = students.Distinct();
 
-
-            var res = students.Select(x =>
-            {
-                var eAvg = GetStudentsRptAvg(x.StudentId, reportId, "exam", x.Class?.Gender).Result.FirstOrDefault();
-                var qAvg = GetStudentsRptAvg(x.StudentId, reportId, "quiz", x.Class?.Gender).Result.FirstOrDefault();
-                var reportResult = GetStudentTotalResult(x.StudentId, reportId).Result;
-                var TestMark = x.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
-                var absences = _studentData.GetStudentAbsence(x.StudentId, false, report?.StartDate, report?.FinishDate).Result.Absences;
-                var obj = new 
+            var studentsResults =  mappedStudents.Select(mapped => mapped.Value)
+                .Select(student =>
                 {
-                    quizAverage = qAvg?.Average ?? 0,
-                    examAverage = eAvg?.Average ?? 0,
-                    mark = reportResult?.mark ?? 0, totalMark = reportResult?.totalMark ?? 0,
-                    absences,
-                    x.StudentId, x.Name, x.LastName, x.FatherName, 
-                    TestMark 
-                };
-                return obj;
-            });
+                    var eAvg = GetStudentsRptAvg(student.StudentId, reportId, "exam", student.Class?.Gender).Result.FirstOrDefault();
+                    var quizAvg = GetStudentsRptAvg(student.StudentId, reportId, "quiz", student.Class?.Gender).Result.FirstOrDefault();
+                    var reportResult = GetStudentTotalResult(student.StudentId, reportId).Result;
+                    var testMarks = student.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
+                    student.MissedDays = _studentData.GetStudentAbsence(student.StudentId, false, report?.StartDate, report?.FinishDate).Result.Absences;
+                    var jsonFormat = student.ReportStudent(reportResult?.mark ?? 0, reportResult?.totalMark ?? 0, testMarks, quizAvg ?? 0, reportResult?.markPercentage ?? 0);
+                    return jsonFormat;
+                });
 
-            return res.OrderByDescending(o => o.mark);
+            return studentsResults.OrderBy(x => x.mark);
         }
         public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)
         {

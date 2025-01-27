@@ -1,8 +1,10 @@
 ﻿using DataAcess.DBAccess;
+using DataAcess.Exceptions;
 using DataAcess.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
@@ -21,24 +23,20 @@ namespace DataAcess.Data
             this._db = _db;
         }
         #region Validation Methods
-        private void ValidateId(int teacherSubjectId)
-            {
-                if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any())
-                    throw new Exception ("Not found, No Such Teacher Contains this teacherSubjectId");
-            }
-        private void ValidateLinking(int classId, int teacherSubjectId)
+        private async Task<bool> ValidateTacherSubjectIdExistance(int teacherSubjectId) =>
+                 (await _db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId })).Any();
+        private async Task ValidateLinking(int classId, int teacherSubjectId)
         {
-            var Valid = 
-            (_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any()) &&
-            (_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetById", new { teacherSubjectId }).Result.Any()) &&
-            (!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectClassGetId", new { teacherSubjectId, classId }).Result.Any());
+            var Valid = (await _db.LoadData<dynamic, dynamic>("dbo.ClassGetById", new { classId })).Any()
+            && (await ValidateTacherSubjectIdExistance(teacherSubjectId));
+
             if(!Valid)
-                throw new Exception("Parameters Invalid");
+                throw new InvalidParametersException("Parameters Invalid");
         }
-        private void ValidateId(int teacherId, int subjectId)
+        private async Task ValidateTeacherSubjectIdExistance(int teacherId, int subjectId)
         {
-            if(!_db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetId", new { teacherId, subjectId }).Result.Any())
-                throw new Exception ("Not found, may teacher or subject id is invalid");
+            if(!(await _db.LoadData<dynamic,dynamic>("dbo.TeacherSubjectGetId", new { teacherId, subjectId })).Any())
+                throw new InvalidParametersException("Not found, may teacher or subject id is invalid");
         }
         #endregion
 
@@ -70,7 +68,7 @@ namespace DataAcess.Data
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherClasses(int teacherId)
         {
             var dic = new Dictionary<int, TeacherSubjectModel>();
-            var res = await _db.LoadData<dynamic, TeacherSubjectModel, SubjectModel, ClassModel>(
+            _ = await _db.LoadData<dynamic, TeacherSubjectModel, SubjectModel, ClassModel>(
                 "dbo.TeacherGetClassesAndSubjects",
                 parameters:
                 new { teacherId },
@@ -90,26 +88,36 @@ namespace DataAcess.Data
                 },
                 splitOn: "SubjectId, ClassId"
                 );
-            return res.Distinct();
+            return dic.Select(x => x.Value);
         }
         #endregion
 
         #region Actions
-        public async Task InsertTeacherSubjects(TeacherSubjectModel model) 
-            => await _db.ExecuteData("dbo.TeacherSubjectInsert", new
+        public async Task InsertTeacherSubjects(TeacherSubjectModel model)
+        {
+            try
             {
-                model.Teacher?.TeacherId,
-                model.Subject?.SubjectId,
-                model.Salary
-            });
+                await _db.ExecuteData("dbo.TeacherSubjectInsert", new
+                {
+                    model.Teacher?.TeacherId,
+                    model.Subject?.SubjectId,
+                    model.Salary
+                });
+            }
+            catch (Exception)
+            {
+                throw new InvalidParametersException($"Invalid TeacherId: {model.Teacher?.TeacherId} or SubjectId: {model.Subject?.SubjectId}");
+            }
+        }
+
         public async Task LinkTeacherWithClass(int teacherSubjectId, int classId)
         {
-            ValidateLinking(classId, teacherSubjectId);
+            await ValidateLinking(classId, teacherSubjectId);
             await _db.ExecuteData("dbo.TeacherSubjectAddClass", new { teacherSubjectId, classId });
         }
         public async Task UpdateTeacherSubject(int TeacherId, int SubjectId, int Salary)
         {
-            ValidateId(TeacherId, SubjectId);
+            await ValidateTeacherSubjectIdExistance (TeacherId, SubjectId);
             await _db.ExecuteData("dbo.TeacherSubjectUpdate", new
             {
                 TeacherId,
@@ -119,7 +127,7 @@ namespace DataAcess.Data
         }
         public async Task DeleteSubjectForTeacher(int teacherSubjectId)
         {
-            ValidateId(teacherSubjectId);
+            await ValidateTacherSubjectIdExistance(teacherSubjectId);
             await _db.ExecuteData("dbo.TeacherSubjectDelete", new { teacherSubjectId });
         }
         public async Task DeleteTeacherFromClass(int teacherSubjectId, int classId)

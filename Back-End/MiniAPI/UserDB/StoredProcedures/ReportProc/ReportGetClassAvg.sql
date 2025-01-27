@@ -12,7 +12,7 @@ AS
 	JOIN TestMark ts ON s.id = ts.StudentId
 	JOIN Test t ON ts.TestId = t.Id
 	JOIN Subject sb ON t.SubjectId = sb.Id
-	LEFT OUTER JOIN Grade g ON sb.gradeId = g.gradeId AND c.gradeId = g.gradeId
+	LEFT OUTER JOIN Grade g ON c.gradeId = g.gradeId AND c.gradeId = g.gradeId
 	LEFT OUTER JOIN Report r ON t.ReportId = r.Id
 	WHERE (r.Id = @reportId or @reportId is null ) 
 	AND (c.id = @classId OR @classId is null)

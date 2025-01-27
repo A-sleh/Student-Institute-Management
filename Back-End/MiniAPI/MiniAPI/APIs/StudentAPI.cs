@@ -89,9 +89,9 @@ namespace MiniAPI.APIs
                 var res = await data.GetStudentByID(id);
                 return Results.Ok(res);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -102,9 +102,7 @@ namespace MiniAPI.APIs
                 var res = await data.GetStudents(classId, gradeId);
                 return Results.Ok(new
                 {
-                    students = res
-                    .Skip(limit * (page - 1))
-                    .Take(limit),
+                    students = res.Paginate(page, limit),
                     totalStudents = res.Count(),
                     totalPages = Math.Ceiling((double)res.Count() / limit),
                     currPage = page

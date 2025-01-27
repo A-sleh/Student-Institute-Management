@@ -61,11 +61,9 @@ namespace DataAcess.Data
             return res;
         }
 
-        public async Task<IEnumerable<TeacherModel>> GetAllTeachers(int? listSize, int page)
+        public async Task<IEnumerable<TeacherModel>> GetAllTeachers()
         {
-            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll",
-                parameters: new { }
-                );
+            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll", parameters: new { });
             return res;
         }
 

@@ -32,4 +32,27 @@ public class StudentModel
             BillRequired,
             Class = Class?.PureFormat()
         };
+
+    /// <summary>
+    /// Turn student model into dynamic object as summary informations for printing a report
+    /// </summary>
+    /// <param name="mark"></param>
+    /// <param name="totalMark"></param>
+    /// <param name="testMarks"></param>
+    /// <param name="quizAverage"></param>
+    /// <param name="examAverage"></param>
+    /// <returns>Dynamic object wich contains: examAverage, quizAverage, mark, totalMark, testMarks summary and student properties</returns>
+    public dynamic ReportStudent(int mark, int totalMark, IEnumerable<dynamic> testMarks, int quizAverage = 0, int examAverage = 0)
+        => new {
+            quizAverage,
+            examAverage,
+            mark,
+            totalMark,
+            MissedDays,
+            StudentId,
+            Name,
+            LastName,
+            FatherName,
+            testMarks
+        };
 }

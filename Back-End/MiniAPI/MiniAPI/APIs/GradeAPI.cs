@@ -3,6 +3,8 @@ using DataAcess.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.ExceptionServices;
 using DataAcess.Exceptions;
+using System.Data.SqlTypes;
+using System.Data.SqlClient;
 
 namespace MiniAPI.APIs
 {
@@ -97,6 +99,10 @@ namespace MiniAPI.APIs
             {
                 await data.DeleteGrade(gradeId);
                 return Results.Ok();
+            }
+            catch (SqlException SqlEx)
+            {
+                return Results.BadRequest(SqlEx.Message);
             }
             catch (Exception e)
             {
