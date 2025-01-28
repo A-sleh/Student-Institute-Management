@@ -27,9 +27,9 @@ namespace MiniAPI.APIs
                 await data.ChangePassword(credentials[0].Password, credentials[1].Password);
                 return Results.Ok();
             }
-            catch (SqlException sqlEx)
+            catch (LoginException LoginEx)
             {
-                return Results.BadRequest(sqlEx.Message);
+                return Results.BadRequest(LoginEx.Message);
             }
             catch (Exception ex)
             {
@@ -44,9 +44,9 @@ namespace MiniAPI.APIs
                 await data.Login(credential.Username, credential.Password);
                 return Results.Accepted();
             }
-            catch (SqlException sqlEx)
+            catch (LoginException LoginEx)
             {
-                return Results.BadRequest(sqlEx.Message);
+                return Results.BadRequest(LoginEx.Message);
             }
             catch (Exception e)
             {
