@@ -93,8 +93,15 @@ public class StudentData : IStudentData
             .Where(x => x.DateFilter(startDate, endDate));
 
         var Absences = studentAbsences.Count();
- 
-        _studentsCache[studentId].MissedDays = Absences;
+
+        if (_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
+        {
+            cachedStudent.MissedDays = Absences;
+        }
+        else
+        {
+            cachedStudent = new StudentModel() { MissedDays = Absences };
+        }
 
         if (!detailed)
             return new { Absences };

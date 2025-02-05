@@ -154,7 +154,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> UpdateStudentMark(ITestData data, int testId, [FromBody] Dictionary<int, int> testmarks, [FromQuery] DateTime correctionDate)
+        private static async Task<IResult> UpdateStudentMark(ITestData data, int testId, [FromBody] Dictionary<int, int> testmarks, [FromQuery]DateTime correctionDate)
         {
             try
             {
