@@ -71,26 +71,15 @@ export default function StudentMarkForm() {
         return !notValid ;
     }
 
-    function convertKeyToChar() {
-
-        const keys = Object.keys(marks) 
-        const value = Object.values(marks) 
-        let mark = new Map()
-        
-        keys.map((key,index) => {
-            
-            mark[key] = +value[index]
-        })
-
-        return mark
-    }
-
     function handleConfirmclicked() {
         const doRquest = validMarkInput() ; 
         
         if(doRquest) {
-            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,format(testDate, 'yyyy-MM-dd')).then( _ => {
+            DataServices.AssingeMarkToTheTest(marks,testId,format(testDate, 'yyyy-MM-dd')).then( _ => {
                 successActionLogic(setSuccessAssigne)
+                setTimeout(() => {
+                    gotoPage(-1)
+                }, 500 )
             })
         }else {
             errorActionLogic(setNegativeFiled)
