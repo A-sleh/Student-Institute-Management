@@ -78,8 +78,8 @@ export default function StudentMarkForm() {
         let mark = new Map()
         
         keys.map((key,index) => {
-            console.log(key,value[index])
-            mark[`"${key}"`] = value[index]
+            
+            mark[key] = +value[index]
         })
 
         return mark
@@ -89,7 +89,7 @@ export default function StudentMarkForm() {
         const doRquest = validMarkInput() ; 
         
         if(doRquest) {
-            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,format(testDate, 'dd-MM-yyyy')).then( _ => {
+            DataServices.AssingeMarkToTheTest(convertKeyToChar(marks),testId,format(testDate, 'yyyy-MM-dd')).then( _ => {
                 successActionLogic(setSuccessAssigne)
             })
         }else {
