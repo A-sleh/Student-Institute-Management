@@ -375,7 +375,7 @@ export default {
       } 
     },
     put: (testMark,testId,testDate) => {
-      return fetch(`${URL}/Test/${testId}/Marks?correctionDate =${testDate}`, {
+      return fetch(`${URL}/Test/${testId}/Marks?correctionDate=${testDate}`, {
         method: "PUT",
         body: JSON.stringify(testMark),
         headers: {

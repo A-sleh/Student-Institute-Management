@@ -260,7 +260,7 @@ There are some bugs in the code :
     -- [X] in new test page : I will add a placeholder in subjects field to tell the user 
     to select a grade to display the subjects ;
     -- [X] in test class details the header filter need to restyle ;
-    -- [Xin report class details : the date of test need to be it in one line
+    -- [X] in report class details : the date of test need to be it in one line
 
 
 
