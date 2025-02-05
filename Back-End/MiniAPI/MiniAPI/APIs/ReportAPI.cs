@@ -2,6 +2,7 @@
 using DataAcess.DBAccess;
 using DataAcess.Exceptions;
 using DataAcess.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Data;
@@ -21,6 +22,7 @@ namespace MiniAPI.APIs
             app.MapGet("/Report/{reportId}/Class/{classId}/Result", GetResultsByReportAndClass);
             app.MapGet("/Report/{reportId}/Student/{studentId}/Result", GetTotalResult);
             app.MapGet("/Report/Teacher/rate", GetTeachersRateBySubject);
+            app.MapGet("/Report/{reportId}/Top", GetTopStudentsIn);
 
             app.MapPut("/Report/{reportId}/Test", LinkReportWithTests);
             app.MapPut("/Report", UpdateReport);
@@ -28,6 +30,19 @@ namespace MiniAPI.APIs
             app.MapPost("/Report", InsertReport);
 
             app.MapDelete("/Report/{id}", DeleteReport);
+        }
+
+        private static async Task<IResult> GetTopStudentsIn(IReportData data, int reportId)
+        {
+            try
+            {
+                var topStudents = await data.GetTopStudentsInEachClass(reportId);
+                return Results.Ok(topStudents);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         }
 
         private static async Task<IResult> GetTeachersRateBySubject(IReportData data, int subjectId, int limit = 5, int page = 1)

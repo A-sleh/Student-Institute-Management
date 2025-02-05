@@ -5,7 +5,7 @@ namespace DataAcess.Data
     public interface IStudentData
     {
         Task DeleteStudent(int id);
-        Task<StudentModel?> GetStudentByID(int id);
+        Task<dynamic?> GetStudentByID(int id);
         Task<IEnumerable<dynamic>> GetStudents(int? classId, int? gradeId);
         Task InsertStudent(StudentModel student);
         Task UpdateStudent(StudentModel student);

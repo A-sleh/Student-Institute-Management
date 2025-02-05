@@ -24,6 +24,8 @@ namespace DataAcess.Data
 
         public async Task ChangePassword(string oldPass, string newPass)
         {
+            if (!_loggedIn)
+                throw new LoginException("login before change password");
             try
             {
                 oldPass = Encrypt(oldPass);
@@ -32,11 +34,8 @@ namespace DataAcess.Data
             }
             catch (SqlException)
             {
-                throw;
-            }
-            finally
-            {
                 _loggedIn = false;
+                throw;
             }
         }
 
@@ -56,9 +55,16 @@ namespace DataAcess.Data
 
         public async Task EditConfig(Dictionary<string, string> configs)
         {
-            foreach (var (attribute, value) in configs)
+            try
             {
-                await _db.ExecuteData("UpdateSettings", new { attribute, value });
+                foreach (var (attribute, value) in configs)
+                {
+                    await _db.ExecuteData("UpdateSettings", new { attribute, value });
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
             }
         }
 
@@ -96,19 +102,29 @@ namespace DataAcess.Data
 
         public async Task Login(string username, string password)
         {
-            if (_loggedIn)
-                throw new LoginException("Already logged in");
-            password = Encrypt(password);
-            await _db.ExecuteData("userLogin", new { username, password });
-            _loggedIn = true;
+            try
+            {
+                password = Encrypt(password);
+                await _db.ExecuteData("userLogin", new { username, password });
+                _loggedIn = true;
+            }
+            catch (SqlException SqlEx)
+            {
+                throw new LoginException($"Failed to login: {SqlEx.Message}");
+            }
         }
 
         public async Task Logout()
         {
-            if (!_loggedIn)
-                throw new LoginException("Already logged out");
-            await _db.ExecuteData("userLogout", new { });
-            _loggedIn = false;
+            try
+            {
+                await _db.ExecuteData("userLogout", new { });
+                _loggedIn = false;
+            }
+            catch (SqlException SqlEx)
+            {
+                throw new LoginException($"Failed to logout: {SqlEx.Message}");
+            }
         }
     }
 }

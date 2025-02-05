@@ -3,15 +3,13 @@
 	@classId int null
 AS
 BEGIN
-	SELECT DISTINCT
+	SELECT
 	r.Id as ReportId, ReportTitle, StartDate, FinishDate,
 	t.Id as TestId, t.Title, t.TestType, t.Date, t.CorrectionDate,
-	s.Id as SubjectId, s.Subject, g.gradeId, g.grade, s.MaximumMark
-	FROM Report r
+	sbj.Id as SubjectId, sbj.Subject, g.gradeId, g.grade, sbj.MaximumMark
+	FROM Report r 
 	LEFT OUTER JOIN Test t ON r.Id = t.ReportId
-	LEFT OUTER JOIN Subject s ON t.SubjectId = s.Id
-	LEFT OUTER JOIN Grade g ON s.gradeId = g.gradeId
-	LEFT OUTER JOIN TestMark ts ON t.Id = ts.TestId
-	LEFT OUTER JOIN Student st ON ts.StudentId = st.id
-	WHERE r.Id = @Id AND (@classId IS NULL OR st.classId = @classId);
+	LEFT OUTER JOIN Subject sbj ON t.SubjectId = sbj.Id
+	LEFT OUTER JOIN Grade g ON sbj.gradeId = g.gradeId
+	WHERE r.Id = @Id AND (@classId IS NULL OR @classId IN (SELECT DISTINCT classId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE tm.TestId = t.Id))
 END

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +16,7 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
-    private Dictionary<int, StudentModel> _studentsCache = [];
-    private Dictionary<int, List<AbsenceModel>> _absenceCache = [];
+    private readonly Dictionary<int, StudentModel> _studentsCache = [];
     public StudentData(ISqlDataAccess db)
     { 
         this._db = db;
@@ -24,58 +24,30 @@ public class StudentData : IStudentData
 
     #region Data Request
     
-    // Expensive Method
-    private async Task GetStudentsList()
+    /*
+     * Expensive Method, Must Be Forced on first loading
+     */
+    private async Task LoadStudentModelList(int? classId = null)
     {
-        if (_studentsCache.Count == 0)
-        {
-            _studentsCache = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
-                "dbo.StudentGetAll",
-                parameters: new { },
-                (StudentModel Student, ClassModel Class) =>
-                {
-                    Student.Class = Class;
-                    return Student;
-                },
-                splitOn: "ClassId"
-                ))
-                .ToDictionary(Key => Key.StudentId, Student => Student);
-        }
-
-        //Loading Absences Cache
-        foreach (var student in _studentsCache)
-        {
-            await GetStudentAbsencesList(student.Key);
-        }
-    }
-
-    private async Task GetStudentAbsencesList(int studentId)
-    {
-        if (!_absenceCache.ContainsKey(studentId))
-        {
-            _absenceCache.Add(studentId, []);
-            _absenceCache[studentId] = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId })).ToList();
-        }
-    }
-
-    public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
-    {
-        if(_studentsCache.Count == 0)
-            await GetStudentsList();
-
-        return _studentsCache
-            .Where(student => (classId == null || student.Value.Class?.ClassId == classId) && (gradeId == null || student.Value.Class?.GradeId == gradeId))
-            .Select(student =>
+        var students = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
+            "dbo.StudentGetAll",
+            parameters: new { classId },
+            (StudentModel Student, ClassModel Class) =>
             {
-                return student.Value.PureFormat();
-            });
+                Student.Class = Class;
+                return Student;
+            },
+            splitOn: "ClassId")).Where(studnet => !_studentsCache.ContainsKey(studnet.StudentId));
+
+        foreach(var student in students)
+        {
+            _studentsCache.Add(student.StudentId, student);
+        }
     }
 
-    public async Task<StudentModel?> GetStudentByID(int id)
+    private async Task<StudentModel?> GetStudentModelById(int id)
     {
-        if (!_studentsCache.TryGetValue(id, out StudentModel? value))
-        {
-            var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
+        var res = await _db.LoadData<StudentModel, dynamic, ClassModel>("dbo.StudentGet",
                 parameters: new { Id = id },
                 (StudentModel Student, ClassModel Class) =>
                 {
@@ -83,17 +55,33 @@ public class StudentData : IStudentData
                     return Student;
                 },
                 splitOn: "ClassId");
+        return res.FirstOrDefault();
+    }
 
-            if (res.First() == null)
-                return null;
+    public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
+    {
+        await LoadStudentModelList(classId);
 
-            value = res.First();
-            _studentsCache.Add(id, value);
+        return _studentsCache
+            .Where(student => classId is null || student.Value.Class?.ClassId == classId)
+            .Select(student => student.Value.PureFormat());
+    }
 
-            return _studentsCache[id];
+    public async Task<dynamic?> GetStudentByID(int id)
+    {
+
+        if (!_studentsCache.TryGetValue(id, out StudentModel? cachedStudent))
+        {
+            var student = await GetStudentModelById(id);
+            if (student != null)
+            {
+                _studentsCache.Add(id, student);
+                return _studentsCache[id].PureFormat();
+            }
+            return student;
         }
 
-        return value;
+        return cachedStudent.PureFormat();
     }
 
     public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
@@ -101,14 +89,17 @@ public class StudentData : IStudentData
         if (startDate > endDate)
             throw new InvalidParametersException("End date must be equal or larger than start date");
 
-        await GetStudentAbsencesList(studentId);
+        var studentAbsences = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId }))
+            .Where(x => x.DateFilter(startDate, endDate));
 
-        var Absences = _absenceCache[studentId].Count;
+        var Absences = studentAbsences.Count();
+ 
+        _studentsCache[studentId].MissedDays = Absences;
 
         if (!detailed)
             return new { Absences };
 
-        return new { studentAbsences = _absenceCache[studentId], Absences };
+        return new { studentAbsences, Absences };
     }
 
     #endregion
@@ -116,63 +107,109 @@ public class StudentData : IStudentData
     #region Actions
     public async Task InsertStudent(StudentModel student)
     {
-        int id = await _db.ExecuteData("dbo.StudentAdd", new
+        try
         {
-            student.StudentId,
-            student.Name,
-            student.LastName,
-            student.FatherName,
-            student.Birthdate,
-            student.Phone,
-            student.Class?.ClassId,
-            student.BillRequired
-        });
-        if (_studentsCache.Count > 0)
-        {
+            int id = await _db.ExecuteData("dbo.StudentAdd", new
+            {
+                student.StudentId,
+                student.Name,
+                student.LastName,
+                student.FatherName,
+                student.Birthdate,
+                student.Phone,
+                student.Class?.ClassId,
+                student.BillRequired
+            });
             await GetStudentByID(id);
+        }
+        catch(Exception)
+        {
+            throw new Exception($"Student {student.Name} has not been added!");
         }
     }
 
     public async Task UpdateStudent(StudentModel student)
     {
-        await _db.ExecuteData("dbo.StudentUpdate", new
+        try
         {
-            Id = student.StudentId,
-            student.Name,
-            student.LastName,
-            student.FatherName,
-            student.Birthdate,
-            student.Phone,
-            student.Class?.ClassId,
-            student.BillRequired
-        });
+            await _db.ExecuteData("dbo.StudentUpdate", new
+            {
+                Id = student.StudentId,
+                student.Name,
+                student.LastName,
+                student.FatherName,
+                student.Birthdate,
+                student.Phone,
+                student.Class?.ClassId,
+                student.BillRequired
+            });
 
-        student.MissedDays = _studentsCache[student.StudentId].MissedDays;
-        _studentsCache[student.StudentId] = student;
+            if(_studentsCache.TryGetValue(student.StudentId, out var cachedStudent))
+            {
+                cachedStudent = student;
+            }
+            else
+            {
+                _studentsCache.Add(student.StudentId, student);
+            }
+            
+        }
+        catch (Exception)
+        {
+            throw new Exception($"Student {student.Name} has not been modifed!");
+        }
     }
 
     public async Task DeleteStudent(int id)
     {
-        await _db.ExecuteData("dbo.StudentDelete", new { Id = id });
-        _studentsCache.Remove(id);
+        try
+        {
+            await _db.ExecuteData("dbo.StudentDelete", new { Id = id });
+            _studentsCache.Remove(id);
+        }
+        catch (Exception)
+        {
+            throw new Exception($"Unable to remove student with Id: {id}");
+        }
     }
 
     public  async Task AddAbsences(IEnumerable<int> studentIds, DateTime Date)
     {
-        if (!studentIds.Any())
-            throw new InvalidParametersException("Must provide atleast one student id");
-
-        foreach (int studentId in studentIds)
+        try
         {
-            await _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
-            // TODO GET THE GENERATED ID
-            _absenceCache[studentId].Add(new AbsenceModel { Date = Date });
+            if (!studentIds.Any())
+                throw new InvalidParametersException("Must provide atleast one student id");
+
+            foreach (int studentId in studentIds)
+            {
+                await _db.ExecuteData("StudentAbsenceAdd", new { studentId, Date });
+                if (_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
+                    cachedStudent.MissedDays++;
+            }
+        }
+        catch (InvalidParametersException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw new Exception($"Error: Absences On {Date} has not been added");
         }
     }
 
-    public Task DeleteAbsence(int absenceId)
+    public async Task DeleteAbsence(int absenceId)
     {
-        return _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+        try
+        {
+            var studentId = await _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
+
+            if(_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
+                cachedStudent.MissedDays--;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Error: Absences has not been deleted");
+        }
     }
 
     #endregion

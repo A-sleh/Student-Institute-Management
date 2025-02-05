@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
 using DataAcess.Data;
+using DataAcess.Exceptions;
 using DataAcess.Models;
 
 namespace MiniAPI.APIs
@@ -77,12 +78,10 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetAllTeachers(listSize,page);
+                var res = await data.GetAllTeachers();
                 return Results.Ok(new
                 {
-                    teachers = res
-                    .Skip(listSize * (page - 1))
-                    .Take(listSize),
+                    teachers = res.Paginate(page, listSize),
                     totalTeachers = res.Count(),
                     totalPages = Math.Ceiling((double)res.Count() / listSize),
                     currPage = page
@@ -181,6 +180,10 @@ namespace MiniAPI.APIs
                 await data.InsertTeacherSubjects(model);
                 return Results.Ok("Insert Success");
             }
+            catch (InvalidParametersException ParamEx)
+            {
+                return Results.BadRequest(ParamEx.Message);
+            }
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
@@ -197,6 +200,10 @@ namespace MiniAPI.APIs
             {
                 await data.UpdateTeacherSubject(TeacherId, SubjectId, Salary);
                 return Results.Ok("Update Success");
+            }
+            catch (InvalidParametersException ParamEx)
+            {
+                return Results.BadRequest(ParamEx.Message);
             }
             catch (Exception e)
             {
@@ -251,6 +258,10 @@ namespace MiniAPI.APIs
             {
                 await data.LinkTeacherWithClass(TeacherSubjectId, classId);
                 return Results.Ok();
+            }
+            catch (InvalidParametersException ParamEx)
+            {
+                return Results.BadRequest(ParamEx.Message);
             }
             catch (Exception e)
             {
