@@ -168,9 +168,18 @@ BEGIN
 	(N'الوحدة الاولى', 'exam', 5, 1, '2025/1/11', '2025/1/13'),
 	(N'الوحدة الاولى', 'exam', 6, 1, '2025/1/15', '2025/1/20'),
 	(N'الوحدة الاولى', 'exam', 7, 1, '2025/1/18', '2025/1/24'),
+	(N'الوحدة الاولى', 'exam', 8, 1, '2025/1/19', '2025/1/25'),
+	(N'الوحدة الاولى', 'exam', 1, 1, '2025/1/1', '2025/1/3'),
+	(N'الوحدة الاولى', 'exam', 2, 1, '2025/1/3', '2025/1/5'),
+	(N'الوحدة الاولى', 'exam', 3, 1, '2025/1/5', '2025/1/7'),
+	(N'الوحدة الاولى', 'exam', 4, 1, '2025/1/8', '2025/1/10'),
+	(N'الوحدة الاولى', 'exam', 5, 1, '2025/1/11', '2025/1/13'),
+	(N'الوحدة الاولى', 'exam', 6, 1, '2025/1/15', '2025/1/20'),
+	(N'الوحدة الاولى', 'exam', 7, 1, '2025/1/18', '2025/1/24'),
 	(N'الوحدة الاولى', 'exam', 8, 1, '2025/1/19', '2025/1/25');
 END
 
+-- init marks
 EXEC TestInitMarks 1, 1;
 EXEC TestInitMarks 2, 1;
 EXEC TestInitMarks 3, 1;
@@ -179,14 +188,185 @@ EXEC TestInitMarks 5, 1;
 EXEC TestInitMarks 6, 1;
 EXEC TestInitMarks 7, 1;
 EXEC TestInitMarks 8, 1;
-EXEC TestInitMarks 1, 2;
-EXEC TestInitMarks 2, 2;
-EXEC TestInitMarks 3, 2;
-EXEC TestInitMarks 4, 2;
-EXEC TestInitMarks 5, 2;
-EXEC TestInitMarks 6, 2;
-EXEC TestInitMarks 7, 2;
-EXEC TestInitMarks 8, 2;
+EXEC TestInitMarks 9, 2;
+EXEC TestInitMarks 10, 2;
+EXEC TestInitMarks 11, 2;
+EXEC TestInitMarks 12, 2;
+EXEC TestInitMarks 13, 2;
+EXEC TestInitMarks 14, 2;
+EXEC TestInitMarks 15, 2;
+EXEC TestInitMarks 16, 2;
+
+-- set marks
+EXEC TestUpdateMark 1, 401;
+EXEC TestUpdateMark 2, 511;
+EXEC TestUpdateMark 3, 428;
+EXEC TestUpdateMark 4, 591;
+EXEC TestUpdateMark 5, 490;
+EXEC TestUpdateMark 6, 419;
+EXEC TestUpdateMark 7, 511;
+EXEC TestUpdateMark 8, 557;
+EXEC TestUpdateMark 9, 571;
+EXEC TestUpdateMark 10, 483;
+EXEC TestUpdateMark 11, 522;
+EXEC TestUpdateMark 12, 549;
+EXEC TestUpdateMark 13, 337;
+EXEC TestUpdateMark 14, 323;
+EXEC TestUpdateMark 15, 380;
+EXEC TestUpdateMark 16, 248;
+EXEC TestUpdateMark 17, 337;
+EXEC TestUpdateMark 18, 268;
+EXEC TestUpdateMark 19, 398;
+EXEC TestUpdateMark 20, 363;
+EXEC TestUpdateMark 21, 270;
+EXEC TestUpdateMark 22, 354;
+EXEC TestUpdateMark 23, 278;
+EXEC TestUpdateMark 24, 393;
+EXEC TestUpdateMark 25, 230;
+EXEC TestUpdateMark 26, 220;
+EXEC TestUpdateMark 27, 298;
+EXEC TestUpdateMark 28, 262;
+EXEC TestUpdateMark 29, 296;
+EXEC TestUpdateMark 30, 231;
+EXEC TestUpdateMark 31, 182;
+EXEC TestUpdateMark 32, 247;
+EXEC TestUpdateMark 33, 189;
+EXEC TestUpdateMark 34, 223;
+EXEC TestUpdateMark 35, 234;
+EXEC TestUpdateMark 36, 248;
+EXEC TestUpdateMark 37, 308;
+EXEC TestUpdateMark 38, 296;
+EXEC TestUpdateMark 39, 370;
+EXEC TestUpdateMark 40, 313;
+EXEC TestUpdateMark 41, 285;
+EXEC TestUpdateMark 42, 384;
+EXEC TestUpdateMark 43, 328;
+EXEC TestUpdateMark 44, 305;
+EXEC TestUpdateMark 45, 364;
+EXEC TestUpdateMark 46, 396;
+EXEC TestUpdateMark 47, 247;
+EXEC TestUpdateMark 48, 384;
+EXEC TestUpdateMark 49, 240;
+EXEC TestUpdateMark 50, 272;
+EXEC TestUpdateMark 51, 196;
+EXEC TestUpdateMark 52, 236;
+EXEC TestUpdateMark 53, 293;
+EXEC TestUpdateMark 54, 267;
+EXEC TestUpdateMark 55, 252;
+EXEC TestUpdateMark 56, 213;
+EXEC TestUpdateMark 57, 191;
+EXEC TestUpdateMark 58, 241;
+EXEC TestUpdateMark 59, 242;
+EXEC TestUpdateMark 60, 232;
+EXEC TestUpdateMark 61, 275;
+EXEC TestUpdateMark 62, 190;
+EXEC TestUpdateMark 63, 227;
+EXEC TestUpdateMark 64, 207;
+EXEC TestUpdateMark 65, 226;
+EXEC TestUpdateMark 66, 278;
+EXEC TestUpdateMark 67, 266;
+EXEC TestUpdateMark 68, 289;
+EXEC TestUpdateMark 69, 205;
+EXEC TestUpdateMark 70, 201;
+EXEC TestUpdateMark 71, 280;
+EXEC TestUpdateMark 72, 269;
+EXEC TestUpdateMark 73, 134;
+EXEC TestUpdateMark 74, 126;
+EXEC TestUpdateMark 75, 190;
+EXEC TestUpdateMark 76, 161;
+EXEC TestUpdateMark 77, 141;
+EXEC TestUpdateMark 78, 198;
+EXEC TestUpdateMark 79, 132;
+EXEC TestUpdateMark 80, 185;
+EXEC TestUpdateMark 81, 147;
+EXEC TestUpdateMark 82, 188;
+EXEC TestUpdateMark 83, 147;
+EXEC TestUpdateMark 84, 148;
+EXEC TestUpdateMark 85, 165;
+EXEC TestUpdateMark 86, 134;
+EXEC TestUpdateMark 87, 145;
+EXEC TestUpdateMark 88, 125;
+EXEC TestUpdateMark 89, 200;
+EXEC TestUpdateMark 90, 184;
+EXEC TestUpdateMark 91, 135;
+EXEC TestUpdateMark 92, 159;
+EXEC TestUpdateMark 93, 122;
+EXEC TestUpdateMark 94, 184;
+EXEC TestUpdateMark 95, 149;
+EXEC TestUpdateMark 96, 193;
+EXEC TestUpdateMark 97, 572;
+EXEC TestUpdateMark 98, 514;
+EXEC TestUpdateMark 99, 394;
+EXEC TestUpdateMark 100, 513;
+EXEC TestUpdateMark 101, 373;
+EXEC TestUpdateMark 102, 386;
+EXEC TestUpdateMark 103, 420;
+EXEC TestUpdateMark 104, 375;
+EXEC TestUpdateMark 105, 410;
+EXEC TestUpdateMark 106, 349;
+EXEC TestUpdateMark 107, 371;
+EXEC TestUpdateMark 108, 292;
+EXEC TestUpdateMark 109, 357;
+EXEC TestUpdateMark 110, 247;
+EXEC TestUpdateMark 111, 270;
+EXEC TestUpdateMark 112, 327;
+EXEC TestUpdateMark 113, 277;
+EXEC TestUpdateMark 114, 314;
+EXEC TestUpdateMark 115, 279;
+EXEC TestUpdateMark 116, 201;
+EXEC TestUpdateMark 117, 216;
+EXEC TestUpdateMark 118, 265;
+EXEC TestUpdateMark 119, 195;
+EXEC TestUpdateMark 120, 236;
+EXEC TestUpdateMark 121, 208;
+EXEC TestUpdateMark 122, 281;
+EXEC TestUpdateMark 123, 266;
+EXEC TestUpdateMark 124, 361;
+EXEC TestUpdateMark 125, 377;
+EXEC TestUpdateMark 126, 374;
+EXEC TestUpdateMark 127, 389;
+EXEC TestUpdateMark 128, 358;
+EXEC TestUpdateMark 129, 246;
+EXEC TestUpdateMark 130, 378;
+EXEC TestUpdateMark 131, 381;
+EXEC TestUpdateMark 132, 263;
+EXEC TestUpdateMark 133, 181;
+EXEC TestUpdateMark 134, 245;
+EXEC TestUpdateMark 135, 231;
+EXEC TestUpdateMark 136, 222;
+EXEC TestUpdateMark 137, 190;
+EXEC TestUpdateMark 138, 242;
+EXEC TestUpdateMark 139, 279;
+EXEC TestUpdateMark 140, 264;
+EXEC TestUpdateMark 141, 270;
+EXEC TestUpdateMark 142, 246;
+EXEC TestUpdateMark 143, 224;
+EXEC TestUpdateMark 144, 278;
+EXEC TestUpdateMark 145, 242;
+EXEC TestUpdateMark 146, 256;
+EXEC TestUpdateMark 147, 203;
+EXEC TestUpdateMark 148, 258;
+EXEC TestUpdateMark 149, 201;
+EXEC TestUpdateMark 150, 255;
+EXEC TestUpdateMark 151, 143;
+EXEC TestUpdateMark 152, 199;
+EXEC TestUpdateMark 153, 167;
+EXEC TestUpdateMark 154, 190;
+EXEC TestUpdateMark 155, 171;
+EXEC TestUpdateMark 156, 128;
+EXEC TestUpdateMark 157, 129;
+EXEC TestUpdateMark 158, 149;
+EXEC TestUpdateMark 159, 171;
+EXEC TestUpdateMark 160, 155;
+EXEC TestUpdateMark 161, 196;
+EXEC TestUpdateMark 162, 161;
+EXEC TestUpdateMark 163, 123;
+EXEC TestUpdateMark 164, 164;
+EXEC TestUpdateMark 165, 122;
+EXEC TestUpdateMark 166, 123;
+EXEC TestUpdateMark 167, 175;
+EXEC TestUpdateMark 168, 192;
+
 
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Bill])
 BEGIN

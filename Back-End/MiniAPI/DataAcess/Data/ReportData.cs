@@ -2,6 +2,7 @@
 using DataAcess.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
@@ -54,16 +55,15 @@ namespace DataAcess.Data
             var studentsResults =  mappedStudents.Select(mapped => mapped.Value)
                 .Select(student =>
                 {
-                    var eAvg = GetStudentsRptAvg(student.StudentId, reportId, "exam", student.Class?.Gender).Result.FirstOrDefault();
-                    var quizAvg = GetStudentsRptAvg(student.StudentId, reportId, "quiz", student.Class?.Gender).Result.FirstOrDefault();
+                    var quizAvg = GetStudentsRptAvg(student.StudentId, reportId, "quiz", student.Class?.Gender).Result.FirstOrDefault()?.Average;
                     var reportResult = GetStudentTotalResult(student.StudentId, reportId).Result;
-                    var testMarks = student.TestMark.Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
-                    student.MissedDays = _studentData.GetStudentAbsence(student.StudentId, false, report?.StartDate, report?.FinishDate).Result.Absences;
-                    var jsonFormat = student.ReportStudent(reportResult?.mark ?? 0, reportResult?.totalMark ?? 0, testMarks, quizAvg ?? 0, reportResult?.markPercentage ?? 0);
+                    var testMarks = student.TestMark.Where(tm => tm.Test != null && tm.Test.IsExam()).Select(tm => new { tm.Mark, tm.Test?.Subject?.Subject, tm.Test?.Subject?.MaximumMark });
+                    student.MissedDays = _studentData.GetStudentAbsence(student.StudentId, false, report?.StartDate, report?.FinishDate).Result?.Absences;
+                    var jsonFormat = student.ReportStudent(reportResult?.mark, reportResult?.totalMark, testMarks, quizAvg ?? 0, reportResult?.markPercentage ?? 0);
                     return jsonFormat;
                 });
 
-            return studentsResults.OrderBy(x => x.mark);
+            return studentsResults.OrderByDescending(x => x.mark);
         }
         public async Task<IEnumerable<dynamic>> GetStudentsPureMark(int reportId, int classId)
         {
@@ -97,7 +97,10 @@ namespace DataAcess.Data
         public async Task<IEnumerable<dynamic>> GetClassRptAvg(int? classId, int? reportId, string? type, string? gender)
         {
             var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetClassAvg", new { classId, reportId, type });
-            return res.Where(x => gender == null || x.gender == gender);
+            if (!res.Any())
+                return res.Append(new { Average = 0 });
+            return res.Where(x => gender == null || x.gender == gender)
+                .OrderByDescending(x => x.average);
         }
 
         public async Task<ReportModel?> GetReport(int id, int? classId)

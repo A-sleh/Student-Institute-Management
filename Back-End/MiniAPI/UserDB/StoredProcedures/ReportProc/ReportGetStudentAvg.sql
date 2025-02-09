@@ -16,6 +16,6 @@ AS
 	JOIN Class c ON s.classId = c.id
 	WHERE (r.Id = @reportId or @reportId is null) 
 	AND (s.id =  @studentId OR @studentId is null)
-	AND (t.TestType = @type OR @type is null)
+	AND (t.TestType = @type OR (@type is null AND t.TestType = 'exam'))
 	GROUP BY s.id, s.name, s.lastName,c.id, c.title, c.gender, t.TestType, r.Id, r.ReportTitle, r.StartDate, r.FinishDate;
 RETURN 0

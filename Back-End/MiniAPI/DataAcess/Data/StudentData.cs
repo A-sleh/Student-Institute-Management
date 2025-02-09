@@ -17,6 +17,7 @@ public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
     private readonly Dictionary<int, StudentModel> _studentsCache = [];
+    private bool _firstLoad = true;
     public StudentData(ISqlDataAccess db)
     { 
         this._db = db;
@@ -37,11 +38,11 @@ public class StudentData : IStudentData
                 Student.Class = Class;
                 return Student;
             },
-            splitOn: "ClassId")).Where(studnet => !_studentsCache.ContainsKey(studnet.StudentId));
+            splitOn: "ClassId"));
 
         foreach(var student in students)
         {
-            _studentsCache.Add(student.StudentId, student);
+            _studentsCache.TryAdd(student.StudentId, student);
         }
     }
 
@@ -60,8 +61,15 @@ public class StudentData : IStudentData
 
     public async Task<IEnumerable<dynamic>> GetStudents(int? classId = null, int? gradeId = null)
     {
+        lock (this)
+        {
+            if (_firstLoad)
+            {
+                LoadStudentModelList(null).Wait();
+                _firstLoad = false;
+            }
+        }
         await LoadStudentModelList(classId);
-
         return _studentsCache
             .Where(student => classId is null || student.Value.Class?.ClassId == classId)
             .Select(student => student.Value.PureFormat());
@@ -84,7 +92,7 @@ public class StudentData : IStudentData
         return cachedStudent.PureFormat();
     }
 
-    public async Task<dynamic> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
+    public async Task<dynamic?> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
     {
         if (startDate > endDate)
             throw new InvalidParametersException("End date must be equal or larger than start date");

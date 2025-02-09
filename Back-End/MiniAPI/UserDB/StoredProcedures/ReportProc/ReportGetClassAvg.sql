@@ -16,6 +16,6 @@ AS
 	JOIN Report r ON t.ReportId = r.Id
 	WHERE (r.Id = @reportId or @reportId is null ) 
 	AND (c.id = @classId OR @classId is null)
-	AND (t.TestType = @type OR @type is null)
+	AND (t.TestType = @type OR (@type is null AND t.TestType = 'exam'))
 	GROUP BY c.id, g.gradeId, g.grade, c.gender, c.capacity, c.title ,r.Id, r.ReportTitle, r.StartDate, r.FinishDate;
 RETURN 0
