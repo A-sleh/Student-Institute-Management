@@ -36,69 +36,6 @@ namespace MiniAPI.APIs
             app.MapGet("/Class/{classId}/Teacher", GetClassTeachers);
         }
 
-        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId, bool? flag, bool showLinked)
-        {
-            try
-            {
-                var res = await data.GetClassTests(classId, flag, showLinked);
-                return Results.Ok(res);
-            }
-            catch (Exception e)
-            {
-                return Results.Problem(e.Message);
-            }
-        }
-        private static async Task<IResult> GetClasses(IClassData data, int? gradeId)
-        {
-            try
-            {
-                return Results.Ok(await data.GetClasses(gradeId));
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
-        }
-
-        private static async Task<IResult> UpdateClass(IClassData data, ClassModel classModel)
-        {
-            try
-            {
-                await data.UpdateClass(classModel);
-                return Results.Ok();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
-        }
-
-        private static async Task<IResult> InsertClass(IClassData data, ClassModel classModel)
-        {
-            try
-            {
-                await data.InsertClass(classModel);
-                return Results.Ok();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
-        }
-
-        private static async Task<IResult> DeleteClass(IClassData data, int id)
-        {
-            try
-            {
-                await data.DeleteClass(id);
-                return Results.Ok();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
-        }
-
         private static async Task<IResult> GetClassByID(int id, IClassData data)
         {
             try
@@ -138,6 +75,71 @@ namespace MiniAPI.APIs
             catch (Exception e)
             {
                 return Results.Problem(e.Message);
+            }
+        }
+
+        private static async Task<IResult> GetTestsByClassId(IClassData data, int classId, bool? flag, bool showLinked)
+        {
+            try
+            {
+                var classTests = await data.GetClassTests(classId, flag, showLinked);
+                return Results.Ok(classTests);
+            }
+            catch (Exception e)
+            {
+                return Results.Problem(e.Message);
+            }
+        }
+        
+        private static async Task<IResult> GetClasses(IClassData data, int? gradeId)
+        {
+            try
+            {
+                var classes = await data.GetClasses(gradeId);
+                return Results.Ok(classes);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
+        }
+
+        private static async Task<IResult> UpdateClass(IClassData data, ClassModel classModel)
+        {
+            try
+            {
+                await data.UpdateClass(classModel);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
+        }
+
+        private static async Task<IResult> InsertClass(IClassData data, ClassModel classModel)
+        {
+            try
+            {
+                await data.InsertClass(classModel);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
+        }
+
+        private static async Task<IResult> DeleteClass(IClassData data, int id)
+        {
+            try
+            {
+                await data.DeleteClass(id);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
             }
         }
     }

@@ -17,11 +17,8 @@ namespace MiniAPI.APIs
             // Get Incomes and outcomes infos about a certain class
             app.MapGet("/Bill/Class/{classId}", GetClassTotalBill);
 
-            // Get Bills Filtered by Date
-            // YYYY
-            // MM (or) M
-            // YYYY-MM-DD
-            app.MapGet("/Bill/{date}", GetBillsByDate);
+            
+            //app.MapGet("/Bill/{date}", GetBillsByDate);
 
             //Get Bills Of A Student by studentId
             app.MapGet("/Bill/Student/{studentId}", GetStudentBills);
@@ -102,23 +99,6 @@ namespace MiniAPI.APIs
             {
                 var res = await data.GetClassTotalPays(classId);
                 return Results.Ok(res);
-            }
-            catch (Exception e)
-            {
-                return Results.Problem(e.Message);
-            }
-        }
-
-        private static async Task<IResult> GetBillsByDate(IBillData data, string date)
-        {
-            try
-            {
-                var res = await data.GetBillsByDate(date);
-                return Results.Ok(res);
-            }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {

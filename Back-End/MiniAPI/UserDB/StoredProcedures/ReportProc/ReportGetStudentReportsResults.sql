@@ -3,7 +3,7 @@
 AS
 	SELECT rm.Id, rm.ReportTitle, rm.StartDate, rm.FinishDate, rm.TestType,
 	SUM(rm.mark) as mark,
-	SUM(rm.totalmark) as totalMark,
+	SUM(rm.totalMark) as totalMark,
 	LEFT(SUM(rm.mark)*100.0/SUM(rm.totalMark), 5) as markPercentage
 	FROM TestsMarksForEachReport rm
 	WHERE rm.StudentId = @studentId

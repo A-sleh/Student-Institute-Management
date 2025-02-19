@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using DataAcess.Exceptions;
+using System.Collections;
 
 namespace DataAcess.Data
 {
@@ -18,6 +19,18 @@ namespace DataAcess.Data
         public BillData(ISqlDataAccess _db)
         {
             this._db = _db;
+        }
+
+        private static DateTime? DateProcessing(string? date)
+        {
+            try
+            {
+                return ValidationMethods.ValidateDateTime(date);
+            }
+            catch (InvalidParametersException )
+            {
+                throw;
+            }
         }
 
         #region Data Request
@@ -42,13 +55,11 @@ namespace DataAcess.Data
                 },
                 splitOn: "StudentId, TeacherId");
 
-            if(startDate != null) 
-                startDate = ValidationMethods.ValidateDigitsOfDate(startDate);
-            if(endDate != null)
-                endDate = ValidationMethods.ValidateDigitsOfDate(endDate);
+            var startDateTime = DateProcessing(startDate);
+            var endDateTime = DateProcessing(endDate);
 
             return bills
-                .Where(c => c.DateFilter(startDate, endDate))
+                .Where(c => c.DateFilter(startDateTime, endDateTime))
                 .Select(s =>
                 {
                     dynamic jsonFormat;
@@ -102,6 +113,8 @@ namespace DataAcess.Data
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
+        
+        [Obsolete("unnecessary function and will be removed")]
         public async Task<IEnumerable<dynamic>> GetBillsByDate(string date)
         {
             var Date = ValidationMethods.ParseDateForSqlQuery(date.Replace("%2F", "-"), "-");
@@ -198,9 +211,10 @@ namespace DataAcess.Data
         {
             if (!(param.Equals("in") || param.Equals("out")))
                 throw new InvalidParametersException("param type must be one of (in, out) only");
-
+            var startDateTime = DateProcessing(startDate);
+            var endDateTime = DateProcessing(endDate);
             var bills = (await _db.LoadData<BillModel, dynamic>("dbo.BillGetTotalByParam", new { Type = param }))
-                .Where(b => b.DateFilter(startDate, endDate));
+                .Where(b => b.DateFilter(startDateTime, endDateTime));
             int total = bills.Sum(s => s.Amount);
             return total;
         }
@@ -209,8 +223,7 @@ namespace DataAcess.Data
         #region Actions
         public async Task AddBill(BillModel bill)
         {
-            if (bill == null)
-                throw new ArgumentNullException("Bill Can not be null");
+            ArgumentNullException.ThrowIfNull(bill);
             await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
         }
 

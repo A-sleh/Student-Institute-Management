@@ -5,7 +5,7 @@ AS
 	SELECT s.id as StudentId, s.name, s.lastName, 
 	c.id as ClassId, c.title,
 	tmr.Id as ReportId,
-	SUM(tmr.Mark) as Mark,
+	SUM(tmr.mark) as Mark,
 	SUM(tmr.totalMark) as TotalMark,
 	LEFT(SUM(tmr.mark*100.0)/SUM(tmr.totalMark), 5) as markPercent
 	FROM TestsMarksForEachReport tmr 

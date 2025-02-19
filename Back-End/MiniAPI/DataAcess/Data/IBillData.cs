@@ -12,6 +12,7 @@ namespace DataAcess.Data
             string orderingType,
             string? startDate = null,
             string? endDate = null);
+        [Obsolete("unnecessary function and will be removed")]
         Task<IEnumerable<dynamic>> GetBillsByDate(string date);
         Task<dynamic> GetClassTotalPays(int classId);
         Task<IEnumerable<BillModel>> GetExternal(string? date, string Type);

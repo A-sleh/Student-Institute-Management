@@ -84,8 +84,8 @@ namespace DataAcess.Models
                 note = Note
             };
         }
-        public bool DateFilter(string? startDate, string? endDate) =>
-            (startDate == null || DateTime.Compare(ValidationMethods.ValidateDateTime(startDate), this.Date) <= 0) &&
-            (endDate == null || DateTime.Compare(this.Date, ValidationMethods.ValidateDateTime(endDate)) <= 0);
+        public bool DateFilter(DateTime? startDate, DateTime? endDate) =>
+            (startDate == null ||   startDate <= Date) &&
+            (endDate == null || endDate >= Date);
     }
 }
