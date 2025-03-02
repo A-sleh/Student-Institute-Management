@@ -17,9 +17,6 @@ namespace MiniAPI.APIs
             // Get Incomes and outcomes infos about a certain class
             app.MapGet("/Bill/Class/{classId}", GetClassTotalBill);
 
-            
-            //app.MapGet("/Bill/{date}", GetBillsByDate);
-
             //Get Bills Of A Student by studentId
             app.MapGet("/Bill/Student/{studentId}", GetStudentBills);
 
@@ -68,19 +65,20 @@ namespace MiniAPI.APIs
 
         private static async Task<IResult> GetBills(
             IBillData data,
-            string? type = null,
+            BillModel.BillOwnership? type = null,
+            string? paymentType = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
             int limit = 100,
             int page = 1,
-            string orderBy = "BillId",
-            string orderingType = "ASC"
+            string orderBy = "Date",
+            string orderingType = "DESC"
             )
         {
             try
             {
-                var res = await data.GetBills(type, limit, page, orderBy, orderingType, startDate, endDate);
-                return Results.Ok(res);
+                var bills = await data.GetBills(paymentType, type, limit, page, orderBy, orderingType, startDate, endDate);
+                return Results.Ok(bills);
             }
             catch (InvalidParametersException e)
             {
@@ -137,7 +135,7 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalPays(studentId, null);
+                var res = await data.GetTotalPays(studentId: studentId);
                 return Results.Ok(res);
             }
             catch (InvalidParametersException e)
@@ -168,7 +166,7 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalPays(null, teacherId);
+                var res = await data.GetTotalPays(teacherId: teacherId);
                 return Results.Ok(res);
             }
             catch (InvalidParametersException e)

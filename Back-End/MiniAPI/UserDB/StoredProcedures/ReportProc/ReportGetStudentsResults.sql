@@ -9,8 +9,8 @@ AS
 	SUM(tmr.totalMark) as TotalMark,
 	LEFT(SUM(tmr.mark*100.0)/SUM(tmr.totalMark), 5) as markPercent
 	FROM TestsMarksForEachReport tmr 
-	JOIN Student s ON tmr.StudentId = s.Id
+	JOIN Student s ON tmr.StudentId = s.id
 	JOIN Class c ON s.classId = c.id
 	WHERE tmr.TestType <> 'quiz' AND tmr.Id = @reportId AND (@classId is NULL OR c.id = @classId)
 	GROUP BY s.id, name, lastName, c.id, c.title, tmr.Id
-RETURN 0
+RETURN 0;

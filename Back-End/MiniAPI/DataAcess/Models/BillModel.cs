@@ -18,6 +18,7 @@ namespace DataAcess.Models
             public BillConvertionException(string message) : base(message) { }
             public BillConvertionException(string message, Exception inner) : base(message, inner) { }
         }
+        public enum BillOwnership { student, teacher, external };
         public int BillId { get; set; }
         public string? BillNo { get; set; }
         public StudentModel? Student { get; set; }
@@ -25,7 +26,7 @@ namespace DataAcess.Models
         public int Amount {  get; set; }
         public DateTime Date {  get; set; }
         public string? Note { get; set; }
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
 
         public dynamic AsSqlRow()
         {
@@ -105,7 +106,7 @@ namespace DataAcess.Models
         }
 
         /// <summary>
-        /// converts to related type bill DTO
+        /// converts to specified ownership type bill DTO
         /// </summary>
         /// <returns>Dynamic DTO object represents (teacher | student | external)</returns>
         public dynamic ConvertBill()

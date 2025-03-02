@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[BillGetAll]
-	@billType VARCHAR(15) null,
+	@billOwner VARCHAR(15) null,
+	@billType VARCHAR(3) null,
 	@startDate Date null,
 	@endDate Date null,
 	@orderingType VARCHAR(10) = 'ASC',
@@ -24,26 +25,27 @@ AS
 		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id';
 
 	DECLARE @sql nvarchar(1024);
-	IF(@billType is null) -- brings all types
+	IF(@billOwner is null) -- brings all types
 		SET @sql = CONCAT(@declare, ' ', @query, ' ', @any);
 
-	ELSE IF(@billType = 'teacher')
+	ELSE IF(@billOwner = 'teacher')
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@teacher);
 
-	ELSE IF(@billType = 'student')
+	ELSE IF(@billOwner = 'student')
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@student);
 
-	ELSE IF(@billType = 'external')
+	ELSE IF(@billOwner = 'external')
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@external);
 
 	ELSE
 		RAISERROR('invalid bill type provided', 16, 1);
 
-
+	IF(@billType = 'in' OR @billType = 'out')
+		SET @sql = CONCAT(@sql, ' AND Type = ',QUOTENAME(@billType,''''))
 	IF(@startDate is not null)
-		SET @sql = CONCAT(@sql, ' AND ', 'Date >= ''', @startDate, '''')
+		SET @sql = CONCAT(@sql, ' AND ', 'Date >= ', QUOTENAME(@startDate,''''))
 	IF(@endDate is not null)
-		SET @sql = CONCAT(@sql, ' AND ', 'Date < ''', @endDate, '''')
+		SET @sql = CONCAT(@sql, ' AND ', 'Date < ', QUOTENAME(@endDate,''''))
 
 	DECLARE @orderByState VARCHAR(128);
 	DECLARE @pagination VARCHAR(512) = 'OFFSET @Limit*(@page-1) ROWS FETCH NEXT @Limit ROWS ONLY';
