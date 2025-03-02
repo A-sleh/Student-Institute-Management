@@ -69,8 +69,8 @@ namespace MiniAPI.APIs
         private static async Task<IResult> GetBills(
             IBillData data,
             string? type = null,
-            string? startDate = null,
-            string? endDate = null,
+            DateTime? startDate = null,
+            DateTime? endDate = null,
             int limit = 100,
             int page = 1,
             string orderBy = "BillId",
@@ -194,7 +194,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalIn(IBillData data, string? startDate = null, string? endDate = null)
+        private static async Task<IResult> GetTotalIn(IBillData data, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalOut(IBillData data, string? startDate = null, string? endDate = null)
+        private static async Task<IResult> GetTotalOut(IBillData data, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
@@ -228,16 +228,12 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetExternal(IBillData data, string? YYYYMMDD, string Type)
+        private static async Task<IResult> GetExternal(IBillData data, DateTime? date, string Type)
         {
             try
             {
-                var res = await data.GetExternal(YYYYMMDD, Type);
+                var res = await data.GetExternal(date, Type);
                 return Results.Ok(res);
-            }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {

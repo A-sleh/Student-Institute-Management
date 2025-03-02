@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MiniAPI
 {
-    public static class DataExtensionMethods
+    public static class PaginationExtension
     {
         public static IEnumerable<T> Paginate<T>(this IEnumerable<T> list, int page, int pageSize)
         {

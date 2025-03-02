@@ -14,6 +14,8 @@ namespace DataAcess.Data
 {
     public class BillData : IBillData
     {
+        private const int UNLIMITED = 10000;
+
         private readonly ISqlDataAccess _db;
 
         public BillData(ISqlDataAccess _db)
@@ -21,62 +23,31 @@ namespace DataAcess.Data
             this._db = _db;
         }
 
-        private static DateTime? DateProcessing(string? date)
-        {
-            try
-            {
-                return ValidationMethods.ValidateDateTime(date);
-            }
-            catch (InvalidParametersException )
-            {
-                throw;
-            }
-        }
-
         #region Data Request
 
-        public async Task<IEnumerable<dynamic>> GetBills(
-            string? type,
-            int limit,
-            int page,
-            string orderBy,
-            string orderingType,
-            string? startDate = null,
-            string? endDate = null)
+        public async Task<IEnumerable<BillModel>> GetBills(
+            string? billType,
+            int limit = UNLIMITED,
+            int page = 1,
+            string orderBy = nameof(BillModel.BillId),
+            string orderingType = "ASC",
+            DateTime? startDate = null,
+            DateTime? endDate = null)
         {
             var bills = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
-                new { type, limit, page, orderBy, orderingType },
+                new { billType, startDate, endDate, limit, page, orderBy, orderingType },
                 (bill, student, teacher) => 
                 {
                     bill.Student = student;
                     bill.Teacher = teacher;
                     return bill;
                 },
-                splitOn: "StudentId, TeacherId");
+                splitOn: $"{nameof(StudentModel.StudentId)}, {nameof(TeacherModel.TeacherId)}");
 
-            var startDateTime = DateProcessing(startDate);
-            var endDateTime = DateProcessing(endDate);
-
-            return bills
-                .Where(c => c.DateFilter(startDateTime, endDateTime))
-                .Select(s =>
-                {
-                    dynamic jsonFormat;
-                    if (s.Student != null)
-                    {
-                        jsonFormat = s.AsStudentBill();
-                    }
-                    else if (s.Teacher != null)
-                    {
-                        jsonFormat = s.AsTeacherBill();
-                    }
-                    else
-                        jsonFormat = s.AsExternalBill();
-                    return jsonFormat;
-                });     
+            return bills;     
         }
-        public async Task<dynamic> GetTotalPays(int? studentId, int? teacherId)
+        public async Task<dynamic> GetTotalPays(int? studentId = null, int? teacherId = null)
         {
             dynamic total;
             dynamic paid;
@@ -113,108 +84,32 @@ namespace DataAcess.Data
             var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetByTeacherId", new { teacherId });
             return res;
         }
-        
-        [Obsolete("unnecessary function and will be removed")]
-        public async Task<IEnumerable<dynamic>> GetBillsByDate(string date)
-        {
-            var Date = ValidationMethods.ParseDateForSqlQuery(date.Replace("%2F", "-"), "-");
-            var res = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
-                "dbo.BillGetByDate",
-                new { Date },
-                x: (Bill, Student, Teacher) =>
-                {
-                    Bill.Student = Student;
-                    Bill.Teacher = Teacher;
-                    return Bill;
-                },
-                splitOn: "StudentId, TeacherId");
-            return res.Select(x => 
-            {
-                dynamic jsonFormat;
-                if (x.Student != null)
-                {
-                    jsonFormat =  new
-                    {
-                        x.BillId,
-                        x.BillNo,
-                        x.Type,
-                        x.Amount,
-                        x.Date,
-                        student = new
-                        {
-                            x.Student.StudentId,
-                            x.Student.Name,
-                            x.Student.LastName
-                        }
-                    };
-                }
-                else if (x.Teacher != null)
-                {
-                    jsonFormat = new
-                    {
-                        x.BillId,
-                        x.BillNo,
-                        x.Type,
-                        x.Amount,
-                        x.Date,
-                        teacher = new
-                        {
-                            x.Teacher.TeacherId,
-                            x.Teacher.Name,
-                            x.Teacher.LastName
-                        },
-                        x.Student
-                    };
-                }
-                else
-                {
-                    jsonFormat = new
-                    {
-                        x.BillId,
-                        x.BillNo,
-                        x.Type,
-                        x.Amount,
-                        x.Date,
-                        x.Student,
-                        x.Teacher
-                    };
-                }
-                return jsonFormat;
-            });
-        }
         public async Task<dynamic> GetClassTotalPays(int classId)
         {
-            var res = (await _db.LoadData<(int, int), dynamic>("dbo.BillGetTotalByClass", new { classId })).First();
+            var res = (await _db.LoadData<(int total, int paid), dynamic>("dbo.BillGetTotalByClass", new { classId })).First();
             var Details = new
             {
-                Total = res.Item1,
-                Paid = res.Item2,
-                Remaining = res.Item1 - res.Item2
+                Total = res.total,
+                Paid = res.paid,
+                Remaining = res.total - res.paid
             };
             return Details;
         }
-        public async Task<IEnumerable<BillModel>> GetExternal(string? date, string Type)
+        public async Task<IEnumerable<BillModel>> GetExternal(DateTime? date, string type)
         {
-            var res = await _db.LoadData<BillModel, dynamic>("dbo.BillGetExternal", new { Type });
-            if(date != null)
-            {
-                date = ValidationMethods.ValidateDigitsOfDate(date);
-            }
-            return res.Where(b => date == null || b.Date.ToString().Contains(date));
+            var externalBills = await GetBills("external", endDate: date);
+            return externalBills.Where(bill => bill.Type.Equals(type));
         }
         public async Task<int> GetRestOf(string type)
         {
             var res = (await _db.LoadData<int?, dynamic>("dbo.BillGetRestOf", new { type })).FirstOrDefault() ?? 0;
             return res;
         }
-        public async Task<int> GetTotalByParam(string? startDate, string? endDate, string param)
+        public async Task<int> GetTotalByParam(DateTime? startDate, DateTime? endDate, string billType)
         {
-            if (!(param.Equals("in") || param.Equals("out")))
-                throw new InvalidParametersException("param type must be one of (in, out) only");
-            var startDateTime = DateProcessing(startDate);
-            var endDateTime = DateProcessing(endDate);
-            var bills = (await _db.LoadData<BillModel, dynamic>("dbo.BillGetTotalByParam", new { Type = param }))
-                .Where(b => b.DateFilter(startDateTime, endDateTime));
+            if (!(billType.Equals("in") || billType.Equals("out")))
+                throw new ArgumentException("param type must be (in / out) only");
+            var bills = await GetBills(billType, startDate: startDate, endDate: endDate);
             int total = bills.Sum(s => s.Amount);
             return total;
         }
@@ -223,7 +118,6 @@ namespace DataAcess.Data
         #region Actions
         public async Task AddBill(BillModel bill)
         {
-            ArgumentNullException.ThrowIfNull(bill);
             await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
         }
 

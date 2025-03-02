@@ -6,4 +6,5 @@ AS
 	SELECT * 
 	FROM Bill
 	WHERE Type = @Type
+	-- will not be needed later
 RETURN 0;
