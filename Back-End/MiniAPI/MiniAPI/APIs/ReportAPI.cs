@@ -121,13 +121,12 @@ namespace MiniAPI.APIs
                 return Results.Problem(e.Message);
             }
         }
-        private static async Task<IResult> GetClassReportAverage(IReportData data, int? reportId, int? classId, string? testType, string? gender, int limit = 20, int page = 1)
+        private static async Task<IResult> GetClassReportAverage(IReportData data, int? reportId, int? classId, string? type, string? gender, int limit = 20, int page = 1)
         {
             try
             {
-                var res = (await data.GetClassRptAvg(classId, reportId, testType, gender))
-                    .OrderByDescending(x => x.average)
-                    .Skip(limit*(page-1))
+                var res = (await data.GetClassRptAvg(classId, reportId, type, gender))
+                    .Skip(limit * (page - 1))
                     .Take(limit);
                 return Results.Ok(res);
             }

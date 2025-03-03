@@ -17,12 +17,6 @@ namespace MiniAPI.APIs
             // Get Incomes and outcomes infos about a certain class
             app.MapGet("/Bill/Class/{classId}", GetClassTotalBill);
 
-            // Get Bills Filtered by Date
-            // YYYY
-            // MM (or) M
-            // YYYY-MM-DD
-            app.MapGet("/Bill/{date}", GetBillsByDate);
-
             //Get Bills Of A Student by studentId
             app.MapGet("/Bill/Student/{studentId}", GetStudentBills);
 
@@ -71,19 +65,20 @@ namespace MiniAPI.APIs
 
         private static async Task<IResult> GetBills(
             IBillData data,
-            string? type = null,
-            string? startDate = null,
-            string? endDate = null,
+            BillModel.BillOwnership? type = null,
+            string? paymentType = null,
+            DateTime? startDate = null,
+            DateTime? endDate = null,
             int limit = 100,
             int page = 1,
-            string orderBy = "BillId",
-            string orderingType = "ASC"
+            string orderBy = "Date",
+            string orderingType = "DESC"
             )
         {
             try
             {
-                var res = await data.GetBills(type, limit, page, orderBy, orderingType, startDate, endDate);
-                return Results.Ok(res);
+                var bills = await data.GetBills(paymentType, type, limit, page, orderBy, orderingType, startDate, endDate);
+                return Results.Ok(bills);
             }
             catch (InvalidParametersException e)
             {
@@ -102,23 +97,6 @@ namespace MiniAPI.APIs
             {
                 var res = await data.GetClassTotalPays(classId);
                 return Results.Ok(res);
-            }
-            catch (Exception e)
-            {
-                return Results.Problem(e.Message);
-            }
-        }
-
-        private static async Task<IResult> GetBillsByDate(IBillData data, string date)
-        {
-            try
-            {
-                var res = await data.GetBillsByDate(date);
-                return Results.Ok(res);
-            }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -157,7 +135,7 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalPays(studentId, null);
+                var res = await data.GetTotalPays(studentId: studentId);
                 return Results.Ok(res);
             }
             catch (InvalidParametersException e)
@@ -188,7 +166,7 @@ namespace MiniAPI.APIs
         {
             try
             {
-                var res = await data.GetTotalPays(null, teacherId);
+                var res = await data.GetTotalPays(teacherId: teacherId);
                 return Results.Ok(res);
             }
             catch (InvalidParametersException e)
@@ -214,7 +192,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalIn(IBillData data, string? startDate = null, string? endDate = null)
+        private static async Task<IResult> GetTotalIn(IBillData data, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
@@ -231,7 +209,7 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetTotalOut(IBillData data, string? startDate = null, string? endDate = null)
+        private static async Task<IResult> GetTotalOut(IBillData data, DateTime? startDate = null, DateTime? endDate = null)
         {
             try
             {
@@ -248,16 +226,12 @@ namespace MiniAPI.APIs
             }
         }
 
-        private static async Task<IResult> GetExternal(IBillData data, string? YYYYMMDD, string Type)
+        private static async Task<IResult> GetExternal(IBillData data, DateTime? date, string Type)
         {
             try
             {
-                var res = await data.GetExternal(YYYYMMDD, Type);
+                var res = await data.GetExternal(date, Type);
                 return Results.Ok(res);
-            }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
             }
             catch (Exception e)
             {

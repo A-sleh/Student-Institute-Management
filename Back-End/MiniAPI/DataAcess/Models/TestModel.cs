@@ -17,6 +17,7 @@ public class TestModel
     public DateTime? Date {  get; set; }
     public DateTime? CorrectionDate { get; set; }
 
+    public bool IsExam() => TestType != null && TestType.ToUpper().Equals("EXAM");
     public dynamic AsSqlRow()
     {
         return new { TestId, Report?.ReportId, Subject?.SubjectId, TestType, Title, Date, CorrectionDate };

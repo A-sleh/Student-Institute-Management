@@ -3,7 +3,7 @@
 AS
 	WITH top_students AS (
 	SELECT s.id as studentId, s.name, s.lastName, c.id as classId, c.title, LEFT((SUM(tm.Mark)*100.0) / SUM(sb.MaximumMark), 5) as Average,
-	DENSE_RANK() OVER (PARTITION BY s.classId ORDER BY LEFT((SUM(tm.mark)*100.0) / SUM(sb.MaximumMark), 5) DESC, s.name DESC)  AS mark_rank
+	DENSE_RANK() OVER (PARTITION BY s.classId ORDER BY LEFT((SUM(tm.Mark)*100.0) / SUM(sb.MaximumMark), 5) DESC, s.name DESC)  AS mark_rank
 	FROM Student s 
 	JOIN TestMark tm ON s.id = tm.StudentId
 	JOIN Test t ON tm.TestId = t.Id

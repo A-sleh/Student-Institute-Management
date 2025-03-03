@@ -42,7 +42,7 @@ public class StudentModel
     /// <param name="quizAverage"></param>
     /// <param name="examAverage"></param>
     /// <returns>Dynamic object wich contains: examAverage, quizAverage, mark, totalMark, testMarks summary and student properties</returns>
-    public dynamic ReportStudent(int mark, int totalMark, IEnumerable<dynamic> testMarks, int quizAverage = 0, int examAverage = 0)
+    public dynamic ReportStudent(int? mark, int? totalMark, IEnumerable<dynamic>? testMark, double? quizAverage, double examAverage)
         => new {
             quizAverage,
             examAverage,
@@ -53,6 +53,6 @@ public class StudentModel
             Name,
             LastName,
             FatherName,
-            testMarks
+            testMark
         };
 }
