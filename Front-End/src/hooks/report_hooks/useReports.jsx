@@ -11,7 +11,7 @@ export default function useReports(filterReport,reportDate) {
     function filterReportFn(reports) {
 
         return reports.filter( report => {
-            return (((new Date(report.startDate) - new Date(reportDate)) > 0 || reportDate == '') && (report.reportTitle?.toLowerCase().includes(filterReport?.toLowerCase())))
+            return (((new Date(reportDate) - new Date(report.startDate)) > 0 || reportDate == '') && ((report.reportTitle?.toLowerCase().includes(filterReport?.toLowerCase())) || report == '') )
         })
     }
 

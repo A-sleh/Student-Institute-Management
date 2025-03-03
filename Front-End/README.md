@@ -262,5 +262,16 @@ There are some bugs in the code :
     -- [X] in test class details the header filter need to restyle ;
     -- [X] in report class details : the date of test need to be it in one line
 
+    [X] Date filter in exams details should work from a point and forward, it is taking point and backwards.
+    (But it work well , this need to discuse with rabo )
+
+    [] confirm button should rerender tests in report management.
+
+    [X] http://localhost:5173/CreateReport/StudentReportTests/1 This page need [Back] button.
+
+    [] add class filter to studet show page, and change pagination and ordering to be from the request (need to make plan together).
+
+    [X] Change ENDPOINT /Absence to /Student/Absence.
+
 
 

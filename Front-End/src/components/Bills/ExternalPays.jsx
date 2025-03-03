@@ -39,6 +39,8 @@ export default function ExternalPays() {
         }
     ]
 
+    console.log('parent')
+    
     return(
         <>
             <Title title={window.location.pathname} />

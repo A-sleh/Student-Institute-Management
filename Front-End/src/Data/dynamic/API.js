@@ -46,7 +46,7 @@ export default {
       
     },
     post : (userIds,date) => {
-      return fetch(`${URL}/Absence?date=${date}` ,{
+      return fetch(`${URL}/Student/Absence?date=${date}` ,{
         method: "POST",
         body: JSON.stringify(userIds),
         headers: {
