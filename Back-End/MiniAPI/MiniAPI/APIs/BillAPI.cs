@@ -80,13 +80,9 @@ namespace MiniAPI.APIs
                 var bills = await data.GetBills(paymentType, type, limit, page, orderBy, orderingType, startDate, endDate);
                 return Results.Ok(bills);
             }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
-            }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest($"{e.Message}.{e.InnerException?.Message}");
             }
 
         }
@@ -113,7 +109,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -138,13 +134,9 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalPays(studentId: studentId);
                 return Results.Ok(res);
             }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
-            }
             catch (Exception ex)
             {
-                return Results.Problem(ex.Message);
+                return Results.BadRequest(ex.Message);
             }
         }
 
@@ -169,13 +161,9 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalPays(teacherId: teacherId);
                 return Results.Ok(res);
             }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
-            }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -188,7 +176,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -199,13 +187,9 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalByParam(startDate, endDate, "in");
                 return Results.Ok(res);
             }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
-            }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -216,13 +200,9 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalByParam(startDate, endDate, "out");
                 return Results.Ok(res);
             }
-            catch (InvalidParametersException e)
-            {
-                return Results.BadRequest(e.Message);
-            }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -235,7 +215,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception e)
             {
-                return Results.Problem(e.Message);
+                return Results.BadRequest(e.Message);
             }
         }
 
@@ -243,7 +223,7 @@ namespace MiniAPI.APIs
         {
             try
             {
-                await data.AddBill(model);
+                model.BillId = await data.AddBill(model);
                 return Results.Ok(model);
             }
             catch (ArgumentNullException ArgEx)

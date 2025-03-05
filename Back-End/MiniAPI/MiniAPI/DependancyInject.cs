@@ -10,10 +10,9 @@ namespace MiniAPI
     public static class DependancyInjection
     {
         /// <summary>
-        /// Configureing and Mapping Endpoints
+        /// Configureing and mapping web application endpoints
         /// </summary>
-        /// <param name="app">Already Built Application With specific services</param>
-        public static void ConfigureAPI(this WebApplication app)
+        public static void UseEndpointsMapper(this WebApplication app)
         {
             app.ConfigureStudentAPI();
             app.ConfigureClassAPI();
@@ -25,11 +24,8 @@ namespace MiniAPI
             app.ConfigureGradeAPI();
             app.ConfigureSettingsAPI();
         }
-        /// <summary>
-        /// Adds Specified Services
-        /// </summary>
-        /// <param name="builder">application builder</param>
-        public static void AddServices(this WebApplicationBuilder builder)
+
+        public static void AddProjectServices(this WebApplicationBuilder builder)
         {
 
             builder.Services.AddSingleton<HtmlEncoder>(
@@ -41,18 +37,18 @@ namespace MiniAPI
             //Data Access Services
 
             // Main SQL Access Service using Dapper
-            builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+            builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             // Services
             builder.Services.AddSingleton<IStudentData, StudentData>();
-            builder.Services.AddSingleton<IClassData, ClassData>();
-            builder.Services.AddSingleton<ISubjectData, SubjectData>();
-            builder.Services.AddSingleton<IReportData, ReportData>();
-            builder.Services.AddSingleton<ITestData, TestData>();
-            builder.Services.AddSingleton<ITeacherData, TeacherData>();
-            builder.Services.AddSingleton<IBillData, BillData>();
-            builder.Services.AddSingleton<ITeacherSubjectData, TeacherSubjectData>();
-            builder.Services.AddSingleton<IGradeData, GradeData>();
+            builder.Services.AddScoped<IClassData, ClassData>();
+            builder.Services.AddScoped<ISubjectData, SubjectData>();
+            builder.Services.AddScoped<IReportData, ReportData>();
+            builder.Services.AddScoped<ITestData, TestData>();
+            builder.Services.AddScoped<ITeacherData, TeacherData>();
+            builder.Services.AddScoped<IBillData, BillData>();
+            builder.Services.AddScoped<ITeacherSubjectData, TeacherSubjectData>();
+            builder.Services.AddScoped<IGradeData, GradeData>();
             builder.Services.AddSingleton<ISettingsData, SettingsData>();
         }
     }

@@ -14,20 +14,20 @@ namespace MiniAPI
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
             builder.Services.AddControllers();
-
-            builder.AddServices();
+            builder.AddProjectServices();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    );
-            });
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        );
+            //});
             var app = builder.Build();
+            app.UseRouting();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -36,21 +36,12 @@ namespace MiniAPI
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseAuthorization();
-            app.UseHttpsRedirection();
+            //app.UseAuthorization();
+            //app.UseHttpsRedirection();
 
-            app.UseCors("CorsPolicy");
-            //app.Use((context, next) =>
-            //{
-            //    if (!context.Request.Headers.ContainsKey("login-status"))
-            //    {
-            //        context.Response.StatusCode = 401;
-            //        context.Response.WriteAsync("unauthorized");
-            //        return next();
-            //    }
-            //    return next(context);
-            //});
-            app.ConfigureAPI();
+            //app.UseCors("CorsPolicy");
+
+            app.UseEndpointsMapper();
 
             app.Run();
         }

@@ -19,7 +19,7 @@ namespace DataAcess.Data
         Task<dynamic> GetTotalPays(int studentId = -1, int teacherId = -1);
         Task<IEnumerable<BillModel>> GetTeacherBills(int teacherId);
         Task DeleteBill(int BillId);
-        Task AddBill(BillModel bill);
+        Task<int> AddBill(BillModel bill);
         Task<int> GetRestOf(string type);
         Task<int> GetTotalByParam(DateTime? startDate, DateTime? endDate, string param);
     }
