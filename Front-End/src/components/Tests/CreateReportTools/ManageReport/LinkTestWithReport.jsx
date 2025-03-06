@@ -6,7 +6,7 @@
 
 import { createContext, lazy, Suspense, useMemo, useState } from "react"
 import { NavigateSubHeaderStyle, QuizExamContainerStyle } from "../../style/styleTage"
-import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
+import { errorActionLogic, separateTesetsAccordingToType, successActionLogic } from "../../../shared/logic/logic"
 import { useParams} from "react-router-dom"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import Notification from "../../../Global/Notification"
@@ -15,6 +15,8 @@ import useClass from "../../../../hooks/class_hooks/useClass"
 import Loader from "../../../Modal/Loader"
 import { ManageReportTEXT } from "../../../../Data/static/test/CreateReportTools/ManageReportTEXT"
 import { useSelector } from "react-redux"
+import ReportTests from "../Report details/ReportTests"
+import useGetReport from "../../../../hooks/report_hooks/useGetReport"
 const  ControalButtons =  lazy(() => import( "../../../shared/ControalButtons"))
 const  ManageSeletedTests =  lazy(() => import( "./TestsShow/ManageSelectedTests"))
 const  ShowAllReport =  lazy(() => import(  "./ShowAllReports"))
@@ -35,10 +37,13 @@ export default function LinkTestWithReport() {
     const [successLinkTest,setSuccessLinkTest] = useState(false)
     const [wornining,setWornining] = useState(false)
     const [quiz,exam] = useClassTests(classId,true,successLinkTest)
+    const [currentReport] = useGetReport(selectedReport)
+    const [selectedReportQuizs,selectedReportExams] = separateTesetsAccordingToType(currentReport?.tests || [])
     
     //Memoization section
     const ManageSeletedQuizMemo = useMemo(()=><ManageSeletedTests data={quiz}  type={quizType} selectionTest={selectedQuizId} setSelectionTest={setSelectedQuizId} /> ,[quiz,selectedQuizId,currentLange])
     const ManageSeletedExamMemo = useMemo(()=><ManageSeletedTests data={exam}  type={examType} selectionTest={selectedTestId} setSelectionTest={setSelectedTestId} />,[exam,selectedTestId,currentLange])
+
 
     function integrationTestsId() {
         let testIds = [];
@@ -77,6 +82,8 @@ export default function LinkTestWithReport() {
                 <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
             </SelectedReportContext.Provider>
 
+            <ReportTests quiz={selectedReportQuizs} exam={selectedReportExams} manageMode={true} />
+                
             <QuizExamContainerStyle >
                 {ManageSeletedQuizMemo}
                 {ManageSeletedExamMemo}

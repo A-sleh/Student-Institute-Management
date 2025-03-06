@@ -437,7 +437,7 @@ export default {
         );
       },
       TopOneStudents : (reportId) => {
-        return fetch(`${URL}/Report/Student/Average?reportId=${reportId}`).then((response) =>
+        return fetch(`${URL}/Report/${reportId}/Top`).then((response) =>
           response.json()
         );
       },

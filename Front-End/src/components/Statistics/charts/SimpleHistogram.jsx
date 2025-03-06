@@ -3,6 +3,7 @@ import { AgCharts } from 'ag-charts-react';
 
 export default function SimpleHistogram({data}){
     // Chart Options: Control & configure the chart
+    console.log(data.data)
     const chartOptions = {
         data : data.data,
         footnote: {

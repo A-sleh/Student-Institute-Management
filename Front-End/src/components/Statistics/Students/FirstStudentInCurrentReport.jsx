@@ -16,6 +16,7 @@ export default function FirstStudentInCurrentReport() {
     const [reports] = useGetReportsFilterdByGrade(selectedGrade?.gradeId || '')
     const [selectedReport,setSelectedReport] = useState({})
     const [topOneStudents] = useGetTheTopStudentsInCurrentReport(selectedReport?.reportId || '')
+    
     const data = {
         data : topOneStudents ,
         title : currentLange == ARABIC ? selectedReport?.reportTitle + ' الطلاب الأوائل في التقرير' :'first one students in ' + selectedReport?.reportTitle + ' report' 

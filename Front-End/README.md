@@ -274,4 +274,10 @@ There are some bugs in the code :
     [X] Change ENDPOINT /Absence to /Student/Absence.
 
 
+- in statistics page : 
+    - change the first state in once chart [X] 
+    - remove the doublicate in once chart [X]
+    - display tests of report in manage report []
+
+
 
