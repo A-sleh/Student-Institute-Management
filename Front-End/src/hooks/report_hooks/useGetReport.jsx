@@ -2,7 +2,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useGetReport(reportId) {
+export default function useGetReport(reportId,...reFetch) {
 
 
     const [report,setReport] = useState([])
@@ -10,7 +10,7 @@ export default function useGetReport(reportId) {
     useEffect(() => {
         DataServices.ShowAllNativeReports(reportId).then( report => setReport(report))
 
-    } ,[reportId])
+    } ,[reportId,...reFetch])
 
     return [report]   
 }

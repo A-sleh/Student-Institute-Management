@@ -374,15 +374,26 @@ export default {
         });
       } 
     },
-    put: (testMark,testId,testDate) => {
-      return fetch(`${URL}/Test/${testId}/Marks?correctionDate=${testDate}`, {
-        method: "PUT",
-        body: JSON.stringify(testMark),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-    },
+    put: {
+      removeTestFromReport : (data) => {
+        return fetch(`${URL}/Test`, {
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      },
+      changeMark: (testMark,testId,testDate) => {
+        return fetch(`${URL}/Test/${testId}/Marks?correctionDate=${testDate}`, {
+          method: "PUT",
+          body: JSON.stringify(testMark),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      }
+    } ,
     delete: (id) => {
       return fetch(`${URL}/Student/${id}`, {
         method: "DELETE",

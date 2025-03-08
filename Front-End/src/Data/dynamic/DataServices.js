@@ -161,7 +161,10 @@ export default {
     return API.Test.get.AllTestInTheClasss(classId,linkedTest,correctionTest)
   },
   AssingeMarkToTheTest : (testMark,testId,testDate) => {
-    return API.Test.put(testMark,testId,testDate)
+    return API.Test.put.changeMark(testMark,testId,testDate)
+  },
+  RemoveTestFromCurrentReport : (data) => {
+    return API.Test.put.removeTestFromReport(data)
   },
   CreateNewReport: (data) => {
     return API.Report.post(data)
