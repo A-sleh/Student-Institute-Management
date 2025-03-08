@@ -82,7 +82,7 @@ export default function LinkTestWithReport() {
                 <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
             </SelectedReportContext.Provider>
 
-            <ReportTests quiz={selectedReportQuizs} exam={selectedReportExams} manageMode={true} />
+            <ReportTests quiz={{...selectedReportQuizs,selectedReport}} exam={selectedReportExams} manageMode={true} />
                 
             <QuizExamContainerStyle >
                 {ManageSeletedQuizMemo}

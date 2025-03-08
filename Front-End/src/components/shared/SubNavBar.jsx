@@ -6,8 +6,7 @@ import React from "react"
 function SubNavBar({urlList}) {
 
     const {currentLange} = useSelector( state => state.language)
-    console.log('child')
-
+    
     return (
         <HeaderNavStyle >
             <span></span>

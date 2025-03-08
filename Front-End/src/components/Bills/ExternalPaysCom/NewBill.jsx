@@ -27,7 +27,6 @@ const initialFormInput = {
 
 export default function NewBillExternal() {
 
-    console.log('fofo')
     const {currentLange} = useSelector( state => state.language)
     const { billType, inComeBill ,outComeBill,billNumber ,billDate ,billAmount ,billNote ,addBtn,validationMessages ,successAddStudentBillMES ,errorAddStudentBillMES } = NewBillExternalTEXT[currentLange]
     const {bilNumberVal ,billDateVal ,billAmountVal} = validationMessages

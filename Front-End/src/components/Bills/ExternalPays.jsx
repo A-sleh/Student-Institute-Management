@@ -38,8 +38,6 @@ export default function ExternalPays() {
             path : 'NewBill',
         }
     ]
-
-    console.log('parent')
     
     return(
         <>

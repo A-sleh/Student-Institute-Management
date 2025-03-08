@@ -130,7 +130,6 @@ export default function CreateTestForm({form,setForm,initailState,children}) {
                                     {
                                         form.subject.grade == '' || form.subject.grade == undefined ? <h4 style={{color: 'red'}}> {displaySubjectPlaceholder}</h4>
                                         : subjects.map( (subject,index) => {
-                                            console.log('here')
                                             return <SubjectTageShow key={index} subject={subject} setForm={setForm} selectedSubject={form.subject.subjectId}  delay={index*100}/>
                                         })
                                     }
