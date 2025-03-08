@@ -120,10 +120,8 @@ namespace DataAcess.Data
         #endregion
 
         #region Actions
-        public async Task AddBill(BillModel bill)
-        {
+        public async Task<int> AddBill(BillModel bill) => 
             await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
-        }
 
         public async Task DeleteBill(int BillId)
         {

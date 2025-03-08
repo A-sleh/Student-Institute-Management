@@ -1,13 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[BillAdd]
 	@BillNo NVARCHAR(50),
 	@Type VARCHAR(5),
-	@Date NVARCHAR(30),
+	@Date DATE,
 	@Amount int,
 	@StudentId int null,
 	@TeacherId int null,
 	@Note NVARCHAR(300)
 AS
-	if (@TeacherId is null AND @StudentId is not null)
+	IF (@TeacherId is null AND @StudentId is not null)
 	BEGIN
 		INSERT INTO Bill(BillNo, Type, Amount, Date, StudentId, TeacherId, Note) VALUES
 		(@BillNo, @Type, @Amount, @Date, @StudentId, null, @Note);
@@ -23,5 +23,9 @@ AS
 		(@BillNo, @Type, @Amount, @Date, null, null, @Note);
 	END
 	ELSE
-	THROW 55000, 'Not Valid', 0;
-RETURN 0
+	BEGIN
+		RAISERROR('Invalid Input', 16, 1);
+		return -1;
+	END
+	SELECT SCOPE_IDENTITY();
+RETURN 0;
