@@ -39,7 +39,7 @@ namespace DataAcess.Data
 
         public async Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjectsById(int TeacherId)
         {
-            var res = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
+            var teacherSubjects = await _db.LoadData<TeacherSubjectModel, dynamic, SubjectModel>("dbo.TeacherGetById",
                 parameters: new { TeacherId },
                 x:
                 (TS, Subject) =>
@@ -49,22 +49,22 @@ namespace DataAcess.Data
                 },
                 splitOn: "SubjectId"
                 );
-            return res;
+            return teacherSubjects;
         }
 
         public async Task<IEnumerable<TeacherModel>> GetTeachersBySubject(int subId)
         {
-            var res =  await _db.LoadData<TeacherModel, dynamic>(
+            var teachers =  await _db.LoadData<TeacherModel, dynamic>(
                 "dbo.TeachersGetAllBySubId",
                 parameters: new { SubjectId = subId }
                 );
-            return res;
+            return teachers;
         }
 
         public async Task<IEnumerable<TeacherModel>> GetAllTeachers()
         {
-            var res = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll", parameters: new { });
-            return res;
+            var teachers = await _db.LoadData<TeacherModel, dynamic>("dbo.TeacherGetAll", parameters: new { });
+            return teachers;
         }
 
         public async Task<TeacherModel?> GetTeacherById(int TeacherId)
@@ -91,7 +91,7 @@ namespace DataAcess.Data
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId"));
-            return res.FirstOrDefault();
+            return CurrTeacher;
         }
 
         #endregion

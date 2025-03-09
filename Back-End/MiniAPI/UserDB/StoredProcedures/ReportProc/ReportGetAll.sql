@@ -1,15 +1,22 @@
 ﻿CREATE PROCEDURE [dbo].[ReportGetAll]
-	@classId int null
+	@classId int null,
+	@gradeId int null,
+	@withTests bit = 1
 AS
 BEGIN
-	SELECT r.Id as ReportId, ReportTitle, StartDate, FinishDate,
-	t.Id as TestId, t.Title, t.TestType, t.Date, t.CorrectionDate,
-	sbj.Id as SubjectId, sbj.Subject,g.gradeId, g.grade, sbj.MaximumMark
-	FROM Report r 
-	LEFT OUTER JOIN Test t ON r.Id = t.ReportId
-	LEFT OUTER JOIN Subject sbj ON t.SubjectId = sbj.Id
-	LEFT OUTER JOIN Grade g ON sbj.gradeId = g.gradeId
-	WHERE @classId IS NULL OR @classId IN (SELECT DISTINCT classId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE tm.TestId = t.Id)
+	IF @withTests = 1
+	BEGIN
+		SELECT * FROM ReportsWithTests
+		WHERE (@classId IS NULL OR TestId IN (SELECT DISTINCT tm.TestId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE s.classId = @classId))
+		AND (@gradeId IS NULL OR @gradeId = gradeId)
+	END
+	ELSE
+	BEGIN
+		SELECT ReportId, ReportTitle, StartDate, FinishDate, gradeId
+		FROM ReportsWithTests
+		WHERE (@classId IS NULL OR TestId IN (SELECT DISTINCT tm.TestId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE s.classId = @classId))
+		AND (@gradeId IS NULL OR @gradeId = gradeId)
+	END
 END
 
 --CREATE PROCEDURE [dbo].[ReportGetAll]

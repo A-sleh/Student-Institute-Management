@@ -20,14 +20,14 @@ namespace DataAcess.Data
         #region Data Request
         public async Task<IEnumerable<dynamic>> GetClassesByTest(int testId)
         {
-            var res = await _db.LoadData<dynamic, dynamic, ClassModel>("dbo.TestGetClassesById", new { testId },
+            var tests = await _db.LoadData<dynamic, dynamic, ClassModel>("dbo.TestGetClassesById", new { testId },
                 (Dyn, Class) =>
                 {
                     Dyn = new { Class, Dyn.StudentsNumber };
                     return Dyn;
                 },
                 splitOn: "ClassId");
-            return res;
+            return tests;
         }
         public async Task<IEnumerable<TestMarkModel>> GetStudentTestsMarks(int studentId, int? reportId)
         {
@@ -46,7 +46,7 @@ namespace DataAcess.Data
         }
         public async Task<IEnumerable<dynamic>> GetTestMarksByClassId(int testId, int classId)
         {
-            var res = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetClassMarks",
+            var testMarks = await _db.LoadData<TestMarkModel, dynamic, StudentModel>("dbo.TestGetClassMarks",
                 new { testId, classId },
                 x: (TestMark, Student) =>
                 {
@@ -54,7 +54,7 @@ namespace DataAcess.Data
                     return TestMark;
                 },
                 splitOn: "StudentId");
-            return res.Select(s =>
+            return testMarks.Select(s =>
             {
                 var jsonFormat = new
                 {
@@ -73,7 +73,7 @@ namespace DataAcess.Data
         }
         public async Task<IEnumerable<dynamic>> GetTestMarks(int testId, int? classId)
         {
-            var res = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
+            var testMarks = await _db.LoadData<dynamic, TestMarkModel, StudentModel, ClassModel>("dbo.TestGetMarksById",
                 new { testId },
                 x: (Mark, Student, Class) =>
                 {
@@ -82,7 +82,7 @@ namespace DataAcess.Data
                     return Mark;
                 },
                 splitOn: "StudentId, ClassId");
-            return res.Select(x => new 
+            return testMarks.Select(x => new 
             {
                 x.TestMarkId,
                 x.Mark,
@@ -95,11 +95,11 @@ namespace DataAcess.Data
                     x.Student?.Class?.ClassId,
                     x.Student?.Class?.Title
                 }
-            }).Where(s => s?.student.ClassId == classId || classId == null);
+            }).Where(s => classId == null || s.student.ClassId == classId );
         }
         public async Task<IEnumerable<TestModel>> GetTestBySubject(int subjectId, int? reportId)
         {
-            var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetBySubject",
+            var subjectTests = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetBySubject",
                 new { subjectId },
                 x: (Test, Subject, Report) =>
                 {
@@ -108,11 +108,11 @@ namespace DataAcess.Data
                     return Test;
                 },
                 splitOn: "SubjectId, ReportId");
-            return res.Where(x=> reportId == null || x.Report?.ReportId == reportId);
+            return subjectTests.Where(x=> reportId == null || x.Report?.ReportId == reportId);
         }
         public async Task<IEnumerable<TestModel>> GetTests(int? reportId)
         {
-            var res = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetAll",
+            var tests = await _db.LoadData<dynamic, TestModel, SubjectModel, ReportModel>("dbo.TestGetAll",
                 new { },
                 x: (test, subject, report) =>
                 {
@@ -121,7 +121,7 @@ namespace DataAcess.Data
                     return test;
                 },
                 splitOn: "SubjectId, ReportId");
-            return res
+            return tests
                 .Where(x => reportId == null || x.Report?.ReportId == reportId);
         }
         #endregion
