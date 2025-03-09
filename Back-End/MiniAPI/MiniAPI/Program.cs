@@ -39,7 +39,7 @@ namespace MiniAPI
             //app.UseAuthorization();
             //app.UseHttpsRedirection();
 
-            //app.UseCors("CorsPolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseEndpointsMapper();
 

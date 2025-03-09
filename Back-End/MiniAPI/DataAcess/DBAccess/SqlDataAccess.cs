@@ -15,7 +15,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes async query to execute or load data from database
+        /// Executes async query to update or load data from database
         /// </summary>
         /// <typeparam name="T">Return Type T</typeparam>
         /// <typeparam name="U">Parameter Type U</typeparam>
@@ -33,7 +33,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes async query to execute or load data from database
+        /// Executes async query to update or load data from database
         /// <list type="bullet">
         /// <item>
         /// <term>T</term>
@@ -71,7 +71,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes async query to execute or load data from database
+        /// Executes async query to update or load data from database
         /// </summary>
         /// <typeparam name="U">Presents type of parameter</typeparam>
         /// <typeparam name="T">Presents first and out model</typeparam>
@@ -96,7 +96,7 @@ namespace DataAcess.DBAccess
         }
 
         /// <summary>
-        /// Executes async query to execute or load data from database
+        /// Executes async query to update or load data from database
         /// </summary>
         /// <typeparam name="U">Presents type of parameter</typeparam>
         /// <typeparam name="T">Presents first and out model</typeparam>

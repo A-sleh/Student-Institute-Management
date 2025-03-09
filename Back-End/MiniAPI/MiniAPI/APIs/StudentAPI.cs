@@ -54,9 +54,9 @@ namespace MiniAPI.APIs
                 await data.AddAbsences(studentId, date);
                 return Results.Ok();
             }
-            catch (InvalidParametersException pe)
+            catch (ArgumentException argEx)
             {
-                return Results.BadRequest(pe.Message);
+                return Results.BadRequest(argEx.Message);
             }
             catch (Exception e)
             {
@@ -71,9 +71,9 @@ namespace MiniAPI.APIs
                 var studentAbsences = await data.GetStudentAbsence(studentId, detailed, startDate, endDate);
                 return Results.Ok(studentAbsences);
             }
-            catch (InvalidParametersException pe)
+            catch (ArgumentException argEx)
             {
-                return Results.BadRequest(pe.Message);
+                return Results.BadRequest(argEx.Message);
             }
             catch (Exception e)
             {
@@ -123,7 +123,7 @@ namespace MiniAPI.APIs
             }
             catch (Exception ex)
             {
-                return Results.Problem(ex.Message);
+                return Results.BadRequest(ex.Message);
             }
         }
 

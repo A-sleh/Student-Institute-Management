@@ -27,14 +27,9 @@ namespace DataAcess.Data
             var report = await GetReport(reportId, null);
             var mappedStudents = new Dictionary<int, StudentModel>();
 
-            var classStudentsWithTestMarks = 
-                await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
+            _ = await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
                 "dbo.StudentGetFullResultByRepAndClass",
-                new
-                {
-                    reportId,
-                    classId
-                },
+                new { reportId, classId },
                 (student, test, subject, testMark) =>
                 {
                     test.Subject = subject;
@@ -50,7 +45,7 @@ namespace DataAcess.Data
                     student.TestMark.Add(testMark);
                     return student;
                 },
-                splitOn: "TestId, SubjectId, TestMarkId");
+                splitOn: $"{nameof(TestModel.TestId)}, {nameof(SubjectModel.SubjectId)}, {nameof(TestMarkModel.TestMarkId)}");
 
             var studentsResults =  mappedStudents.Select(mapped => mapped.Value)
                 .Select(student =>

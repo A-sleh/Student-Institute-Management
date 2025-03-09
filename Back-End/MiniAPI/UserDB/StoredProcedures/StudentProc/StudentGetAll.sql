@@ -3,12 +3,12 @@
 AS
 begin
 	SELECT s.id as StudentId, name, lastName, fatherName, birthdate, phone, billRequired, Count(*) as MissedDays,
-	c.id as ClassId, c.title, c.gradeId, g.grade, c.gender
+	c.id as ClassId, c.title, c.gradeId, g.grade, c.gender, c.capacity
 	FROM Student s left join Class c on s.classId = c.id 
 	LEFT JOIN Grade g ON c.gradeId = g.gradeId
 	LEFT JOIN absence a ON s.id = a.studentId
 	WHERE @classId IS NULL OR s.classId = @classId
 	GROUP BY s.id, s.name, s.lastName, s.fatherName, s.birthdate, s.phone, s.billRequired,
-	c.id, c.title, c.gradeId, g.grade, c.gender
+	c.id, c.title, c.gradeId, g.grade, c.gender, c.capacity
 	ORDER BY s.name
 end

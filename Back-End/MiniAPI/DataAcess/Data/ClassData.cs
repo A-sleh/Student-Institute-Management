@@ -34,97 +34,89 @@ namespace DataAcess.Data
         }
         public async Task<IEnumerable<dynamic>> GetClassSubjects(int classId)
         {
-            var res = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });
-            return res;
+            var classSubjects = await _db.LoadData<dynamic, dynamic>("dbo.ClassGetSubjects", new { classId });
+            return classSubjects;
         }
         private void ValidateId(int classId)
         {
             if(!_db.LoadData<dynamic,dynamic>("dbo.ClassGetById", new { classId }).Result.Any())
-                throw new Exception("Not Found, No Such class has this id");
+                throw new ArgumentException("Not Found, No Such class has this id");
         }
         public async Task<IEnumerable<dynamic>> GetClassteachers(int classId)
         {
-            var dic = new Dictionary<int, TeacherModel>();
-            var teachers = await _db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>(
+            var mappedTeachers = new Dictionary<int, TeacherModel>();
+            _ = await _db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>(
                 "dbo.ClassGetTeachers",
                 new { classId },
                 (Teacher, TeacherSubject, Subject) =>
                 {
                     TeacherSubject.Subject = Subject;
-                    if(dic.TryGetValue(Teacher.TeacherId, out var model))
+                    if(mappedTeachers.TryGetValue(Teacher.TeacherId, out var model))
                     {
                         Teacher = model;
                     }
                     else
                     {
-                        dic.Add(Teacher.TeacherId, Teacher);
+                        mappedTeachers.Add(Teacher.TeacherId, Teacher);
                     }
                     Teacher.TeacherSubjects.Add(TeacherSubject);
                     return Teacher;
                 },
                 splitOn: "TeacherSubjectId, SubjectId");
-            var res =  teachers.Distinct();
-            var teacherSubjects = res.Select(x => x.TeacherSubjects);
-            var mappedTeacherSubjects = res.Select(x =>
+
+            return mappedTeachers.Select(teacher => new
             {
-                return new
-                {
-                    x.TeacherId,
-                    x.Name,
-                    x.LastName,
-                    teacherSubject = teacherSubjects
-                    .Where(t => t == x.TeacherSubjects)
-                    .FirstOrDefault()?
-                    .Select(x => new { x?.TeacherSubjectId, x?.Salary, x?.Subject })
-                };
+                teacher.Value.TeacherId,
+                teacher.Value.Name,
+                teacher.Value.LastName,
+                teacherSubject = teacher.Value.TeacherSubjects.Select(ts => new { ts?.TeacherSubjectId, ts?.Salary, ts?.Subject })
             });
-            return mappedTeacherSubjects;
         }
         public async Task<IEnumerable<ClassModel>> GetClasses(int? gradeId = null)
         {
-            var dic = new Dictionary<int, ClassModel>();
-            var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
+            var mappedClasses = new Dictionary<int, ClassModel>();
+            _ = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetAll",
                 new { gradeId },
                 (Class, Student) =>
                 {
-                    if (dic.TryGetValue(Class.ClassId, out var ExistClass))
+                    if (mappedClasses.TryGetValue(Class.ClassId, out var ExistClass))
                     {
                         Class = ExistClass;
                     }
                     else
                     {
-                        dic.Add(Class.ClassId, Class);
+                        mappedClasses.Add(Class.ClassId, Class);
                     }
                     Class.Students.Add(Student);
                     return Class;
                 },
                 splitOn: "StudentId"
             );
-            return res.Distinct();
+            return mappedClasses.Select(x => x.Value);
         }
         public async Task<ClassModel?> GetClassDetails(int id)
         {
-            ClassModel? CurrClass = null;
-            var res = await _db.LoadData<ClassModel, dynamic, StudentModel>(
+            ClassModel? currClass = null;
+            _ = await _db.LoadData<ClassModel, dynamic, StudentModel>(
                 "dbo.ClassGetDetails",
                 new { Id = id },
                 (Class, Student) =>
                 {
-                    if (CurrClass == null)
+                    if (currClass == null)
                     {
-                        CurrClass = Class;
+                        currClass = Class;
                     }
                     else
                     {
-                        Class = CurrClass;
+                        Class = currClass;
                     }
                     Class.Students.Add(Student);
                     return Class;
                 },
                 splitOn: "StudentId"
             );
-            return res.FirstOrDefault();
+            return currClass;
         }
         #endregion
 
@@ -140,7 +132,7 @@ namespace DataAcess.Data
             });
         public Task UpdateClass(ClassModel classModel)
         {
-            ValidateId(classModel.ClassId);
+            //ValidateId(classModel.ClassId);
             return _db.ExecuteData("dbo.ClassUpdate", new
             {
                 classModel.ClassId,
@@ -152,7 +144,7 @@ namespace DataAcess.Data
         }
         public Task DeleteClass(int id)
         {
-            ValidateId(id);
+            //ValidateId(id);
             return _db.ExecuteData("dbo.ClassDelete", new { Id = id });
         }
         #endregion

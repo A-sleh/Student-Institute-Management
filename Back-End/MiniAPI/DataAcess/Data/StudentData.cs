@@ -4,6 +4,7 @@ using DataAcess.Models;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -86,7 +87,7 @@ public class StudentData : IStudentData
                 _studentsCache.Add(id, student);
                 return _studentsCache[id].PureFormat();
             }
-            return student;
+            return student?.PureFormat();
         }
 
         return cachedStudent.PureFormat();
@@ -95,21 +96,12 @@ public class StudentData : IStudentData
     public async Task<dynamic?> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null)
     {
         if (startDate > endDate)
-            throw new InvalidParametersException("End date must be equal or larger than start date");
+            throw new ArgumentException("End date must be equal or larger than start date");
 
         var studentAbsences = (await _db.LoadData<AbsenceModel, dynamic>("StudentAbsenceGet", new { studentId }))
             .Where(x => x.DateFilter(startDate, endDate));
 
         var Absences = studentAbsences.Count();
-
-        if (_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
-        {
-            cachedStudent.MissedDays = Absences;
-        }
-        else
-        {
-            cachedStudent = new StudentModel() { MissedDays = Absences };
-        }
 
         if (!detailed)
             return new { Absences };
@@ -124,7 +116,7 @@ public class StudentData : IStudentData
     {
         try
         {
-            int id = await _db.ExecuteData("dbo.StudentAdd", new
+            student.StudentId = await _db.ExecuteData("dbo.StudentAdd", new
             {
                 student.StudentId,
                 student.Name,
@@ -135,7 +127,10 @@ public class StudentData : IStudentData
                 student.Class?.ClassId,
                 student.BillRequired
             });
-            await GetStudentByID(id);
+            if(student.StudentId != -1)
+            {
+                _studentsCache.Add(student.StudentId, student);
+            }
         }
         catch(Exception)
         {
@@ -184,7 +179,7 @@ public class StudentData : IStudentData
         }
         catch (Exception)
         {
-            throw new Exception($"Unable to remove student with Id: {id}");
+            throw new Exception($"Unable to remove student with Id: {id}, check if such student exists!");
         }
     }
 
@@ -193,7 +188,7 @@ public class StudentData : IStudentData
         try
         {
             if (!studentIds.Any())
-                throw new InvalidParametersException("Must provide atleast one student id");
+                throw new ArgumentException("Must provide atleast one student id");
 
             foreach (int studentId in studentIds)
             {
@@ -202,7 +197,7 @@ public class StudentData : IStudentData
                     cachedStudent.MissedDays++;
             }
         }
-        catch (InvalidParametersException)
+        catch (ArgumentException)
         {
             throw;
         }
