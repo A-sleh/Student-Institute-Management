@@ -9,7 +9,6 @@ export default function BalanceEachMonth() {
 
     const {currentLange} = useSelector( state => state.language)
     const [totalBalance] = useGetBalanceInEachMonth()
-    console.log(totalBalance)
     
     const data = {
         data : totalBalance.map( (monthDetails,index) => {

@@ -31,20 +31,16 @@ public class StudentData : IStudentData
      */
     private async Task LoadStudentModelList(int? classId = null)
     {
-        var students = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
+        _ = (await _db.LoadData<StudentModel, dynamic, ClassModel>(
             "dbo.StudentGetAll",
             parameters: new { classId },
             (StudentModel Student, ClassModel Class) =>
             {
                 Student.Class = Class;
+                _studentsCache.TryAdd(Student.StudentId, Student);
                 return Student;
             },
             splitOn: "ClassId"));
-
-        foreach(var student in students)
-        {
-            _studentsCache.TryAdd(student.StudentId, student);
-        }
     }
 
     private async Task<StudentModel?> GetStudentModelById(int id)
@@ -71,9 +67,12 @@ public class StudentData : IStudentData
             }
         }
         await LoadStudentModelList(classId);
-        return _studentsCache
-            .Where(student => classId is null || student.Value.Class?.ClassId == classId)
-            .Select(student => student.Value.PureFormat());
+        var students = _studentsCache
+            .Where(student => (classId is null || student.Value.Class?.ClassId == classId) 
+            && (gradeId is null || student.Value.Class?.GradeId == gradeId));
+       
+         return students.Select(x => x.Value);
+        
     }
 
     public async Task<dynamic?> GetStudentByID(int id)

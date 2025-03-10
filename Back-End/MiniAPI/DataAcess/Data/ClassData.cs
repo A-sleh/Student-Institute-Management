@@ -111,7 +111,8 @@ namespace DataAcess.Data
                     {
                         Class = currClass;
                     }
-                    Class.Students.Add(Student);
+                    if(Student != null)
+                        Class.Students.Add(Student);
                     return Class;
                 },
                 splitOn: "StudentId"

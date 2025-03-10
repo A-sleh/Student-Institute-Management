@@ -4,7 +4,6 @@ import { AgCharts } from 'ag-charts-react';
 export default function GroupedHorizontalBar({data}){
     // Chart Options: Control & configure the chart
 
-    console.log(data)
     const chartOptions = {
         data : data.data,
         footnote : {

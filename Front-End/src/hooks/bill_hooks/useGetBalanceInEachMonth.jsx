@@ -22,6 +22,7 @@ export default function useGetBalanceInEachMonth() {
         })
     },[])
 
+
     function getNextMonth(month,year) {
         const nextMonth = (+month + 1) % 12
         const nextYear = +year + (((+month + 1) % 12) == 0)
@@ -29,7 +30,7 @@ export default function useGetBalanceInEachMonth() {
     }
 
     function getFullDate(y,m,d) {
-        return format(new Date(y,+m  , d),'yyyy-MM-dd')
+        return format(new Date(+y,+m  , +d),'yyyy-MM-dd')
     }
 
     async function getBalanceFromTheStargin() {

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 export default function useStudentsInfo(selectedGrade,setPage,limit,page,...reFetch) {
 
     const [studentInfo, setstudentInfo] = useState([]);
-console.log(selectedGrade)
+
     useEffect(() => {
         const gradeId = selectedGrade ? `&gradeId=${selectedGrade?.gradeId}` : ''
         DataServices.StudentsInformaion('',gradeId,limit,page).then((StudentsInfo) => {

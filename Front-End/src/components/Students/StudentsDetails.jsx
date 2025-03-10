@@ -92,8 +92,6 @@ export default function StudentsDetails() {
     []
   );
 
-  console.log(selectedClass)
-
   return (
     <>
       {
