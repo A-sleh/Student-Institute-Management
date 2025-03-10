@@ -134,9 +134,13 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalPays(studentId: studentId);
                 return Results.Ok(res);
             }
+            catch (ArgumentException ArgEx)
+            {
+                return Results.BadRequest(ArgEx.Message);
+            }
             catch (Exception ex)
             {
-                return Results.BadRequest(ex.Message);
+                return Results.Problem(ex.Message);
             }
         }
 
@@ -160,6 +164,10 @@ namespace MiniAPI.APIs
             {
                 var res = await data.GetTotalPays(teacherId: teacherId);
                 return Results.Ok(res);
+            }
+            catch (ArgumentException argEx)
+            {
+                return Results.BadRequest($"Paramenters invalid: {argEx.Message}");
             }
             catch (Exception e)
             {
@@ -187,6 +195,10 @@ namespace MiniAPI.APIs
                 var res = await data.GetTotalByParam(startDate, endDate, "in");
                 return Results.Ok(res);
             }
+            catch (ArgumentException argEx)
+            {
+                return Results.BadRequest($"Paramenters invalid: {argEx.Message}");
+            }
             catch (Exception e)
             {
                 return Results.BadRequest(e.Message);
@@ -199,6 +211,10 @@ namespace MiniAPI.APIs
             {
                 var res = await data.GetTotalByParam(startDate, endDate, "out");
                 return Results.Ok(res);
+            }
+            catch (ArgumentException argEx)
+            {
+                return Results.BadRequest($"Paramenters invalid: {argEx.Message}");
             }
             catch (Exception e)
             {
@@ -226,10 +242,6 @@ namespace MiniAPI.APIs
                 model.BillId = await data.AddBill(model);
                 return Results.Ok(model);
             }
-            catch (ArgumentNullException ArgEx)
-            {
-                return Results.BadRequest(ArgEx.Message);
-            }
             catch (SqlException sqlEx)
             {
                 return Results.BadRequest(sqlEx.Message);
@@ -246,6 +258,10 @@ namespace MiniAPI.APIs
             {
                 await data.DeleteBill(billId);
                 return Results.Ok("DeleteSuccess");
+            }
+            catch (SqlException sqlEx)
+            {
+                return Results.BadRequest($"Error: {sqlEx.Message}");
             }
             catch (Exception e)
             {

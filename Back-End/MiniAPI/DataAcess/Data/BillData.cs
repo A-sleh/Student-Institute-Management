@@ -37,7 +37,6 @@ namespace DataAcess.Data
             DateTime? startDate = null,
             DateTime? endDate = null)
         {
-            await Console.Out.WriteLineAsync(billOwner.ToString());
             var bills = await _db.LoadData<dynamic, BillModel, StudentModel, TeacherModel>(
                 "dbo.BillGetAll",
                 new { billOwner = billOwner?.ToString(), billType, startDate, endDate, limit, page, orderBy, orderingType },
@@ -67,7 +66,7 @@ namespace DataAcess.Data
                 paid = (await _db.LoadData<int?, dynamic>("dbo.BillGetTeacherPays", new { teacherId })).First() ?? 0;
             }
             else 
-                throw new InvalidParametersException("cannot get student and teacher pays together, please specifiy one");
+                throw new ArgumentException("cannot get student and teacher pays together, please specifiy one");
 
             var details = new
             {
@@ -117,16 +116,21 @@ namespace DataAcess.Data
             int total = bills.Sum(s => s.Amount);
             return total;
         }
+        
         #endregion
 
         #region Actions
+
+        /// <summary>
+        /// adds bill to database
+        /// </summary>
+        /// <param name="bill"></param>
+        /// <returns>Auto generated billId</returns>
         public async Task<int> AddBill(BillModel bill) => 
             await _db.ExecuteData("dbo.BillAdd", bill.AsSqlRow());
 
-        public async Task DeleteBill(int BillId)
-        {
+        public async Task DeleteBill(int BillId) => 
             await _db.ExecuteData("dbo.BillDelete", new { BillId });
-        }
 
         #endregion
     }

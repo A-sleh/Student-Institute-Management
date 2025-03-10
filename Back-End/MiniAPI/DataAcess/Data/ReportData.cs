@@ -27,14 +27,9 @@ namespace DataAcess.Data
             var report = await GetReport(reportId, null);
             var mappedStudents = new Dictionary<int, StudentModel>();
 
-            var classStudentsWithTestMarks = 
-                await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
+            _ = await _db.LoadData<dynamic, StudentModel, TestModel, SubjectModel, TestMarkModel>(
                 "dbo.StudentGetFullResultByRepAndClass",
-                new
-                {
-                    reportId,
-                    classId
-                },
+                new { reportId, classId },
                 (student, test, subject, testMark) =>
                 {
                     test.Subject = subject;
@@ -50,7 +45,7 @@ namespace DataAcess.Data
                     student.TestMark.Add(testMark);
                     return student;
                 },
-                splitOn: "TestId, SubjectId, TestMarkId");
+                splitOn: $"{nameof(TestModel.TestId)}, {nameof(SubjectModel.SubjectId)}, {nameof(TestMarkModel.TestMarkId)}");
 
             var studentsResults =  mappedStudents.Select(mapped => mapped.Value)
                 .Select(student =>
@@ -105,55 +100,52 @@ namespace DataAcess.Data
 
         public async Task<ReportModel?> GetReport(int id, int? classId)
         {
-            ReportModel reportModel = new();
-            var res = await
+            ReportModel? mappedReport = null;
+            _ = await
                 _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
                 "dbo.ReportGet",
                 new { id, classId },
                 x: (Report, Test, Subject) =>
                 {
-                    if (reportModel.ReportId == 0)
+                    if (mappedReport is null)
                     {
-                        reportModel = Report;
+                        mappedReport = Report;
                     }
                     else
                     {
-                        Report = reportModel;
+                        Report = mappedReport;
                     }
                     if (Test != null)
                     {
+                        Test.Report = null;
                         Test.Subject = Subject;
                         Report.Tests.Add(Test);
                     }
                     return Report;
                 },
                 splitOn: "TestId, SubjectId");
-            return res.Select(x =>
-            {
-                var temp = x.Tests.AsEnumerable();
-                x.Tests = temp.Select(t => { t.Report = null; return t; }).ToList();
-                return x;
-            }).Distinct().FirstOrDefault();
+
+            return mappedReport;
         }
 
         public async Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId)
         {
-            var dic = new Dictionary<int, ReportModel>();
-            var reports = await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
+            var mappedReports = new Dictionary<int, ReportModel>();
+            _ = await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
                 "dbo.ReportGetAll",
-                new { classId },
+                new { classId, gradeId },
                 (report, test, subject) =>
                 {
                     if(subject != null)
                         test.Subject = subject;
 
-                    if (dic.TryGetValue(report.ReportId, out var reportModel))
+                    if (mappedReports.TryGetValue(report.ReportId, out var reportModel))
                     {
                         report = reportModel;
                     }
                     else
                     {
-                        dic.Add(report.ReportId, report);
+                        mappedReports.Add(report.ReportId, report);
                     }
                     if(test != null)
                         report.Tests.Add(test);
@@ -161,19 +153,7 @@ namespace DataAcess.Data
                 },
                 "TestId, SubjectId");
 
-            return dic
-                .Select(Key =>
-                {
-                    if (gradeId != null)
-                    {
-                        var tests = Key.Value.Tests.AsEnumerable();
-                        Key.Value.Tests = tests
-                        .Where(t => t.Subject?.GradeId == gradeId)
-                        .Select(t => { t.Report = null; return t; })
-                        .ToList();
-                    }
-                    return Key.Value;
-                });
+            return mappedReports.Select(Key => Key.Value);
         }
         public async Task<IEnumerable<dynamic>> GetTeachersRate(int subjectId)
         {
