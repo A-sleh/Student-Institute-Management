@@ -88,6 +88,7 @@ namespace DataAcess.Data
                     {
                         mappedClasses.Add(Class.ClassId, Class);
                     }
+                    if(Student != null)
                     Class.Students.Add(Student);
                     return Class;
                 },
