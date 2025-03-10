@@ -3,6 +3,8 @@ import { AgCharts } from 'ag-charts-react';
 
 export default function GroupedHorizontalBar({data}){
     // Chart Options: Control & configure the chart
+
+    console.log(data)
     const chartOptions = {
         data : data.data,
         footnote : {
@@ -14,7 +16,7 @@ export default function GroupedHorizontalBar({data}){
             xKey: "month",
             yKey: "balance",
             yName: "Balance",
-            cornerRadius: 20,
+            cornerRadius: 100,
             label: {
               formatter: (data) => `${parseFloat(data.datum['balance']) + data.datum['unit']}`,
             },

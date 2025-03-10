@@ -60,14 +60,15 @@ export default function useGetBalanceInEachMonth() {
                     const [nextMonth,nextYear] = getNextMonth(startingMonth,startingYear) 
                     const inCome = await DataServices.ShowIncomeBalanceInCurrentRange(getFullDate(startingYear,startingMonth ,1),getFullDate(startingYear,startingMonth,Month[startingMonth].days))
                     const outCome = await DataServices.ShowoutcomeBalanceInCurrentRange(getFullDate(startingYear,startingMonth,1),getFullDate(startingYear,startingMonth,Month[startingMonth].days))
-                    startingMonth = nextMonth
-                    startingYear = nextYear
-    
+
                     totalBalanceInEachMonth.push({
                         balance : inCome - outCome ,
                         month : Month[startingMonth].month ,
                         year: startingYear
                     })
+
+                    startingMonth = nextMonth
+                    startingYear = nextYear
                 }
                 resolve(totalBalanceInEachMonth)
             }        
