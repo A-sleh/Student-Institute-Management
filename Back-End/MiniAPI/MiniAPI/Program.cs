@@ -36,6 +36,10 @@ namespace MiniAPI
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
+<<<<<<< HEAD
+=======
+            app.UseAuthentication();
+>>>>>>> fbcb16c436ca7f72e946cb722b15384f9e8bcd3f
             app.UseAuthorization();
             app.UseHttpsRedirection();
 
