@@ -91,7 +91,10 @@ export default function StudentsDetails() {
 
       <Title title={window.location.pathname} />
       <TablePaginated data={students || []} column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={12} >
-        <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+        <div>
+          <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+          
+        </div>
       </TablePaginated> 
 
     </>
