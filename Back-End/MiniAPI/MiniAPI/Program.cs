@@ -36,8 +36,9 @@ namespace MiniAPI
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            //app.UseAuthorization();
-            //app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
 
