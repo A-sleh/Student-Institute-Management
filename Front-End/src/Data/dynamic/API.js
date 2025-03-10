@@ -66,7 +66,12 @@ export default {
         return fetch(`${URL}/Class/${classId}/Teacher`).then((response) =>
           response.json()
         );
-      }
+      },
+      SpecificGrade : (gradeId) => {
+        return fetch(`${URL}/Class?gradeId=${gradeId}`).then((response) =>
+          response.json()
+        );
+      },
     },
     post: (data) => {
       return fetch(`${URL}/Class`, {

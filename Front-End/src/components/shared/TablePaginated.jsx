@@ -12,7 +12,7 @@ export default function TablePaginated(props) {
     const {currentLange} = useSelector( state => state.language)
     const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
     const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
-
+    
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
         data: data,
         columns: column,

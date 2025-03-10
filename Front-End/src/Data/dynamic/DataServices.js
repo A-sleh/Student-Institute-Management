@@ -1,9 +1,8 @@
 import API from "./API.js";
 
 export default {
-  StudentsAbsence: (studentsIds,date) => {
-    return API.Absence.post(studentsIds,date)
-  },
+
+  // student? datasercices
   StudentsInformaion: (id,gradId,limit,page) => {
     return API.Student.get(id,gradId,limit,page);
   },
@@ -22,8 +21,14 @@ export default {
   DeleteSutent: (id) => {
     return API.Student.delete(id);
   },
+
+
+  // class? dataservices
   showCalsses: (id) => {
     return API.Class.get.All(id);
+  },
+  ShowClassWithSpecificGrade : (gradId) => {
+    return API.Class.get.SpecificGrade(gradId);
   },
   CreateNewClass: (data) => {
     return API.Class.post(data);
@@ -34,8 +39,19 @@ export default {
   UpdateClass: (data) => {
     return API.Class.put(data);
   },
+  ShowTeacherInSideClass : (classId) => {
+    return API.Class.get.Teacher(classId)
+  },
+  ShowAllCurrentSubjectsInTheClass: (classId) => {
+    return API.ClassSubject.get(classId)
+  },
+
+  // subject? dataServices
   DeleteSubject: (id) => {
     return API.Subject.delete(id);
+  },
+  StudentsAbsence: (studentsIds,date) => {
+    return API.Absence.post(studentsIds,date)
   },
   ShowAllSubject: () => {
     return API.Subject.get();
@@ -46,6 +62,8 @@ export default {
   CreateSubject: (data) => {
     return API.Subject.post(data);
   },
+
+  // teacher? dataServices  
   AddNewTeacher : (data) => {
     return API.Teacher.post(data)
   },
@@ -70,9 +88,6 @@ export default {
   ShowTeacherClass : (id) => {
     return API.TeacherClass.get(id)
   },
-  ShowTeacherInSideClass : (classId) => {
-    return API.Class.get.Teacher(classId)
-  } ,
   AddNewSubjectsForTeacher : (data) => {
     return API.TeacherSubject.post(data)
   },
@@ -85,12 +100,11 @@ export default {
   DeleteTeacherFromClass : (teacherSubjectId,classId) => {
     return API.TeacherClass.delete(teacherSubjectId,classId)
   },
-  ShowAllCurrentSubjectsInTheClass: (classId) => {
-    return API.ClassSubject.get(classId)
-  },
   AddTeacherToClass : (teacherSubject,classId) => {
     return API.TeacherClass.post(teacherSubject,classId)
   },
+
+  // bill? dataServices
   ShowClassBillsDetails : (classId) => {
     return API.Bill.get.class(classId)
   },
@@ -142,6 +156,20 @@ export default {
   ShowRemeainingOutcome : () => {
     return API.Bill.get.restOutComeBill()
   },
+  ShowIncomeBalanceInCurrentRange: (startDate,endDate) => {
+    return API.Bill.get.inComeBalanceInRange(startDate,endDate)
+  },
+  ShowoutcomeBalanceInCurrentRange: (startDate,endDate) => {
+    return API.Bill.get.outComeBalanceInRange(startDate,endDate)
+  },
+  ShowFirstBill : () => {
+    return API.Bill.get.showBill('ASC')
+  },
+  ShowLastBill : () => {
+    return API.Bill.get.showBill('DESC')
+  },
+
+  // test? dataServices
   CreateNewTest : (data) => {
     return API.Test.post.CreateNewTest(data)
   },
@@ -166,6 +194,14 @@ export default {
   RemoveTestFromCurrentReport : (data) => {
     return API.Test.put.removeTestFromReport(data)
   },
+  ShowStudentTestInCurrentReport : (studentId,reportId) => {
+    return API.Test.get.StudentTestInCurrentReport(studentId,reportId)
+  },
+  ShowStudentTestNotAddedToReport : (studentId) => {
+    return API.Test.get.StudentTestNotAddedToReport(studentId)
+  },
+
+  // report? dataServices
   CreateNewReport: (data) => {
     return API.Report.post(data)
   },
@@ -196,23 +232,8 @@ export default {
   ShowAllReportsAvgInCurretnClass : (classId) => {
     return API.Report.get.AllReportsAvgInCurrentClass(classId)
   },
-  ShowStudentTestInCurrentReport : (studentId,reportId) => {
-    return API.Test.get.StudentTestInCurrentReport(studentId,reportId)
-  },
-  ShowStudentTestNotAddedToReport : (studentId) => {
-    return API.Test.get.StudentTestNotAddedToReport(studentId)
-  },
   ShowStudentReports : (studentId) => {
     return API.Report.get.StudentReports(studentId)
-  },
-  ShowGradeCountByType : () => {
-    return API.Statistics.get.countByType()
-  },
-  ShowTeachersRateInCurrentSubject: (subjectId) => {
-    return API.Statistics.get.TeacherRateBySubject(subjectId)
-  },
-  ShowAllInstituteGrade : () => {
-    return API.Grade.get()
   },
   ShowStudentReportsAvg : (studentId) => {
     return API.Report.get.StudnetReportsAvg(studentId)
@@ -220,14 +241,22 @@ export default {
   ShowTheTopOneInEachClassInCurrentReport: (reportId) => {
     return API.Report.get.TopOneStudents(reportId)
   },
-  ShowIncomeBalanceInCurrentRange: (startDate,endDate) => {
-    return API.Bill.get.inComeBalanceInRange(startDate,endDate)
-  },
-  ShowoutcomeBalanceInCurrentRange: (startDate,endDate) => {
-    return API.Bill.get.outComeBalanceInRange(startDate,endDate)
-  },
   ShowTheAvgForEachClasseInCurrentReport: (reportId) => {
     return API.Report.get.TopOneClasses(reportId)
+  },
+
+
+  // Statistics? dataServices
+  ShowGradeCountByType : () => {
+    return API.Statistics.get.countByType()
+  },
+  ShowTeachersRateInCurrentSubject: (subjectId) => {
+    return API.Statistics.get.TeacherRateBySubject(subjectId)
+  },
+
+  // grade? dataServices
+  ShowAllInstituteGrade : () => {
+    return API.Grade.get()
   },
   CreateNewGrade : (data) => {
     return API.Grade.post(data)
@@ -238,18 +267,22 @@ export default {
   UpdateGrade : (data) => {
     return API.Grade.put(data)
   },
-  ShowFirstBill : () => {
-    return API.Bill.get.showBill('ASC')
-  },
-  ShowLastBill : () => {
-    return API.Bill.get.showBill('DESC')
-  },
+
+  // setting? dataServices
   ShowCurrentSettings : () => {
     return API.Setting.get() 
   },
   ChangeTheLanguage: (data) => {
     return API.Setting.put(data) 
   },
+  ChangeAdminName: (data) => {
+    return API.Setting.put(data) 
+  },
+  ChangeTheScreenStatus: (data) => {
+    return API.Setting.put(data) 
+  },
+
+  // Authentication? DataServices
   LogginAsAdmin : (data) => {
     return API.Authentication.post(data) 
   },
@@ -258,13 +291,8 @@ export default {
   },
   ChangeAdminPassword : (data) => {
     return API.Authentication.put.changePassword(data) 
-  },
-  ChangeAdminName: (data) => {
-    return API.Setting.put(data) 
-  },
-  ChangeTheScreenStatus: (data) => {
-    return API.Setting.put(data) 
   }
+
 
 };
 

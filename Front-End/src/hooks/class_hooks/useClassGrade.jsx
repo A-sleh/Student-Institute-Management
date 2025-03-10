@@ -2,23 +2,17 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useClassGrade() {
+export default function useClassGrade(gradeId) {
 
     const [classesGrade,setClassesGrade] = useState([]) ;
 
     useEffect(() => {
-        DataServices.ShowAllSubject().then( subjects => {
-            let gradesObj = new Set() , gradeArray = [] ;
 
-            subjects.map( subjects => {
-                gradesObj.add(subjects.grade)
-            })
-            gradesObj.forEach(itemt => {
-                gradeArray.push(itemt)
-            })
-            setClassesGrade(gradeArray)
+        if(gradeId == null || gradeId == undefined ) return 
+        DataServices.ShowClassWithSpecificGrade(gradeId).then( classes => {
+            setClassesGrade(classes)
         })
-    } , []) 
+    } , [gradeId]) 
 
     return [classesGrade]
 }
