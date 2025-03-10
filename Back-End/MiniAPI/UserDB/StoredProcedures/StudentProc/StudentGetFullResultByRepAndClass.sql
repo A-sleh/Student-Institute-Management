@@ -9,8 +9,8 @@ AS
 	tm.Id as TestMarkId, tm.Mark
 	FROM Student st 
 	LEFT OUTER JOIN TestMark tm ON st.id = tm.StudentId
-	JOIN Test t ON tm.TestId = t.Id
+	LEFT OUTER JOIN Test t ON tm.TestId = t.Id
 	JOIN Subject s ON t.SubjectId = s.Id
-	LEFT OUTER JOIN Grade g ON s.gradeId = g.gradeId
+	JOIN Grade g ON s.gradeId = g.gradeId
 	WHERE t.ReportId = @reportId AND st.classId = @classId
 RETURN 0
