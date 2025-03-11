@@ -4,6 +4,7 @@ namespace DataAcess.Data
 {
     public interface IStudentData
     {
+        Task<IEnumerable<dynamic>> GetFilteredStudent(string content = "", int? PageSize = null, int? Page = null);
         Task DeleteStudent(int id);
         Task<dynamic?> GetStudentByID(int id);
         Task<IEnumerable<dynamic>> GetStudents(int? classId, int? gradeId);
