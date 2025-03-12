@@ -20,7 +20,7 @@ export default function NewSubjectForm() {
 
     // page text content 
     const {currentLange} = useSelector( state => state.language)
-    const {title,subjectTitle ,subjectMark ,subjectGrade,subjectType ,createBtn,validationMessages} = NewSubjectFormText[currentLange]
+    const {title,subjectTitle ,subjectMark ,subjectGrade,subjectType ,createBtn,validationMessages,successCreateSubjectMES} = NewSubjectFormText[currentLange]
     const {subjectVal ,maxMarkVal ,subjectTypeVal ,gradeVal} = validationMessages
 
  
@@ -74,7 +74,7 @@ export default function NewSubjectForm() {
     
     return (
         <>  
-            <Notification title={"create new subject"} type={"success"} state={successCreateSubject} setState={setSuccessCreateSubject} />
+            <Notification title={successCreateSubjectMES} type={"success"} state={successCreateSubject} setState={setSuccessCreateSubject} />
             <FormMainContainer>
                 <FormStyle onSubmit={(e)=>handleSubmitClicked(e)}>
                     <h3>{title}</h3>

@@ -34,8 +34,8 @@ export const TableStyle = styled.table`
             color: rgb(6, 101, 153);
             font-weight: bold;
             text-wrap: nowrap;
-            padding: ${ ({styleObj}) => styleObj.padding };
-            font-size: ${ ({styleObj}) => styleObj.fontSize };
+            padding: ${ ({$styleObj}) => $styleObj.padding };
+            font-size: ${ ({$styleObj}) => $styleObj.fontSize };
 
             span {
                 margin-left: 5px
@@ -48,15 +48,15 @@ export const TableStyle = styled.table`
             cursor: pointer;
             border-bottom: 1px solid #f3f1f1d7;
             &:nth-child(odd) {
-                background-color: ${ ({styleObj}) => styleObj.sameColor  ? 'white': '#f3f1f1d7'} ;
+                background-color: ${ ({$styleObj}) => $styleObj.sameColor  ? 'white': '#f3f1f1d7'} ;
             }
             &:nth-child(even) {
                 background-color: white ;
             }
 
             td {
-                padding: ${ ({styleObj}) => styleObj.padding };
-                font-size: ${ ({styleObj}) => styleObj.fontSize };
+                padding: ${ ({$styleObj}) => $styleObj.padding };
+                font-size: ${ ({$styleObj}) => $styleObj.fontSize };
                 margin: 5px 0px;
                 text-align: center;
                 border: none;

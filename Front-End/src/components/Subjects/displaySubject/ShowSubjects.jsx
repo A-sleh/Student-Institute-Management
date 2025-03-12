@@ -8,6 +8,7 @@ import Notification from "../../Global/Notification"
 import DeleteModal from "../../Modal/DeleteModal"
 import { ShowSubjectsTEXT } from "../../../Data/static/Subject/ShowSubjectsTEXT" 
 import { useSelector } from "react-redux"
+import { ARABIC } from "../../../Redux/actions/type"
 
 export default function ShowSubjects() {
 
@@ -21,7 +22,7 @@ export default function ShowSubjects() {
     const [deleteModal, setDeleteModal] = useState(false)
     const [manageButton,setManageButton] = useState(true)
     const [selectedSubject,setSelectedSubject] = useState({})
-    const [subjects] = useGetSubjects(filterByGrade?.grade)
+    const [subjects] = useGetSubjects(filterByGrade?.grade,successDeleteSubject)
 
     const manageColumn = useMemo(() => [
         ...SUBJECTCOLUMNS ,
@@ -39,6 +40,7 @@ export default function ShowSubjects() {
     ], [])
 
     function handleDeleteClicked(subject) {
+        
         setSelectedSubject(subject)
         setDeleteModal(true);
     }
@@ -49,12 +51,12 @@ export default function ShowSubjects() {
                 deleteModal &&
                 <DeleteModal element={selectedSubject?.subject} type={"Subject"} id={selectedSubject?.subjectId} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteSubject} setUnSuccessDelete={setUnSuccessDeleteSubject}/>
             }
-            <Notification title={successDeleteSubjectMES} type={"success"} state={unSuccessDeleteSubject} setState={setSuccessDeleteSubject} />
-            <Notification title={errorInDeleteSubjectMES} type={"error"} state={successDeleteSubject} setState={setUnSuccessDeleteSubject} />
+            <Notification title={successDeleteSubjectMES} type={"success"} state={successDeleteSubject } setState={setSuccessDeleteSubject} />
+            <Notification title={errorInDeleteSubjectMES} type={"error"} state={unSuccessDeleteSubject} setState={setUnSuccessDeleteSubject} />
 
-            <Table data={subjects} column={manageButton ? SUBJECTCOLUMNS : manageColumn} unableId={true} styleObj={{padding: '8px' , fontSize: '14px'}} showMainHeader={false}>
+            <Table data={subjects || []} column={manageButton ? SUBJECTCOLUMNS : manageColumn} unableId={true} styleObj={{padding: '8px' , fontSize: '14px'}} showMainHeader={false}>
                 <SubHeaderFilterClassByGrade setSelectedGrade={setFilterByGrade} />
-                <SubmitBtnStyle style={{float: 'left'}} onClick={() => setManageButton(last => !last)}>{settingBtn}</SubmitBtnStyle>
+                <SubmitBtnStyle style={{ float: currentLange == ARABIC ? 'left': 'right'}} onClick={() => setManageButton(last => !last)}>{settingBtn}</SubmitBtnStyle>
             </Table>
         </>
 

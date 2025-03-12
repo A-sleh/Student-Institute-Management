@@ -281,7 +281,7 @@ There are some bugs in the code :
 
 - debuggin the code : 
     - setting page [X] 
-    - subject page []
+    - subject page [X]
 
 
 

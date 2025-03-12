@@ -57,7 +57,7 @@ export default function Table( props ) {
         <div style={{width: '100%',direction: currentLange == ARABIC ? 'ltr' : 'ltr'}}>  
             { renderHeader() }
             <TableContainerStyle >
-                <TableStyle language={currentLange} {...getTableProps()} styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
+                <TableStyle language={currentLange} {...getTableProps()} $styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
                     {   hiddenHeader ?  <></> :                     
                         <thead>
                             {headerGroups.map((headerGroup, index) => (

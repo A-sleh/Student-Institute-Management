@@ -2,7 +2,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useGetSubjects(subjectGrade) {
+export default function useGetSubjects(subjectGrade,...reFetch) {
 
     const [subjects,setSubjects] = useState([]) ; 
 
@@ -14,7 +14,7 @@ export default function useGetSubjects(subjectGrade) {
                 })
             )
         })
-    },[subjectGrade])
+    },[subjectGrade,...reFetch])
 
     return [subjects]
 }
