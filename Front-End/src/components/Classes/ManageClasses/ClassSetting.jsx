@@ -98,12 +98,12 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
       <Notification title={errorDeleteClassMES} type={"error"} state={NotDeletClass} setState={setNotDeleteClass} />
       {
         deleteModal && 
-        <DeleteModal element={title} id={ClassId} type={"class"} setDeleteModal={setDeleteModal} setSuccessDelete={setDeleteClass} classId={ClassId} />
+        <DeleteModal element={title} id={ClassId} type={"class"} setDeleteModal={setDeleteModal} setSuccessDelete={setDeleteClass} classId={ClassId} setUnSuccessDelete={setNotDeleteClass}/>
       }
       { 
         updateBtnClicked ? 
           <ClassForm initialSatate={classDetails} setSuccessAction={setSuccessUpdateClasss} type={"PUT"} setUpdataBtnClicked={setUpdateBtnClicked}/>
-        : 
+        :  
         <MainContainerStyle>
           <TitleAndControalHeader title={ title}  handleUpdataButtonClicked={() =>setUpdateBtnClicked(true)}  handleDeleteClicked={handleDeleteClicked}/>
           <HeaderInformation data={classStatistics} title={subTitle} />
@@ -121,7 +121,7 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
                   <h3>{studentsTitle}</h3>
                   <SubmitBtnStyle onClick={()=>handleAddNewStudentClicked()}> {addNewStudentBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
-                <StudentTable students={classDetails.students} classID={ClassId} setSuccessRemoveStudent={setSuccessRemoveStudent} />
+                <StudentTable students={classDetails?.students || []} classID={ClassId} setSuccessRemoveStudent={setSuccessRemoveStudent} />
           </section>
 
         </MainContainerStyle>

@@ -34,6 +34,7 @@ export default function InsertNewStudent() {
   const currentStudents =   students?.length - ( students != undefined && students[0] == null) 
   const [selectedFlatRows,setSelectedFlatRows] = useState([])
   const [studentDetails] = useGetStudentWithOutClass(successAddStudent)
+  
   // Logic States
   const [canSelectStudent,setCanSelectStudent] = useState((currentStudents != capacity))
   const gotoPage = useNavigate() 

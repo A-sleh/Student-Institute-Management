@@ -17,7 +17,7 @@ export const TableStyle = styled.table`
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
-    direction : ${ ({language}) => language == 'arabic' ? 'rtl': 'ltr'} ;
+    direction : ${ ({$language}) => $language == 'arabic' ? 'rtl': 'ltr'} ;
     text-align: center !important;
     &.class-full input[type='checkBox']:not(:checked) {
         pointer-events: none;

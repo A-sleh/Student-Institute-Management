@@ -31,8 +31,8 @@ const titleCirclFrame = keyframes`
 export const TitleStyle = styled.h2`
     position: relative;
     margin: 10px 0 18px 0 ;
-    font-size: ${ ({language}) => language == 'arabic' ? '20px': '25px'};
-    padding-bottom: ${ ({language}) => language == 'arabic' ? '6px': '3px'};
+    font-size: ${ ({$language}) => $language == 'arabic' ? '20px': '25px'};
+    padding-bottom: ${ ({$language}) => $language == 'arabic' ? '6px': '3px'};
     animation: ${titleFrame} .5s ease-in;
 
     &::before {
@@ -57,8 +57,8 @@ export const TitleStyle = styled.h2`
         border-radius: 50% ;
         border: 2px solid #066599;
         bottom: -11px;
-        right: ${({language}) => language == 'arabic' ? '-3px': '0'} ;
-        left: ${({language}) => language != 'arabic' ? '-3px': '0'} ;
+        right: ${({$language}) => $language == 'arabic' ? '-3px': '0'} ;
+        left: ${({$language}) => $language != 'arabic' ? '-3px': '0'} ;
         animation: ${titleCirclFrame} .1s ease-in;
         animation-delay: .5s;
         animation-fill-mode: forwards;
@@ -71,8 +71,8 @@ export const NotificationStyle = styled.div`
         position: fixed;
         z-index: 30000;
         bottom: 20px;
-        right: ${({language}) => language != 'arabic' ? '20px': 'none'} ;
-        left: ${({language}) => language == 'arabic' ? '20px': 'none'} ;
+        right: ${({$language}) => $language != 'arabic' ? '20px': 'none'} ;
+        left: ${({$language}) => $language == 'arabic' ? '20px': 'none'} ;
         font-weight: 300  ;
         padding: 4px 10px ;
         color: white ;

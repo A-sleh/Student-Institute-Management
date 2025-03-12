@@ -6,7 +6,7 @@
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag.js"
 import { errorActionLogic, successActionLogic } from "../../shared/logic/logic.js"
 import { useNavigate } from "react-router-dom"
-import { useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import { COLUMNS } from "./../TableTools/Columns.js"
 import DataServices from "../../../Data/dynamic/DataServices.js"
 import Notification from "../../Global/Notification.jsx"
@@ -116,3 +116,5 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     </>
   );
 }
+
+

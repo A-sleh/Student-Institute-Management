@@ -13,7 +13,7 @@ export const SideBarContainerStyle = styled.div`
 
     > i {
         color: white ;
-        float: ${({lang}) => lang == 'arabic' ? 'left': 'right'};
+        float: ${({$lang}) => $lang == 'arabic' ? 'left': 'right'};
         margin:  10px;
     }
     @media (max-width: 767px ) {
@@ -31,8 +31,8 @@ export const SideBarContainerStyle = styled.div`
 export const SideBarListStyle = styled.ul`
     position: absolute;
     list-style: none;
-    margin-left: ${ ({language}) => language == 'arabic' ? '0px' : '0px'};
-    margin-right: ${ ({language}) => language == 'arabic' ? '8px' : '0'};
+    margin-left: ${ ({$language}) => $language == 'arabic' ? '0px' : '0px'};
+    margin-right: ${ ({$language}) => $language == 'arabic' ? '8px' : '0'};
     top: 10%;
     width: 99%;
     
@@ -41,7 +41,7 @@ export const SideBarListStyle = styled.ul`
         position: relative;
         padding: 9px 0px;
         display: flex;
-        border-radius:  ${ ({language}) => language == 'arabic' ? '0px 30px 30px 0px' : '30px 0px 0px 30px'};
+        border-radius:  ${ ({$language}) => $language == 'arabic' ? '0px 30px 30px 0px' : '30px 0px 0px 30px'};
         font-weight: 400;
         color: white;
         cursor: pointer;
@@ -90,9 +90,9 @@ export const SideBarListStyle = styled.ul`
             width: 100%;
             top: -20%;
             height: 12px;
-            border-bottom-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
-            border-bottom-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
-            margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
+            border-bottom-right-radius:  ${ ({$language}) => $language != 'arabic' ? '25px' : '0'};
+            border-bottom-left-radius:  ${ ({$language}) => $language == 'arabic' ? '25px' : '0'};
+            margin-right:  ${ ({$language}) => $language == 'arabic' ? '-5px' : '0'};
             background-color: #056699;
         }
 
@@ -102,9 +102,9 @@ export const SideBarListStyle = styled.ul`
             width: 100%;
             bottom: -20%;
             height: 12px;
-            border-top-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
-            border-top-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
-            margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
+            border-top-right-radius:  ${ ({$language}) => $language != 'arabic' ? '25px' : '0'};
+            border-top-left-radius:  ${ ({$language}) => $language == 'arabic' ? '25px' : '0'};
+            margin-right:  ${ ({$language}) => $language == 'arabic' ? '-5px' : '0'};
             background-color: #056699;
         }
 
@@ -165,9 +165,9 @@ export const SideBarListStyle = styled.ul`
                 width: 100%;
                 top: -20%;
                 height: 12px;
-                border-bottom-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
-                border-bottom-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
-                margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0px'};
+                border-bottom-left-radius:  ${ ({$language}) => $language == 'arabic' ? '25px' : '0'};
+                border-bottom-right-radius:  ${ ({$language}) => $language != 'arabic' ? '25px' : '0'};
+                margin-right:  ${ ({$language}) => $language == 'arabic' ? '-5px' : '0px'};
                 background-color: #056699;
             }
             & b:nth-child(2)::before {
@@ -176,9 +176,9 @@ export const SideBarListStyle = styled.ul`
                 width: 100%;
                 bottom: -20%;
                 height: 12px;
-                border-top-left-radius:  ${ ({language}) => language == 'arabic' ? '25px' : '0'};
-                border-top-right-radius:  ${ ({language}) => language != 'arabic' ? '25px' : '0'};
-                margin-right:  ${ ({language}) => language == 'arabic' ? '-5px' : '0'};
+                border-top-left-radius:  ${ ({$language}) => $language == 'arabic' ? '25px' : '0'};
+                border-top-right-radius:  ${ ({$language}) => $language != 'arabic' ? '25px' : '0'};
+                margin-right:  ${ ({$language}) => $language == 'arabic' ? '-5px' : '0'};
                 background-color: #056699;
             }
         }
@@ -200,8 +200,8 @@ export const LinkContainerStyle = styled.p`
 
 export const SideBarSubListStyle = styled.ul`
     position: relative;
-    margin-left: ${ ({language}) => language == 'arabic' ? '0px' : '8px'};
-    margin-right: ${ ({language}) => language == 'arabic' ? '8px' : '0'};
+    margin-left: ${ ({$language}) => $language == 'arabic' ? '0px' : '8px'};
+    margin-right: ${ ({$language}) => $language == 'arabic' ? '8px' : '0'};
     overflow: hidden;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -217,7 +217,7 @@ export const CloseBtnForMobileScreen = styled.i`
 `
 
 export const SideBarStyle = styled.aside`
-    width: ${ ({opensidebare}) => opensidebare == 'true' ? "250px" : "54px"};
+    width: ${ ({$opensidebare}) => $opensidebare == 'true' ? "250px" : "54px"};
     transition: 0.5s ;
     z-index: 90000;
     
@@ -227,14 +227,14 @@ export const SideBarStyle = styled.aside`
         height: 30px; 
         font-size: 18px;
         padding-top: 5px;
-        padding-right: ${({lang}) => lang == 'arabic' ? '5px' : 'none' } ;;
-        padding-left: ${({lang}) => lang != 'arabic' ? '5px' : 'none' } ;;
+        padding-right: ${({$lang}) => $lang == 'arabic' ? '5px' : 'none' } ;;
+        padding-left: ${({$lang}) => $lang != 'arabic' ? '5px' : 'none' } ;;
         position: absolute;
         z-index: 1000;
         top: 1.5em;
-        left: ${({lang}) => lang == 'arabic' ? '-40px' : 'none' } ;
-        right: ${({lang}) => lang != 'arabic' ? '-40px' : 'none' } ;
-        border-radius: ${({lang}) => lang == 'arabic' ? "8px 0 0 8px" : "0 8px 8px 0" };
+        left: ${({$lang}) => $lang == 'arabic' ? '-40px' : 'none' } ;
+        right: ${({$lang}) => $lang != 'arabic' ? '-40px' : 'none' } ;
+        border-radius: ${({$lang}) => $lang == 'arabic' ? "8px 0 0 8px" : "0 8px 8px 0" };
         cursor: pointer;
         background-color: #056699;
         display: none;
@@ -244,7 +244,7 @@ export const SideBarStyle = styled.aside`
         position: fixed;
         width: 250px; 
         height: 100vh !important;
-        transform: ${ ({opensidebare}) => opensidebare == 'true' ?' translateX(0)': ({lang}) => lang == 'arabic' ? 'translateX(100%)' : 'translateX(-100%)'};
+        transform: ${ ({$opensidebare}) => $opensidebare == 'true' ?' translateX(0)': ({$lang}) => $lang == 'arabic' ? 'translateX(100%)' : 'translateX(-100%)'};
 
         & .fa-xmark {
             display: flex;

@@ -57,7 +57,7 @@ export default function Table( props ) {
         <div style={{width: '100%',direction: currentLange == ARABIC ? 'ltr' : 'ltr'}}>  
             { renderHeader() }
             <TableContainerStyle >
-                <TableStyle language={currentLange} {...getTableProps()} $styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
+                <TableStyle $language={currentLange} {...getTableProps()} $styleObj={styleObj} className={ preventAction ? 'class-full': ''}>
                     {   hiddenHeader ?  <></> :                     
                         <thead>
                             {headerGroups.map((headerGroup, index) => (
@@ -93,7 +93,7 @@ export default function Table( props ) {
                             prepareRow(row);
                             return (
                             <tr {...row.getRowProps()} key={index} onClick={()=>handleRowClicked(row.original)} style={ rowClickedFn != undefined ? {cursor:'pointer', backgroundColor: selectionRows[row.original[idKeyParams]] == true ? "#0565991f" :  'white'}: {} }>
-                                { unableId && <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td>}
+                                { unableId ?  <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td> : null }
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index}  style={{direction: 'ltr'}}>
                                     {cell.render("Cell")}

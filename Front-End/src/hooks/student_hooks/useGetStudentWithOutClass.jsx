@@ -9,6 +9,7 @@ export default function useGetStudentWithOutClass(...reFetch) {
     
     useEffect(() => {
         DataServices.AllStudentsInfo().then((students) => {
+            console.log(students)
             const filterStudents = students.students.filter((student) => {
                 return student.class == null || student.class?.classId == null
             }).map((student) => {

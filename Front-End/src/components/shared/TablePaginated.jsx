@@ -48,7 +48,7 @@ export default function TablePaginated(props) {
         <div style={{width: '100%' ,flex: '1',display: 'flex' ,direction: 'ltr', flexDirection: 'column'}}>  
             { renderHeader() }
             <TableContainerStyle style={{margin: '0' , paddingBottom: '40px'}}>
-                <TableStyle  language={currentLange} {...getTableProps()} styleObj={styleObj}>
+                <TableStyle  language={currentLange} {...getTableProps()} $styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>

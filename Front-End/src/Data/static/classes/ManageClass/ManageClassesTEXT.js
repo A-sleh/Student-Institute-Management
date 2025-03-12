@@ -16,7 +16,7 @@ export const ManageClassesTEXT  = {
         successRemoveStudentsMES: "تم نقل الطلاب بنجاح" ,
         successUpdateClassMES: "تم تحديث بيانات الشعبه بنجاح" ,
         successDeleteClassMES: "تم حذف الشعبه بنجاح" ,
-        errorDeleteClassMES: "يجب ان لاتحتوي الشعبة على اي طالب",
+        errorDeleteClassMES: " يجب ان لاتحتوي الشعبة على اي طالب أو استاذ",
         errorInMoveStudentsMES: "يجب تحديد على الأقل طالب واحد",
     },
     english : {
@@ -36,7 +36,7 @@ export const ManageClassesTEXT  = {
         successRemoveStudentsMES: "Students were removed" ,
         successUpdateClassMES: "Updata Class Details" ,
         successDeleteClassMES: "Class Was Deleted" ,
-        errorDeleteClassMES: "Class Mustn't Contain students to delete",
+        errorDeleteClassMES: "Class Mustn't Contain students or teachers to deleted",
         errorInMoveStudentsMES: "Please ,Selcet Any Student ",
         
     }

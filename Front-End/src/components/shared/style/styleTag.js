@@ -32,7 +32,7 @@ export const SmallButtonStyle = styled.button`
     outline: none;
     border: none;
     color: white;
-    background-color: ${ ({color}) => color };
+    background-color: ${ ({$color}) => $color };
     border-radius: 2px;
     margin-left: 5px;
     cursor: pointer;
@@ -569,7 +569,7 @@ export const HeightContainerAnimation = styled.div`
     grid-template-columns: 0fr;
     grid-template-rows: 0fr;
     transition: .3s;
-    animation: ${ChangeHeight} .6s ${({delay}) => delay} ease-in-out ;
+    animation: ${ChangeHeight} .6s ${({$delay}) => $delay} ease-in-out ;
     animation-fill-mode: forwards;
     
     & > div {

@@ -282,7 +282,11 @@ There are some bugs in the code :
 - debuggin the code : 
     - setting page [X] 
     - subject page [X]
-    - grade page []
+    - grade page [X]
+    - classes page [ْْX] {
+        -- in add new students to any class , when i try to display the students who doesn't have a class they didn't come from endpoint (you must check out your join maybe you were using innerjoin inseted of left join )
+        TeacherNewClass : this component need to refactor
+    }
 
 
 

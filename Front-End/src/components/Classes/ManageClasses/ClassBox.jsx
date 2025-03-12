@@ -69,13 +69,13 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
                     <div>
                         { 
                             resize != row.original.classId ? 
-                            <SmallButtonStyle color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >{selectBtn}</SmallButtonStyle> : ''
+                            <SmallButtonStyle $color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >{selectBtn}</SmallButtonStyle> : ''
                         }
-                        <SmallButtonStyle color={'#009744'} onClick={() =>{
+                        <SmallButtonStyle $color={'#009744'} onClick={() =>{
                             resize == row.original.classId ? handleApplyResizeClicked(row.original) : handleResizeClicked(row.original.classId,row.original.capacity)  
                         }} >{resize == row.original.classId ? applyBtn : resizeCapacityBtn}</SmallButtonStyle>
                         {
-                            row.original.classId == resize ? <SmallButtonStyle color={'red'} onClick={()=>{handleCancelClicked()}} >{cancelBtn}</SmallButtonStyle> : ''
+                            row.original.classId == resize ? <SmallButtonStyle $color={'red'} onClick={()=>{handleCancelClicked()}} >{cancelBtn}</SmallButtonStyle> : ''
                         }
                     </div>
                 )

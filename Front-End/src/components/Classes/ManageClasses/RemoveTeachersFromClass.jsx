@@ -81,7 +81,7 @@ export default function RemoveTeachersFromClass() {
             <h3 >{teacherTitle}</h3>                
             <Table column={TEACHERSUBJECTCOLUMN} data={teachers} showMainHeader={false} unableId={true} selectionRows={teachersSelectedId} idKeyParams={'teacherSubjectId'} rowClickedFn={handleTeacherRowClicked} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}}/>
             
-            <ButtonsContainerStyle handleRemoveClicked={handleRemoveClicked}>
+            <ButtonsContainerStyle >
                 <SubmitBtnStyle onClick={()=>handleRemoveClicked()} >{removeBtn}</SubmitBtnStyle>
                 <GoBackBtnStyle onClick={()=>{gotoPage(-1,{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
             </ButtonsContainerStyle>

@@ -59,7 +59,7 @@ export default function App() {
       <button style={{position: "fixed" ,zIndex: '200000000' ,fontSize: '20px', right: "10px" , bottom: '10px' , backgroundColor: 'red ',color: "white"}} onClick={() => handleChanegLang()}> switch</button>
       <div style={{ display: "flex",backgroundColor: 'white', position: "relative" ,fontFamily: currentLange == ARABIC ? "Readex Pro , sans-serif" :"Hind Siliguri ,sans-serif" , direction: currentLange == ARABIC ? 'rtl' : 'ltr'}}>
 
-        <SideBarStyle opensidebare={openSideBare.toString()} lang={currentLange}>
+        <SideBarStyle $opensidebare={openSideBare.toString()} $lang={currentLange}>
           <SidBar setOpenSideBare={setOpenSideBare} openSideBare={openSideBare} />
         </SideBarStyle>
         
