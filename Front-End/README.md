@@ -277,7 +277,11 @@ There are some bugs in the code :
 - in statistics page : 
     - change the first state in once chart [X] 
     - remove the doublicate in once chart [X]
-    - display tests of report in manage report []
+    - display tests of report in manage report [X]
+
+- debuggin the code : 
+    - setting page [X] 
+    - subject page []
 
 
 

@@ -27,7 +27,7 @@ export default function NavBar(props) {
   return (
     <div className="navBar">
       <div>
-        { isAdmin && <h3>{ currentLange == ARABIC ? 'المدير':"Manager"} / <h4 style={{color: '#056699' , display: 'inline'}}>{adminName}</h4> </h3>}
+        { isAdmin && <h4>{ currentLange == ARABIC ? 'المدير':"Manager"} / <h3 style={{color: '#056699' , display: 'inline'}}>{adminName}</h3> </h4>}
       </div>
       {isAdmin && <button onClick={() => handleLogoutClicked()}>{currentLange == ARABIC ? 'تسجل الخروج' : 'Logout'}</button>}
     </div>
