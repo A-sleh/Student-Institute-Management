@@ -46,13 +46,13 @@ export default function ManageGrades() {
             } ,
             accessor: 'actions' ,
             Cell : ({row}) => <div>
-                <SmallButtonStyle color={'#009744'} onClick={() =>{
+                <SmallButtonStyle $color={'#009744'} onClick={() =>{
                     upDateGrade.gradeId == row.original.gradeId ? handleUpdateClicked() : setUpDateGrade(row.original)  
                 }} >{upDateGrade.gradeId == row.original.gradeId ? applyBtn : updateBtn }</SmallButtonStyle>
-                { row.original.gradeId == upDateGrade.gradeId ? <SmallButtonStyle color={'red'} onClick={()=>{setUpDateGrade(initailGradeState)}} >{cancelBtn}</SmallButtonStyle> : '' }
+                { row.original.gradeId == upDateGrade.gradeId ? <SmallButtonStyle $color={'red'} onClick={()=>{setUpDateGrade(initailGradeState)}} >{cancelBtn}</SmallButtonStyle> : '' }
                 {  
                     upDateGrade.gradeId != row.original.gradeId ? 
-                    <SmallButtonStyle color={'red'} onClick={()=>{handleDeleteGradeClicked(row.original)}} >{deleteBtn}</SmallButtonStyle> : ''
+                    <SmallButtonStyle $color={'red'} onClick={()=>{handleDeleteGradeClicked(row.original)}} >{deleteBtn}</SmallButtonStyle> : ''
                 }
             </div>
         }
