@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { TableControalSectionStyle } from "./style/tableTagsStyle";
 import { useSelector } from "react-redux";
 import { TableControalSectionTEXT } from "../../Data/static/subHeaderTable/subHeaderTableTEXT";

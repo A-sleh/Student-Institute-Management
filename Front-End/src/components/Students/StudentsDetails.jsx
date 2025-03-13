@@ -29,6 +29,9 @@ export default function StudentsDetails() {
   const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,15,currentPage,successDeleteStudent);
   const { students, totalPages} = studentsInfo
   
+
+
+
   function handleDleteClicked(student) {
     setCurrentStudentInfo({
       name: `${student.name} ${student.lastName}`,
@@ -38,11 +41,11 @@ export default function StudentsDetails() {
   }
 
   function mappingClassStudents() {
-      return selectedClass.students.map( student => {
+      return selectedClass?.students?.map( student => {
         return {
           ... student ,
           full_name: student.name + ' ' + student.lastName ,
-          className: selectedClass.title 
+          className: selectedClass?.title 
         }
       })
   }
@@ -101,7 +104,7 @@ export default function StudentsDetails() {
       <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
 
       <Title title={window.location.pathname} />
-      <TablePaginated data={(selectedClass == 'all' ? students :  selectedClass?.students[0] == null ? [] : mappingClassStudents() ) || []  } column={column} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={selectedClass == 'all' ? 15 : selectedClass.students.length } >
+      <TablePaginated data={(selectedClass == 'all' ? students : mappingClassStudents() ) || []  } column={column} setNextPageState={setCurrentPage} totalPages={selectedClass == 'all' ? totalPages : 1} currPage={currentPage} rowNumber={selectedClass == 'all' ? 15 : selectedClass?.students?.length } >
         <div>
           <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
           <FilterClassByGradeI setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
