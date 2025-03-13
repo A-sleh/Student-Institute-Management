@@ -108,6 +108,20 @@ public class StudentData : IStudentData
         return new { studentAbsences, Absences };
     }
 
+    public async Task<IEnumerable<dynamic>> GetFilteredStudent(string content = "", int? PageSize = null, int? Page = null)
+    {
+        var students = await _db.LoadData<StudentModel, dynamic, ClassModel>(
+            "dbo.StudentFastSearch", 
+            new { content, PageSize, Page },
+            (Student, Class) => 
+            {
+                Student.Class = Class;
+                return Student;
+            }, 
+            splitOn: "classId");
+        return students.Select(student => student.PureFormat());
+    }
+
     #endregion
 
     #region Actions
@@ -220,6 +234,7 @@ public class StudentData : IStudentData
             throw new Exception("Error: Absences has not been deleted");
         }
     }
+
 
     #endregion
 }

@@ -20,6 +20,7 @@ namespace MiniAPI.APIs
 
             app.MapGet("/Student/{studentId}/Absence", GetStudentAbsences);
 
+            app.MapGet("/Student/Filter", GetFilteredStudent);
             // Update A Student using the origin Id passed with the object itself
             app.MapPut("/Student", UpdateStudent);
 
@@ -32,6 +33,18 @@ namespace MiniAPI.APIs
 
             // delete a student using its Id
             app.MapDelete("/Student/{id}", DeleteStudent);
+        }
+        private static async Task<IResult> GetFilteredStudent(IStudentData data, int? page, int? pageSize, string content = "")
+        {
+            try
+            {
+                var students = await data.GetFilteredStudent(content, pageSize, page);
+                return Results.Ok(students);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         }
 
         private static async Task<IResult> DeleteStudentAbsence(IStudentData data, int absenceId)
