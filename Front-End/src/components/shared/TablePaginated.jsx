@@ -33,7 +33,6 @@ export default function TablePaginated(props) {
         if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
         else gotoPage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
     }
-
     
     function renderHeader() {
         if(search != null) {
@@ -41,7 +40,7 @@ export default function TablePaginated(props) {
                         {children}
                     </SearchSubHeader>
         } else if(showMainHeader) {
-            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} handleSearchClicked={handleSearchClicked} >
+            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter}  >
                         {children}
                     </SearchSubHeader>
         }else {
