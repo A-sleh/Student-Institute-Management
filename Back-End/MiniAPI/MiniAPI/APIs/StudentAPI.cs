@@ -34,7 +34,7 @@ namespace MiniAPI.APIs
             // delete a student using its Id
             app.MapDelete("/Student/{id}", DeleteStudent);
         }
-        private static async Task<IResult> GetFilteredStudent(IStudentData data, int? page, int? pageSize, string content = "")
+        private static async Task<IResult> GetFilteredStudent(IStudentData data, int page = 1, int pageSize = 1000, string content = "")
         {
             try
             {

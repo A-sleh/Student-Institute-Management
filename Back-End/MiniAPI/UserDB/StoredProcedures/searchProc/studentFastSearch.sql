@@ -3,7 +3,7 @@
 CREATE PROCEDURE [dbo].[studentFastSearch]
 	@content NVARCHAR(512) = '',
 	@classId int = null,
-	@PageSize int = 5,
+	@pageSize int = 5,
 	@Page INT = 1
 AS
 	WITH studentAbsences AS ((SELECT studentId, COUNT(*) as MissedDays FROM absence GROUP BY studentId))

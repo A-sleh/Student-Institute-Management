@@ -108,7 +108,7 @@ public class StudentData : IStudentData
         return new { studentAbsences, Absences };
     }
 
-    public async Task<IEnumerable<dynamic>> GetFilteredStudent(string content = "", int? PageSize = null, int? Page = null)
+    public async Task<IEnumerable<dynamic>> GetFilteredStudent(string content = "", int? PageSize = 1000, int? Page = 1)
     {
         var students = await _db.LoadData<StudentModel, dynamic, ClassModel>(
             "dbo.StudentFastSearch", 

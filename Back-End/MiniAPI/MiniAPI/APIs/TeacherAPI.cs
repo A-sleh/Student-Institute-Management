@@ -31,6 +31,8 @@ namespace MiniAPI.APIs
 
             // get teacher subjects
             app.MapGet("/Teacher/Subject", GetTeacherSubjects);
+
+            app.MapGet("/Teacher/Filter", GetFilteredTeacher);
             // update a teacher by its origin id passed with the body
             app.MapPut("/Teacher", UpdateTeacher);
 
@@ -59,6 +61,19 @@ namespace MiniAPI.APIs
             // Delete a Subject Taught by a teacher in a certain class by
             // teacherSubjectId and classId as Path params
             app.MapDelete("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", DeleteTeacherFromClass);
+        }
+
+        private static async Task<IResult> GetFilteredTeacher(ITeacherData data, string content = "")
+        {
+            try
+            {
+                var filteredTeacher = await data.GetFilteredTeachers(content);
+                return Results.Ok(filteredTeacher);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         }
 
         private static async Task<IResult> GetTeacherSubjects(ITeacherData data, int? gradeId)

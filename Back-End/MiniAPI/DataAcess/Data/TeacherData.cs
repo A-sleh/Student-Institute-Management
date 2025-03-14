@@ -3,6 +3,7 @@ using DataAcess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +93,12 @@ namespace DataAcess.Data
                 },
                 splitOn: "TeacherSubjectId, SubjectId"));
             return CurrTeacher;
+        }
+
+        public async Task<IEnumerable<TeacherModel>> GetFilteredTeachers(string content = "")
+        {
+            var filteredTeachers = await _db.LoadData<TeacherModel, dynamic>("dbo.searchTeacher", new { content });
+            return filteredTeachers;
         }
 
         #endregion
