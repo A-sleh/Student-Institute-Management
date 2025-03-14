@@ -95,10 +95,10 @@ namespace DataAcess.Data
             return CurrTeacher;
         }
 
-        public async Task<IEnumerable<TeacherModel>> GetFilteredTeachers(string content = "")
+        public async Task<IEnumerable<dynamic>> GetFilteredTeachers(string content = "")
         {
             var filteredTeachers = await _db.LoadData<TeacherModel, dynamic>("dbo.searchTeacher", new { content });
-            return filteredTeachers;
+            return filteredTeachers.Select(teacher => teacher.BasicFormat());
         }
 
         #endregion

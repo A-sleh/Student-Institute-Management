@@ -32,6 +32,7 @@ namespace MiniAPI.APIs
             // get teacher subjects
             app.MapGet("/Teacher/Subject", GetTeacherSubjects);
 
+            // get teacher with full name search
             app.MapGet("/Teacher/Filter", GetFilteredTeacher);
             // update a teacher by its origin id passed with the body
             app.MapPut("/Teacher", UpdateTeacher);

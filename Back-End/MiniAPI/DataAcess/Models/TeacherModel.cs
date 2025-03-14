@@ -13,5 +13,7 @@ namespace DataAcess.Models
         public string? LastName {  get; set; }
         public string? Phone {  get; set; }
         public List<TeacherSubjectModel?> TeacherSubjects { get; set; } = [];
+
+        public dynamic BasicFormat() => new {TeacherId, Name, LastName };
     }
 }

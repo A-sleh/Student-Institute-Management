@@ -12,6 +12,6 @@ namespace DataAcess.Data
         Task UpdateTeacher(TeacherModel model);
         Task<TeacherModel?> GetTeacherById(int id);
         Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(int? gradeId);
-        Task<IEnumerable<TeacherModel>> GetFilteredTeachers(string content = "");
+        Task<IEnumerable<dynamic>> GetFilteredTeachers(string content = "");
     }
 }
