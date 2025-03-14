@@ -262,5 +262,31 @@ There are some bugs in the code :
     -- [X] in test class details the header filter need to restyle ;
     -- [X] in report class details : the date of test need to be it in one line
 
+    [X] Date filter in exams details should work from a point and forward, it is taking point and backwards.
+    (But it work well , this need to discuse with rabo )
+
+    [] confirm button should rerender tests in report management.
+
+    [X] http://localhost:5173/CreateReport/StudentReportTests/1 This page need [Back] button.
+
+    [] add class filter to studet show page, and change pagination and ordering to be from the request (need to make plan together).
+
+    [X] Change ENDPOINT /Absence to /Student/Absence.
+
+
+- in statistics page : 
+    - change the first state in once chart [X] 
+    - remove the doublicate in once chart [X]
+    - display tests of report in manage report [X]
+
+- debuggin the code : 
+    - setting page [X] 
+    - subject page [X]
+    - grade page [X]
+    - classes page [ْْX] {
+        -- in add new students to any class , when i try to display the students who doesn't have a class they didn't come from endpoint (you must check out your join maybe you were using innerjoin inseted of left join )
+        TeacherNewClass : this component need to refactor
+    }
+
 
 

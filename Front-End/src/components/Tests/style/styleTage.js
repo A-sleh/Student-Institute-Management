@@ -38,12 +38,11 @@ export const QuizExamContainerStyle = styled.div`
     display: flex;
     gap: 10px;
     background-color: rgba(243, 241, 241, 0.843);
-    /* padding: 20px 10px 10px; */
     border-radius: 10px;
     margin-top: 10px;
     
 
-    @media (max-width : 767px ) {
+    @media (max-width : 1167px ) {
         flex-direction: column;
         padding: 0;
     }

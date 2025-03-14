@@ -47,6 +47,7 @@ export default function ClassStudents() {
 
         DataServices.StudentsAbsence(studentIds,missedDaysDate).then( res => {
           successActionLogic(setSuccessAddAbsence)
+          setTimeout(() => goBack(-1),2000)
         })
     }
 
@@ -57,9 +58,10 @@ export default function ClassStudents() {
           english: 'Select'
         } ,
         id: "selection",
-        Cell: ({ row }) => (
-          <input type="checkbox" {...row.getToggleRowSelectedProps()} />
-        ),
+        Cell: ({ row }) => {
+          const {checked,onChange} = row.getToggleRowSelectedProps() 
+          return <input type="checkbox"  checked={checked} onChange={(e)=>onChange(e)} />
+        },
       },
 
     ],[])

@@ -40,15 +40,15 @@ export default function StudentInformation() {
           <StudentBillsCard studentId={studentId}/>
         </FlexContainerStyle>
 
-        <HeightContainerAnimation delay={'.5s'}>
+        <HeightContainerAnimation $delay={'.5s'}>
           <StudentReportCard studentId={studentId} selectedReport={selectedReport}setSelectedReport={setSelectedReport}/>
         </HeightContainerAnimation>
 
-        <HeightContainerAnimation delay={'.8s'}>
+        <HeightContainerAnimation $delay={'.8s'}>
           <TestsHeader selectedReport={selectedReport}/>
         </HeightContainerAnimation>
 
-        <HeightContainerAnimation delay={'1.2s'}>
+        <HeightContainerAnimation $delay={'1.2s'}>
           <QuizExamContainerStyle style={{backgroundColor: 'transparent'}}>
             <ShowTestTable title={quizTitle} tests={selectedReport.reportId == undefined ? quiz : reportQuiz }/>
             <ShowTestTable title={examTitle} tests={selectedReport.reportId == undefined ? exam : reportExam }/>

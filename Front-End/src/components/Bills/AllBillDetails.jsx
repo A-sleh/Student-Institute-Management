@@ -11,6 +11,7 @@ import Title from "../Global/Title";
 import BillStatistics from "./AllBilldetailsCom/BillStatistics";
 import ShowLatestBills from "./AllBilldetailsCom/ShowLatestBills";
 import { AllBillDetailsStyle } from "./style/styleComponents";
+import { useMemo } from "react";
 
 
 export default function AllBillDetails() {
@@ -20,18 +21,15 @@ export default function AllBillDetails() {
     const {teachersBills ,studentsBills ,externalsBills} = AllBilldetailsComTEXT[currentLange]
     const [teacherBills,studentBills,externalBills] = useLatestBills(6) 
 
-
     return(
         <>
             <Title title={window.location.pathname} />
             <AllBillDetailsStyle>
-                
                 <div style={{flex: '1'}}>
                     <ShowLatestBills bills={teacherBills} billsType={teachersBills} showMoreLink={'TeachersSalaries'}/>
                     <ShowLatestBills bills={studentBills} billsType={studentsBills} showMoreLink={'StudentsPays'}/>
                     <ShowLatestBills bills={externalBills} billsType={externalsBills} showMoreLink={'ExternalPays'}/>
                 </div>
-
                 { isAdmin && <BillStatistics /> }
             </AllBillDetailsStyle> 
         </>

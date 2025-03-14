@@ -37,8 +37,11 @@ export default function DeleteModal(props) {
           });
           break;
         case "class":
-          DataServices.DeleteClass(id).then((_) => {
-            handleSuccessDelete();
+          DataServices.DeleteClass(id).then((response) => {
+            if(response.status > 299 ) {
+              handleUnSuccessDelete()
+            } 
+            else handleSuccessDelete();
           });
           break;
         case "Subject":

@@ -10,7 +10,9 @@ export default function useGetTheTopStudentsInCurrentReport(reportId) {
     useEffect(() => {
         
         if(reportId == '' || reportId == undefined) return 
-        DataServices.ShowTheTopOneInEachClassInCurrentReport(reportId).then( students => setStudents(students) ) 
+        DataServices.ShowTheTopOneInEachClassInCurrentReport(reportId).then( students => setStudents(
+            students.map(student => ({...student,Average : Number(student.Average)}))
+        )) 
     },[reportId])
 
     return [students]

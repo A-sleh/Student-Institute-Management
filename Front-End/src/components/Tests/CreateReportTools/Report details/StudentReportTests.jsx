@@ -5,21 +5,23 @@
 */
 
 import { NavigateSubHeaderStyle, StudentTestsContainerStyle } from "../../style/styleTage"
-import { useLocation, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import ShowTestTable from "../ShowTestTable"
 import useClass from "../../../../hooks/class_hooks/useClass"
 import HeaderInformation from "../../../shared/HeaderInformation"
 import useGetStudentTestsInReport from "../../../../hooks/student_hooks/useGetStudentTestsInReport"
 import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
 import { useSelector } from "react-redux"
+import { GoBackBtnStyle } from "../../../shared/style/styleTag"
 
 export default function StudentReportTests() {
 
     const {currentLange} = useSelector( state => state.language)
-    const {studentResultTitle ,studentsTestsTitle ,examType ,quizType} = ReportDetailsTEXT[currentLange]
+    const {studentResultTitle ,studentsTestsTitle ,examType ,backBtn,quizType} = ReportDetailsTEXT[currentLange]
 
     const studnetID = useParams().studentId 
     const studnetDetailsEncode = useLocation().state
+    const backPage = useNavigate()
     const studentDetailsDecoded = JSON.parse(decodeURIComponent(studnetDetailsEncode))
     const {reportId ,name ,lastName ,Mark ,TotalMark ,classId ,reportTitle} = studentDetailsDecoded
     const [Class] = useClass(classId)
@@ -46,6 +48,8 @@ export default function StudentReportTests() {
                 <ShowTestTable title={quizType} tests={quiz.tests || [] } />
                 <ShowTestTable title={examType} tests={exam.tests || [] } />
             </StudentTestsContainerStyle> 
+
+            <GoBackBtnStyle onClick={() => backPage( -1 , {replace: true })}>{backBtn}</GoBackBtnStyle>
         </div>
     )
 }

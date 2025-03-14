@@ -20,7 +20,7 @@ export default function Notification({ title, type, state , setState}) {
     );
   return (
     <NotificationStyle
-      language={currentLange}
+      $language={currentLange}
       className={"notification " + type}
       style={{
         transform: state ? "scaleX(1)" : `scaleX(0) `,

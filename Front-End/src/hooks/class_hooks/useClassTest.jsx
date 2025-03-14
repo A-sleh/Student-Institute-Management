@@ -3,7 +3,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useClassTests(classId,reFreach) {
+export default function useClassTests(classId,...reFreach) {
 
     const [tests,setTests] = useState({})
 
@@ -19,7 +19,7 @@ export default function useClassTests(classId,reFreach) {
         DataServices.ShowCurrentClassTests(classId,false,false).then(tests => {
             setTests(disjoinTestIntoTypes(tests))
         })
-    } ,[reFreach])
+    } ,[...reFreach])
 
     return [tests?.quiz || [], tests?.exam || []]
 }

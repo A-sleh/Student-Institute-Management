@@ -17,6 +17,11 @@ export default {
         response.json()
       );
     },
+    getStudentsByName: (key,limit=1000000,page=1) => {
+      return fetch(`${URL}/Student/Filter?page=${page}&pageSize=${limit}&content=${key}`).then((response)  =>
+        response.json()
+      );
+    },
     post: (data) => {
       return fetch(`${URL}/Student`, {
         method: "POST",
@@ -46,7 +51,7 @@ export default {
       
     },
     post : (userIds,date) => {
-      return fetch(`${URL}/Absence?date=${date}` ,{
+      return fetch(`${URL}/Student/Absence?date=${date}` ,{
         method: "POST",
         body: JSON.stringify(userIds),
         headers: {
@@ -66,7 +71,12 @@ export default {
         return fetch(`${URL}/Class/${classId}/Teacher`).then((response) =>
           response.json()
         );
-      }
+      },
+      SpecificGrade : (gradeId) => {
+        return fetch(`${URL}/Class?gradeId=${gradeId}`).then((response) =>
+          response.json()
+        );
+      },
     },
     post: (data) => {
       return fetch(`${URL}/Class`, {
@@ -374,15 +384,26 @@ export default {
         });
       } 
     },
-    put: (testMark,testId,testDate) => {
-      return fetch(`${URL}/Test/${testId}/Marks?correctionDate=${testDate}`, {
-        method: "PUT",
-        body: JSON.stringify(testMark),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-    },
+    put: {
+      removeTestFromReport : (data) => {
+        return fetch(`${URL}/Test`, {
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      },
+      changeMark: (testMark,testId,testDate) => {
+        return fetch(`${URL}/Test/${testId}/Marks?correctionDate=${testDate}`, {
+          method: "PUT",
+          body: JSON.stringify(testMark),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+      }
+    } ,
     delete: (id) => {
       return fetch(`${URL}/Student/${id}`, {
         method: "DELETE",
@@ -437,7 +458,7 @@ export default {
         );
       },
       TopOneStudents : (reportId) => {
-        return fetch(`${URL}/Report/Student/Average?reportId=${reportId}`).then((response) =>
+        return fetch(`${URL}/Report/${reportId}/Top`).then((response) =>
           response.json()
         );
       },

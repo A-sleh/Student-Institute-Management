@@ -16,6 +16,7 @@ import Notification from "../../Global/Notification";
 import Table from "../../shared/Table";
 import { useSelector } from "react-redux";
 import { TeacherNewClassTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewClassTEXT";
+import { successActionLogic } from "../../shared/logic/logic";
 
 export default function TeacherNewClass() {
 
@@ -47,9 +48,8 @@ export default function TeacherNewClass() {
     const [classes,setClasses] = useState([]) 
 
     useEffect(() => {
-        DataServices.TeacherInformaion(teacherId).then( teahcerInfo => {
-            setTeacherDetails(teahcerInfo)
-        })
+
+
         if( classId != undefined ) {
             DataServices.ShowAllTeachersSubjects(grade).then( teacherSubjects => {
                 setTeacherSubjects(teacherSubjects)
@@ -58,15 +58,17 @@ export default function TeacherNewClass() {
             DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
                 setTeacherSubjects(subjects)
             })
+            DataServices.TeacherInformaion(teacherId).then( teahcerInfo => {
+                setTeacherDetails(teahcerInfo)
+            })
         }
         DataServices.showCalsses().then( Classes => {
             setClasses(Classes) ;
             classSubjectsStatus(Classes).then( classSubject => {
                 setCurrentSubjectClass(classSubject)
             })
-            
         })
-    } ,[])
+    } ,[successAddTeacherToClass])
     
 
     async function classSubjectsStatus(Classes) {
@@ -153,10 +155,7 @@ export default function TeacherNewClass() {
     const handleConfirmClicked = () => {
         addTeacherToClasses().then( _ => {
             setSelectedTeacherClass([]) ; 
-            setSuccessAddTeacherToClass(true)
-            setTimeout(() => {
-                setSuccessAddTeacherToClass(false) ;
-            } , 2000 )
+            successActionLogic(setSuccessAddTeacherToClass)
         })
     }
 
@@ -309,7 +308,7 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
                         selectedTeacherClass.map( (teacherClass,index) => {
                             const {id,subject,subjectGrade,classTitle,status} = teacherClass ;
                             return <div key={index} style={{  borderLeftWidth: '3px' , borderLeftStyle: 'solid' , borderLeftColor: status ? 'red': '#00ff00' ,padding: '5px 10px' , backgroundColor: 'white' , borderRadius: '5px' , display: 'flex' , justifyContent: 'space-between' , alignItems: 'center'}}>
-                                        <div><b>{index + 1}:</b> <span style={{fontSize: '0.9em'}}>{subject}-{subjectGrade}-{classTitle}</span></div>
+                                        <div><b>{index + 1} : </b> <span style={{fontSize: '0.9em'}}>{subject}-{subjectGrade}-{classTitle}</span></div>
                                         <i onClick={()=>{handleDeleteClicked(id)}}className="bi bi-x-lg" style={{color: 'red' , cursor: 'pointer' , fontWeight: 'bold',fontSize: '0.9em'}}></i>
                                     </div>
                         })
@@ -318,7 +317,7 @@ function TeacherClassSelected({selectedTeacherClass,setSelectedTeacherClass,hand
             </div>
 
             <div>
-                <button onClick={handleConfirmClicked} style={{margin: '0 5px',padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599' , fontSize: '14px'}}>{confirmBtn}</button>
+                <button onClick={() =>handleConfirmClicked()} style={{margin: '0 5px',padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : '#066599' , fontSize: '14px'}}>{confirmBtn}</button>
                 <button onClick={()=>{setSelectedTeacherClass([])}} style={{padding: '2px 12px' ,cursor: 'pointer' , border: 'none' , color : 'white' , borderRadius: '4px' , backgroundColor : 'red' , fontSize: '14px'}}>{resetBtn}</button>
             </div>
         </div>  

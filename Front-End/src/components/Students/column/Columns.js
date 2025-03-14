@@ -38,7 +38,7 @@ export const COLUMNS = [
   },
   {
     Header: {
-      arabic:  'رقم الفاتورة' ,
+      arabic:  'المبلغ الإجمالي' ,
       english: "Bill Required"
     },
     accessor: "billRequired",

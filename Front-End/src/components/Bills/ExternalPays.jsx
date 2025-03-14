@@ -38,7 +38,7 @@ export default function ExternalPays() {
             path : 'NewBill',
         }
     ]
-
+    
     return(
         <>
             <Title title={window.location.pathname} />

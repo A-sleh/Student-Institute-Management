@@ -37,7 +37,7 @@ export const openAsNormalScreen = () => {
 }
 
 export function separateTesetsAccordingToType(tests,quizAvg,examAvg) {
-
+        
     const res = Object.groupBy(tests,({testType}) => {
         return testType?.toLowerCase() != 'quiz' ? 'exam' : 'quiz'
     })

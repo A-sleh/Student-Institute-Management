@@ -8,7 +8,8 @@ export const ReportDetailsTEXT  = {
         examType: "المذاكرات",
         quizType:  'الأختبارات اليوميه',
         backBtn: 'عوده' ,
-        classReportsTitle: 'تقارير الشعبة'
+        classReportsTitle: 'تقارير الشعبة',
+        
     },
     english : {
         reportDetailsMainTitle: 'Reports Details',

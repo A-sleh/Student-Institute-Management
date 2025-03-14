@@ -10,12 +10,13 @@ import { useSelector } from "react-redux";
 export default function TablePaginated(props) {
     
     const {currentLange} = useSelector( state => state.language)
-    const { data , column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
+    const { data = [], column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn , search = null } = props
     const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
-
-    const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, rows, prepareRow, state, setGlobalFilter, pageCount } = useTable({
-        data: data,
+    
+    const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, prepareRow, state, setGlobalFilter, pageCount } = useTable({
+        data: data ,
         columns: column,
+        autoResetPage : true
     }, useGlobalFilter, useSortBy, usePagination );
 
     const { globalFilter, pageIndex } = state;
@@ -35,8 +36,12 @@ export default function TablePaginated(props) {
 
     
     function renderHeader() {
-        if(showMainHeader) {
-            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
+        if(search != null) {
+            return <SearchSubHeader filter={search.searchField} setFilter={search.setSearchField} handleSearchClicked={search.handleSearchClicked} >
+                        {children}
+                    </SearchSubHeader>
+        } else if(showMainHeader) {
+            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} handleSearchClicked={handleSearchClicked} >
                         {children}
                     </SearchSubHeader>
         }else {
@@ -48,7 +53,7 @@ export default function TablePaginated(props) {
         <div style={{width: '100%' ,flex: '1',display: 'flex' ,direction: 'ltr', flexDirection: 'column'}}>  
             { renderHeader() }
             <TableContainerStyle style={{margin: '0' , paddingBottom: '40px'}}>
-                <TableStyle  language={currentLange} {...getTableProps()} styleObj={styleObj}>
+                <TableStyle  $language={currentLange} {...getTableProps()} $styleObj={styleObj}>
                     <thead>
                     {headerGroups.map((headerGroup, index) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key={index}>

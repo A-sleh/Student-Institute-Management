@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom"
 import { HeaderNavStyle } from "./style/styleTag"
 import { useSelector } from "react-redux"
+import React from "react"
 
-export default function SubNavBar({urlList}) {
+function SubNavBar({urlList}) {
 
     const {currentLange} = useSelector( state => state.language)
-
+    
     return (
         <HeaderNavStyle >
             <span></span>
@@ -22,3 +23,5 @@ export default function SubNavBar({urlList}) {
         </HeaderNavStyle >   
     )
 }
+
+export default React.memo(SubNavBar)

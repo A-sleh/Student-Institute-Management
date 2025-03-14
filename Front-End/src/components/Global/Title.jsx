@@ -25,5 +25,5 @@ export default function Title({ title }) {
       else return char == char.toUpperCase()? ` ${char}` : char ;
   }).join('');
 
-  return <TitleStyle language={currentLange}>{currentLange == ARABIC ? TitlesTEXT[formatTitle.split(' ').join('')]: formatTitle}</TitleStyle>;
+  return <TitleStyle $language={currentLange}>{currentLange == ARABIC ? TitlesTEXT[formatTitle.split(' ').join('')]: formatTitle}</TitleStyle>;
 }

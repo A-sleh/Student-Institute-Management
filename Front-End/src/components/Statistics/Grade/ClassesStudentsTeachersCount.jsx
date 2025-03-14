@@ -1,5 +1,5 @@
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SimpleHorizontalBar from "../charts/SimpleHorizontalBar";
 import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade";
 import useGradeCount from "../../../hooks/statistics_hooks/useGradeCount";
@@ -10,8 +10,12 @@ export default function ClassesStudentsTeachersCount() {
  
     const {currentLange} = useSelector( state => state.language)
     const [grades] = useGetAllGrade()
-    const [selectedGrade,setSelectedGrade] = useState(grades[0]?.grade || 'bachelor')
+    const [selectedGrade,setSelectedGrade] = useState(grades[0]?.grade)
     const [gradeCount] = useGradeCount(selectedGrade)
+
+    useEffect(() => {
+        setSelectedGrade(grades[0]?.grade)
+    },[grades])
     
     const data = {
         data :  [

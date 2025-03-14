@@ -6,7 +6,7 @@
 
 import { createContext, lazy, Suspense, useMemo, useState } from "react"
 import { NavigateSubHeaderStyle, QuizExamContainerStyle } from "../../style/styleTage"
-import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
+import { errorActionLogic, separateTesetsAccordingToType, successActionLogic } from "../../../shared/logic/logic"
 import { useParams} from "react-router-dom"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import Notification from "../../../Global/Notification"
@@ -15,17 +15,20 @@ import useClass from "../../../../hooks/class_hooks/useClass"
 import Loader from "../../../Modal/Loader"
 import { ManageReportTEXT } from "../../../../Data/static/test/CreateReportTools/ManageReportTEXT"
 import { useSelector } from "react-redux"
+import ReportTests from "../Report details/ReportTests"
+import useGetReport from "../../../../hooks/report_hooks/useGetReport"
 const  ControalButtons =  lazy(() => import( "../../../shared/ControalButtons"))
 const  ManageSeletedTests =  lazy(() => import( "./TestsShow/ManageSelectedTests"))
 const  ShowAllReport =  lazy(() => import(  "./ShowAllReports"))
 
 // shared data to deep components
 export const SelectedReportContext = createContext({})
+export const SuccessRemoveTestContext = createContext(null)
 
 export default function LinkTestWithReport() {
 
     const {currentLange} = useSelector( state => state.language)
-    const {confirmBtn,examType ,quizType ,successLinkTestMES ,errorLinkTestMES} = ManageReportTEXT[currentLange]
+    const {confirmBtn,examType ,quizType ,successLinkTestMES ,errorLinkTestMES,successUnLinkTestMES} = ManageReportTEXT[currentLange]
 
     const classId = useParams().classId
     const [Class] = useClass(classId)
@@ -33,12 +36,16 @@ export default function LinkTestWithReport() {
     const [selectedTestId,setSelectedTestId] = useState({})
     const [selectedQuizId,setSelectedQuizId] = useState({})
     const [successLinkTest,setSuccessLinkTest] = useState(false)
+    const [successUnLinkTest,setSuccessUnLinkTest] = useState(false)
     const [wornining,setWornining] = useState(false)
-    const [quiz,exam] = useClassTests(classId,true,successLinkTest)
+    const [quiz,exam] = useClassTests(classId,successLinkTest,successUnLinkTest)
+    const [currentReport] = useGetReport(selectedReport,successLinkTest,successUnLinkTest)
+    const [selectedReportQuizs,selectedReportExams] = separateTesetsAccordingToType(currentReport?.tests || [])
     
     //Memoization section
-    const ManageSeletedQuizMemo = useMemo(()=><ManageSeletedTests data={quiz}  type={quizType} selectionTest={selectedQuizId} setSelectionTest={setSelectedQuizId} /> ,[quiz,selectedQuizId,currentLange])
-    const ManageSeletedExamMemo = useMemo(()=><ManageSeletedTests data={exam}  type={examType} selectionTest={selectedTestId} setSelectionTest={setSelectedTestId} />,[exam,selectedTestId,currentLange])
+    const ManageSeletedQuizMemo = useMemo(()=><ManageSeletedTests data={quiz}  type={quizType} selectionTest={selectedQuizId} setSelectionTest={setSelectedQuizId} /> ,[quiz,selectedQuizId,currentLange,successUnLinkTest])
+    const ManageSeletedExamMemo = useMemo(()=><ManageSeletedTests data={exam}  type={examType} selectionTest={selectedTestId} setSelectionTest={setSelectedTestId} />,[exam,selectedTestId,currentLange,successUnLinkTest])
+
 
     function integrationTestsId() {
         let testIds = [];
@@ -67,6 +74,7 @@ export default function LinkTestWithReport() {
     return (
         <Suspense fallback={<Loader />}>
             <Notification title={successLinkTestMES} type={'success'} state ={successLinkTest} setState={setSuccessLinkTest}/>
+            <Notification title={successUnLinkTestMES} type={'success'} state ={successUnLinkTest} setState={setSuccessUnLinkTest}/>
             <Notification title={errorLinkTestMES} type={'error'} state ={wornining} setState={setWornining}/>
 
             <NavigateSubHeaderStyle >
@@ -77,9 +85,13 @@ export default function LinkTestWithReport() {
                 <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
             </SelectedReportContext.Provider>
 
+            <SuccessRemoveTestContext.Provider value={setSuccessUnLinkTest}>
+                <ReportTests quiz={selectedReportQuizs} exam={selectedReportExams} manageMode={true} />
+            </SuccessRemoveTestContext.Provider >
+                
             <QuizExamContainerStyle >
-                {ManageSeletedQuizMemo}
-                {ManageSeletedExamMemo}
+                    {ManageSeletedQuizMemo}
+                    {ManageSeletedExamMemo}
             </QuizExamContainerStyle>
 
             <ControalButtons titleBtn={confirmBtn} handleBtnClicked={handleCreateReportClicked}/>

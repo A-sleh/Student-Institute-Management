@@ -54,7 +54,7 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
             } ,
             accessor: 'capacity',
             Cell : ({row}) => {
-                return resize != row.original.classId ? row.original.capacity : <input type='text'  min='1' in  ref={capacityInput} value={capacity} onChange={(e) => handleInputChange(e.target.value)} style={{padding: '0 4px' ,backgroundColor: 'transparent',width: '3em', fontSize: '15px' , outline: 'none' , border: 'none' , textAlign: 'center' ,borderBottom: '1px solid #066599' , borderRadius: '2px' }}/>
+                return resize != row.original.classId ? row.original.capacity : <input type='text'  min='1'  ref={capacityInput} value={capacity} onChange={(e) => handleInputChange(e.target.value)} style={{padding: '0 4px' ,backgroundColor: 'transparent',width: '3em', fontSize: '15px' , outline: 'none' , border: 'none' , textAlign: 'center' ,borderBottom: '1px solid #066599' , borderRadius: '2px' }}/>
             }
         },
         {
@@ -69,13 +69,13 @@ export default function  ClassBox({currentClass,numberOfSelectedStudents,selecte
                     <div>
                         { 
                             resize != row.original.classId ? 
-                            <SmallButtonStyle color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >{selectBtn}</SmallButtonStyle> : ''
+                            <SmallButtonStyle $color={'#056699'} onClick={()=>{handleSelectClassClicked(row.original,numberOfSelectedStudents)}} >{selectBtn}</SmallButtonStyle> : ''
                         }
-                        <SmallButtonStyle color={'#009744'} onClick={() =>{
+                        <SmallButtonStyle $color={'#009744'} onClick={() =>{
                             resize == row.original.classId ? handleApplyResizeClicked(row.original) : handleResizeClicked(row.original.classId,row.original.capacity)  
                         }} >{resize == row.original.classId ? applyBtn : resizeCapacityBtn}</SmallButtonStyle>
                         {
-                            row.original.classId == resize ? <SmallButtonStyle color={'red'} onClick={()=>{handleCancelClicked()}} >{cancelBtn}</SmallButtonStyle> : ''
+                            row.original.classId == resize ? <SmallButtonStyle $color={'red'} onClick={()=>{handleCancelClicked()}} >{cancelBtn}</SmallButtonStyle> : ''
                         }
                     </div>
                 )

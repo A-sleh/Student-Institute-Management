@@ -38,7 +38,7 @@ function RenderSubLinks({links}) {
   const {currentLange} = useSelector( state => state.language)
 
   return (
-      <SideBarSubListStyle language={currentLange}>
+      <SideBarSubListStyle $language={currentLange}>
           {links.map((link,index) => {
               return  <NavLink to={`/${link.path }`} className='list' key={index}>
                         <b></b>

@@ -6,7 +6,7 @@
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag.js"
 import { errorActionLogic, successActionLogic } from "../../shared/logic/logic.js"
 import { useNavigate } from "react-router-dom"
-import { useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import { COLUMNS } from "./../TableTools/Columns.js"
 import DataServices from "../../../Data/dynamic/DataServices.js"
 import Notification from "../../Global/Notification.jsx"
@@ -31,9 +31,10 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
           english: 'Select'
         } ,
         id: "selection",
-        Cell: ({ row }) => (
-          <input type="checkbox" {...row.getToggleRowSelectedProps()} />
-        ),
+        Cell: ({ row }) => {
+          const {checked,onChange} = row.getToggleRowSelectedProps() 
+          return <input type="checkbox"  checked={checked} onChange={(e)=>onChange(e)} />
+        },
       },
     ],
     []
@@ -116,3 +117,5 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     </>
   );
 }
+
+

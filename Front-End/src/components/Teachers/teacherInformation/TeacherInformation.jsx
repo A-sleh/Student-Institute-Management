@@ -29,11 +29,11 @@ export default function TeacherInformation() {
                 <TeacherInfo teacherId={teacherId}/>
                 <TeacherClasses teacherId={teacherId}/>
             </FlexContainerStyle>
-            <HeightContainerAnimation delay={'.5s'}>
+            <HeightContainerAnimation $delay={'.5s'}>
                 <TeacherSubjects teacherId={teacherId}/>
             </HeightContainerAnimation>
 
-            <HeightContainerAnimation delay={'.8s'}>
+            <HeightContainerAnimation $delay={'.8s'}>
                 <TeacherBills teacherId={teacherId}/>
             </HeightContainerAnimation>
             <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1)}} >{backBtn}</GoBackBtnStyle>
