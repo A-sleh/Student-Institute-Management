@@ -17,6 +17,11 @@ export default {
         response.json()
       );
     },
+    getStudentsByName: (key,limit=1000000,page=1) => {
+      return fetch(`${URL}/Student/Filter?page=${page}&pageSize=${limit}&content=${key}`).then((response)  =>
+        response.json()
+      );
+    },
     post: (data) => {
       return fetch(`${URL}/Student`, {
         method: "POST",

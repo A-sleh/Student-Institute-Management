@@ -10,14 +10,13 @@ import { useSelector } from "react-redux";
 export default function TablePaginated(props) {
     
     const {currentLange} = useSelector( state => state.language)
-    const { data = [], column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn } = props
+    const { data = [], column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn , search = null } = props
     const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     
-    console.log(data,column)
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, prepareRow, state, setGlobalFilter, pageCount } = useTable({
         data: data ,
         columns: column,
-        autoResetPage : false
+        autoResetPage : true
     }, useGlobalFilter, useSortBy, usePagination );
 
     const { globalFilter, pageIndex } = state;
@@ -37,8 +36,12 @@ export default function TablePaginated(props) {
 
     
     function renderHeader() {
-        if(showMainHeader) {
-            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} >
+        if(search != null) {
+            return <SearchSubHeader filter={search.searchField} setFilter={search.setSearchField} handleSearchClicked={search.handleSearchClicked} >
+                        {children}
+                    </SearchSubHeader>
+        } else if(showMainHeader) {
+            return <SearchSubHeader filter={globalFilter} setFilter={setGlobalFilter} handleSearchClicked={handleSearchClicked} >
                         {children}
                     </SearchSubHeader>
         }else {

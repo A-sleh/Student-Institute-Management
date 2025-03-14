@@ -9,6 +9,9 @@ export default {
   StudentsInCurrentClass: (classId) => {
     return API.Student.getAllInCurrentClass(classId);
   },
+  SearchOnCurrentSutdentName: (searchKey) => {
+    return API.Student.getStudentsByName(searchKey);
+  },
   AllStudentsInfo: () => {
     return API.Student.getAll();
   },

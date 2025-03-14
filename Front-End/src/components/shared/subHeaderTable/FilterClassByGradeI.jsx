@@ -18,6 +18,7 @@ export function FilterClassByGradeI({selectedClass,setSelectedClass,gradeId}) {
             <option key={0} value={encodeURIComponent(JSON.stringify('all'))} >{ currentLange == ARABIC ? 'جميع الصفوف':'All'}</option>
             {
                 classes.map( (Class,index) => {
+                    if(Class?.students?.length == 0 ) return 
                     return <option key={index + 1} value={encodeURIComponent(JSON.stringify(Class))} >{Class.title}</option>
                 })
             }

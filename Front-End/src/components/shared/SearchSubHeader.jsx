@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { TableHeaderStyle } from "./style/tableTagsStyle";
 import { ARABIC } from "../../Redux/actions/type";
 
-export default function SearchSubHeader({filter,setFilter,children}) {
+export default function SearchSubHeader({filter,setFilter,handleSearchClicked,children}) {
 
   const {currentLange} = useSelector( state => state.language)
 
@@ -12,7 +12,7 @@ export default function SearchSubHeader({filter,setFilter,children}) {
       <form style={{width: children == undefined ? '100%' : 'fit-content'}}>
         <i className="bi bi-search" ></i>
         <input type="search" id="search" placeholder={ currentLange == ARABIC ? 'اكتب ماتريد البحث عنه...': "Search anything..." } value={filter || ''} onChange={(e) => {setFilter(e.target.value)}} style={{width: children == undefined ? '100%' : 'fit-content' , direction:  currentLange == ARABIC ? 'rtl': "ltr"  }}/>
-        <span> { currentLange == ARABIC ? 'بحث': 'Search' }</span>
+        <span style={{cursor: handleSearchClicked ? 'pointer' : '' }} onClick={() => handleSearchClicked  ? handleSearchClicked() : null }> { currentLange == ARABIC ? 'بحث': 'Search' }</span>
       </form>
     </TableHeaderStyle >
   );

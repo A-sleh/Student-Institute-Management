@@ -47,7 +47,7 @@ export default function ClassStudents() {
 
         DataServices.StudentsAbsence(studentIds,missedDaysDate).then( res => {
           successActionLogic(setSuccessAddAbsence)
-          goBack(-1)
+          setTimeout(() => goBack(-1),2000)
         })
     }
 
