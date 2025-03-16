@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MiniAPI
 {
@@ -7,7 +8,9 @@ namespace MiniAPI
     {
         public static IEnumerable<T> Paginate<T>(this IEnumerable<T> list, int page, int pageSize)
         {
-            return list.Skip((page - 1) * pageSize).Take(pageSize);
+            var from = ((page - 1) * pageSize);
+            var to = ((page - 1) * pageSize) + pageSize;
+            return list.Take(from .. to);
         }
     }
 }
