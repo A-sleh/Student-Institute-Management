@@ -54,10 +54,11 @@ export default function DeleteModal(props) {
           break;
         case "Teacher":
           DataServices.DeleteTeacher(id).then((response) => {
-            if(response.status > 299 ) {
-              handleUnSuccessDelete()
+            if(response.status < 299 ) {
+              handleSuccessDelete()
+              props.handleDeleteTeacherOPT()
             } 
-            else handleSuccessDelete();
+            else handleUnSuccessDelete()
           });
           break;
           case 'TeacherFromClass' : 

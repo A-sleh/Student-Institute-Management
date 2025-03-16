@@ -45,12 +45,11 @@ export default function TeacherNewSubject() {
             }  ,
             id: 'Action' ,
             Cell : ({row}) => {
-                return (
-                    row.original.isUsed ?
-                    <span style={{padding: '2px 15px' , fontSize : '11px' , fontWeight: '600', color: 'red' , borderRadius: '4px' , backgroundColor: '#ff000057'}}>{usedTitle}</span>
-                    :
-                    <input type='checkbox' style={{cursor: 'pointer'}} {...row.getToggleRowSelectedProps()} />
-                )
+                const {checked,onChange} = row.getToggleRowSelectedProps() 
+                if(row.original.isUsed)
+                    return <span style={{padding: '2px 15px' , fontSize : '11px' , fontWeight: '600', color: 'red' , borderRadius: '4px' , backgroundColor: '#ff000057'}}>{usedTitle}</span>
+                else 
+                    return <input type='checkbox' style={{cursor: 'pointer'}} checked={checked} onChange={(e)=>onChange(e)} />                
             }
         }
     ],[successAdd,currentLange])

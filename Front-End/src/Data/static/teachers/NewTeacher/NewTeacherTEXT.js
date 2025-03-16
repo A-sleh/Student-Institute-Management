@@ -19,7 +19,7 @@ export const NewTeacherTEXT  = {
         teacherTitle: 'Teacher Information' ,
         name: 'First Name' ,
         lastName: 'Last Name' ,
-        phoneNumber: 'Phone Number1' ,
+        phoneNumber: 'Phone Number' ,
         submitBtn: 'Submit' ,
         updateBtn: 'Update' ,
         backBtn: 'Back' ,

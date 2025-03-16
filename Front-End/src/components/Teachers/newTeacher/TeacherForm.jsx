@@ -53,9 +53,11 @@ export default function TeacherForm(props) {
     successActionLogic(setSuccessAction)
     if( requestType === 'PUT' ) {
       if(props.setUpdataBtnClicked == undefined ) {  // if i come from manage teacher page
-        gotoPreviousPage('/TeachersDetails',{replace: true})
+        setTimeout(() =>gotoPreviousPage('/TeachersDetails',{replace: true}), 1500 )
       }
-      else props.setUpdataBtnClicked(false) // if i come from teacher details
+      else {
+        setTimeout(() => props.setUpdataBtnClicked(false) , 1500 ) // if i come from teacher details
+      }
     }
   }
 

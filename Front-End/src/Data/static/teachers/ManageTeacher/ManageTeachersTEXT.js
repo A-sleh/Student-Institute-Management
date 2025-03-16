@@ -10,7 +10,8 @@ export const ManageTeachersTEXT  = {
         successDeleteTeacherMES: 'تم حذف المدرس من الشعبة بنجاح' ,
         successDeleteTeacherSubjectMES: 'تم حذف مادة المدرس' ,
         successUpdateTeacherMES: 'تم تحديث بيانات المدرس بنجاح' ,
-        errorDeleteTeacherMES: 'المدرس يقوم بالتدريس باحد الشعب'
+        errorDeleteTeacherMES: 'المدرس يقوم بالتدريس باحد الشعب',
+        successDeleteTeacherMES: 'تم حذف الأستاذ بنجاح' 
     },
     english : {
         
@@ -22,6 +23,7 @@ export const ManageTeachersTEXT  = {
         addNewClassBtn: 'Add New Class' ,
         successDeleteTeacherMES: 'Delete Teacher From Class' ,
         successDeleteTeacherSubjectMES: 'Delete Teacher Subject' ,
+        successDeleteTeacherMES: 'Delete Teacher ' ,
         successUpdateTeacherMES: 'Updata Teacher ' ,
         errorDeleteTeacherMES: 'Teacher is teaching in one of the classes.'
         
