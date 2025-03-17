@@ -15,14 +15,21 @@ import useStudentsInfo from "../../hooks/student_hooks/useStudentsInfo";
 import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import { FilterClassByGradeI } from "../shared/subHeaderTable/FilterClassByGradeI";
 import useGetStudentsByName from "../../hooks/student_hooks/useGetStudentsByName";
+import { useSelector } from "react-redux";
+import { StudentsDetailsText } from "../../Data/static/Students/StudentsInformation/StudentsDetails";
+import { errorActionLogic } from "../shared/logic/logic";
 
 export default function StudentsDetails() {
+
+  const {currentLange} = useSelector( state => state.language)
+  const {notFoundStudentsMES,successDeleteStudentMES} = StudentsDetailsText[currentLange]
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
   const [selectedGrade,setSelectedGrade] = useState('')
   const [selectedClass,setSelectedClass] = useState('all')
   const [searchField,setSearchField] = useState('')
+  const [searchErrorMes,setSearchErrorMes] = useState(false)
   const [sendRequest,setSendRequest] = useState(false)
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
@@ -103,22 +110,25 @@ export default function StudentsDetails() {
 
   function tableInfo() {
     // data comes from search field
-    if(searchField != '' ) 
+    if(searchField != '' && searchedStudents?.length != 0) 
       return {
         data: mappingClassStudents(searchedStudents ) ,
         studentsNum: searchedStudents.length ,
         totalPage: 1 
       }
-
     // data comes from selector filter
-    if(selectedClass != 'all' ) 
+    if(selectedClass != 'all' ) {
       return {
         data: mappingClassStudents(selectedClass?.students) ,
         studentsNum: selectedClass?.students?.length ,
         totalPage: 1 
       }
-
+    }
     // all data 
+    if(searchField == 'empty'){
+      setSearchField('')
+      errorActionLogic(setSearchErrorMes)
+    }
     return {
       data: students ,
       studentsNum: 15 ,
@@ -132,7 +142,8 @@ export default function StudentsDetails() {
         deleteModal && 
         <DeleteModal element={currentStudentInfo.name} type={"student"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />
       }
-      <Notification title={"student was deleted"} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
+      <Notification title={successDeleteStudentMES} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
+      <Notification title={notFoundStudentsMES} type={"error"} state={searchErrorMes} setState={setSearchErrorMes} />
 
       <Title title={window.location.pathname} />
       <TablePaginated data={(tableInfo().data) || []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={tableInfo().totalPage} currPage={currentPage} rowNumber={tableInfo().studentsNum } >

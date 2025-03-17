@@ -11,8 +11,8 @@ export default function useGetStudentsByName(searchKey,pass) {
         if(searchKey == '' || searchKey == undefined  || !pass  ) return 
         else {
             DataServices.SearchOnCurrentSutdentName(searchKey).then((StudentsInfo) =>  
-                setstudentInfo(StudentsInfo
-            )) 
+                setstudentInfo(StudentsInfo.length != 0 ? StudentsInfo : 'empty')
+            ) 
         }
     },[searchKey,pass]);
     
