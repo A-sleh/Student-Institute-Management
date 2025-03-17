@@ -272,7 +272,7 @@ export const SearchBodyListStyle = styled.div`
     transform-origin: top;
     transition: .3s;
     z-index: 100;
-    transform: ${({transformValue}) => transformValue };
+    transform: ${({$transformValue}) => $transformValue };
 
     span {
         font-weight: 500;

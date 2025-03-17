@@ -12,7 +12,7 @@ export default function SearchBodyList(props) {
     const {searchValue,handleElementClicked,data,focused} = props
 
     return (
-        <SearchBodyListStyle transformValue={focused ? 'translateY(0px) scaleY(1)': 'translateY(30px) scaleY(0)'}>
+        <SearchBodyListStyle $transformValue={focused ? 'translateY(0px) scaleY(1)': 'translateY(30px) scaleY(0)'}>
             {
                 data.map( (element,index) => {
 
