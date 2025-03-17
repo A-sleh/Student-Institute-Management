@@ -4,7 +4,7 @@
   USING REACT QURY : 
   
 */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { COLUMNS } from "./column/Columns";
 import { Link, Outlet } from "react-router-dom";
 import Title from "../Global/Title";
@@ -29,17 +29,22 @@ export default function StudentsDetails() {
   const [selectedGrade,setSelectedGrade] = useState('')
   const [selectedClass,setSelectedClass] = useState('all')
   const [searchField,setSearchField] = useState('')
-  const [searchErrorMes,setSearchErrorMes] = useState(false)
   const [sendRequest,setSendRequest] = useState(false)
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
-  const [searchedStudents ] = useGetStudentsByName(searchField,sendRequest)
+  const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest)
   const [currentPage,setCurrentPage] = useState(1)
   const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,15,currentPage,successDeleteStudent);
   const { students, totalPages} = studentsInfo
   
+  useEffect(() => {
+    if(selectedClass != 'all') 
+      setSearchField('')
+  },[selectedClass]) 
+
+
   function handleSearchClicked() {
     setSendRequest(true)
     setTimeout(()=> setSendRequest(false),200)
@@ -53,12 +58,12 @@ export default function StudentsDetails() {
     setDeleteModal(true);
   }
 
-  function mappingClassStudents(students) {
+  function mappingClassStudents(students,classTitle = null) {
       return students?.map( student => {
         return {
           ... student ,
           full_name: student.name + ' ' + student.lastName ,
-          className: selectedClass?.title 
+          className: classTitle == null ? student?.class?.title : classTitle
         }
       })
   }
@@ -112,23 +117,19 @@ export default function StudentsDetails() {
     // data comes from search field
     if(searchField != '' && searchedStudents?.length != 0) 
       return {
-        data: mappingClassStudents(searchedStudents ) ,
+        data: mappingClassStudents(searchedStudents) ,
         studentsNum: searchedStudents.length ,
         totalPage: 1 
       }
     // data comes from selector filter
     if(selectedClass != 'all' ) {
       return {
-        data: mappingClassStudents(selectedClass?.students) ,
+        data: mappingClassStudents(selectedClass?.students,selectedClass?.title) ,
         studentsNum: selectedClass?.students?.length ,
         totalPage: 1 
       }
     }
     // all data 
-    if(searchField == 'empty'){
-      setSearchField('')
-      errorActionLogic(setSearchErrorMes)
-    }
     return {
       data: students ,
       studentsNum: 15 ,
@@ -143,14 +144,14 @@ export default function StudentsDetails() {
         <DeleteModal element={currentStudentInfo.name} type={"student"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />
       }
       <Notification title={successDeleteStudentMES} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
-      <Notification title={notFoundStudentsMES} type={"error"} state={searchErrorMes} setState={setSearchErrorMes} />
+      <Notification title={notFoundStudentsMES} type={"error"} state={notFoundMes} setState={setNotFoundMes} />
 
       <Title title={window.location.pathname} />
       <TablePaginated data={(tableInfo().data) || []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={tableInfo().totalPage} currPage={currentPage} rowNumber={tableInfo().studentsNum } >
-        <div>
+        { searchField == '' ? <div>
           <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
           <FilterClassByGradeI setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
-        </div>
+        </div> : null}
       </TablePaginated> 
 
     </>

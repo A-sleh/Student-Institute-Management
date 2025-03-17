@@ -22,7 +22,7 @@ import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByNam
 export default function TeachersDetails() {
 
   const {currentLange} = useSelector( state => state.language)
-  const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES} = TeachersDetailsTEXT[currentLange]
+  const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES,notFoundMES} = TeachersDetailsTEXT[currentLange]
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
@@ -30,7 +30,7 @@ export default function TeachersDetails() {
   const limitNumber = 12
   const [sendRequest,setSendRequest] = useState(false)
   const [searchField,setSearchField] = useState('')
-  const [teachersInfo] = useGetTeacherByName(searchField,sendRequest)
+  const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest)
   const [teachers] = useTeachersInfo(limitNumber,currentPage,successDeleteTeacher)
   const { teachers : teachersDetails , totalPages, totalTeachers} = teachers
 
@@ -104,6 +104,7 @@ export default function TeachersDetails() {
       <>
           <Notification  title={successDeleteTeacherMES} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />
           <Notification  title={errorDeleteTeacherMES} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
+          <Notification  title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />
           { 
             deleteModal && 
             <DeleteModal element={currentStudentInfo.name} type={"Teacher"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />
