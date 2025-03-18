@@ -14,6 +14,6 @@ namespace DataAcess.Models
         public string? Phone {  get; set; }
         public List<TeacherSubjectModel?> TeacherSubjects { get; set; } = [];
 
-        public dynamic BasicFormat() => new {TeacherId, Name, LastName };
+        public dynamic Details(int SubNO, int classNO) => new {TeacherId, Name, LastName, Phone, SubNO, classNO };
     }
 }
