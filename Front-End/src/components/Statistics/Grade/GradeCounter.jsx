@@ -22,10 +22,10 @@ export default function GradeCounter() {
         calloutLabelKey: "asset",
         sectorLabelKey: "amount",
         data : gradeCount.map( gradeC => {
-                return {
-                    amount : gradeC[filterType] ,
-                    asset: gradeC.grade    
-                }
+            return {
+                amount : gradeC[filterType] || 0 ,
+                asset: gradeC.grade || ''   
+            }
         })
         
     }

@@ -27,7 +27,7 @@ export default function TeachersRate() {
             }
         }),
         title : currentLange == ARABIC ?  selectedSubject?.subject  + ' تقييم الأساتذه في الماده ' : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
-        color: '#a6ff00b7',
+        color: '#00aeffb7',
         direction : 'right'
     }
 
