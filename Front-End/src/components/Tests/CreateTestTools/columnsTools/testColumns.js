@@ -32,7 +32,7 @@ export const TESTCOLUMNS = [
     },
     accessor: "correctionDate",
     Cell: ({ value }) => {
-        if(value == null ) return 'bending'
+        if(value == null ) return '---'
         return format(new Date(value), "yyyy / MM / dd");
     },
   },
@@ -41,11 +41,11 @@ export const TESTCOLUMNS = [
       arabic: 'مده التأخير' ,
       english: "Delay"
     },
-    accessor: "delay",
+    accessor: 'delay',
     Cell: ({ row }) => {
       const {date,correctionDate} = row.original
       const delay = Math.floor((new Date(correctionDate) - new Date(date)) / (60 * 60 *  60 * 365) )
-      return delay < 0 ? 'Not correction yet': delay
+      return delay < 0 ? '---' : delay
     },
   },
   {

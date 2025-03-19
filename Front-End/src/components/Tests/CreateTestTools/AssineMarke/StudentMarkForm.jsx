@@ -6,7 +6,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { format } from "date-fns"
+import { add, format } from "date-fns"
 import { ButtonsContainerStyle, GoBackBtnStyle, InputStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn"
 import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
@@ -52,11 +52,27 @@ export default function StudentMarkForm() {
             } 
         }
 
-    ],[marks,inputId,currentLange])
+    ],[marks,inputId,currentLange,])
 
     // to keep focus on the input field
     useEffect(()=>{setReRender(1)},[marks,inputId])
 
+    // To catch the next input field 
+    document.onkeydown = function (e) {
+        switch(e.code) {
+            case 'Tab' : 
+                setInputId((+inputId + 1) > studentTest.length ? +inputId : +inputId + 1 )
+                break 
+            case 'ArrowUp' : 
+                setInputId((+inputId - 1) < 0 ? +inputId : +inputId - 1)
+                break 
+            case 'ArrowDown' :
+                setInputId((+inputId + 1) > studentTest.length ? +inputId : +inputId + 1 )
+                break 
+        }
+        
+    }
+    
     function validMarkInput() {
         const keys = Object.keys(marks) 
         const value = Object.values(marks) 
