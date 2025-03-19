@@ -16,15 +16,15 @@ import { useSelector } from "react-redux";
 export default function ReportDetails() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {grade : selectedGrade} = useSelector(state => state.grade)
     const {reportDetailsMainTitle} = ReportDetailsTEXT[currentLange]
 
-    const [selectedGrade,setSelectedGrade] = useState({})
     const [classes] = useClasses(selectedGrade?.grade)
 
 
     return (
         <Table data={classes || []} column={CLASSCOLUMNS} url={'/CreateReport/ShowClassReports'} idKeyParams={'classId'}>
-            <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade} />
+            <SubHeaderFilterClassByGrade />
             <h3 style={{color: '#056699' }}>{reportDetailsMainTitle}</h3>
         </Table>
     )

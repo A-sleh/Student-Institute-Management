@@ -16,14 +16,14 @@ import { useSelector } from "react-redux";
 export default function ShowAllTest() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {grade} = useSelector(state => state.grade)
     const {mainTestTitle} = ShowAllTestTEXT[currentLange]
-    const [selectedGrade,setSelectedGrade] = useState({})
-    const [classes] = useClasses(selectedGrade?.grade,true) 
+    const [classes] = useClasses(grade?.grade,true) 
 
 
     return (
         <Table data={classes || []} column={CLASSCOLUMNS} url={'/Test/TestClassCurrent'} idKeyParams={'classId'} unableId={true}>
-            <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade} />
+            <SubHeaderFilterClassByGrade  />
             <h3 style={{color: '#056699' }}>{mainTestTitle}</h3>
         </Table>
     )

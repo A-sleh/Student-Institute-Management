@@ -16,11 +16,11 @@ import { ManageClassesTEXT } from "../../Data/static/classes/ManageClass/ManageC
 export default function ManageClasses() {
 
   const {currentLange} = useSelector( state => state.language)
+  const {grade : selectedGrade} = useSelector(state => state.grade)
   const {successDeleteClassMES} = ManageClassesTEXT[currentLange]
 
   const [classes, setClasses] = useState([]);
   const [deleteClass, setDeleteClass] = useState(false);
-  const [selectedGrade,setSelectedGrade] = useState('')
   const [search,setSearch] = useState('')
   
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function ManageClasses() {
       <Title title={window.location.pathname} />
       <Notification title={successDeleteClassMES} type={"success"} state={deleteClass} setState={setDeleteClass} />
       <div style={{display: 'flex' , alignItems: 'center',justifyContent: 'space-between'}}>
-        <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+        <SubHeaderFilterClassByGrade />
         <SearchSubHeader filter={search} setFilter={setSearch}/>
       </div>
       {
