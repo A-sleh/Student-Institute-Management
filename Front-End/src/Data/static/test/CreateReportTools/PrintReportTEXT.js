@@ -42,7 +42,7 @@ export const ClassReportStructurTEXT = {
         studentNameTEXT: 'اسم الطالب' ,
         markTEXT: 'المجموع' ,
         markAvgTEXT: 'المعدل النهائي' ,
-        instituteNameTEXT: 'معهد رويال' ,
+        instituteNameTEXT: 'عنوان المعهد' ,
         reportTitleTEXT: 'تقرير' ,
         reportDateTEXT: 'تاريخ التقرير '
     },
@@ -53,7 +53,7 @@ export const ClassReportStructurTEXT = {
         studentNameTEXT: 'Student name' ,
         markTEXT: 'Total mark' ,
         markAvgTEXT: 'Avarage' ,
-        instituteNameTEXT: 'Royal institute' ,
+        instituteNameTEXT: 'Institute title' ,
         reportTitleTEXT: 'Report' ,
         reportDateTEXT: 'Report date'
 
@@ -63,7 +63,7 @@ export const ClassReportStructurTEXT = {
 export const StudentReportStructurTEXT = {
     arabic : {
         studentNameTEXT: 'الطالب' ,
-        instituteNameTEXT: 'معهد رويال' ,
+        instituteNameTEXT: 'عنوان المعهد' ,
         fatherNameTEXT: 'الأب' ,
         classTitleTEXT: 'الشعبه' ,
         reportTEXT: 'التقرير' ,
@@ -81,7 +81,7 @@ export const StudentReportStructurTEXT = {
     },
     english : {
         studentNameTEXT: 'Student name' ,
-        instituteNameTEXT: 'Royal institute' ,
+        instituteNameTEXT: 'Institute title' ,
         fatherNameTEXT: 'Father' ,
         classTitleTEXT: 'Class' ,
         reportTEXT: 'Report' ,
