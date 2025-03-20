@@ -12,7 +12,7 @@ export async function getTeachersSubjectsClassesNumber(teachers) {
             let  classesNumber = await DataServices.ShowTeacherClass(teacherId)
             classesNumber = classesNumber.reduce( (sum,teacher) => (sum + teacher.classes.length - (teacher.classes[0] == null))  , 0)
 
-            teacher_details.push({...teacher,subjectaNumber: subjectaNumber.length , classesNumber: classesNumber})
+            teacher_details.push({...teacher,subNO: subjectaNumber.length , classNO: classesNumber})
             if(teachers.teachers.length == teacher_details.length ) { 
                 resolve({...teachers,teachers:teacher_details})
             }

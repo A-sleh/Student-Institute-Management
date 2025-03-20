@@ -13,7 +13,7 @@ import { ManageReportTEXT } from '../../../../Data/static/test/CreateReportTools
 import { useSelector } from 'react-redux';
 
 
-export default function ShowAllReport({selectedReport,setSelectedReport}) {
+export default function ShowAllReport() {
 
     const {currentLange} = useSelector( state => state.language)
     const {reportsTitle} = ManageReportTEXT[currentLange]

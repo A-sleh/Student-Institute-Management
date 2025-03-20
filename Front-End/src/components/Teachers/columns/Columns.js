@@ -26,13 +26,13 @@ export const COLUMNS = [
       arabic: 'عدد الشعب ',
       english: "Classes"
   } ,
-    accessor: "classesNumber",
+    accessor: "classNO",
   },
   {
     Header: {
       arabic: 'عددالمواد',
       english: "Subjects"
   } ,
-    accessor: "subjectaNumber",
+    accessor: "subNO",
   }
 ];
