@@ -1,8 +1,11 @@
 import { AgCharts } from 'ag-charts-react';
+import { useSelector } from 'react-redux';
+import { ARABIC } from '../../../Redux/actions/type';
 
 
 export default function LineChart({data}){
 
+    const {currentLange} = useSelector( state => state.language)
     const dateFormatter = new Intl.DateTimeFormat("en-US");
     const tooltip = {
     renderer: ({ datum, xKey, yKey }) => ({
@@ -27,7 +30,7 @@ export default function LineChart({data}){
               position: "bottom",
               type: "time",
               title: {
-                text: "Date",
+                text: currentLange == ARABIC ? "التاريخ": "Date",
               },
               label: {
                 format: "%b",
@@ -37,7 +40,7 @@ export default function LineChart({data}){
               position: "left",
               type: "number",
               title: {
-                text: "Max Average",
+                text: currentLange == ARABIC ? "أعظم معدل": "Max Average",
               },
             },
         ],

@@ -1,4 +1,5 @@
 import { AgCharts } from 'ag-charts-react';
+import { format } from 'date-fns';
 
 
 export default function SimpleHorizontalBar({data}){
@@ -14,7 +15,6 @@ export default function SimpleHorizontalBar({data}){
             direction: "horizontal",
             xKey: "type",
             yKey: "value",
-            cornerRadius: 4,
             label:{}
           },
         ],

@@ -1,8 +1,12 @@
 import { AgCharts } from 'ag-charts-react';
+import { useSelector } from 'react-redux';
+import { ARABIC } from '../../../Redux/actions/type';
 
 
 export default function SimpleHistogram({data}){
-    // Chart Options: Control & configure the chart
+  
+    const {currentLange} = useSelector( state => state.language)
+
     const chartOptions = {
         data : data.data,
         footnote: {
@@ -16,7 +20,7 @@ export default function SimpleHistogram({data}){
             label: {},
             tooltip: {
               renderer: ({ datum, yKey }) => {
-                return { title: datum?.name != undefined ? datum?.name + '' + datum?.lastName : datum?.title , content: datum[yKey] };
+                return { title: datum?.name != undefined ? datum?.name + ' ' + datum?.lastName : datum?.title , content: datum[yKey] };
               },
             },
           },
@@ -26,14 +30,14 @@ export default function SimpleHistogram({data}){
             type: "category",
             position: "bottom",
             title: {
-              text: "Class",
+              text: currentLange == ARABIC ? "الصفوف": "Class",
             },
           },
           {
             type: "number",
             position: "left",
             title: {
-              text: "Total Mark",
+              text: currentLange == ARABIC ? "العلامه الإجماليه": "Total mark",
             },
           }
         ],

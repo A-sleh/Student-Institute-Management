@@ -19,11 +19,11 @@ export default function ClassesStudentsTeachersCount() {
     
     const data = {
         data :  [
-                { type: currentLange == ARABIC? "الأساتذه":  "Teachers", value: gradeCount[0]?.TeachersNO },
-                { type: currentLange == ARABIC? "الطلاب": "Students", value: gradeCount[0]?.StudentsNO },
-                { type: currentLange == ARABIC? "الشعب": "Classes", value: gradeCount[0]?.ClassesNO }
+                { type: currentLange == ARABIC? " الأساتذه ":  " Teachers ", value: gradeCount[0]?.TeachersNO },
+                { type: currentLange == ARABIC? " الطلاب ": " Students ", value: gradeCount[0]?.StudentsNO },
+                { type: currentLange == ARABIC? " الشعب ": " Classes ", value: gradeCount[0]?.ClassesNO }
         ],
-        title: (currentLange == ARABIC? "  الأحصائيات في الفئه ": 'The statistics in ') + selectedGrade
+        title: (currentLange == ARABIC? "  الأحصائيات في الفئه ": ' The statistics in ') + selectedGrade
     }
 
     return (
