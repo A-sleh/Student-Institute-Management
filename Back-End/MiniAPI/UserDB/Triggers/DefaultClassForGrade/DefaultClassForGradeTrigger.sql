@@ -1,0 +1,19 @@
+﻿--CREATE TRIGGER [DefaultClassForGradeTrigger]
+--ON [dbo].[Grade]
+--AFTER INSERT
+--AS
+--BEGIN
+--	IF EXISTS (SELECT 1 FROM inserted)
+--	BEGIN
+--		DECLARE @title NVARCHAR(64);
+--		DECLARE @grade NVARCHAR(128) = (SELECT grade FROM inserted);
+--		IF 'english' in (SELECT value FROM settings WHERE attribute = 'language')
+--		BEGIN
+--			SET @title = CONCAT('unsigned ', @grade,' students');
+--		END
+--		ELSE
+--			SET @title = CONCAT(N'طلاب', @grade, N'بدون شعبة');
+--		DECLARE @gradeId INT = (SELECT gradeId FROM inserted);
+--		INSERT INTO Class(title,capacity,gradeId) VALUES(@title, 200, @gradeId)
+--	END
+--END
