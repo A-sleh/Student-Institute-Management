@@ -13,4 +13,5 @@ AS
 	JOIN Class c ON s.classId = c.id
 	WHERE tmr.TestType <> 'quiz' AND tmr.Id = @reportId AND (@classId is NULL OR c.id = @classId)
 	GROUP BY s.id, name, lastName, c.id, c.title, tmr.Id
+	ORDER BY SUM(tmr.mark*100.0)/SUM(tmr.totalMark) DESC
 RETURN 0;

@@ -79,8 +79,8 @@ namespace DataAcess.Data
         }
         public async Task<IEnumerable<dynamic>> GetStudentsReportResult(int reportId, int? classId)
         {
-            var res = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentsResults", new { reportId, classId });
-            return res;
+            var studentsResults = await _db.LoadData<dynamic, dynamic>("dbo.ReportGetStudentsResults", new { reportId, classId });
+            return studentsResults;
         }
 
         public async Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type, string? gender)
