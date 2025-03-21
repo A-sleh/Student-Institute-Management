@@ -32,7 +32,7 @@ export default function ClassAvgInCurrentReport() {
 
     
     return (
-        <BackgroundLayoutStyle style={{flex: '2'}}>
+        <BackgroundLayoutStyle style={{flex: '1'}}>
             <div style={{display: 'flex' , gap: '5px' , flexDirection: 'row-reverse'}}>
                 <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedGrade))} onChange={(e) =>{ setSelectedGrade(JSON.parse(decodeURIComponent(e.target.value)))}}>
                     {grades.map( (grade,index) => (<option value={encodeURIComponent(JSON.stringify(grade))} key={index}>{grade.grade}</option>) )}

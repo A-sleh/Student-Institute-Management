@@ -27,7 +27,7 @@ export default function ClassesStudentsTeachersCount() {
     }
 
     return (
-        <BackgroundLayoutStyle style={{flex: '2'}}>
+        <BackgroundLayoutStyle style={{flex: '1'}}>
             <SelectorStyle value={selectedGrade} onChange={(e) => setSelectedGrade(e.target.value)}>
                 {/* <option value={''} ></option> */}
                 {grades.map( (grade,index) => (<option key={index} value={grade.grade}>{grade.grade}</option>) )}

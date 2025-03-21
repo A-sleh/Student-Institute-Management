@@ -20,21 +20,18 @@ export default function Statistics() {
       <>
         <Title title={window.location.pathname} />        
           { isAdmin && <TotalInstituteBalance />}
-          {
-            isAdmin && 
-            <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-              <IncomeOutComeBalanceInRangedMonth />
-              <BalanceEachMonth />
-            </div>
-          }
+
+          <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
+            { isAdmin ? <IncomeOutComeBalanceInRangedMonth /> : <GradeCounter /> }
+            <ClassesStudentsTeachersCount />    
+          </div>
           <LatestBills />
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
             <FirstStudentInCurrentReport />
-            <GradeCounter />
+            {isAdmin && <GradeCounter />}
             <TeachersRate />
           </div>    
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-            <ClassesStudentsTeachersCount />    
             <StudentReportsAvg />
             <ClassAvgInCurrentReport />
           </div>

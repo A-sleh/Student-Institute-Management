@@ -16,6 +16,7 @@ export const TableStyle = styled.table`
 
     border-collapse: collapse;
     border-spacing: 0;
+    text-align: center;
     width: 100%;
     direction : ${ ({$language}) => $language == 'arabic' ? 'rtl': 'ltr'} ;
     text-align: center !important;

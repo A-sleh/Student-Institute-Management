@@ -21,7 +21,7 @@ export default function SimpleDonut({data}){
             },
             sectorLabel: {
               formatter: ({ datum, sectorLabelKey }) => {
-                const value = datum[sectorLabelKey];
+                const value = datum[sectorLabelKey] || '';
                 return numFormatter.format(value);
               },
             },
@@ -31,7 +31,7 @@ export default function SimpleDonut({data}){
             innerRadiusRatio: 0.7,
             innerLabels: [
               {
-                text: (data.balance) + data.unit,
+                text: ((data.balance) + data.unit) || '',
                 fontSize: 24,
               },
               {

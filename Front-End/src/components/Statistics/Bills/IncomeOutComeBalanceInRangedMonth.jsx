@@ -12,7 +12,7 @@ import { ARABIC } from "../../../Redux/actions/type";
 export default function IncomeOutComeBalanceInRangedMonth() {
 
     const {currentLange} = useSelector( state => state.language)
-    const [date,setDate] = useState({ startDate: '1990-1-1' , endDate : '1990-1-1'})
+    const [date,setDate] = useState({ startDate: '2020-1-1' , endDate : '2000-1-1'})
     const [inComeBalance,outComeBalance] = useGetMonthIncomOutcomBalance(date.startDate,date.endDate)
 
     useEffect(() => {

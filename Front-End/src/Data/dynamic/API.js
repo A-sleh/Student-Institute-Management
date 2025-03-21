@@ -133,16 +133,24 @@ export default {
     },
   },
   Teacher: {
-    get: (id,limit=1000000,page=1) => {
-      return fetch(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`).then((response) =>
-        response.json()
-      );
+    get: {
+      get : (id,limit=1000000,page=1) => {
+        return fetch(`${URL}/Teacher/${id || ''}?listSize=${limit}&page=${page}`).then((response) =>
+          response.json()
+        );
+      },
+      getAll : (limit=10000000,page=1) => {
+        return fetch(`${URL}/Teacher?listSize=${limit}&page=${page}`).then((response) =>
+          response.json()
+        );
+      },
+      SearchOnCurrentTeacherName: (searchKey) => {
+        return fetch(`${URL}/Teacher/Filter?content=${searchKey}`).then((response) =>
+          response.json()
+        );
+      },
     },
-    getAll: (limit=10000000,page=1) => {
-      return fetch(`${URL}/Teacher?listSize=${limit}&page=${page}`).then((response) =>
-        response.json()
-      );
-    },
+    
     post: (data) => {
       return fetch(`${URL}/Teacher`, {
         method: "POST",

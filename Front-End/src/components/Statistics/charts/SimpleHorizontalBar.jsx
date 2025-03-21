@@ -8,8 +8,8 @@ export default function SimpleHorizontalBar({data}){
         footnote: {
             text: data.title
         },
-        fill : data?.color ,
         series: [{
+            fill : data?.color ,
             type: "bar",
             direction: "horizontal",
             xKey: "type",

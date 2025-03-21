@@ -33,7 +33,7 @@ export default function LanguageList() {
                     <div style={{display: 'flex' , flexDirection: 'column' }}>
                         {
                             langList.map( language => {
-                                return <span onClick={() => handleLanguageClicked(language.toLocaleLowerCase())}style={{fontWeight: currentLange == language.toLocaleLowerCase() ? '600': '400',color: 'white',padding: '15px 20px' , width: '100%' , backgroundColor: '#056599b0'}}>{language}</span>
+                                return <span key={language.toLocaleLowerCase()} onClick={() => handleLanguageClicked(language.toLocaleLowerCase())}style={{fontWeight: currentLange == language.toLocaleLowerCase() ? '600': '400',color: 'white',padding: '15px 20px' , width: '100%' , backgroundColor: '#056599b0'}}>{language}</span>
                             })
                         }    
                     </div>

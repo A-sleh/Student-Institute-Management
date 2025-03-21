@@ -71,10 +71,13 @@ export default {
     return API.Teacher.post(data)
   },
   TeacherInformaion : (id,limit,page) => {
-    return API.Teacher.get(id,limit,page)
+    return API.Teacher.get.get(id,limit,page)
   },
   AllTeacherInformaion : () => {
-    return API.Teacher.getAll()
+    return API.Teacher.get.getAll()
+  },
+  SearchOnCurrentTeacherName: (searchKey) => {
+    return API.Teacher.get.SearchOnCurrentTeacherName(searchKey);
   },
   DeleteTeacher : (id) => {
     return API.Teacher.delete(id)

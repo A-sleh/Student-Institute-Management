@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
 
 
-export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,refProp}) {
+export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurrentPage,refProp}) {
 
   const {currentLange} = useSelector( state => state.language)
   const {subjectsTitle ,classesTitle ,teacherTitleInfo ,teacherSubTitle ,addNewSubjectBtn ,addNewClassBtn,
@@ -89,18 +89,22 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,refProp})
     setDeleteModal(true);
   }
 
+  function handleConfirmDeleteTearch() {
+    setCurrentPage(1)    
+  }
+
     return(
       <>
         <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
         <Notification title={successDeleteTeacherSubjectMES} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
         <Notification title={successUpdateTeacherMES} type={'success'} state ={successUpdataTeacher} setState={setSuccessUpdataTeacher}/>
         <Notification  title={errorDeleteTeacherMES} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
-        {deleteModal &&  <DeleteModal element={currentTeacherInfo.name} type={"Teacher"} id={currentTeacherInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />}
+        {deleteModal &&  <DeleteModal element={currentTeacherInfo.name} type={"Teacher"} id={currentTeacherInfo.id} handleDeleteTeacherOPT={handleConfirmDeleteTearch} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />}
         {   
           updataButtonClicked  ? 
             <TeacherForm initialSatate={teacherInfo} requestType={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
           : 
-          <MainContainerStyle ref={refProp}>
+          <MainContainerStyle ref={refProp} >
             <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  handleDeleteClicked={handleDeleteClicked}>
               {teacherSubTitle}
             </TitleAndControalHeader>

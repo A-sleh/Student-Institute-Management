@@ -35,9 +35,6 @@ export default function NewBill() {
     const {currentLange} = useSelector( state => state.language)
     const {teacherName ,billNumber ,billDate ,billAmount ,billNote ,addBtn ,successAddStudentBillMES ,validationMessages,errorAddStudentBillMES } = NewTeacherBillTEXT[currentLange]
     const {nameVale ,bilNumberVal ,billDateVal ,billAmountVal} = validationMessages
-
-    
-
     const [successAddBill,setSuccessAddBill] = useState(false)
     const [errorAddBill,setErrorAddBill] = useState(false)
     const [allTeachers] = useGetAllTeachers()
@@ -50,19 +47,6 @@ export default function NewBill() {
     })
 
     // search input field functionality 
-    useEffect(() => {
-        DataServices.TeacherInformaion().then( teachers => {
-            const teacherMaping = teachers.map( teacher => {
-                return {
-                    id : teacher.teacherId ,
-                    name: teacher.name ,
-                    lastName: teacher.lastName,
-                    fullName : teacher.name + ' ' + teacher.lastName
-                }
-            })
-            setAllTeachers(teacherMaping)
-        })
-    },[])
     const [focused, setFocused] = useState(false)
     const onFocus = () => setFocused(true)
     const onBlur = () => { setTimeout(() => { setFocused(false) },200) }

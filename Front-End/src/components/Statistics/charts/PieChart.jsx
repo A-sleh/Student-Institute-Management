@@ -2,6 +2,7 @@ import { AgCharts } from 'ag-charts-react';
 
 
 export default function PieChart({data}){
+
     // Chart Options: Control & configure the chart
     const chartOptions = {
         data : data?.data,
@@ -15,9 +16,7 @@ export default function PieChart({data}){
             sectorLabelKey: data.sectorLabelKey,
             sectorLabel: {
                 color: "white",
-                fontWeight: "bolder",
             },
-
         }],
     };
 
