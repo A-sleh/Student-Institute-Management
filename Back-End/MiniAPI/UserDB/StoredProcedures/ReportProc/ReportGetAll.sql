@@ -8,14 +8,14 @@ BEGIN
 	BEGIN
 		SELECT * FROM ReportsWithTests
 		WHERE (@classId IS NULL OR TestId IN (SELECT DISTINCT tm.TestId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE s.classId = @classId))
-		AND (@gradeId IS NULL OR @gradeId = gradeId)
+		AND ((@gradeId IS NULL OR @gradeId = gradeId) OR gradeId IS NULL)
 	END
 	ELSE
 	BEGIN
 		SELECT ReportId, ReportTitle, StartDate, FinishDate, gradeId
 		FROM ReportsWithTests
 		WHERE (@classId IS NULL OR TestId IN (SELECT DISTINCT tm.TestId FROM Student s JOIN TestMark tm ON s.id = tm.StudentId WHERE s.classId = @classId))
-		AND (@gradeId IS NULL OR @gradeId = gradeId)
+		AND ((@gradeId IS NULL OR @gradeId = gradeId) OR gradeId IS NULL)
 	END
 END
 
