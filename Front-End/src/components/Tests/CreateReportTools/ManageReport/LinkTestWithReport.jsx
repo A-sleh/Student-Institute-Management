@@ -39,7 +39,8 @@ export default function LinkTestWithReport() {
     const [successUnLinkTest,setSuccessUnLinkTest] = useState(false)
     const [wornining,setWornining] = useState(false)
     const [quiz,exam] = useClassTests(classId,successLinkTest,successUnLinkTest)
-    const [currentReport] = useGetReport(selectedReport,successLinkTest,successUnLinkTest)
+    const [currentReport] = useGetReport(selectedReport,classId,successLinkTest,successUnLinkTest)
+    console.log(currentReport)
     const [selectedReportQuizs,selectedReportExams] = separateTesetsAccordingToType(currentReport?.tests || [])
     
     //Memoization section

@@ -420,9 +420,11 @@ export default {
   },
   Report: {
     get: {
-      AllReports : (id) => {
-        return fetch(`${URL}/Report/${id || ''}`).then((response) =>
-          response.json()
+      AllReports : (id,queryParams = '') => {
+        return fetch(`${URL}/Report/${id || ''}${queryParams}`).then((response) =>{
+          console.log(response)
+          return response.json()
+        }
         );
       },
       spesifyReports : (gradeId) => {
