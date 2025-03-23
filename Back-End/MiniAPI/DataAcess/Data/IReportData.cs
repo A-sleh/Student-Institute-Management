@@ -6,7 +6,7 @@ namespace DataAcess.Data
     {
         Task DeleteReport(int id);
         Task<ReportModel?> GetReport(int id, int? classId);
-        Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId = null);
+        Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId = null, bool withTests = true);
         Task InsertReport(ReportModel report);
         Task UpdateReport(ReportModel report);
         Task<IEnumerable<dynamic>> GetStudentsRptAvg(int? studentId, int? reportId, string? type, string? gender = null);

@@ -3,7 +3,6 @@
 	@Name NVARCHAR(30),
 	@LastName NVARCHAR(30),
 	@FatherName NVARCHAR(30),
-	@Birthdate date,
 	@Phone VARCHAR(15),
 	@ClassId int,
 	@BillRequired int
@@ -13,7 +12,6 @@ BEGIN
 	SET name = @Name,
 		lastName = @LastName,
 		fatherName = @FatherName,
-		birthdate = @Birthdate,
 		phone = @Phone,
 		classId = @ClassId,
 		billRequired = @BillRequired

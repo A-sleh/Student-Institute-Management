@@ -100,7 +100,7 @@ namespace DataAcess.Data
 
         public async Task<ReportModel?> GetReport(int id, int? classId)
         {
-            ReportModel? mappedReport = null;
+            ReportModel? mappedReport = (await _db.LoadData<ReportModel, dynamic>("dbo.ReportGetOnlyDetails", new { reportId = id })).FirstOrDefault();
             _ = await
                 _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(
                 "dbo.ReportGet",
@@ -117,7 +117,6 @@ namespace DataAcess.Data
                     }
                     if (Test != null)
                     {
-                        Test.Report = null;
                         Test.Subject = Subject;
                         Report.Tests.Add(Test);
                     }
@@ -128,7 +127,7 @@ namespace DataAcess.Data
             return mappedReport;
         }
 
-        public async Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId)
+        public async Task<IEnumerable<ReportModel>> GetReports(int? classId, int? gradeId, bool withTests = true)
         {
             var mappedReports = new Dictionary<int, ReportModel>();
             _ = await _db.LoadData<dynamic, ReportModel, TestModel, SubjectModel>(

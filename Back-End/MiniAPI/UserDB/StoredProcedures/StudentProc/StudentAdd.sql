@@ -3,7 +3,6 @@
 	@Name NVARCHAR(30),
 	@LastName NVARCHAR(30),
 	@FatherName NVARCHAR(30),
-	@Birthdate DATE,
 	@Phone VARCHAR(15),
 	@ClassId INT,
 	@BillRequired INT
@@ -13,7 +12,6 @@ BEGIN
 		name,
 		lastName,
 		fatherName,
-		birthdate,
 		phone,
 		classId,
 		billRequired
@@ -22,7 +20,6 @@ BEGIN
 		@Name,
 		@LastName,
 		@FatherName,
-		@Birthdate,
 		@Phone,
 		@ClassId,
 		@BillRequired

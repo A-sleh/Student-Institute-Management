@@ -135,14 +135,13 @@ public class StudentData : IStudentData
                 student.Name,
                 student.LastName,
                 student.FatherName,
-                student.Birthdate,
                 student.Phone,
                 student.Class?.ClassId,
                 student.BillRequired
             });
             if(student.StudentId != -1)
             {
-                _studentsCache.Add(student.StudentId, student);
+                await GetStudentByID(student.StudentId);
             }
         }
         catch(Exception)
@@ -161,7 +160,6 @@ public class StudentData : IStudentData
                 student.Name,
                 student.LastName,
                 student.FatherName,
-                student.Birthdate,
                 student.Phone,
                 student.Class?.ClassId,
                 student.BillRequired
