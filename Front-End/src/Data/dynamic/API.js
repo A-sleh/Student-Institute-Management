@@ -422,7 +422,6 @@ export default {
     get: {
       AllReports : (id,queryParams = '') => {
         return fetch(`${URL}/Report/${id || ''}${queryParams}`).then((response) =>{
-          console.log(response)
           return response.json()
         }
         );
