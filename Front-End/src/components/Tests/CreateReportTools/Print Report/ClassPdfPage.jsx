@@ -84,7 +84,7 @@ export default function ClassPdfPage({data,currentLange}) {
             <View style={styles.titleContainer}>
                 <View style={[styles.spaceBetween,{display: 'flex' ,  width: '100%' }]} >
                     <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}> {gradeTEXT} : التاسع </Text>
+                        <Text style={[styles.addressTitle,styles.arabicText]}> {gradeTEXT} : {data.grade} </Text>
                     </View>
                     
                     <View>
@@ -120,7 +120,7 @@ export default function ClassPdfPage({data,currentLange}) {
                             <Text >{index + 1}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{student.name} {student.lastName}</Text>   
+                            <Text style={styles.arabicText}>{student.name} {student.lastName}</Text>   
                         </View>
                         <View style={styles.tbody}>
                             <Text>{student.Mark} / {student.TotalMark}</Text>   

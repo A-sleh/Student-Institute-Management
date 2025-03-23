@@ -19,7 +19,7 @@ export default function StudentsPDF({data,currentLange}) {
     const {studentNameTEXT ,instituteNameTEXT ,fatherNameTEXT ,classTitleTEXT ,reportTEXT ,reportDateTEXT ,
         genderTEXT ,subjectTEXT ,markTEXT ,subjectAvarageTEXT ,finalSumTEXT ,finalAvarageTEXT ,studentOrderTEXT ,quizAvarageTEXT } = StudentReportStructurTEXT[currentLange]
     Font.register({
-        family: "Zain",
+        family: currentLange == ARABIC ? "Zain" : '',
         fonts : [{
             src: NOTOKUIFIregular,
           },
@@ -127,7 +127,7 @@ export default function StudentsPDF({data,currentLange}) {
                             <Text>{exam.mark} / {exam.maximumMark}</Text>   
                         </View>
                         <View style={styles.tbody}>
-                            <Text>{((exam.mark / exam.maximumMark) * 100 ).toFixed(2)}%</Text>   
+                            <Text>{((exam.mark / exam.maximumMark) * 100 ).toFixed(2)}</Text>   
                         </View>
                     </View>
                 </Fragment>

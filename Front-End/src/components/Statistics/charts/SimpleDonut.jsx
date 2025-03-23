@@ -1,15 +1,18 @@
 import { AgCharts } from 'ag-charts-react';
+import { useSelector } from 'react-redux';
+import { ARABIC } from '../../../Redux/actions/type';
 
 
 export default function SimpleDonut({data}){
     // Chart Options: Control & configure the chart
     const numFormatter = new Intl.NumberFormat("en-US");
+    const {currentLange} = useSelector( state => state.language)
     
     const chartOptions = {
         data : data.data,
-        // footnote: {
-        //     text: data.title
-        // },
+        title: {
+          text: currentLange == ARABIC ? "رصيد المعهد": "Institute balance",
+        },
         series: [ 
           {
             type: "donut",
@@ -25,9 +28,7 @@ export default function SimpleDonut({data}){
                 return numFormatter.format(value);
               },
             },
-            title: {
-              text: "Annual Count",
-            },
+
             innerRadiusRatio: 0.7,
             innerLabels: [
               {
@@ -35,7 +36,7 @@ export default function SimpleDonut({data}){
                 fontSize: 24,
               },
               {
-                text: "Balance",
+                text: currentLange == ARABIC ? "الرصيد ": "Balance",
                 fontSize: 16,
                 spacing: 10,
               },

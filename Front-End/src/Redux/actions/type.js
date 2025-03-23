@@ -6,3 +6,4 @@ export const FULLSCREEN = "full_screen"
 export const UNFULLSCREEN = "un_full_screen"
 export const ADMINLOGUNG = 'admin_loginn'
 export const ADMINLOGUNGOUT = 'admin_logout'
+export const CHANGE_GRADE = 'change_grade'

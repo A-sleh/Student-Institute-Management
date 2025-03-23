@@ -211,8 +211,8 @@ export default {
   CreateNewReport: (data) => {
     return API.Report.post(data)
   },
-  ShowAllNativeReports : (id) => {
-    return API.Report.get.AllReports(id)
+  ShowAllNativeReports : (id,queryParams) => {
+    return API.Report.get.AllReports(id,queryParams)
   },
   ShowAllReportsFilteredByGrade : (gradeId) => {
     return API.Report.get.spesifyReports(gradeId)

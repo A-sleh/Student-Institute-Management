@@ -15,7 +15,7 @@ export default function FirstStudentInCurrentReport() {
     const [selectedGrade,setSelectedGrade] = useState('')
     const [reports] = useGetReportsFilterdByGrade(selectedGrade?.gradeId || '')
     const [selectedReport,setSelectedReport] = useState({})
-    const [topOneStudents] = useGetTheTopStudentsInCurrentReport(selectedReport?.reportId || '')
+    const [topOneStudents] = useGetTheTopStudentsInCurrentReport(selectedReport?.reportId )
     
     const data = {
         data : topOneStudents ,

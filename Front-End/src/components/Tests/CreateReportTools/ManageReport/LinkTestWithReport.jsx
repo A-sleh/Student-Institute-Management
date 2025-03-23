@@ -17,9 +17,9 @@ import { ManageReportTEXT } from "../../../../Data/static/test/CreateReportTools
 import { useSelector } from "react-redux"
 import ReportTests from "../Report details/ReportTests"
 import useGetReport from "../../../../hooks/report_hooks/useGetReport"
-const  ControalButtons =  lazy(() => import( "../../../shared/ControalButtons"))
-const  ManageSeletedTests =  lazy(() => import( "./TestsShow/ManageSelectedTests"))
-const  ShowAllReport =  lazy(() => import(  "./ShowAllReports"))
+import  ShowAllReport from "./ShowAllReports"
+import ManageSeletedTests from "./TestsShow/ManageSelectedTests"
+import ControalButtons from "../../../shared/ControalButtons"
 
 // shared data to deep components
 export const SelectedReportContext = createContext({})
@@ -39,7 +39,7 @@ export default function LinkTestWithReport() {
     const [successUnLinkTest,setSuccessUnLinkTest] = useState(false)
     const [wornining,setWornining] = useState(false)
     const [quiz,exam] = useClassTests(classId,successLinkTest,successUnLinkTest)
-    const [currentReport] = useGetReport(selectedReport,successLinkTest,successUnLinkTest)
+    const [currentReport] = useGetReport(selectedReport,classId,successLinkTest,successUnLinkTest)
     const [selectedReportQuizs,selectedReportExams] = separateTesetsAccordingToType(currentReport?.tests || [])
     
     //Memoization section
@@ -82,7 +82,7 @@ export default function LinkTestWithReport() {
             </NavigateSubHeaderStyle >
 
             <SelectedReportContext.Provider value={{selectedReport,setSelectedReport}}>
-                <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport}/>
+                <ShowAllReport selectedReport={selectedReport} setSelectedReport={setSelectedReport} gradeId={Class?.gradeId || ''}/>
             </SelectedReportContext.Provider>
 
             <SuccessRemoveTestContext.Provider value={setSuccessUnLinkTest}>

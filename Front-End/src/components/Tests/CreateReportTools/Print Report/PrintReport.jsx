@@ -16,14 +16,14 @@ import { PrintReportTEXT } from '../../../../Data/static/test/CreateReportTools/
 export default function PrintReport() {
 
     const {currentLange} = useSelector( state => state.language)
-    const {printingReportTitle} = PrintReportTEXT[currentLange]
-    const [selectedGrade,setSelectedGrade] = useState({})
+    const {grade : selectedGrade} = useSelector(state => state.grade)
+    const {printingReportTitle} = PrintReportTEXT[currentLange]    
     const [classes] = useClasses(selectedGrade?.grade)
 
 
     return (
         <Table data={classes || []} column={CLASSCOLUMNS}  url={'/CreateReport/ClassReportPrint'} idKeyParams={'classId'}>
-            <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade} />
+            <SubHeaderFilterClassByGrade />
             <h3 style={{color: '#056699' }}>{printingReportTitle}</h3>
         </Table>
     )

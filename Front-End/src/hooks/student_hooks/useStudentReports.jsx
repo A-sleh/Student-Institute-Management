@@ -9,8 +9,11 @@ export default function useStudentReports(studentId) {
 
     useEffect(() => {
 
-        if(studentId == '' || studentId == undefined) return 
-        
+        if(studentId == '' || studentId == undefined) {
+            setStudentsReportsAvg([])
+            setStudentReports([])
+            return 
+        }
         DataServices.ShowStudentReports(studentId).then((studentReports) => {
             setStudentReports(studentReports);
         });

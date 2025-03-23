@@ -22,11 +22,11 @@ export default function TeachersRate() {
     const data = {
         data : teachers.map( teacher => {            
             return {
-                type :  teacher?.Name + ' ' + teacher?.LastName ,
+                type :  teacher?.Name + ' ' + teacher?.LastName + " ",
                 value : Number(teacher.rate)
             }
         }),
-        title : currentLange == ARABIC ?  selectedSubject?.subject  + ' تقييم الأساتذه في الماده ' : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
+        title : currentLange == ARABIC ?  ' تقييم الأساتذه في ماده ' +  selectedSubject?.subject  : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
         color: '#00aeffb7',
         direction : 'right'
     }

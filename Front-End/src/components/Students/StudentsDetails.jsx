@@ -22,11 +22,11 @@ import { errorActionLogic } from "../shared/logic/logic";
 export default function StudentsDetails() {
 
   const {currentLange} = useSelector( state => state.language)
+  const {grade : selectedGrade} = useSelector(state => state.grade)
   const {notFoundStudentsMES,successDeleteStudentMES} = StudentsDetailsText[currentLange]
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
-  const [selectedGrade,setSelectedGrade] = useState('')
   const [selectedClass,setSelectedClass] = useState('all')
   const [searchField,setSearchField] = useState('')
   const [sendRequest,setSendRequest] = useState(false)
@@ -149,7 +149,7 @@ export default function StudentsDetails() {
       <Title title={window.location.pathname} />
       <TablePaginated data={(tableInfo().data) || []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={tableInfo().totalPage} currPage={currentPage} rowNumber={tableInfo().studentsNum } >
         { searchField == '' ? <div>
-          <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+          <SubHeaderFilterClassByGrade />
           <FilterClassByGradeI setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
         </div> : null}
       </TablePaginated> 

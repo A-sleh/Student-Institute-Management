@@ -14,15 +14,15 @@ export default function ShowSubjects() {
 
     // page text content 
     const {currentLange} = useSelector( state => state.language)
+    const {grade : selectedGrade} = useSelector(state => state.grade)
     const {settingBtn , successDeleteSubjectMES ,errorInDeleteSubjectMES } = ShowSubjectsTEXT[currentLange]
 
-    const [filterByGrade,setFilterByGrade] = useState({grade:'bachelor'})
     const [successDeleteSubject,setSuccessDeleteSubject] = useState(false)
     const [unSuccessDeleteSubject,setUnSuccessDeleteSubject] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const [manageButton,setManageButton] = useState(true)
     const [selectedSubject,setSelectedSubject] = useState({})
-    const [subjects] = useGetSubjects(filterByGrade?.grade,successDeleteSubject)
+    const [subjects] = useGetSubjects(selectedGrade?.grade,successDeleteSubject)
 
     const manageColumn = useMemo(() => [
         ...SUBJECTCOLUMNS ,
@@ -55,7 +55,7 @@ export default function ShowSubjects() {
             <Notification title={errorInDeleteSubjectMES} type={"error"} state={unSuccessDeleteSubject} setState={setUnSuccessDeleteSubject} />
 
             <Table data={subjects || []} column={manageButton ? SUBJECTCOLUMNS : manageColumn} unableId={true} styleObj={{padding: '8px' , fontSize: '14px'}} showMainHeader={false}>
-                <SubHeaderFilterClassByGrade setSelectedGrade={setFilterByGrade} />
+                <SubHeaderFilterClassByGrade  />
                 <SubmitBtnStyle style={{ float: currentLange == ARABIC ? 'left': 'right'}} onClick={() => setManageButton(last => !last)}>{settingBtn}</SubmitBtnStyle>
             </Table>
         </>

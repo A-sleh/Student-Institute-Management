@@ -2,7 +2,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useReports(filterReport,reportDate) {
+export default function useReports(gradeId,filterReport,reportDate) {
 
 
     const [reports,setReports] = useState([])
@@ -16,11 +16,13 @@ export default function useReports(filterReport,reportDate) {
     }
 
     useEffect(() => {
-        DataServices.ShowAllNativeReports().then( reports => {
+
+        if(gradeId == '' || gradeId == undefined ) return
+        DataServices.ShowAllReportsFilteredByGrade(gradeId).then( reports => {
             setReports(reports) ;
             setFilteringReports(filterReportFn(reports))
         })
-    } ,[])
+    } ,[gradeId])
 
     useEffect(() => {
 

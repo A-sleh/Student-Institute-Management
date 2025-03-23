@@ -16,13 +16,13 @@ import { useSelector } from "react-redux";
 export default function ManageReports() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {grade : selectedGrade} = useSelector(state => state.grade)
     const {manageReportTitle} = ManageReportTEXT[currentLange]
-    const [selectedGrade,setSelectedGrade] = useState({})
     const [classes] = useClasses(selectedGrade?.grade)
 
     return (
         <Table data={classes || []} column={CLASSCOLUMNS} url={'/CreateReport/LinkTestWithReport'} idKeyParams={'classId'}>
-            <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade} />
+            <SubHeaderFilterClassByGrade  />
             <h3 style={{color: '#056699' }}>{manageReportTitle}</h3>
         </Table>
     )

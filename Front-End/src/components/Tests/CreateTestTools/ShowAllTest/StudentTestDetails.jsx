@@ -23,7 +23,10 @@ export default function StudentTestDetails() {
     const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode)) 
     const { title : classTitle,subject,date,testType,testId,classId} = classDetailsDecode
     const [studentsMarks] = useStudentsMarkClass(classId,testId,subject.maximumMark)
-    const column = useMemo(() => [...TESTMARKCOLUMN,{Header : {arabic: 'العلامه',english: 'Mark'} , accessor: 'mark'}],[currentLange])
+    const column = useMemo(() => [...TESTMARKCOLUMN,{Header : {arabic: 'العلامه',english: 'Mark'} , accessor: 'mark'
+        ,Cell: ({value}) => {
+            return value || '---'
+        }}],[currentLange])
     const gotoPage = useNavigate()
 
     return (

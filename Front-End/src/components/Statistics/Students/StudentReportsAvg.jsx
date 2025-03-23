@@ -16,7 +16,8 @@ export default function StudentReportsAvg() {
     const [selectedClass,setSelectedClass] = useState([])
     const students =  useMemo(() => selectedClass?.students|| [] ,[selectedClass])
     const [selectedStudent,setSelectedStudent] = useState(null)
-    const [_,studentReportsAvg] = useStudentReports(selectedStudent?.studentId)
+    const [_,studentReportsAvg] = useStudentReports(selectedStudent?.studentId )
+
 
     let filteringStudentReportsAvg = {
         data: studentReportsAvg.map( reports => {
@@ -47,14 +48,12 @@ export default function StudentReportsAvg() {
                     {grades.map( (grade,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(grade))} >{grade.grade}</option>) )}
                 </SelectorStyle>
                 { selectedGrade != '' && <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedClass))} onChange={(e) => {setSelectedClass(JSON.parse(decodeURIComponent(e.target.value))), setSelectedStudent(null)}}>
-                    {/* <option value={encodeURIComponent('{}')}></option> */}
                     {classes.map( (Class,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(Class))}>{Class.title}</option>))}
                 </SelectorStyle> }
                 {
                     Object.keys(selectedClass).length != 0 && selectedGrade != '' &&
                     <SelectorStyle value={encodeURIComponent(JSON.stringify(selectedStudent))} onChange={(e) => setSelectedStudent(JSON.parse(decodeURIComponent(e.target.value)))} >
-                        {/* <option value=''></option> */}
-                        {students.map( (student,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(student))}>{student?.name + '' + student?.lastName}</option>))}
+                        {students.map( (student,index) => (<option key={index} value={encodeURIComponent(JSON.stringify(student))}>{student?.name + ' ' + student?.lastName}</option>))}
                     </SelectorStyle>
                 }
             </div>

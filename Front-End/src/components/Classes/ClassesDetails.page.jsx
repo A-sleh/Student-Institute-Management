@@ -11,12 +11,13 @@ import DataServices from "../../Data/dynamic/DataServices";
 import ClassInfo from "./classDetails/ClassInfo";
 import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import SearchSubHeader from "../shared/SearchSubHeader";
+import { useSelector } from "react-redux";
 
 
 export default function ClassesDetails() {
 
+  const {grade : selectedGrade} = useSelector(state => state.grade)
   const [classesDetails,setClassesDetails] = useState([]) ;
-  const [selectedGrade,setSelectedGrade] = useState('')
   const [search,setSearch] = useState('')
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function ClassesDetails() {
     <>
       <Title title={window.location.pathname}/>
       <div style={{display: 'flex' , alignItems: 'center',justifyContent: 'space-between'}}>
-        <SubHeaderFilterClassByGrade setSelectedGrade={setSelectedGrade}/>
+        <SubHeaderFilterClassByGrade />
         <SearchSubHeader filter={search} setFilter={setSearch}/>
       </div>
       {showAllCalsses}

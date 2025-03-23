@@ -96,7 +96,7 @@ export default function Table( props ) {
                                 { unableId ?  <td style={{ color: '#034568', border: 'none' , backgroundColor: '#05659945',fontWeight: 'bold' }}>{parseInt(row.id) + 1}</td> : null }
                                 {row.cells.map((cell, index) => (
                                 <td {...cell.getCellProps()} key={index}  style={{direction: 'ltr'}}>
-                                    {cell.render("Cell")}
+                                    {cell.render('Cell')}
                                 </td>
                                 ))}
                             </tr>

@@ -39,9 +39,10 @@ export default function StudentForm({title,requestType,studentInformation}) {
     missedDays: false,
     billRequired: false,
   });
+
   const [studentDetails, setStudentDetails] = useState(studentInformation);
-  const [ClassType, setClassType] = useState("Male");
-  const [classes] = useClasses(studentDetails.grade)
+  const [ClassType, setClassType] = useState(studentInformation.class.gender);
+  const [classes] = useClasses(studentDetails.class.grade)
   const filteringClasses = classes.filter((currentClass) => {
     return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
   });
@@ -51,7 +52,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
       setClassType(value);
 
       // I reSet The state in order to the empty option
-      setStudentDetails({ ...studentDetails, class: {...studentDetails.class,classId: 0} });
+      setStudentDetails({ ...studentDetails, class: {...studentDetails.class,classId: 0, gender: value } });
 
   }
 
@@ -105,7 +106,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
           }, 2000);
         }
       } catch (error) {
-        alert.log(error);
+        // needed to fix the error
       }
   }
   }
@@ -159,7 +160,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
               <FormSubRowStyle>
                 <LabelStyle color={'#056699'}>{grade}</LabelStyle>
-                <FormSelectdStyle value={studentDetails.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade')}>
+                <FormSelectdStyle value={studentDetails.class.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange({...studentDetails.class,grade:e.target.value},'class')}>
                     <option value={""}></option>
                     { grades.map((grade,index) => { return <option key={index} value={grade.grade}>{grade.grade}</option> }) }
                 </FormSelectdStyle>
@@ -191,11 +192,11 @@ export default function StudentForm({title,requestType,studentInformation}) {
                   <LabelStyle color={'#056699'}>{gender}</LabelStyle>
                   <div>
                     <div>
-                      <input type="checkbox" id="Male" checked={ClassType == 'Male'} onChange={(e) => handleCheckBoxGender('Male')} />
+                      <input type="checkbox" id="Male" checked={ClassType == 'male'} onChange={(e) => handleCheckBoxGender('male')} />
                       <label htmlFor="Male" style={{marginRight: '4px'}}>{maleGender}</label>
                     </div>
                     <div>
-                      <input type="checkbox" id="Famale" checked={ClassType=='Female'} onChange={(e) => handleCheckBoxGender('Female')} />
+                      <input type="checkbox" id="Famale" checked={ClassType=='female'} onChange={(e) => handleCheckBoxGender('female')} />
                       <label htmlFor="Famale" style={{marginRight: '4px'}}>{femaleGender}</label>
                     </div>
                   </div>
@@ -207,7 +208,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
             <FormSubRowStyle width={'100%'}>
               <LabelStyle color={'#056699'}>{classTitle}</LabelStyle>
-              <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value,},'class')}>
+              <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value},'class')}>
                 <option value={0}></option>
                 {filteringClasses.map((currentClass, index) => (
                   <option value={currentClass.classId} key={index} style={{ padding: "20px" }}>

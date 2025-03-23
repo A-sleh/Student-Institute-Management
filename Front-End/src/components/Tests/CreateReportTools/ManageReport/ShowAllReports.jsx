@@ -13,13 +13,13 @@ import { ManageReportTEXT } from '../../../../Data/static/test/CreateReportTools
 import { useSelector } from 'react-redux';
 
 
-export default function ShowAllReport({selectedReport,setSelectedReport}) {
+export default function ShowAllReport({gradeId}) {
 
     const {currentLange} = useSelector( state => state.language)
     const {reportsTitle} = ManageReportTEXT[currentLange]
     const [searchByDate,setSearchByDate] = useState('')
     const [search,setSearch] = useState('')
-    const [reports] = useReports(search,searchByDate)
+    const [reports] = useReports(gradeId,search,searchByDate)
 
     return (
         <>
