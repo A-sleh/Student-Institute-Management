@@ -18,9 +18,15 @@ import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDe
 export default function TeacherInformation() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const goTo = useNavigate()
     const {backBtn} = TeacherInformationTEXT[currentLange]
     const teacherId = useParams().info ; 
     const gotoPreviousPage = useNavigate();
+
+    if(!isAdmin) {
+        goTo('/TeachersDetails')
+    }
 
     return(
         <>

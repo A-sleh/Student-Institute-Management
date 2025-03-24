@@ -9,7 +9,7 @@
 import { SubHeaderTableStyle } from "../../shared/style/tableTagsStyle";
 import {  useEffect, useMemo, useState } from "react";
 import { COLUMNS } from "../columns/Columns";  
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Title from "../../Global/Title";
 import Notification from "../../Global/Notification";
 import DeleteModal from "../../Modal/DeleteModal";
@@ -18,13 +18,18 @@ import useTeachersInfo from "../../../hooks/teacher_hooks/useTeachersInfo";
 import { TeachersDetailsTEXT } from "../../../Data/static/teachers/teachersDetails/TeachersDetailsTEXT";
 import { useSelector } from "react-redux";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
+import { errorActionLogic, successActionLogic } from "../../shared/logic/logic";
 
 export default function TeachersDetails() {
 
   const {currentLange} = useSelector( state => state.language)
-  const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES,notFoundMES} = TeachersDetailsTEXT[currentLange]
-  const [deleteModal, setDeleteModal] = useState(false);
+  const {isAdmin} = useSelector( state => state.admin)
+  const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES,notFoundMES,unAutherizedMES} = TeachersDetailsTEXT[currentLange]
+  
+  const goTo = useNavigate()
+  const [deleteModal, setDeleteModal] = useState(false)
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
+  const [unAutherized,setUnAutherized] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
   const [currentPage,setCurrentPage] = useState(1)
   const limitNumber = 12
@@ -33,7 +38,6 @@ export default function TeachersDetails() {
   const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest)
   const [teachers] = useTeachersInfo(limitNumber,currentPage,successDeleteTeacher)
   const { teachers : teachersDetails , totalPages, totalTeachers} = teachers
-
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
       id: null,
       name: "",
@@ -46,12 +50,12 @@ export default function TeachersDetails() {
       id: "selection",
       Cell: ({ row }) => (
         <div style={{ justifyContent: "space-evenly", display: "flex", fontSize: "20px", alignItems: "center" }} >
-          <Link
-            to={`/TeacherInformation/${row.original.teacherId}`}
+          <span
             style={{ color: "gray", cursor: "pointer" }}
+            onClick={() => handleClickedOnMoreTeacherDetails(row.original.teacherId)}
           >
             <i className="bi bi-person-lines-fill"></i>
-          </Link>
+          </span>
           <Link
             to={`/UpdateTeacher/${row.original.teacherId}?data=${encodeURIComponent(JSON.stringify(row.original) )}`}
             style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
@@ -64,7 +68,15 @@ export default function TeachersDetails() {
         </div>
       ),
     },
-  ], [])
+  ], [isAdmin])
+
+  function handleClickedOnMoreTeacherDetails(teacherID) {
+
+    if(isAdmin) 
+      goTo(`/TeacherInformation/${teacherID}`)
+    else 
+      errorActionLogic(setUnAutherized)
+  }
 
   function handleDleteClicked(teacher) {
       setCurrentStudentInfo({
@@ -105,6 +117,7 @@ export default function TeachersDetails() {
           <Notification  title={successDeleteTeacherMES} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />
           <Notification  title={errorDeleteTeacherMES} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
           <Notification  title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />
+          <Notification  title={unAutherizedMES} type={'error'} state ={unAutherized} setState={setUnAutherized} />
           { 
             deleteModal && 
             <DeleteModal element={currentStudentInfo.name} type={"Teacher"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />

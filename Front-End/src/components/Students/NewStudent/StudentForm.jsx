@@ -17,6 +17,7 @@ import useGetAllGrade from "../../../hooks/Grade_hooks/useGetAllGrade.jsx";
 import useClasses from "../../../hooks/class_hooks/useClasses.jsx";
 import { NewStudentTEXT } from "../../../Data/static/Students/NewStudent/NewStudentTEXT.js";
 import { useSelector } from "react-redux";
+import { successActionLogic } from "../../shared/logic/logic.js";
 
 export default function StudentForm({title,requestType,studentInformation}) {
 
@@ -42,7 +43,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
   const [studentDetails, setStudentDetails] = useState(studentInformation);
   const [ClassType, setClassType] = useState(studentInformation.class.gender);
-  const [classes] = useClasses(studentDetails.class.grade)
+  const [classes] = useClasses(studentDetails.class.grade.grade || studentDetails.class.grade)
   const filteringClasses = classes.filter((currentClass) => {
     return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
   });
@@ -89,26 +90,30 @@ export default function StudentForm({title,requestType,studentInformation}) {
     const flag = validationInputsFeilds();
 
     if (!flag) {
+      // there is bug here
       try {
         if (requestType === "POST") {
-          DataServices.AddNewStudent(studentDetails);
-          setStudentDetails(studentInformation); // reset The Input Field
-          setTimeout(() => {
-            setSuccessAdd(false);
-          }, 2000);
-          setSuccessAdd(true);
+          DataServices.AddNewStudent(studentDetails).then( res => {
+            if( res.status < 300 ) {
+              setStudentDetails(studentInformation); // reset The Input Field
+              successActionLogic(setSuccessAdd)
+            }
+          })
         } else {
-          DataServices.UpdateStudent(studentDetails);
-          setSuccessUpdate(true);
-          setTimeout(() => {
-            setSuccessAdd(false);
-            previousPage(-1);
-          }, 2000);
+          DataServices.UpdateStudent(studentDetails).then( res => {
+            if( res.status < 300 ) {
+              setSuccessUpdate(true);
+              setTimeout(() => {
+                setSuccessAdd(false);
+                previousPage(-1);
+              }, 2000);
+            }
+          })
         }
       } catch (error) {
         // needed to fix the error
       }
-  }
+    }
   }
   
   function handleInputChange(value,key) {
@@ -120,8 +125,6 @@ export default function StudentForm({title,requestType,studentInformation}) {
     setStudentDetails(copyData)
 
   }
-
-
 
   return (
     <>
@@ -160,9 +163,9 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
               <FormSubRowStyle>
                 <LabelStyle color={'#056699'}>{grade}</LabelStyle>
-                <FormSelectdStyle value={studentDetails.class.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange({...studentDetails.class,grade:e.target.value},'class')}>
-                    <option value={""}></option>
-                    { grades.map((grade,index) => { return <option key={index} value={grade.grade}>{grade.grade}</option> }) }
+                <FormSelectdStyle value={encodeURIComponent(JSON.stringify({gradeId:studentDetails.class.gradeId,grade:studentDetails.class.grade}))} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange({...studentDetails.class,...JSON.parse(decodeURIComponent(e.target.value))},'class')}>
+					<option value={encodeURIComponent(JSON.stringify({gradeId:'',grade: ''}))}></option>
+                    { grades.map((grade,index) => { return <option key={index} value={encodeURIComponent(JSON.stringify(grade))}>{grade.grade}</option> }) }
                 </FormSelectdStyle>
               </FormSubRowStyle>
 
@@ -205,16 +208,16 @@ export default function StudentForm({title,requestType,studentInformation}) {
               </FormCheckBoxContainerStyle>
 
             </FormRowStyle>
-
+		
             <FormSubRowStyle width={'100%'}>
               <LabelStyle color={'#056699'}>{classTitle}</LabelStyle>
-              <FormSelectdStyle value={studentDetails?.class?.classId} onChange={(value) =>handleInputChange({...studentDetails?.class ,classId: value.target.value},'class')}>
-                <option value={0}></option>
-                {filteringClasses.map((currentClass, index) => (
-                  <option value={currentClass.classId} key={index} style={{ padding: "20px" }}>
+              <FormSelectdStyle value={encodeURIComponent(JSON.stringify({classId:studentDetails.class.classId,title:studentDetails.class.title}))} onChange={(e) =>handleInputChange({...studentDetails?.class ,...JSON.parse(decodeURIComponent(e.target.value))},'class')}>
+                <option value={encodeURIComponent(JSON.stringify({classId:'',title: ''}))}></option>
+                {filteringClasses.map((currentClass, index) => {	
+                  return <option value={encodeURIComponent(JSON.stringify({classId:currentClass.classId,title:currentClass.title}))} key={index} style={{ padding: "20px" }}>
                     {currentClass.title}
                   </option>
-                ))}
+                })}
               </FormSelectdStyle>
             </FormSubRowStyle>
 

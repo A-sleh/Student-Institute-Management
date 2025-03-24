@@ -23,6 +23,8 @@ import { ManageTeacherBillsTEXT } from "../../../Data/static/Bills/TeacherPaysCo
 export default function TeacherBillDetails() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const goTo = useNavigate()
     const {teacherInfoTitle ,teacherBillsTitle ,backBtn ,successDeleteBillMES} = ManageTeacherBillsTEXT[currentLange]
     const teacherId = useParams().id
     const BillsDecode = JSON.parse(decodeURIComponent( useLocation().state ))
@@ -119,6 +121,10 @@ export default function TeacherBillDetails() {
             icon: "bi bi-building-fill-exclamation",
         }
     ]
+
+    if(!isAdmin) {
+        goTo('/StudentsPays')
+    }
 
     return (
         <>

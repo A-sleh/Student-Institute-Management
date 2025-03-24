@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { errorActionLogic, successActionLogic } from '../../shared/logic/logic';
 import { NewTeacherBillTEXT } from '../../../Data/static/Bills/TeacherPaysCom/NewTeacherBillTEXT';
 import useGetAllTeachers from '../../../hooks/teacher_hooks/useGetAllTeachers';
+import { useNavigate } from 'react-router-dom';
 
 const initialFormInput = { 
     teacher: {
@@ -33,6 +34,8 @@ const initialFormInput = {
 export default function NewBill() {
 
     const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const goTo = useNavigate()
     const {teacherName ,billNumber ,billDate ,billAmount ,billNote ,addBtn ,successAddStudentBillMES ,validationMessages,errorAddStudentBillMES } = NewTeacherBillTEXT[currentLange]
     const {nameVale ,bilNumberVal ,billDateVal ,billAmountVal} = validationMessages
     const [successAddBill,setSuccessAddBill] = useState(false)
@@ -89,6 +92,10 @@ export default function NewBill() {
             })
         }
 
+    }
+
+    if(!isAdmin) {
+        goTo('/StudentsPays')
     }
 
     return (

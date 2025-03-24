@@ -11,12 +11,15 @@ import Notification from "../../Global/Notification";
 import Loader from "../../Modal/Loader";
 import { useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageTeacher() {
 
     const limmitNumber = 1
     // page lang content
     const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
+    const goTo = useNavigate()
     const {successDeleteTeacherMES} = ManageTeachersTEXT[currentLange]
     const [search,setSearch] = useState('') // need to build
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
@@ -26,7 +29,11 @@ export default function ManageTeacher() {
     const [totalPages,setTotalPages] = useState(1)
     const [fetchingData,setFetchingData] = useState(false)
     const observer = useRef();
-        
+    
+    if(!isAdmin) {
+        goTo('/TeachersDetails')
+    }
+
     useEffect(() => {
         // for the first state and if the user delete any teacher 
         if( currentPage == 1 ) {

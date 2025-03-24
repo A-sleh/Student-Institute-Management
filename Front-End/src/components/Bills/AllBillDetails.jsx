@@ -26,7 +26,7 @@ export default function AllBillDetails() {
             <Title title={window.location.pathname} />
             <AllBillDetailsStyle>
                 <div style={{flex: '1'}}>
-                    <ShowLatestBills bills={teacherBills} billsType={teachersBills} showMoreLink={'TeachersSalaries'}/>
+                    {isAdmin && <ShowLatestBills bills={teacherBills} billsType={teachersBills} showMoreLink={'TeachersSalaries'}/>}
                     <ShowLatestBills bills={studentBills} billsType={studentsBills} showMoreLink={'StudentsPays'}/>
                     <ShowLatestBills bills={externalBills} billsType={externalsBills} showMoreLink={'ExternalPays'}/>
                 </div>
