@@ -14,6 +14,7 @@ import TeacherClasses from "./TeacherClasses";
 import TeacherSubjects from "./TeacherSubjects";
 import { useSelector } from "react-redux";
 import { TeacherInformationTEXT } from "../../../Data/static/teachers/teachersDetails/TeacherInformationTEXT";
+import { useEffect } from "react";
 
 export default function TeacherInformation() {
 
@@ -23,10 +24,12 @@ export default function TeacherInformation() {
     const {backBtn} = TeacherInformationTEXT[currentLange]
     const teacherId = useParams().info ; 
     const gotoPreviousPage = useNavigate();
-
-    if(!isAdmin) {
-        goTo('/TeachersDetails')
-    }
+    
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/TeachersDetails')
+        }
+    },[isAdmin])
 
     return(
         <>

@@ -16,9 +16,12 @@ export default function ManagTeacherBill() {
     const {isAdmin} = useSelector( state => state.admin)
     const goTo = useNavigate()
 
-    if(!isAdmin) {
-        goTo('/StudentsPays')
-    }
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
 
     return(
         <>

@@ -122,10 +122,12 @@ export default function TeacherBillDetails() {
         }
     ]
 
-    if(!isAdmin) {
-        goTo('/StudentsPays')
-    }
-
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
     return (
         <>
             <Notification  title={successDeleteBillMES} type={'success'} state ={successDeleteBill} setState={setSuccessDeleteBill}/>

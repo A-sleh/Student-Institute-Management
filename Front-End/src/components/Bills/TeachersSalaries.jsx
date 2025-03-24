@@ -41,11 +41,12 @@ export default function TeachersSalaries() {
             path : 'NewTeacherBill',
         }
     ]
-
-    if(!isAdmin) {
-        goTo('/StudentsPays')
-    }
-
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
     return(
         <>
             <Title title={window.location.pathname} />

@@ -94,9 +94,12 @@ export default function NewBill() {
 
     }
 
-    if(!isAdmin) {
-        goTo('/StudentsPays')
-    }
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
 
     return (
         <>

@@ -16,9 +16,12 @@ export default function ShowBillTeacherDetails() {
     const {isAdmin} = useSelector( state => state.admin)
     const goTo = useNavigate()
 
-    if(!isAdmin) {
-        goTo('/StudentsPays')
-    }
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
     
     return (
         <Table data={teacherDetails || []} column={COLUMNS} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} />

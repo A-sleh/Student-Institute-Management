@@ -30,10 +30,12 @@ export default function ManageTeacher() {
     const [fetchingData,setFetchingData] = useState(false)
     const observer = useRef();
     
-    if(!isAdmin) {
-        goTo('/TeachersDetails')
-    }
-
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/TeachersDetails')
+        }
+    },[isAdmin])
+    
     useEffect(() => {
         // for the first state and if the user delete any teacher 
         if( currentPage == 1 ) {
