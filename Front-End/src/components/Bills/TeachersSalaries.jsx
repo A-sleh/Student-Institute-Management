@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Title from "../Global/Title";
 import SubNavBar from "../shared/SubNavBar";
 import { useSelector } from "react-redux";
@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 export default function TeachersSalaries() {
 
     const { isAdmin } = useSelector( state => state.admin )
+    const goTo = useNavigate()
+
     const urlList = [
         {
             title: {
@@ -39,7 +41,12 @@ export default function TeachersSalaries() {
             path : 'NewTeacherBill',
         }
     ]
-
+    useEffect(() => {
+        if(!isAdmin) {
+            goTo('/StudentsPays')
+        }
+    },[isAdmin])
+    
     return(
         <>
             <Title title={window.location.pathname} />

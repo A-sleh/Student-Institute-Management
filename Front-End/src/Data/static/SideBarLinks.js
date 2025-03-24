@@ -57,7 +57,8 @@ export const links = [
           title: {
             'english' :"Manage Teacher",
             'arabic': 'إدارة الأساتذه' ,
-          } ,path: 'ManageTeacher', iconPath: "bi bi-person-gear" 
+          } ,path: 'ManageTeacher', iconPath: "bi bi-person-gear" ,
+          sensitive: true
         },
         { title: {
           'english' :"New Teacher",
@@ -84,7 +85,8 @@ export const links = [
             title:{
             'english' :"Teachers Salaries",
             'arabic': 'اقصات الاساتذه' ,
-          } ,path: 'TeachersSalaries', iconPath: "bi bi-credit-card-2-front" 
+          } ,path: 'TeachersSalaries', iconPath: "bi bi-credit-card-2-front" ,
+          sensitive: true
         },
         { 
             title: {

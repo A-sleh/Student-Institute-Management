@@ -36,10 +36,12 @@ export default function LinkOfSidebar({link,hasSubLinks}) {
 function RenderSubLinks({links}) {
 
   const {currentLange} = useSelector( state => state.language)
+  const {isAdmin} = useSelector( state => state.admin)
 
   return (
       <SideBarSubListStyle $language={currentLange}>
           {links.map((link,index) => {
+              if(!isAdmin && link.sensitive == true ) return 
               return  <NavLink to={`/${link.path }`} className='list' key={index}>
                         <b></b>
                         <b></b>

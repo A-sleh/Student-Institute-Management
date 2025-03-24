@@ -7,11 +7,13 @@ export default function NewStudent() {
     fatherName: "",
     phone: "",
     billRequired: 0,
+    missedDays: 0,
     class: {
       grade : '',
-      gradeId: '' ,
-      gender: ''
-    },
+      gender: '',
+      classId: '',
+      title: ''
+    }
   };
   return <StudentForm title={window.location.pathname} requestType={"POST"} studentInformation={studentInfo} />;
 }

@@ -71,7 +71,7 @@ public class StudentData : IStudentData
             .Where(student => (classId is null || student.Value.Class?.ClassId == classId) 
             && (gradeId is null || student.Value.Class?.GradeId == gradeId));
        
-         return students.Select(x => x.Value);
+         return students.Select(x => x.Value.PureFormat());
         
     }
 
@@ -165,15 +165,10 @@ public class StudentData : IStudentData
                 student.BillRequired
             });
 
-            if(_studentsCache.TryGetValue(student.StudentId, out var cachedStudent))
+            if(!_studentsCache.TryAdd(student.StudentId, student))
             {
-                cachedStudent = student;
+                _studentsCache[student.StudentId] = student;
             }
-            else
-            {
-                _studentsCache.Add(student.StudentId, student);
-            }
-            
         }
         catch (Exception)
         {

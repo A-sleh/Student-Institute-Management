@@ -289,5 +289,10 @@ There are some bugs in the code :
     }
     - top students request need to be resolved
 
+- [X] hidden teacher's bill page 
+- [X] prevent user from entry to teacher information if is not the admin
+- [X] reoslve the error in new student form page 
+
+
 
 
