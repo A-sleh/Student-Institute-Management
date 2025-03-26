@@ -7,8 +7,6 @@ import { ARABIC } from "../../Redux/actions/type";
 
 export default function Title({ title }) {
 
-  console.log(title)
-
   const {currentLange} = useSelector( state => state.language)
   let isTheSecondOne = false ; // if the path contain multi ( / ) i will ignore it so i do that in bool value
 

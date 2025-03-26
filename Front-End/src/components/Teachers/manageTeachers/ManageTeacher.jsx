@@ -12,6 +12,8 @@ import Loader from "../../Modal/Loader";
 import { useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
 import { useNavigate } from "react-router-dom";
+import SearchSubHeader from "../../shared/SearchSubHeader";
+import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
 
 export default function ManageTeacher() {
 
@@ -20,8 +22,10 @@ export default function ManageTeacher() {
     const {currentLange} = useSelector( state => state.language)
     const {isAdmin} = useSelector( state => state.admin)
     const goTo = useNavigate()
-    const {successDeleteTeacherMES} = ManageTeachersTEXT[currentLange]
+    const {successDeleteTeacherMES,notFoundMES} = ManageTeachersTEXT[currentLange]
     const [search,setSearch] = useState('') // need to build
+    const [sendRequest,setSendRequest] = useState(false)
+    const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(search,sendRequest)
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     // infinite scroll states
     const [teachersDetails,setTeachersDetails] = useState([]) 
@@ -82,28 +86,44 @@ export default function ManageTeacher() {
         [fetchingData]
     );
 
+    function handleSearchClicked() {
+        setSendRequest(true)
+        setTimeout(()=> setSendRequest(false),200)
+    }
+
+    function specifyWhichTeachersWillDisplay() {
+        if(search != '' && teachersInfo.length != 0 ) {
+            return teachersInfo
+        }
+        return teachersDetails
+    }
+
     return(
         <>
             <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />  
-            
+            <Notification title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />  
             <Title title={window.location.pathname}/> 
+
+            <SearchSubHeader filter={search} setFilter={setSearch} handleSearchClicked={handleSearchClicked}/>
+
             {fetchingData && <Loader />}
             {
-                teachersDetails.map( (teacher,index) => {
+                specifyWhichTeachersWillDisplay().map( (teacher,index) => {
                     
                     const {teacherId} = teacher ; 
+                    console.log(teacherId)
                     const fullName = teacher.name?.toLowerCase() + ' ' + teacher.lastName?.toLowerCase() ; 
-                    if( !fullName.includes(search.toLowerCase()) ) return ;
-                    return <TeacherInfoMemo teacherId={teacherId} key={index} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachersDetails.length === index + 1 ? lastTeacherElementRef : null}/>
+                    return <Teacherinfo teacherId={teacherId} key={index} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachersDetails.length === index + 1 ? lastTeacherElementRef : null}/>
                 })
             }
         </>
     )
 }
 
-function TeacherInfoMemo({teacherId,setTeachersDetails,setCurrentPage,setSuccessDeleteTeacher,refProp}) {
+const TeacherInfoMemo =  React.memo(
+    ({teacherId,setTeachersDetails,setCurrentPage,setSuccessDeleteTeacher,refProp}) => {
     const TeacherinfoMemo = useMemo(()=>(
         <Teacherinfo teacherId={teacherId} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={refProp}/>
     ),[])
     return TeacherinfoMemo
-}
+})

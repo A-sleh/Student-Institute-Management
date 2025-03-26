@@ -39,6 +39,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
     id: null,
     name: "",
   });
+
   
   const { name , lastName , phone ,teacherClasses ,totalSalary} = teacherInfo
   
