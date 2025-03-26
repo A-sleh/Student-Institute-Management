@@ -9,6 +9,7 @@ import useGetTeachersBills from "../../../hooks/teacher_hooks/useGetTeachersBill
 import Table from "../../shared/Table";
 import { COLUMNS } from "../style/COLUMNS.JS";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function ShowBillTeacherDetails() {
 

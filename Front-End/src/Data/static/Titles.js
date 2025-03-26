@@ -13,6 +13,7 @@ export const TitlesTEXT = {
     TeachersDetails: "تفاصيل الأساتذه",
     TeacherInformation: "معلومات الأستاذ",
     NewTeacher: "أستاذ جديد",
+    UpdateTeacher: 'تعديل بيانات المدرس',
 
     // bills 
     StudentsPays: "فواتير الطلاب",

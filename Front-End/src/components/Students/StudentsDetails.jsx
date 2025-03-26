@@ -17,7 +17,6 @@ import { FilterClassByGradeI } from "../shared/subHeaderTable/FilterClassByGrade
 import useGetStudentsByName from "../../hooks/student_hooks/useGetStudentsByName";
 import { useSelector } from "react-redux";
 import { StudentsDetailsText } from "../../Data/static/Students/StudentsInformation/StudentsDetails";
-import { errorActionLogic } from "../shared/logic/logic";
 
 export default function StudentsDetails() {
 
@@ -44,7 +43,6 @@ export default function StudentsDetails() {
       setSearchField('')
   },[selectedClass]) 
 
-
   function handleSearchClicked() {
     setSendRequest(true)
     setTimeout(()=> setSendRequest(false),200)
@@ -59,12 +57,16 @@ export default function StudentsDetails() {
   }
 
   function mappingClassStudents(students,classTitle = null) {
+
+      let removeStudentsOBJ = {...selectedClass}
+      delete removeStudentsOBJ?.students
+
       return students?.map( student => {
-        return {
+        return {...{
           ... student ,
           full_name: student.name + ' ' + student.lastName ,
-          className: classTitle == null ? student?.class?.title : classTitle
-        }
+          className: classTitle == null ? student?.class?.title : classTitle,
+        },class: selectedClass?.students != undefined ? removeStudentsOBJ : student?.class}
       })
   }
 
@@ -136,6 +138,8 @@ export default function StudentsDetails() {
       totalPage: totalPages
     } 
   }
+
+  console.log(tableInfo())
 
   return (
     <>

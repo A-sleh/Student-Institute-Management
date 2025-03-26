@@ -8,6 +8,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Title from "../Global/Title";
 import SubNavBar from "../shared/SubNavBar";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 
 export default function TeachersSalaries() {

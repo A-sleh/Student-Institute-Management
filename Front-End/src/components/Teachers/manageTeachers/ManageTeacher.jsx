@@ -3,7 +3,7 @@
     COMPONENTS OPTIMIZATION : DONE ,
     USING REACT QURY : 
 */
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Teacherinfo from "./TeacherInfo";
@@ -94,9 +94,16 @@ export default function ManageTeacher() {
                     const {teacherId} = teacher ; 
                     const fullName = teacher.name?.toLowerCase() + ' ' + teacher.lastName?.toLowerCase() ; 
                     if( !fullName.includes(search.toLowerCase()) ) return ;
-                    return <Teacherinfo teacherId={teacherId} key={index} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachersDetails.length === index + 1 ? lastTeacherElementRef : null}/>
+                    return <TeacherInfoMemo teacherId={teacherId} key={index} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachersDetails.length === index + 1 ? lastTeacherElementRef : null}/>
                 })
             }
         </>
     )
+}
+
+function TeacherInfoMemo({teacherId,setTeachersDetails,setCurrentPage,setSuccessDeleteTeacher,refProp}) {
+    const TeacherinfoMemo = useMemo(()=>(
+        <Teacherinfo teacherId={teacherId} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={refProp}/>
+    ),[])
+    return TeacherinfoMemo
 }
