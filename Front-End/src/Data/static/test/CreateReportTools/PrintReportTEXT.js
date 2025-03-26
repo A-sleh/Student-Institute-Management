@@ -36,7 +36,7 @@ export const PopupModalTEXT = {
 
 export const ClassReportStructurTEXT = {
     arabic : {
-        gradeTEXT: 'رتبه' ,
+        gradeTEXT: 'الفئه' ,
         classTitleTEXT: 'شعبه ' ,
         orderTEXT: 'الترتيب' ,
         studentNameTEXT: 'اسم الطالب' ,
@@ -94,7 +94,7 @@ export const StudentReportStructurTEXT = {
         finalAvarageTEXT: 'Final average' ,
         studentOrderTEXT: 'Student order',
         quizAvarageTEXT: 'Quiz average' ,
-        note1: 'السلوك وملاحظات الإداره والكادر التدريسي' ,
-        note2: 'ملاحظات ولي الأمر'
+        note1: 'Note of manager and teachers' ,
+        note2: 'Parents\'s note'
     } 
 }

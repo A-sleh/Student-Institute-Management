@@ -81,9 +81,6 @@ export default function StudentsPDF({data,currentLange}) {
     const ReportSubTitle = () => {
         return <View style={styles.titleContainer}>
                 <View style={[styles.spaceBetween,{display: 'flex' ,  width: '100%' }]} >
-                    <View>
-                        <Text style={[styles.addressTitle,styles.arabicText]}>  {genderTEXT} : {data.gender}</Text>
-                    </View>
                     
                     <View>
                         <Text style={[styles.addressTitle,styles.arabicText]}>  {classTitleTEXT} : {data.title}</Text>
@@ -137,10 +134,10 @@ export default function StudentsPDF({data,currentLange}) {
     const ToalResultFooter = ({student}) => {
         return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 , marginBottom : 10 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >{finalSumTEXT} : {student.examAverage}</Text>
+                    <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >{finalSumTEXT} : {student.mark} / {student.totalMark} </Text>
                 </View>
                 <View style={styles.toalResult}>
-                    <Text style={[styles.arabicText,{textAlign: 'left' , fontSize: 12}]}>{finalAvarageTEXT} : {student.mark} / {student.totalMark} </Text>
+                    <Text style={[styles.arabicText,{textAlign: 'left' , fontSize: 12}]}>{finalAvarageTEXT} : {student.examAverage}</Text>
                 </View>
         </View>
     }
