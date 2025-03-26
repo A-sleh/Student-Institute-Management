@@ -7,6 +7,7 @@ export const TitlesTEXT = {
     NewStudent : 'طالب جديد',
     StudentMissedDays: 'تفقد الطلاب',
     ClassStudents: 'طلاب الشعبة',
+    UpdateStudent: 'تعديل بيانات الطالب',
 
     // teachers
     ManageTeacher: "إدارة الأساتذه",

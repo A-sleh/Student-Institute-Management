@@ -92,7 +92,7 @@ export default function StudentsDetails() {
               <i className="bi bi-person-lines-fill"></i>
             </Link>
             <Link
-              to={`/UpdateStudent/${row.original.id}?data=${encodeURIComponent(
+              to={`/UpdateStudent/${row.original.studentId}?data=${encodeURIComponent(
                 JSON.stringify(row.original)
               )}`}
               style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
@@ -138,9 +138,7 @@ export default function StudentsDetails() {
       totalPage: totalPages
     } 
   }
-
-  console.log(tableInfo())
-
+  
   return (
     <>
       {

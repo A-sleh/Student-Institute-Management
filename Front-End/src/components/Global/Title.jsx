@@ -7,6 +7,7 @@ import { ARABIC } from "../../Redux/actions/type";
 
 export default function Title({ title }) {
 
+  console.log(title)
 
   const {currentLange} = useSelector( state => state.language)
   let isTheSecondOne = false ; // if the path contain multi ( / ) i will ignore it so i do that in bool value
@@ -24,8 +25,6 @@ export default function Title({ title }) {
      }
       else return char == char.toUpperCase()? ` ${char}` : char ;
   }).join('');
-
-  console.log(formatTitle)
 
   return <TitleStyle $language={currentLange}>{currentLange == ARABIC ? TitlesTEXT[formatTitle.split(' ').join('')]: formatTitle}</TitleStyle>;
 }
