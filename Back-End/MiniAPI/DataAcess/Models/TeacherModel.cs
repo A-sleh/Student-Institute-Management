@@ -15,5 +15,13 @@ namespace DataAcess.Models
         public List<TeacherSubjectModel?> TeacherSubjects { get; set; } = [];
 
         public dynamic Details(int SubNO, int classNO) => new {TeacherId, Name, LastName, Phone, SubNO, classNO };
+
+        public dynamic TeacherDTO() => new { 
+            TeacherId, 
+            Name, 
+            LastName, 
+            Phone, 
+            TeacherSubjects = TeacherSubjects.Select(x => x?.FromTeacher())
+        };
     }
 }

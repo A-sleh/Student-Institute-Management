@@ -13,5 +13,7 @@ namespace DataAcess.Models
         public SubjectModel? Subject {  get; set; }
         public int Salary {  get; set; }
         public List<ClassModel?> Classes { get; set; } = [];
+
+        public dynamic FromTeacher() => new { TeacherSubjectId, Subject, Salary, Classes = Classes.Select(c => c.PureFormat()) };
     }
 }

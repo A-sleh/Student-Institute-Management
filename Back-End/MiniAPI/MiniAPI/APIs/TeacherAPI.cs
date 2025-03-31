@@ -114,7 +114,7 @@ namespace MiniAPI.APIs
             try
             {
                 var res = await data.GetTeacherById(TeacherId);
-                return Results.Ok(res);
+                return Results.Ok(res?.TeacherDTO());
             }
             catch (Exception e)
             {

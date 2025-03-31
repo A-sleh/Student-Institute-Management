@@ -72,9 +72,9 @@ namespace DataAcess.Data
         public async Task<TeacherModel?> GetTeacherById(int TeacherId)
         {
             TeacherModel? CurrTeacher = null;
-            var res = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel>("dbo.TeacherGetById",
+            _ = await (_db.LoadData<dynamic, TeacherModel, TeacherSubjectModel, SubjectModel, ClassModel?>("dbo.TeacherGetById",
                 parameters: new { TeacherId },
-                x: (Teacher, TSM, Subject) =>
+                x: (Teacher, TSM, Subject, Class) =>
                 {
                     if (CurrTeacher == null)
                     {
@@ -88,11 +88,13 @@ namespace DataAcess.Data
                     if (TSM != null)
                     {
                         TSM.Subject = Subject;
+                        if(Class != null)
+                            TSM.Classes.Add(Class);
                         Teacher.TeacherSubjects.Add(TSM);
                     }
                     return Teacher;
                 },
-                splitOn: "TeacherSubjectId, SubjectId"));
+                splitOn: "TeacherSubjectId, SubjectId, classId"));
             return CurrTeacher;
         }
 
