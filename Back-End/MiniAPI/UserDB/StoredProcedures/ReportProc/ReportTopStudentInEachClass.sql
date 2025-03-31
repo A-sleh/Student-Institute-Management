@@ -10,7 +10,7 @@ AS
 	JOIN Subject sb ON t.SubjectId = sb.Id
 	JOIN Report r ON t.ReportId = r.Id
 	JOIN Class c ON s.classId = c.id
-	WHERE t.TestType = 'exam' AND r.Id = 1
+	WHERE t.TestType = 'exam' AND r.Id = @reportId
 	GROUP BY s.id,s.name, s.lastName, s.classId, c.id, c.title)
 
 	SELECT studentId, name, lastName, classId, title, Average 
