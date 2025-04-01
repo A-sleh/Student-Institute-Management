@@ -9,11 +9,14 @@ import useGetTeachersBills from "../../../hooks/teacher_hooks/useGetTeachersBill
 import Table from "../../shared/Table";
 import { COLUMNS } from "../style/COLUMNS.JS";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TablePaginated from "../../shared/TablePaginated";
 
 export default function ManagTeacherBill() {
 
-    const [teacherDetails] = useGetTeachersBills()
+    const limitNumber = 12
+    const [page,setPage] = useState(1)
+    const {teachers,currPage,totalPages} = useGetTeachersBills(limitNumber,page,setPage)
     const {isAdmin} = useSelector( state => state.admin)
     const goTo = useNavigate()
 
@@ -26,7 +29,7 @@ export default function ManagTeacherBill() {
 
     return(
         <>
-            <Table data={teacherDetails || []} column={COLUMNS} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
+            <TablePaginated data={teachers || []} column={COLUMNS}  rowNumber={limitNumber} setNextPageState={setPage} totalPages={totalPages} currPage={currPage} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
         </>
     )
 }
