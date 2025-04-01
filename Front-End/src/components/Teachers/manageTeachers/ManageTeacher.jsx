@@ -14,7 +14,7 @@ import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/
 import { useNavigate ,ScrollRestoration } from "react-router-dom";
 import SearchSubHeader from "../../shared/SearchSubHeader";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
-import { ALL_TEACHER, CHANGE_CURRENT_PAGE, SEARCH_INPUT_TEACHER, SEARCHING_TEACHER, TEACHER_SOURCE, TEACHERS, TOTAL_PAGES } from "../../../Redux/actions/type";
+import { ALL_TEACHER, CHANGE_CURRENT_PAGE, SEARCH_INPUT_TEACHER, SEARCHING_TEACHER, TEACHER_SECTION, TEACHER_SOURCE, TEACHERS, TOTAL_PAGES } from "../../../Redux/actions/type";
 
 export default function ManageTeacher() {
 
@@ -48,6 +48,10 @@ export default function ManageTeacher() {
         changeCurrentPage({
             type: TEACHER_SOURCE , 
             payload: mode
+        })
+        changeCurrentPage({
+            type: TEACHER_SECTION , 
+            payload: ''
         })
     }
     
