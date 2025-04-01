@@ -174,7 +174,7 @@ export default function TeacherNewClass() {
             <div style={{display: 'flex' , gap: '10px' , flexWrap : 'wrap'}}>
                 <div style={{flex: '4 1 3em'}}>
                     <SubjectsTable subjects={teacherSubjects} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject} AllTeachers={classId != undefined}/>
-                    <ClassesTable classes={classes} setSelectedClass={setSelectedClass} selectedClass={selectedClass} selectedGrade={grade} />
+                    <ClassesTable classes={classes} setSelectedClass={setSelectedClass} selectedClass={selectedClass} selectedGrade={grade} AllTeachers={classId != undefined} />
                 </div>
                 <div style={{flex : '1 2 5em' }}>
                     <TeacherClassSelected selectedTeacherClass={selectedTeacherClass} setSelectedTeacherClass={setSelectedTeacherClass} handleConfirmClicked={handleConfirmClicked}/>
@@ -194,10 +194,8 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
 
     const {currentLange} = useSelector( state => state.language)
     const {teacherSubjects} = TeacherNewClassTEXT[currentLange]
-
-    const columns = useMemo(() => [
-        AllTeachers ? 
-        {
+    const teachersCOULMN = AllTeachers ?  [
+        {  
             Header: {
                 arabic: 'أسم المدرس',
                 english: 'Teacher Name'  
@@ -207,13 +205,23 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
                 const teahcerDetails = row.original.teacher ; 
                 return teahcerDetails.name + ' ' + teahcerDetails.lastName;
             }
-        }:{   
+        }, {  
             Header: {
                 arabic: 'الفئه',
                 english: 'Grade' 
             },
             accessor : 'subject.grade'
+        }
+    ] : [{
+        Header: {
+            arabic: 'الفئه',
+            english: 'Grade' 
         },
+        accessor : 'subject.grade'
+    }]
+
+    const columns = useMemo(() => [
+        ...teachersCOULMN,
         {
             Header: {
                 arabic: 'الماده',
@@ -249,8 +257,8 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
 
 }
 
-function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
-
+function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade,AllTeachers}) {
+    
     const {currentLange} = useSelector( state => state.language)
     const {allClassesTitle} = TeacherNewClassTEXT[currentLange]
     const [filter,setFilter] = useState(selectedGrade != undefined ? selectedGrade :'all')
@@ -270,7 +278,8 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade}) {
     ],[selectedClass])
 
     const classFiltering = classes.filter( Class => {
-        return (filter?.toLowerCase() == Class.grade?.toLowerCase() || filter?.toLowerCase() == 'all')
+        // console.log(Class)
+        return ((filter == Class.grade || filter?.toLowerCase() == 'all') && ( AllTeachers ? selectedClass?.classId ==  Class.classId : true))
     })
 
     return(
