@@ -16,8 +16,9 @@ import TitleAndControalHeader from "./TitleAndControalHeader";
 import HeaderInformation from "../../shared/HeaderInformation";
 import { FlexSpaceBetweenContainerStyle, SubmitBtnStyle } from "../../shared/style/styleTag";
 import useTeacherInfo from "../../../hooks/teacher_hooks/useTeacherInfo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
+import { TEACHER_SECTION } from "../../../Redux/actions/type";
 
 
 export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurrentPage,refProp}) {
@@ -28,6 +29,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
 
   // for Notifications modal
   const changePageTo = useNavigate() ;
+  const dispatch = useDispatch()
   const [successUpdataTeacher,setSuccessUpdataTeacher] = useState(false)
   const [successDeleteFromSubject,setSuccessDeleteFromSubject] = useState(false)
   const [successDeleteFromClass,setSuccessDeleteFromClass] = useState(false)
@@ -115,7 +117,13 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
             <section>
                 <FlexSpaceBetweenContainerStyle >
                   <h3>{subjectsTitle}</h3>
-                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewSubject/` + teacherId )}}>{addNewSubjectBtn}</SubmitBtnStyle>
+                  <SubmitBtnStyle onClick={()=> {
+                    changePageTo(`TeacherNewSubject/` + teacherId )
+                    dispatch({
+                      type: TEACHER_SECTION ,
+                      payload: `teacher_${teacherId}`
+                    })                    
+                  }}>{addNewSubjectBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherSubjectsTable teacherId={teacherId} setSuccessDeleteFromSubject={setSuccessDeleteFromSubject} successDeleteFromSubject={successDeleteFromSubject}/>
             </section>
@@ -123,7 +131,13 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
             <section>
                 <FlexSpaceBetweenContainerStyle >
                   <h3>{classesTitle}</h3>
-                  <SubmitBtnStyle onClick={()=>{changePageTo(`TeacherNewClass/` + teacherId )}}>{addNewClassBtn}</SubmitBtnStyle>
+                  <SubmitBtnStyle onClick={()=>{
+                    dispatch({
+                      type: TEACHER_SECTION ,
+                      payload: `teacher_${teacherId}`
+                    })
+                    changePageTo(`TeacherNewClass/` + teacherId )
+                  }}>{addNewClassBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherClassesTable teacherId={teacherId} successDeleteFromClass={successDeleteFromClass}setSuccessDeleteFromClass={setSuccessDeleteFromClass}/>
             </section>
@@ -133,5 +147,6 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
       </>
     )
 }
+
 
 

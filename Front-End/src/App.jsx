@@ -51,8 +51,9 @@ export default function App() {
       payload: currentLange == 'arabic' ? ENGLISH: ARABIC ,
       type: currentLange == 'arabic' ? ENGLISH : ARABIC
     })
+
+
   }
-  
   
   return (
     <QueryClientProvider client={queryClient}>

@@ -3,36 +3,53 @@
     COMPONENTS OPTIMIZATION : DONE ,
     USING REACT QURY : 
 */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Teacherinfo from "./TeacherInfo";
 import Notification from "../../Global/Notification";
 import Loader from "../../Modal/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/ManageTeachersTEXT";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,ScrollRestoration } from "react-router-dom";
 import SearchSubHeader from "../../shared/SearchSubHeader";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
+import { ALL_TEACHER, CHANGE_CURRENT_PAGE, SEARCH_INPUT_TEACHER, SEARCHING_TEACHER, TEACHER_SOURCE, TEACHERS, TOTAL_PAGES } from "../../../Redux/actions/type";
 
 export default function ManageTeacher() {
 
     const limmitNumber = 1
     // page lang content
     const {currentLange} = useSelector( state => state.language)
+    const {currentPage,teachers,totalPages,offSetTeacher,dataFrom,searchInput} = useSelector( state => state.pageCounter)
     const {isAdmin} = useSelector( state => state.admin)
+    const changeCurrentPage = useDispatch()
     const goTo = useNavigate()
+    
     const {successDeleteTeacherMES,notFoundMES} = ManageTeachersTEXT[currentLange]
-    const [search,setSearch] = useState('') // need to build
+    const [loading,setLoading] = useState(false)
     const [sendRequest,setSendRequest] = useState(false)
-    const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(search,sendRequest)
+    const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchInput,sendRequest) // -----
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     // infinite scroll states
-    const [teachersDetails,setTeachersDetails] = useState([]) 
-    const [currentPage,setCurrentPage] = useState(1)
-    const [totalPages,setTotalPages] = useState(1)
     const [fetchingData,setFetchingData] = useState(false)
     const observer = useRef();
+    const gotoSec = useRef(null)
+
+    function dispatchTeacherInfo(teachers,teachersNumber,mode) {
+        changeCurrentPage({
+            type: TOTAL_PAGES , 
+            payload: teachersNumber
+        })
+        changeCurrentPage({
+            type: TEACHERS , 
+            payload: teachers
+        })
+        changeCurrentPage({
+            type: TEACHER_SOURCE , 
+            payload: mode
+        })
+    }
     
     useEffect(() => {
         if(!isAdmin) {
@@ -44,46 +61,79 @@ export default function ManageTeacher() {
         // for the first state and if the user delete any teacher 
         if( currentPage == 1 ) {
             DataServices.TeacherInformaion('',limmitNumber,currentPage).then( teachers => { 
-                setTotalPages(teachers.totalPages)
-                setTeachersDetails(teachers.teachers)
+                dispatchTeacherInfo(teachers.teachers,teachers.totalPages,ALL_TEACHER)
             })
         }
     } ,[currentPage])
     
     useEffect(() => {
-
         if( currentPage > totalPages ) return
-
         // this case to avoid reapation data
-        if(setTeachersDetails.length == 1 && currentPage == 1 ) {
+        if(teachers.length == currentPage  ) {
             return 
-        }
+        }     
         const loadMoreTeachers = async () => {
             setFetchingData(true);
             const newTeachers = await fetch(`https://localhost:7279/Teacher?listSize=${limmitNumber}&page=${currentPage}`);
             const data = await newTeachers.json();
-            setTeachersDetails((prevPosts) => [...prevPosts, ...data.teachers]);
+            changeCurrentPage({
+                type: TEACHERS , 
+                payload: [...teachers,...data.teachers]
+            })
             setFetchingData(false);
         };
-
         loadMoreTeachers()
-    } , [currentPage]);
+    } , [currentPage,totalPages]); 
+    
+    useEffect(() => {
+        // to advoid set undefine teachers when the user return from searching and the search input not empyt
+        if(teachers?.length != 0 && searchInput != '' && teachersInfo == null ) {
+            return 
+        }
+        if(searchInput != '' && teachersInfo?.length != 0 ) {
+            dispatchTeacherInfo(teachersInfo,teachersInfo?.length,SEARCHING_TEACHER)
+            return 
+        }
+        if(dataFrom == SEARCHING_TEACHER && searchInput == '' ) {
+            dispatchTeacherInfo([],0,ALL_TEACHER )
+            changeCurrentPage({
+                type: CHANGE_CURRENT_PAGE ,
+                payload: 1
+            })
+        }
+    },[searchInput,teachersInfo]) 
 
-    const lastTeacherElementRef = useCallback(
+    useLayoutEffect(() => {
+        setLoading(true)
+        setTimeout(() =>{
+            setLoading(false)
+            window.scrollTo({
+                behavior: 'smooth',
+                top: gotoSec.current?.offsetTop - 100 
+            })
+        }, 1500)
+    },[gotoSec])
+
+    const lastTeacherElementRef = useCallback(  
         (node) => {
-          if (fetchingData) return;
+          if (fetchingData || (teachersInfo?.length != 0 && searchInput != '')){
+              return;
+          } 
           if (observer.current) observer.current.disconnect();
         
           observer.current = new IntersectionObserver((entries) => {
             
             if (entries[0].isIntersecting) {
-                setCurrentPage((prevPage) => prevPage + 1); // trigger loading of new posts by chaging page no
+                changeCurrentPage({
+                    type: CHANGE_CURRENT_PAGE ,
+                    payload: currentPage + 1 
+                }); // trigger loading of new posts by chaging page no
             }
           });
     
           if (node) observer.current.observe(node);
         },
-        [fetchingData]
+        [fetchingData,teachersInfo]
     );
 
     function handleSearchClicked() {
@@ -91,39 +141,33 @@ export default function ManageTeacher() {
         setTimeout(()=> setSendRequest(false),200)
     }
 
-    function specifyWhichTeachersWillDisplay() {
-        if(search != '' && teachersInfo.length != 0 ) {
-            return teachersInfo
-        }
-        return teachersDetails
+    function handleSearchInput(value) {
+        changeCurrentPage({
+            type: SEARCH_INPUT_TEACHER ,
+            payload: value
+        })
     }
-
+    
     return(
         <>
+            <ScrollRestoration />
             <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />  
             <Notification title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />  
             <Title title={window.location.pathname}/> 
 
-            <SearchSubHeader filter={search} setFilter={setSearch} handleSearchClicked={handleSearchClicked}/>
+            <SearchSubHeader filter={searchInput} setFilter={handleSearchInput} handleSearchClicked={handleSearchClicked}/>
 
-            {fetchingData && <Loader />}
+            {(fetchingData || loading) && <Loader />}
             {
-                specifyWhichTeachersWillDisplay().map( (teacher,index) => {
+                teachers.map( (teacher,index) => {
                     
                     const {teacherId} = teacher ; 
-                    console.log(teacherId)
-                    const fullName = teacher.name?.toLowerCase() + ' ' + teacher.lastName?.toLowerCase() ; 
-                    return <Teacherinfo teacherId={teacherId} key={index} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachersDetails.length === index + 1 ? lastTeacherElementRef : null}/>
+                    return  <div id={`teacher_${teacherId}`} ref={ offSetTeacher == `teacher_${teacherId}` ? gotoSec : null } key={index}>
+                                <Teacherinfo  teacherId={teacherId}  setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachers.length === index + 1 ? lastTeacherElementRef : null}/>
+                            </div>
                 })
             }
         </>
     )
 }
 
-const TeacherInfoMemo =  React.memo(
-    ({teacherId,setTeachersDetails,setCurrentPage,setSuccessDeleteTeacher,refProp}) => {
-    const TeacherinfoMemo = useMemo(()=>(
-        <Teacherinfo teacherId={teacherId} setTeachersDetails={setTeachersDetails} setCurrentPage={setCurrentPage} setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={refProp}/>
-    ),[])
-    return TeacherinfoMemo
-})

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 export default function useGetTeacherByName(searchKey,pass) {
 
     
-    const [teacherInfo, setTeacherInfo] = useState([]);
+    const [teacherInfo, setTeacherInfo] = useState(null);
     const [notFoundMes,setNotFoundMes] = useState(false)
 
     useEffect( () => {
