@@ -2,10 +2,10 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useGetStudentBills(changeClass = 'All') {
+export default function useGetStudentBills(changeClass = 'All',limit,page,setPage) {
 
-    const [students,setStudents] = useState([]) 
-    const [studentsBills,setStudentsBills] = useState([])
+    const [students,setStudents] = useState({}) 
+    const [studentsBills,setStudentsBills] = useState({})
 
     async function getAllStudentsBills(students) {
         let studnetsDetails = []
@@ -21,27 +21,29 @@ export default function useGetStudentBills(changeClass = 'All') {
     }
 
     useEffect(() => {
-        DataServices.AllStudentsInfo().then( students => {
-            
-            const filteringStudents = students.students.filter(student => {
-                return (changeClass == student.class.classId || changeClass == 'All') 
-            })
-            
-            if(filteringStudents.length == 0 ) {
+        const filteringByClass = changeClass != 'All' ? `&classId=${changeClass}`  : ''
+        DataServices.StudentsInformaion('',filteringByClass,limit,page).then( students => {
+            if(students.students.length == 0 ) {
                 setStudentsBills([])
                 return
-            }else  setStudents(filteringStudents.map(student => {
+            }else  setStudents({...students,students:students.students.map(student => {
                 const {studentId,name,lastName} = student
                 return {studentId,name,lastName}
-            }))
+            })})
         })
-    }, [changeClass])
+    }, [changeClass,page])
 
+    
     useEffect(() => {
-        getAllStudentsBills(students).then( result => {
-            setStudentsBills(result)
+        getAllStudentsBills(students.students).then( result => {
+            setStudentsBills({...students,students: result})
         })
     },[students])
 
-    return [studentsBills]
+    useEffect(() => {
+        if(setPage)
+            setPage(1)
+    },[changeClass])
+    
+    return  studentsBills
 }

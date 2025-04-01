@@ -3,8 +3,8 @@ import API from "./API.js";
 export default {
 
   // student? datasercices
-  StudentsInformaion: (id,gradId,limit,page) => {
-    return API.Student.get(id,gradId,limit,page);
+  StudentsInformaion: (id,queryParam,limit,page) => {
+    return API.Student.get(id,queryParam,limit,page);
   },
   StudentsInCurrentClass: (classId) => {
     return API.Student.getAllInCurrentClass(classId);

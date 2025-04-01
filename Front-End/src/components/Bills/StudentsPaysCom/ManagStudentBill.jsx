@@ -11,17 +11,20 @@ import useGetStudentBills from "../../../hooks/student_hooks/useGetStudentBills"
 import Table from "../../shared/Table"
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName"
 import SubHeaderClassBalance from "../../shared/subHeaderTable/SubHeaderClassBalance"
+import TablePaginated from "../../shared/TablePaginated"
 
 
 export default function ManagStudentBill() {
 
     const [fileterByClass,setFileterByClass] = useState('All')
-    const [studentBillsBalance] = useGetStudentBills(fileterByClass)
+    const [page,setPage] = useState(1)
+    const limitNumber = 12
+    const {students,currPage,totalPages} = useGetStudentBills(fileterByClass,limitNumber,page,setPage)
 
     return (
-        <Table data={studentBillsBalance || []} column={COLUMNS} idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
+        <TablePaginated data={students || []} column={COLUMNS} rowNumber={fileterByClass != 'All' ? students?.length : limitNumber} setNextPageState={setPage} totalPages={totalPages} currPage={currPage}  idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
             <SubeHeaderFilterByClassName fileterByClass={fileterByClass} setFileterByClass={setFileterByClass}/>
             <SubHeaderClassBalance classId={fileterByClass} />
-        </Table>
+        </TablePaginated>
     )
 }
