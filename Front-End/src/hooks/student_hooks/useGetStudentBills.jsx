@@ -9,6 +9,8 @@ export default function useGetStudentBills(changeClass = 'All',limit,page,setPag
 
     async function getAllStudentsBills(students) {
         let studnetsDetails = []
+        if(students == undefined) return studnetsDetails
+        if(students.length == 0) return studnetsDetails
         return new Promise(resolve => {
                     students.map( async (student,index) => {
                     const studentBills = await DataServices.ShowStudentBillBalanc(student.studentId)

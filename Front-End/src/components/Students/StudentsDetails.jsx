@@ -28,11 +28,11 @@ export default function StudentsDetails() {
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
   const [selectedClass,setSelectedClass] = useState('all')
   const [searchField,setSearchField] = useState('')
-  const [sendRequest,setSendRequest] = useState(false)
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
+  const [sendRequest,setSendRequest] = useState(false)
   const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest)
   const [currentPage,setCurrentPage] = useState(1)
   const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,15,currentPage,successDeleteStudent);
