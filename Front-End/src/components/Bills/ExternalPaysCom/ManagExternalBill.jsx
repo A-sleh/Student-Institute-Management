@@ -23,8 +23,8 @@ export default function ManagExternalBill() {
     const [successDelete,setSuccessDelete] = useState(false);
     const [inComePage,setInComePage] = useState(1)
     const [outComePage,setOutComePage] = useState(1)
-    const [inComeBills] = useInComeBills(limitNumber , inComePage )
-    const [outComeBills] = useOutComeBills(limitNumber , outComePage )
+    const [inComeBills] = useInComeBills(limitNumber , inComePage ,successDelete)
+    const [outComeBills] = useOutComeBills(limitNumber , outComePage ,successDelete)
     const [openSearch,setOpenSearch] = useState(false)
     const [searchFiled,setSearchFiled] = useState('');
     const [radioState,setRadioState] = useState({
