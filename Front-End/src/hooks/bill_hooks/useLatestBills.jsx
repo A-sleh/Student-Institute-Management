@@ -9,14 +9,14 @@ export default function useLatestBills(billNumber) {
     const [externalBills,setExternalBills] = useState([])
 
     useEffect(() => {
-        DataServices.ShowLasteExternalBill(billNumber,'external').then( Bills => {
-            setExternalBills(Bills)
+        DataServices.ShowLasteExternalBill('external',billNumber,1).then( Bills => {
+            setExternalBills(Bills?.data)
         })
-        DataServices.ShowLasteTeacherBill(billNumber,'teacher').then( Bills => {
-            setTeacherBills(Bills)
+        DataServices.ShowLasteTeacherBill('teacher',billNumber,1).then( Bills => {
+            setTeacherBills(Bills?.data)
         })
-        DataServices.ShowLasteStudentsBill(billNumber,'student').then( Bills => {
-            setStudentBills(Bills)
+        DataServices.ShowLasteStudentsBill('student',billNumber,1).then( Bills => {
+            setStudentBills(Bills?.data)
         })
     } ,[])
 

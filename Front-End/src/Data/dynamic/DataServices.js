@@ -147,14 +147,14 @@ export default {
   ShowOutComeBillsBalance : () => {
     return API.Bill.get.outComeBillBalance()
   },
-  ShowLasteStudentsBill : (limit,type) => {
-    return API.Bill.get.global(limit,type)
+  ShowLasteStudentsBill : (type,limit,page) => {
+    return API.Bill.get.global(type,limit,page)
   },
-  ShowLasteTeacherBill : (limit,type) => {
-    return API.Bill.get.global(limit,type)
+  ShowLasteTeacherBill : (type,limit,page) => {
+    return API.Bill.get.global(type,limit,page)
   },
-  ShowLasteExternalBill : (limit,type) => {
-    return API.Bill.get.global(limit,type)
+  ShowLasteExternalBill : (type,limit,page,moreQuery) => {
+    return API.Bill.get.global(type,limit,page,moreQuery)
   },
   ShowRemeainingIncome : () => {
     return API.Bill.get.restInComeBill()
