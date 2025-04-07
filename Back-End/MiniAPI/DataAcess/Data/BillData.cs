@@ -29,7 +29,7 @@ public class BillData : IBillData
 
     #region Data Request
 
-    public async Task<IEnumerable<BillModel>> GetBills(
+    public async Task<PaginatedModel<IEnumerable<BillModel>>> GetBills(
         string? billType = null,
         BillModel.BillOwnership? billOwner = null,
         int limit = MaxLimit,
@@ -61,8 +61,8 @@ public class BillData : IBillData
                 return bill;
             },
             splitOn: $"{nameof(StudentModel.StudentId)}, {nameof(TeacherModel.TeacherId)}");
-
-        return bills;
+        var paginatedBills = new PaginatedModel<IEnumerable<BillModel>>(bills, page, PaginationExtension.GetTotalPages(parameters.Get<int>(nameof(total)), limit));
+        return paginatedBills;
     }
     public async Task<dynamic> GetTotalPays(int studentId = -1, int teacherId = -1)
     {
@@ -115,7 +115,7 @@ public class BillData : IBillData
     public async Task<IEnumerable<BillModel>> GetExternal(DateTime? date, string type)
     {
         var externalBills = await GetBills(billOwner: BillModel.BillOwnership.external, billType: type, endDate: date);
-        return externalBills;
+        return externalBills.Data;
     }
     public async Task<int> GetRestOf(string type)
     {
@@ -127,7 +127,7 @@ public class BillData : IBillData
         if (!(billType.Equals("in") || billType.Equals("out")))
             throw new ArgumentException("param type must be (in / out) only");
         var bills = await GetBills(billType: billType, startDate: startDate, endDate: endDate);
-        int total = bills.Sum(s => s.Amount);
+        int total = bills.Data.Sum(s => s.Amount);
         return total;
     }
     
