@@ -6,7 +6,8 @@
 	@orderingType VARCHAR(10) = 'ASC',
 	@orderBy VARCHAR(255) = 'BillId',
 	@Limit INT = 100,
-	@page INT = 1
+	@page INT = 1,
+	@total INT OUTPUT
 AS
 	DECLARE @declare VARCHAR(128) = 
 	'DECLARE @Limit int = ' + CAST(@Limit AS nvarchar(5)) + 
@@ -26,19 +27,46 @@ AS
 
 	DECLARE @sql nvarchar(1024);
 	IF(@billOwner is null) -- brings all types
+	BEGIN
+		SET @total = 
+		(SELECT COUNT(1)
+		FROM Bill b
+		LEFT OUTER JOIN Student s ON b.StudentId = s.id
+		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id)
 		SET @sql = CONCAT(@declare, ' ', @query, ' ', @any);
-
+	END
 	ELSE IF(@billOwner = 'teacher')
+	BEGIN
+		SET @total = 
+		(SELECT COUNT(1)
+		FROM Bill b
+		LEFT OUTER JOIN Student s ON b.StudentId = s.id
+		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id
+		WHERE b.TeacherId is not null);
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@teacher);
-
+	END
 	ELSE IF(@billOwner = 'student')
+	BEGIN
+		SET @total = 
+		(SELECT COUNT(1)
+		FROM Bill b
+		LEFT OUTER JOIN Student s ON b.StudentId = s.id
+		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id
+		WHERE b.StudentId is not null)
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@student);
-
+	END
 	ELSE IF(@billOwner = 'external')
+	BEGIN
+		SET @total = 
+		(SELECT COUNT(1)
+		FROM Bill b
+		LEFT OUTER JOIN Student s ON b.StudentId = s.id
+		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id
+		WHERE b.TeacherId is null AND b.StudentId is null)
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@external);
-
+	END
 	ELSE
-		RAISERROR('invalid bill type provided', 16, 1);
+		RAISERROR('invalid bill owner provided', 16, 1);
 
 	IF(@billType = 'in' OR @billType = 'out')
 		SET @sql = CONCAT(@sql, ' AND Type = ',QUOTENAME(@billType,''''))
@@ -52,6 +80,8 @@ AS
 
 	SET @orderByState = CONCAT('ORDER BY ', @orderBy, ' ', @orderingType);
 	SET @sql = CONCAT(@sql, ' ', @orderByState, ' ', @pagination);
+	
+	
 
 	EXECUTE(@sql);
 RETURN 0;

@@ -4,7 +4,7 @@ namespace DataAcess.Data
 {
     public interface IBillData
     {
-        Task<IEnumerable<BillModel>> GetBills(
+        Task<PaginatedModel<IEnumerable<BillModel>>> GetBills(
             string? billType,
             BillModel.BillOwnership? billOwner,
             int limit,

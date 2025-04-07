@@ -10,8 +10,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAcess
 {
+    [Obsolete("useless and will be removed")]
     public static class ValidationMethods
     {
+        
+
         /// <summary>
         /// Parse and prepare a date parameter to be used in 'like' statements into sql query
         /// </summary>

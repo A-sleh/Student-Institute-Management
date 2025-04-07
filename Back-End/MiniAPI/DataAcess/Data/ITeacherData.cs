@@ -13,5 +13,6 @@ namespace DataAcess.Data
         Task<TeacherModel?> GetTeacherById(int id);
         Task<IEnumerable<TeacherSubjectModel>> GetTeacherSubjects(int? gradeId);
         Task<IEnumerable<dynamic>> GetFilteredTeachers(string content = "");
+        Task<PaginatedModel<IEnumerable<dynamic>>> GetPaginatedTeachers(int page = 1, int limit = 5);
     }
 }

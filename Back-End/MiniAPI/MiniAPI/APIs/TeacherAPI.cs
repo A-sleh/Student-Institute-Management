@@ -3,7 +3,9 @@ using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
 using DataAcess.Data;
 using DataAcess.Exceptions;
+using DataAcess.Extensions;
 using DataAcess.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MiniAPI.APIs
 {
@@ -11,6 +13,7 @@ namespace MiniAPI.APIs
     {
         public static void ConfigureTeacherAPI(this WebApplication app)
         {
+            app.MapGet("/Teacher/Pagination", GetPaginatedTeachers);
             // get all teachers
             app.MapGet("/Teacher", GetAllTeachers);
 
@@ -64,6 +67,19 @@ namespace MiniAPI.APIs
             app.MapDelete("/Teacher/Subject/{TeacherSubjectId}/class/{classId}", DeleteTeacherFromClass);
         }
 
+        private static async Task<IResult> GetPaginatedTeachers(ITeacherData data, int page = 1, int limit = 5)
+        {
+            try
+            {
+                var teachers = await data.GetPaginatedTeachers(page, limit);
+                return Results.Ok(teachers);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
+
         private static async Task<IResult> GetFilteredTeacher(ITeacherData data, string content = "")
         {
             try
@@ -114,7 +130,7 @@ namespace MiniAPI.APIs
             try
             {
                 var res = await data.GetTeacherById(TeacherId);
-                return Results.Ok(res);
+                return Results.Ok(res?.TeacherDTO());
             }
             catch (Exception e)
             {
