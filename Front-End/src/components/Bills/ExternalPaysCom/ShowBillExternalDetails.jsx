@@ -10,7 +10,6 @@ import { CloseButtonStyle, SearchButtonStyle } from "../style/styleComponents";
 import { FillterBillsHeader } from "../../shared/FillterBillsHeader";
 import { useState } from "react"
 import Notification from "../../Global/Notification";
-import useInOutComeBills from "../../../hooks/bill_hooks/useInOutComeBills";
 import BillsContainer from "./BillsContainer";
 import { useSelector } from "react-redux";
 import { ManageExternalBillsTEXT } from "../../../Data/static/Bills/ExternalPaysCom/ManageExternalBillsTEXT";

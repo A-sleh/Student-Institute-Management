@@ -29,7 +29,7 @@ export default function ManageTeacher() {
     const {successDeleteTeacherMES,notFoundMES} = ManageTeachersTEXT[currentLange]
     const [loading,setLoading] = useState(false)
     const [sendRequest,setSendRequest] = useState(false)
-    const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchInput,sendRequest) // -----
+    const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchInput,sendRequest) 
     const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     // infinite scroll states
     const [fetchingData,setFetchingData] = useState(false)
