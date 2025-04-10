@@ -20,7 +20,7 @@ export default function useTeacherInfo(teacherId,...reFetch) {
             const totalSalary = await DataServices.ShowTeacherBillBalanc(teacherId).then( salary => salary )
             setTeacherDetails({...teacherInfo,teacherClasses:teacherClasses,totalSalary:totalSalary}) ; 
         })
-    }, [...reFetch])
+    }, [...reFetch,teacherId])
 
     return [teacherDetails]   
 }

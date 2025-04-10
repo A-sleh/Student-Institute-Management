@@ -103,6 +103,7 @@ const router = createBrowserRouter(
                 {
                     path: 'ManageTeacher',
                     element: <ManageTeacher />,
+                    unstable_keepalive: true
                 },
                 {
                     path: 'ManageTeacher/TeacherNewClass/:id',

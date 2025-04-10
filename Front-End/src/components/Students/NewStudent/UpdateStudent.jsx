@@ -17,7 +17,7 @@ export default function UpdateStudent() {
   
   return (
     <>
-      <StudentForm title={'Student : ' +  studentInfo.name + ' ' + studentInfo.lastName} requestType={'PUT'} studentInformation={mapingStudentInfo} />
+      <StudentForm title={window.location.pathname} requestType={'PUT'} studentInformation={mapingStudentInfo} />
     </>
   );
 }

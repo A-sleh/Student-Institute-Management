@@ -128,7 +128,7 @@ export default function TeacherNewSubject() {
 
             <ButtonsContainerStyle>
                 <SubmitBtnStyle onClick={()=>{handleAddClicked()}}>{addBtn}</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{gotoPreviousPage('/ManageTeacher',{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
+                <GoBackBtnStyle onClick={()=>{gotoPreviousPage(-1,{replace: true})}} >{goBackBtn}</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
     )

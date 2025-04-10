@@ -5,7 +5,7 @@
   
 */
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FillterBillsHeader } from "../../shared/FillterBillsHeader"
 import { GoBackBtnStyle } from "../../shared/style/styleTag"
 import { BILLSCOLUMNS } from "../../Teachers/columns/BillsColumn"

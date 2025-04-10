@@ -105,7 +105,9 @@ export const ShowClassBalanceHeaderStyle = styled.div`
 
 export const BillsContainerStyle = styled.div`
     margin-bottom: 20px; 
-
+    display: flex; 
+    flex-direction: column ; 
+    
     .bill-body {
         background-color: rgba(243,241, 241, 0.843);
         padding: 20px 10px 10px;

@@ -9,18 +9,23 @@ import { CloseButtonStyle, SearchButtonStyle } from "../style/styleComponents";
 import { useState } from "react"  
 import Notification from "../../Global/Notification";
 import BillsContainer from "./BillsContainer";
-import useInOutComeBills from "../../../hooks/bill_hooks/useInOutComeBills";
 import { FillterBillsHeader } from "../../shared/FillterBillsHeader";
 import { useSelector } from "react-redux";
 import { ManageExternalBillsTEXT } from "../../../Data/static/Bills/ExternalPaysCom/ManageExternalBillsTEXT";
+import useOutComeBills from "../../../hooks/bill_hooks/useOutComeBills";
+import useInComeBills from "../../../hooks/bill_hooks/useInComeBills";
 
 export default function ManagExternalBill() {
 
     const {currentLange} = useSelector( state => state.language)
     const {searchTitle ,closeBtn ,incomeTitle ,outComeTitle ,successDeleteBillMES} = ManageExternalBillsTEXT[currentLange]
+    const limitNumber = 10
     const [successDelete,setSuccessDelete] = useState(false);
+    const [inComePage,setInComePage] = useState(1)
+    const [outComePage,setOutComePage] = useState(1)
+    const [inComeBills] = useInComeBills(limitNumber , inComePage ,successDelete)
+    const [outComeBills] = useOutComeBills(limitNumber , outComePage ,successDelete)
     const [openSearch,setOpenSearch] = useState(false)
-    const [inComeBills,outComeBills] = useInOutComeBills(successDelete)
     const [searchFiled,setSearchFiled] = useState('');
     const [radioState,setRadioState] = useState({
         billNo: true , 
@@ -37,8 +42,8 @@ export default function ManagExternalBill() {
                     <CloseButtonStyle onClick={()=>{setOpenSearch(false);setSearchFiled('')}}> {closeBtn} </CloseButtonStyle>
                 </FillterBillsHeader>
             }
-            <BillsContainer bills={inComeBills} title={incomeTitle} radiofilter={radioState} searchInput={searchFiled} cardType={'manage'} setSuccessDelete={setSuccessDelete} />
-            <BillsContainer bills={outComeBills} title={outComeTitle} radiofilter={radioState} searchInput={searchFiled} cardType={'manage'} setSuccessDelete={setSuccessDelete} />
+            <BillsContainer bill={inComeBills} setPage={setInComePage} title={incomeTitle} radiofilter={radioState} searchInput={searchFiled} cardType={'manage'} setSuccessDelete={setSuccessDelete} />
+            <BillsContainer bill={outComeBills} setPage={setOutComePage} title={outComeTitle} radiofilter={radioState} searchInput={searchFiled} cardType={'manage'} setSuccessDelete={setSuccessDelete} />
         </>
     )
 }

@@ -43,7 +43,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
 
   const [studentDetails, setStudentDetails] = useState(studentInformation);
   const [ClassType, setClassType] = useState(studentInformation.class.gender);
-  const [classes] = useClasses(studentDetails.class.grade.grade || studentDetails.class.grade)
+  const [classes] = useClasses(studentDetails.class.grade?.grade || studentDetails.class?.grade)
   const filteringClasses = classes.filter((currentClass) => {
     return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
   });

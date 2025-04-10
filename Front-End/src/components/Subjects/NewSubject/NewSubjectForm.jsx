@@ -20,8 +20,8 @@ export default function NewSubjectForm() {
 
     // page text content 
     const {currentLange} = useSelector( state => state.language)
-    const {title,subjectTitle ,subjectMark ,subjectGrade,subjectType ,createBtn,validationMessages,successCreateSubjectMES} = NewSubjectFormText[currentLange]
-    const {subjectVal ,maxMarkVal ,subjectTypeVal ,gradeVal} = validationMessages
+    const {title,subjectTitle ,subjectMark ,subjectGrade ,createBtn,validationMessages,successCreateSubjectMES} = NewSubjectFormText[currentLange]
+    const {subjectVal ,maxMarkVal ,gradeVal} = validationMessages
 
  
     const [subjectForm,setSubjectForm] = useState(initailSubjectState)
@@ -30,8 +30,7 @@ export default function NewSubjectForm() {
     const [validation,setValidation] = useState({
         subject: false,
         grade : false,
-        maximumMark: false,
-        subjectType: false
+        maximumMark: false
     })
 
     async function handleInputChange(value,key,key1) {
@@ -100,16 +99,6 @@ export default function NewSubjectForm() {
                         </FormSelectdStyle>
                         <ErrorMessage showMessage={validation.grade} message={gradeVal}/>
                     </FormSubRowStyle>
-                    {
-                        subjectForm.grade == 'bachelor' && 
-                        <FormRowStyle >      
-                            <FormSubRowStyle width={'100%'}>
-                                <LabelStyle color={'#056699'}>{subjectType}</LabelStyle>
-                                <InputStyle className={validation.subjectType ? "error" : ""} type="text" value={subjectForm.subjectType} onChange={(e) =>handleInputChange(e.target.value,'subjectType')}/>
-                                <ErrorMessage showMessage={validation.subjectType} message={subjectTypeVal}/>
-                            </FormSubRowStyle>
-                        </FormRowStyle>
-                    }
                     <SubmitBtnStyle > {createBtn}</SubmitBtnStyle>
                 </FormStyle>
             </FormMainContainer>

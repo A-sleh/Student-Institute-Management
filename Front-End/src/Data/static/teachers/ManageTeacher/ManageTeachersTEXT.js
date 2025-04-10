@@ -11,7 +11,8 @@ export const ManageTeachersTEXT  = {
         successDeleteTeacherSubjectMES: 'تم حذف مادة المدرس' ,
         successUpdateTeacherMES: 'تم تحديث بيانات المدرس بنجاح' ,
         errorDeleteTeacherMES: 'المدرس يقوم بالتدريس باحد الشعب',
-        successDeleteTeacherMES: 'تم حذف الأستاذ بنجاح' 
+        successDeleteTeacherMES: 'تم حذف الأستاذ بنجاح' ,
+        notFoundMES: 'لايوجد اساتذه بهذا الأسم'
     },
     english : {
         
@@ -25,7 +26,8 @@ export const ManageTeachersTEXT  = {
         successDeleteTeacherSubjectMES: 'Delete Teacher Subject' ,
         successDeleteTeacherMES: 'Delete Teacher ' ,
         successUpdateTeacherMES: 'Updata Teacher ' ,
-        errorDeleteTeacherMES: 'Teacher is teaching in one of the classes.'
+        errorDeleteTeacherMES: 'Teacher is teaching in one of the classes.',
+        notFoundMES: 'there are teachers like this name'
         
     }
 }

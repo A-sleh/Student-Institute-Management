@@ -4,7 +4,8 @@ import {  TableContainerStyle, TableStyle } from "./style/tableTagsStyle";
 import TableControalSection from "./TableControalSection";
 import SearchSubHeader from "./SearchSubHeader";
 import TableControalSection2 from "./TableControalSection_2";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 export default function TablePaginated(props) {
@@ -12,6 +13,7 @@ export default function TablePaginated(props) {
     const {currentLange} = useSelector( state => state.language)
     const { data = [], column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn , search = null } = props
     const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
+    const changePage = useNavigate()
     
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, prepareRow, state, setGlobalFilter, pageCount } = useTable({
         data: data ,
@@ -30,8 +32,8 @@ export default function TablePaginated(props) {
             return 
         }
         if( url == 'unAble') return 
-        if(idKeyParams) gotoPage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
-        else gotoPage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
+        if(idKeyParams) changePage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
+        else changePage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
     }
     
     function renderHeader() {

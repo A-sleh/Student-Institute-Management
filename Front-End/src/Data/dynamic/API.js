@@ -2,8 +2,8 @@ const URL = "https://localhost:7279";
 
 export default {
   Student: {
-    get: (id,gradId,limit=1000000,page=1) => {
-      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}${gradId}`).then((response) =>
+    get: (id,queryParam,limit=1000000,page=1) => {
+      return fetch(`${URL}/Student/${id || ""}?limit=${limit}&page=${page}${queryParam}`).then((response) =>
         response.json()
       );
     },
@@ -240,8 +240,8 @@ export default {
   },
   Bill : {
     get:{
-      global : (limit,type) => {
-        return fetch(`${URL}/Bill?type=${type}&limit=${limit}`).then((response) =>
+      global : (type,limit=100000,page=1,moreQuery='') => {
+        return fetch(`${URL}/Bill?type=${type}&limit=${limit}&page=${page}&${moreQuery}`).then((response) =>
           response.json()
         );
       },

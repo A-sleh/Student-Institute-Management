@@ -17,7 +17,6 @@ import { FilterClassByGradeI } from "../shared/subHeaderTable/FilterClassByGrade
 import useGetStudentsByName from "../../hooks/student_hooks/useGetStudentsByName";
 import { useSelector } from "react-redux";
 import { StudentsDetailsText } from "../../Data/static/Students/StudentsInformation/StudentsDetails";
-import { errorActionLogic } from "../shared/logic/logic";
 
 export default function StudentsDetails() {
 
@@ -29,11 +28,11 @@ export default function StudentsDetails() {
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
   const [selectedClass,setSelectedClass] = useState('all')
   const [searchField,setSearchField] = useState('')
-  const [sendRequest,setSendRequest] = useState(false)
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
+  const [sendRequest,setSendRequest] = useState(false)
   const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest)
   const [currentPage,setCurrentPage] = useState(1)
   const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,15,currentPage,successDeleteStudent);
@@ -43,7 +42,6 @@ export default function StudentsDetails() {
     if(selectedClass != 'all') 
       setSearchField('')
   },[selectedClass]) 
-
 
   function handleSearchClicked() {
     setSendRequest(true)
@@ -59,12 +57,16 @@ export default function StudentsDetails() {
   }
 
   function mappingClassStudents(students,classTitle = null) {
+
+      let removeStudentsOBJ = {...selectedClass}
+      delete removeStudentsOBJ?.students
+
       return students?.map( student => {
-        return {
+        return {...{
           ... student ,
           full_name: student.name + ' ' + student.lastName ,
-          className: classTitle == null ? student?.class?.title : classTitle
-        }
+          className: classTitle == null ? student?.class?.title : classTitle,
+        },class: selectedClass?.students != undefined ? removeStudentsOBJ : student?.class}
       })
   }
 
@@ -90,7 +92,7 @@ export default function StudentsDetails() {
               <i className="bi bi-person-lines-fill"></i>
             </Link>
             <Link
-              to={`/UpdateStudent/${row.original.id}?data=${encodeURIComponent(
+              to={`/UpdateStudent/${row.original.studentId}?data=${encodeURIComponent(
                 JSON.stringify(row.original)
               )}`}
               style={{ color: "rgb(0 76 255 / 85%)", cursor: "pointer" }}
@@ -136,7 +138,7 @@ export default function StudentsDetails() {
       totalPage: totalPages
     } 
   }
-
+  
   return (
     <>
       {
