@@ -13,12 +13,16 @@ import ErrorMessage from "../../shared/ErrorMessage";
 import ShowInputCard from "../../shared/ShowInputCard";
 import { successActionLogic } from "../../shared/logic/logic";
 import { NewTeacherTEXT } from "../../../Data/static/teachers/NewTeacher/NewTeacherTEXT";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { TOTAL_PAGES } from "../../../Redux/actions/type";
+
 
 export default function TeacherForm(props) {
 
   const {currentLange} = useSelector( state => state.language)
   const {teacherTitle,backBtn,updateBtn ,name ,lastName ,phoneNumber ,submitBtn ,validationMessages} = NewTeacherTEXT[currentLange]
+  const {totalPages : teachersNumber } = useSelector( state => state.pageCounter)
+  const dispatch = useDispatch()
 
   const {nameVal ,lastNameVal ,phoneNumberVal } = validationMessages
 
@@ -48,6 +52,10 @@ export default function TeacherForm(props) {
 
     if( requestType === 'POST' ) { // To Reest input feild if we use form to create new teacher
       setTeacherDetails(initialSatate);
+      dispatch({
+        type: TOTAL_PAGES,
+        payload: teachersNumber + 1
+      })
     }
 
     successActionLogic(setSuccessAction)

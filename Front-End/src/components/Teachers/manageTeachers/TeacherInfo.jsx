@@ -43,7 +43,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
   });
 
   
-  const { name , lastName , phone ,teacherClasses ,totalSalary} = teacherInfo
+  const { name = '' , lastName = '', phone = '' ,teacherClasses = 0 ,totalSalary = 0 } = teacherInfo
   
   const teacherDetailsList = [
     {
