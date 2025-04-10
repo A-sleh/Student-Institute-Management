@@ -62,7 +62,7 @@ AS
 		FROM Bill b
 		LEFT OUTER JOIN Student s ON b.StudentId = s.id
 		LEFT OUTER JOIN Teacher t ON b.TeacherId = t.Id
-		WHERE b.TeacherId is null AND b.StudentId is null)
+		WHERE b.TeacherId is null AND b.StudentId is null AND (@billType is null OR b.Type = @billType))
 		SET @sql = CONCAT(@declare, ' ', @query,' ',@external);
 	END
 	ELSE
