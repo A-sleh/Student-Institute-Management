@@ -28,6 +28,7 @@ namespace MiniAPI
             });
             var app = builder.Build();
             app.UseRouting();
+            app.UseCors("CorsPolicy");
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -41,7 +42,7 @@ namespace MiniAPI
             app.UseAuthorization();
             app.UseHttpsRedirection();
 
-            app.UseCors("CorsPolicy");
+            
 
             app.UseEndpointsMapper();
 
