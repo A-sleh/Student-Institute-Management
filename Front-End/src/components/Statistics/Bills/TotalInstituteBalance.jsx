@@ -58,7 +58,7 @@ export default function TotalInstituteBalance() {
         {
             title : {
                 english: 'Total penefite' ,
-                arabic: 'إجمالي الفوائد'
+                arabic: 'إجمالي الأرباح'
             },
             content : penefite,
             iconPath : "bi bi-currency-dollar",

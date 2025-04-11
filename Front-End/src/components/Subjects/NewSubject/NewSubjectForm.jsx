@@ -10,10 +10,11 @@ import { useSelector } from "react-redux";
 
 const initailSubjectState = {
     subject: "",
-    grade : '',
-    gradeId: 0,
-    maximumMark: 0,
-    subjectType: ''
+    grade : {
+        grade: '' ,
+        gradeId: ''
+    },
+    maximumMark: 0
 };
 
 export default function NewSubjectForm() {
@@ -33,21 +34,20 @@ export default function NewSubjectForm() {
         maximumMark: false
     })
 
-    async function handleInputChange(value,key,key1) {
+    async function handleInputChange(value,key) {
 
         let copyData = new Map()
+
         copyData = {...subjectForm} 
-        if(key1 != undefined) {
-            copyData[key1] =await value.split(' ')[0] 
-            copyData[key] = await value.split(' ')[1]
-        }else  copyData[key] = value 
+        copyData[key] = value 
     
         setSubjectForm(copyData)
     
     }
     
     function validateInput() {
-        const { subject , grade , maximumMark , subjectType } = subjectForm
+        const { subject , grade : mainGrade , maximumMark , subjectType } = subjectForm
+        const { grade , gradeId } = mainGrade
 
         setValidation({
             subject: subject == "",
@@ -59,13 +59,21 @@ export default function NewSubjectForm() {
         return subject == '' || grade == '' || maximumMark < 1 || /[^0-9]/.test(maximumMark) || (grade == 'bachelor' &&  subjectType == '')
     }
 
+    function ManipulateOnObject() {
+
+        let mainpulateOBJ = { initailSubjectState } 
+        delete mainpulateOBJ['grade'] 
+        mainpulateOBJ = {...initailSubjectState.grade ,...mainpulateOBJ }
+    }
+
+
     function handleSubmitClicked(e) {
         e.preventDefault() ;
 
         if(!validateInput()) {
-            subjectForm.subject += `.${subjectForm.subjectType}`
             DataServices.CreateSubject(subjectForm).then( _ => {
-                setSubjectForm(initailSubjectState)
+
+                setSubjectForm(ManipulateOnObject())
                 successActionLogic(setSuccessCreateSubject)
             })
         }
@@ -93,9 +101,9 @@ export default function NewSubjectForm() {
                     </FormRowStyle>
                     <FormSubRowStyle width={'100%'}>
                         <LabelStyle color={'#056699'}>{subjectGrade}</LabelStyle>
-                        <FormSelectdStyle value={subjectForm.gradeId+' '+subjectForm.grade} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(e.target.value,'grade','gradeId')}>
+                        <FormSelectdStyle value={encodeURIComponent(JSON.stringify(subjectForm.grade))} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange(JSON.parse(decodeURIComponent(e.target.value)),'grade')}>
                             <option value={""}></option>
-                            { grades.map((grade,index) => { return <option key={index} value={grade.gradeId+' '+grade.grade}>{grade.grade}</option> }) }
+                            { grades.map((grade,index) => { return <option key={index} value={encodeURIComponent(JSON.stringify(grade))}>{grade.grade}</option> }) }
                         </FormSelectdStyle>
                         <ErrorMessage showMessage={validation.grade} message={gradeVal}/>
                     </FormSubRowStyle>

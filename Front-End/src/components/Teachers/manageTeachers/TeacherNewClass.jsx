@@ -17,6 +17,7 @@ import Table from "../../shared/Table";
 import { useSelector } from "react-redux";
 import { TeacherNewClassTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewClassTEXT";
 import { successActionLogic } from "../../shared/logic/logic";
+import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 export default function TeacherNewClass() {
 
@@ -193,7 +194,18 @@ export default function TeacherNewClass() {
 function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}) { 
 
     const {currentLange} = useSelector( state => state.language)
+    const {isAdmin} = useSelector( state => state.admin)
     const {teacherSubjects} = TeacherNewClassTEXT[currentLange]
+    const fieldMustAutherized = isAdmin ? [{ 
+        Header: {
+            arabic: 'الراتب',
+            english: 'salary' 
+        },
+        accessor : 'salary',
+        Cell: ({value}) => {
+            return addSpaceBetweenDigit(value)
+        }
+    } ]: []
     const teachersCOULMN = AllTeachers ?  [
         {  
             Header: {
@@ -229,13 +241,7 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
             },
             accessor : 'subject.subject'
         },
-        {   
-            Header: {
-                arabic: 'العلامه العظمى',
-                english: 'Maximum Mark' 
-            },
-            accessor : 'subject.maximumMark'
-        },
+        ...fieldMustAutherized,
         {
             Header: {
                 arabic: 'اختيار', 
@@ -246,7 +252,7 @@ function SubjectsTable({subjects,setSelectedSubject,selectedSubject,AllTeachers}
                 return <input checked={selectedSubject.teacherSubjectId == row.original.teacherSubjectId} onChange={ () => {setSelectedSubject(row.original)}} type="radio"   />
             }
         }
-    ],[selectedSubject,currentLange])
+    ],[selectedSubject,currentLange,isAdmin])
     
     return (
         <>
@@ -286,7 +292,7 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade,All
         <>
             <h3 style={{marginBottom: '6px'}}>{allClassesTitle}</h3>
             <Table column={columns} data={classFiltering || []} showMainHeader={false} styleObj = {{padding: '5px' , fontSize : '14px' , sameColor : false}}>
-                <FilterGradeHeader setFilter={setFilter} filter={filter} />
+                { AllTeachers ?  null : <FilterGradeHeader setFilter={setFilter} filter={filter} />  }
             </Table>
         </>
     )
