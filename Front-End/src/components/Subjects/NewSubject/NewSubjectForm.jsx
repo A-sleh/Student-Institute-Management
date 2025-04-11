@@ -52,8 +52,7 @@ export default function NewSubjectForm() {
         setValidation({
             subject: subject == "",
             grade : grade == '',
-            maximumMark: maximumMark < 1 || /[^0-9]/.test(maximumMark),
-            subjectType: grade == 'bachelor' &&  subjectType == ''
+            maximumMark: maximumMark < 1 || /[^0-9]/.test(maximumMark)
         }) 
         
         return subject == '' || grade == '' || maximumMark < 1 || /[^0-9]/.test(maximumMark) || (grade == 'bachelor' &&  subjectType == '')
@@ -61,9 +60,9 @@ export default function NewSubjectForm() {
 
     function ManipulateOnObject() {
 
-        let mainpulateOBJ = { initailSubjectState } 
+        let mainpulateOBJ = { ...subjectForm } 
         delete mainpulateOBJ['grade'] 
-        mainpulateOBJ = {...initailSubjectState.grade ,...mainpulateOBJ }
+        return mainpulateOBJ = {...subjectForm.grade ,...mainpulateOBJ }
     }
 
 
@@ -71,9 +70,8 @@ export default function NewSubjectForm() {
         e.preventDefault() ;
 
         if(!validateInput()) {
-            DataServices.CreateSubject(subjectForm).then( _ => {
-
-                setSubjectForm(ManipulateOnObject())
+            DataServices.CreateSubject(ManipulateOnObject()).then( _ => {
+                setSubjectForm(initailSubjectState)
                 successActionLogic(setSuccessCreateSubject)
             })
         }
