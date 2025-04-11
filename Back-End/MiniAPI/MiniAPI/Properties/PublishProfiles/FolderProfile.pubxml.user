@@ -6,7 +6,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Users\VICTUS\Documents\GitHub\Student-Institute-Management\Back-End\MiniAPI\MiniAPI\bin\Release\net8.0\publish\</_PublishTargetUrl>
-    <History>True|2025-04-11T03:52:56.4428346Z;</History>
+    <History>True|2025-04-11T13:51:25.1073505Z;True|2025-04-11T06:52:56.4428346+03:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
