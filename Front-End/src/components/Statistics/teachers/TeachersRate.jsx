@@ -28,7 +28,7 @@ export default function TeachersRate() {
         }),
         title : currentLange == ARABIC ?  ' تقييم الأساتذه في ماده ' +  selectedSubject?.subject  : 'teachers rate in ' +  selectedSubject?.subject + ' subject',
         color: '#00aeffb7',
-        direction : 'right'
+        direction : 'left'
     }
 
     useEffect(() => {

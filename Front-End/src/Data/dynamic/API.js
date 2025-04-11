@@ -1,4 +1,4 @@
-const URL = "https://192.168.1.33:7279";
+const URL = "https://localhost:7279";
 
 export default {
   Student: {

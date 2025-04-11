@@ -26,7 +26,7 @@ export default function StudentReportsAvg() {
                 avg : reports.Average,
             }
         }) ,
-        title : currentLange == ARABIC ? ' معدلات الطلاب في التقرير' : 'students average reports'
+        title : currentLange == ARABIC ? 'معدل الطالب في جميع تقارير' : 'student average reports'
     } 
 
     useEffect(() => {

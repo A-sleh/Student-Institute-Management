@@ -10,7 +10,7 @@ export default function LatestBills() {
 
     const {currentLange} = useSelector( state => state.language)
     const {isAdmin} = useSelector( state => state.admin)
-    const [filterType,setFilterType] = useState('student')
+    const [filterType,setFilterType] = useState('external')
     const [teacherBills,studentBills,externalBills] = useLatestBills(6)
     const selectedBills = specifyBillType(filterType)
     const column = useMemo(() => [
@@ -22,7 +22,7 @@ export default function LatestBills() {
             accessor: 'owner',
             Cell : ({row}) => {
                 const person = row.original[filterType]
-                if(filterType == 'external') return currentLange == ARABIC ? 'لايوجد' : 'There are no'
+                if(filterType == 'external') return '----'
                 return person.name + ' ' + person.lastName
             }
         },
@@ -43,9 +43,9 @@ export default function LatestBills() {
     return (
         <BackgroundLayoutStyle>
             <SelectorStyle value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                {isAdmin &&<option value={'teacher'}>{currentLange == ARABIC ? 'فواتير الأساتذه' : 'Teachers'}</option>}
-                <option value={'student'}>{currentLange == ARABIC ? 'فواتير الطلاب' : 'Student'}</option>
                 <option value={'external'}>{currentLange == ARABIC ? 'اللفواتير الخارجيه' : 'External'}</option>
+                <option value={'student'}>{currentLange == ARABIC ? 'فواتير الطلاب' : 'Student'}</option>
+                {isAdmin &&<option value={'teacher'}>{currentLange == ARABIC ? 'فواتير الأساتذه' : 'Teachers'}</option>}
             </SelectorStyle>
             <Table data={selectedBills} column={column} showMainHeader={false} styleObj={{padding: '4px' , fontSize: '13px' , sameColor: true}}/>
         </BackgroundLayoutStyle>

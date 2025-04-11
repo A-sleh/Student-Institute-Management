@@ -34,7 +34,7 @@ export default function IncomeOutComeBalanceInRangedMonth() {
     }
     
     return (
-        <BackgroundLayoutStyle style={{flex: '1.5'}}>
+        <BackgroundLayoutStyle style={{flex: '1.2'}}>
             <div style={{display: 'flex' , gap: '5px'}}>
                 <InputStatisticsStyle type={'date'} value={ format(date.startDate,'yyyy-MM-dd')} onChange={(e) => setDate({...date,startDate: e.target.value})}/>
                 <InputStatisticsStyle type={'date'} value={date.endDate} onChange={(e) => setDate({...date,endDate: e.target.value})}/>

@@ -18,7 +18,7 @@ export default function ClassAvgInCurrentReport() {
     const [classesAvgInCurrentReport] = useGetTheAvgClassesInCurrentReport(selectedReport?.reportId || '')
     const data = {
         data : classesAvgInCurrentReport ,
-        title : (currentLange == ARABIC ? '  معدل الشعب في التقرير' : 'Classes average in ') + selectedReport?.reportTitle +  (currentLange == ARABIC ? '' : ' report'),
+        title : ` ${currentLange == ARABIC ? '  معدل الشعب في تقرير' : 'Classes average in '}  ${selectedReport?.reportTitle}  ${currentLange == ARABIC ? ' ' : ' report '}`,
         fillColor: '#0964cc'
     }
 
