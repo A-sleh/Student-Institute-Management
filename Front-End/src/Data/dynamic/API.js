@@ -47,8 +47,10 @@ export default {
     },
   },
   Absence : {
-    get: () => {
-      
+    get: (classId,abcenceDate) => {
+      return fetch(`${URL}/Student/Absence/${classId}?date=${abcenceDate}`).then((response) =>
+        response.json()
+      );
     },
     post : (userIds,date) => {
       return fetch(`${URL}/Student/Absence?date=${date}` ,{

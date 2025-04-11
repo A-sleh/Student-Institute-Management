@@ -12,6 +12,7 @@ import DataServices from "../../../Data/dynamic/DataServices";
 import { errorActionLogic, successActionLogic } from "../../shared/logic/logic";
 import Notification from "../../Global/Notification";
 import { studentMissDaysTEXT } from "../../../Data/static/Students/studentsMissDays/studentMissDaysTEXT";
+import useGetStudentAbsence from "../../../hooks/student_hooks/useGetStudentAbsence";
 
 
 export default function ClassStudents() {
@@ -34,7 +35,7 @@ export default function ClassStudents() {
     const [students] = useGetStudentsInCurrentClass({classId,classTitle})
 
     // demo data to simulate the idea
-    const studentWhoGetThierMissDay = useMemo(() => ({ 1 : new Date(2025,3,11) , 15 : new Date(2025,3,11) }),[] )
+    const [studentWhoGetThierMissDay] = useGetStudentAbsence(classId,missedDaysDate)
     
     const unValidInputs = () => {
       return missedDaysDate == ''|| selectedFlatRows.length == 0 ;
@@ -60,12 +61,8 @@ export default function ClassStudents() {
         })
     }
 
-    function studentsMissDayWasTaken(studentId) {
-
-      if ( studentWhoGetThierMissDay[studentId] == undefined ) 
-        return false 
-
-      return  (format(studentWhoGetThierMissDay[studentId], 'yyyy-MM-dd')  ==  format(missedDaysDate , 'yyyy-MM-dd') )
+    function studentsMissDayWasTaken(studentId) {      
+      return  studentWhoGetThierMissDay.indexOf(studentId) != -1
     }
 
     const COLULMS = useMemo(() => [

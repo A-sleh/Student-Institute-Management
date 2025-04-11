@@ -24,6 +24,12 @@ export default {
   DeleteSutent: (id) => {
     return API.Student.delete(id);
   },
+  StudentsAbsence: (studentsIds,date) => {
+    return API.Absence.post(studentsIds,date)
+  },
+  showStudentsAbcenceInCurrentClass : (classId,abcenceDate) => {
+    return API.Absence.get(classId,abcenceDate)
+  },
 
 
   // class? dataservices
@@ -52,9 +58,6 @@ export default {
   // subject? dataServices
   DeleteSubject: (id) => {
     return API.Subject.delete(id);
-  },
-  StudentsAbsence: (studentsIds,date) => {
-    return API.Absence.post(studentsIds,date)
   },
   ShowAllSubject: () => {
     return API.Subject.get();
