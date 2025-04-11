@@ -3,6 +3,7 @@ using DataAcess.Exceptions;
 using DataAcess.Models;
 using System;
 using System.Buffers;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -17,15 +18,15 @@ namespace DataAcess.Data;
 public class StudentData : IStudentData
 {
     private readonly ISqlDataAccess _db;
-    private readonly Dictionary<int, StudentModel> _studentsCache = [];
+    private readonly ConcurrentDictionary<int, StudentModel> _studentsCache = [];
     private bool _firstLoad = true;
     public StudentData(ISqlDataAccess db)
-    { 
+    {
         this._db = db;
     }
 
     #region Data Request
-    
+
     /*
      * Expensive Method, Must Be Forced on first loading
      */
@@ -68,11 +69,11 @@ public class StudentData : IStudentData
         }
         await LoadStudentModelList(classId);
         var students = _studentsCache
-            .Where(student => (classId is null || student.Value.Class?.ClassId == classId) 
+            .Where(student => (classId is null || student.Value.Class?.ClassId == classId)
             && (gradeId is null || student.Value.Class?.GradeId == gradeId));
-       
-         return students.Select(x => x.Value.PureFormat());
-        
+
+        return students.Select(x => x.Value.PureFormat());
+
     }
 
     public async Task<dynamic?> GetStudentByID(int id)
@@ -83,7 +84,7 @@ public class StudentData : IStudentData
             var student = await GetStudentModelById(id);
             if (student != null)
             {
-                _studentsCache.Add(id, student);
+                _studentsCache.TryAdd(id, student);
                 return _studentsCache[id].PureFormat();
             }
             return student?.PureFormat();
@@ -111,13 +112,13 @@ public class StudentData : IStudentData
     public async Task<IEnumerable<dynamic>> GetFilteredStudent(string content = "", int? PageSize = 1000, int? Page = 1)
     {
         var students = await _db.LoadData<StudentModel, dynamic, ClassModel>(
-            "dbo.StudentFastSearch", 
+            "dbo.StudentFastSearch",
             new { content, PageSize, Page },
-            (Student, Class) => 
+            (Student, Class) =>
             {
                 Student.Class = Class;
                 return Student;
-            }, 
+            },
             splitOn: "classId");
         return students.Select(student => student.PureFormat());
     }
@@ -139,12 +140,12 @@ public class StudentData : IStudentData
                 student.Class?.ClassId,
                 student.BillRequired
             });
-            if(student.StudentId != -1)
+            if (student.StudentId != -1)
             {
                 await GetStudentByID(student.StudentId);
             }
         }
-        catch(Exception)
+        catch (Exception)
         {
             throw new Exception($"Student {student.Name} has not been added!");
         }
@@ -165,7 +166,7 @@ public class StudentData : IStudentData
                 student.BillRequired
             });
 
-            if(!_studentsCache.TryAdd(student.StudentId, student))
+            if (!_studentsCache.TryAdd(student.StudentId, student))
             {
                 _studentsCache[student.StudentId] = student;
             }
@@ -181,7 +182,7 @@ public class StudentData : IStudentData
         try
         {
             await _db.ExecuteData("dbo.StudentDelete", new { Id = id });
-            _studentsCache.Remove(id);
+            _studentsCache.TryRemove(id, out _);
         }
         catch (Exception)
         {
@@ -189,7 +190,7 @@ public class StudentData : IStudentData
         }
     }
 
-    public  async Task AddAbsences(IEnumerable<int> studentIds, DateTime Date)
+    public async Task AddAbsences(IEnumerable<int> studentIds, DateTime Date)
     {
         try
         {
@@ -219,13 +220,19 @@ public class StudentData : IStudentData
         {
             var studentId = await _db.ExecuteData("StudentAbsenceDelete", new { absenceId });
 
-            if(_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
+            if (_studentsCache.TryGetValue(studentId, out StudentModel? cachedStudent))
                 cachedStudent.MissedDays--;
         }
         catch (Exception)
         {
             throw new Exception("Error: Absences has not been deleted");
         }
+    }
+
+    public async Task<IEnumerable<int>> GetRecordedAbsence(int classId, DateTime Date)
+    {
+        var studentsId = await _db.LoadData<int, dynamic>("dbo.StudentRecordedAbsence", new { classId, Date });
+        return studentsId;
     }
 
 

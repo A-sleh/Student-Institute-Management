@@ -15,7 +15,7 @@ namespace MiniAPI.APIs
         {
             // Get Student Object Using Id
             app.MapGet("/Student/{id}", GetStudent);
-
+            app.MapGet("/Student/Absence/{classId}", GetRecordedAbsence);
             // Get All Students
             app.MapGet("/Student", GetStudents);
 
@@ -34,6 +34,18 @@ namespace MiniAPI.APIs
 
             // delete a student using its Id
             app.MapDelete("/Student/{id}", DeleteStudent);
+        }
+        private static async Task<IResult> GetRecordedAbsence(IStudentData data,[FromRoute] int classId,[FromQuery] DateTime date)
+        {
+            try
+            {
+                var Ids = await data.GetRecordedAbsence(classId, date);
+                return Results.Ok(Ids);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
         }
         private static async Task<IResult> GetFilteredStudent(IStudentData data, int page = 1, int pageSize = 1000, string content = "")
         {

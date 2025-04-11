@@ -24,7 +24,10 @@ namespace MiniAPI
             app.ConfigureGradeAPI();
             app.ConfigureSettingsAPI();
         }
-
+        /// <summary>
+        /// Configure DI and add services to current web app
+        /// </summary>
+        /// <param name="builder"></param>
         public static void AddProjectServices(this WebApplicationBuilder builder)
         {
 
@@ -36,7 +39,7 @@ namespace MiniAPI
             );
             //Data Access Services
 
-            // Main SQL Access Service using Dapper
+            //SQL Access Service using Dapper
             builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
             // Services

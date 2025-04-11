@@ -13,5 +13,6 @@ namespace DataAcess.Data
         Task AddAbsences(IEnumerable<int> studentId, DateTime date);
         Task DeleteAbsence(int absenceId);
         Task<dynamic?> GetStudentAbsence(int studentId, bool detailed, DateTime? startDate = null, DateTime? endDate = null);
+        Task<IEnumerable<int>> GetRecordedAbsence(int classId, DateTime Date);
     }
 }
