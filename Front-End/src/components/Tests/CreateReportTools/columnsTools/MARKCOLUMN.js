@@ -9,22 +9,22 @@ export const MARKCOLUMN = [
         accessor: 'test.subject.subject'
     },
     {
+        Header: {
+            arabic: 'العلامه العظمى' ,
+            english:  'Maximum Mark'
+        },
+        accessor: 'test.subject.maximumMark'
+    },
+    {
         Header:{
             arabic: 'علامة الطالب' ,
             english:  'Mark'
         } ,
         accessor: 'mark',
         Cell : ({ value }) => {
-            return value || '?'
+            return value || '---'
         }
 
-    },
-    {
-        Header: {
-            arabic: 'العلامه العظمى' ,
-            english:  'Maximum Mark'
-        },
-        accessor: 'test.subject.maximumMark'
     },
     {
         Header: {
