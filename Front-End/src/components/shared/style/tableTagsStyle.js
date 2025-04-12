@@ -113,6 +113,7 @@ export const TableHeaderStyle = styled.div`
             background-color: rgb(6, 101, 153);
             border-radius: 2.4px;
             margin: 0 5px;
+            cursor: pointer ;
             
         }
         .delete-btn {
