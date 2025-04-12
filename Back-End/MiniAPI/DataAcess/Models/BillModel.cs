@@ -99,6 +99,7 @@ public class BillModel
         {
             billId = BillId,
             billNo = BillNo,
+            type = Type,
             amount = Amount,
             date = Date,
             note = Note

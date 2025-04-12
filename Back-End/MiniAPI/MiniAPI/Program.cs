@@ -7,6 +7,7 @@ using System.Diagnostics.SymbolStore;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace MiniAPI
 {
     public class Program
@@ -15,7 +16,8 @@ namespace MiniAPI
         {
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(option => option.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             builder.AddProjectServices();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
