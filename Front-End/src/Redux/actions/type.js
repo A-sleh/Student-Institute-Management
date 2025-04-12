@@ -15,6 +15,13 @@ export const TEACHER_SECTION = 'teacher_section'
 export const TEACHER_SOURCE = 'teachers_data_source'
 export const ALL_TEACHER = 'all_teacher'
 export const SEARCHING_TEACHER = 'searching_teacher'
-export const SEARCH_INPUT_TEACHER = 'search_input'
+export const SEARCH_INPUT_TEACHER = 'search_input_teacher'
+
+export const SEARCH_INPUT_CLASS = 'search_input_class'
+export const CHANGE_CLASS_PAGE = 'change_class_page'
+export const MANAGE_CLASS_PAGE = 'manage_class_page'
+export const SHOW_CLASS_PAGE = 'show_class_page'
+export const CLASS_SECTION = 'class_teacher'
+
 
 

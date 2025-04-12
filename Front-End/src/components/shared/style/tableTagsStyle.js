@@ -110,16 +110,15 @@ export const TableHeaderStyle = styled.div`
             padding: 3px 20px;
             border: none;
             color: white;
-            margin-right: 10px;
             background-color: rgb(6, 101, 153);
             border-radius: 2.4px;
-            margin-left: 5px;
+            margin: 0 5px;
             
         }
         .delete-btn {
             padding: 4px 7px;
             background-color: red ;
-            margin-right: 0px;
+            margin: 2px;
             font-size: 13px;
             line-height: 10px;
         }

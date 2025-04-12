@@ -8,7 +8,8 @@ import { TeacherTagsContainer } from "../style/styleTags";
 import { useNavigate } from "react-router-dom";
 import useClassTeacher from "../../../hooks/class_hooks/useClassTeacher";
 import { ClassesDetailsTEXT } from "../../../Data/static/classes/ClassesDetails/ClassesDetailsTEXT";
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import { CLASS_SECTION } from "../../../Redux/actions/type";
 
 export default function TeacherTagsList({classId,classHasNoTeachers}) {
 
@@ -22,20 +23,29 @@ export default function TeacherTagsList({classId,classHasNoTeachers}) {
             {
                 classHasNoTeachers ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}> {noTeachersWOR} </span> : 
                 <div style={{display: 'flex' , flexWrap: 'wrap' , gap: '10px' , backgroundColor: '#f3f1f1d7' , padding: '10px'}}>
-                    { teachers?.map((teacher,index) => <TeacherTag teacher={teacher} key={index}/> )  }
+                    { teachers?.map((teacher,index) => <TeacherTag teacher={teacher} key={index} classId={classId}/> )  }
                 </div>
             }
         </>
     )
 }
 
-function TeacherTag({teacher}) {
+function TeacherTag({teacher,classId}) {
 
-    const gotoTeacherPage = useNavigate() ;
     const { teacherId, name, lastName  ,teacherSubject} = teacher;
+    const gotoTeacherPage = useNavigate() ;
+    const determainParentClass = useDispatch()
+
+    function handleTeacherTageClicked(teacherId) {
+        determainParentClass({
+            type: CLASS_SECTION ,
+            payload: classId
+        })
+        gotoTeacherPage(`/TeacherInformation/${teacherId}`)
+    }
 
     return (
-        <TeacherTagsContainer key={teacherId}  onClick={() =>gotoTeacherPage(`/TeacherInformation/${teacherId}`)} >
+        <TeacherTagsContainer key={teacherId}  onClick={() =>handleTeacherTageClicked(teacherId)} >
             <span >{teacherSubject?.map( suject => suject.subject.subject + ' / ')}</span> 
             <span>{name} {lastName}</span>
         </TeacherTagsContainer>
