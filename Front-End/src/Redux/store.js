@@ -7,6 +7,7 @@ import adminReducer from './Reducers/adminReducer';
 import changeGrade from './Reducers/changeGrade';
 import manageTeacherPageReducer from './Reducers/manageTeacherPageReducer';
 import classReducer from './Reducers/classReducer';
+import teacherDetailsReducer from './Reducers/teacherDetailsReducer';
 
 
 const store = createStore(combineReducers({
@@ -15,7 +16,8 @@ const store = createStore(combineReducers({
     language:changeLanguageReducer,
     fullScreen:fullScreenReducer,
     pageCounter: manageTeacherPageReducer,
-    classRd: classReducer
+    classRd: classReducer,
+    teacherDetailsPage: teacherDetailsReducer
 })) ;
 
 export default store

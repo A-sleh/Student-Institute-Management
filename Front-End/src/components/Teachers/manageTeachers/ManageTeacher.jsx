@@ -15,6 +15,7 @@ import { useNavigate ,ScrollRestoration } from "react-router-dom";
 import SearchSubHeader from "../../shared/SearchSubHeader";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
 import { ALL_TEACHER, CHANGE_CURRENT_PAGE, SEARCH_INPUT_TEACHER, SEARCHING_TEACHER, TEACHER_SECTION, TEACHER_SOURCE, TEACHERS, TOTAL_PAGES } from "../../../Redux/actions/type";
+import useScroolingTo from "../../../hooks/shared/useScroolingTo";
 
 export default function ManageTeacher() {
 
@@ -107,16 +108,7 @@ export default function ManageTeacher() {
         }
     },[searchInput,teachersInfo]) 
 
-    useLayoutEffect(() => {
-        setLoading(true)
-        setTimeout(() =>{
-            setLoading(false)
-            window.scrollTo({
-                behavior: 'smooth',
-                top: gotoSec.current?.offsetTop - 100 
-            })
-        }, 1500)
-    },[gotoSec])
+    useScroolingTo(gotoSec,setLoading)
 
     const lastTeacherElementRef = useCallback(  
         (node) => {
