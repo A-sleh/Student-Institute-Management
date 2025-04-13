@@ -28,6 +28,10 @@ export const TOTAL_PAGES_DETAILS = 'total_pages_details'
 export const TEACHER_SOURCE_DETAILS = 'teachers_data_source_details'
 export const TEACHER_COUNT_DETAILS = 'teachers_number_details'
 
+// STUDENT BILLS SATATES
+export const FILTER_STUDENTS_BY_CLASS = 'filter_students_by_class'
+
+
 export const SEARCH_INPUT_CLASS = 'search_input_class'
 export const CHANGE_CLASS_PAGE = 'change_class_page'
 export const MANAGE_CLASS_PAGE = 'manage_class_page'
