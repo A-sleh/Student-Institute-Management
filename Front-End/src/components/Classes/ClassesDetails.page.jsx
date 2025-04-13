@@ -58,7 +58,6 @@ export default function ClassesDetails() {
     
     if( grade?.toLowerCase() != selectedGrade?.grade?.toLowerCase()) return
     if( !title?.toLowerCase().includes(searchField?.toLowerCase()) ) return
-    console.log(classId,lastClassClicked)
     return <div ref={classId == lastClassClicked ? goToSection : null}>
       <ClassInfo id={classId} classDetails={Class} key={index}  />
     </div>

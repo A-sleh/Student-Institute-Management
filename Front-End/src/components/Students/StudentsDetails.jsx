@@ -125,6 +125,7 @@ export default function StudentsDetails() {
       }
     // data comes from selector filter
     if(selectedClass != 'all' ) {
+      setCurrentPage(1)
       return {
         data: mappingClassStudents(selectedClass?.students,selectedClass?.title) ,
         studentsNum: selectedClass?.students?.length ,

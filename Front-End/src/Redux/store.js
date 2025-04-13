@@ -9,6 +9,7 @@ import manageTeacherPageReducer from './Reducers/manageTeacherPageReducer';
 import classReducer from './Reducers/classReducer';
 import teacherDetailsReducer from './Reducers/teacherDetailsReducer';
 import studentsBillsReducer from './Reducers/studentsBillsReducer';
+import showStudentsBillsReducer from './Reducers/showStudentsBillsReducer';
 
 
 const store = createStore(combineReducers({
@@ -19,7 +20,8 @@ const store = createStore(combineReducers({
     pageCounter: manageTeacherPageReducer,
     classRd: classReducer,
     teacherDetailsPage: teacherDetailsReducer,
-    studentsBill: studentsBillsReducer
+    studentsBill: studentsBillsReducer,
+    showStudentBills: showStudentsBillsReducer
 })) ;
 
 export default store

@@ -284,7 +284,6 @@ function  ClassesTable({classes,setSelectedClass,selectedClass,selectedGrade,All
     ],[selectedClass])
 
     const classFiltering = classes.filter( Class => {
-        // console.log(Class)
         return ((filter == Class.grade || filter?.toLowerCase() == 'all') && ( AllTeachers ? selectedClass?.classId ==  Class.classId : true))
     })
 

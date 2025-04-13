@@ -27,7 +27,6 @@ export default function ShowBillExternalDetails() {
     const [inComeBills] = useInComeBills(limitNumber , inComePage ,successDelete)
     const [outComeBills] = useOutComeBills(limitNumber , outComePage ,successDelete)
 
-    console.log(inComeBills,outComeBills)
     // const [inComeBills,outComeBills] = useInOutComeBills(successDelete)
     const [openSearch,setOpenSearch] = useState(false)
     const [searchFiled,setSearchFiled] = useState('');

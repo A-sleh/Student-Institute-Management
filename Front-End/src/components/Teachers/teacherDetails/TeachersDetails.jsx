@@ -24,8 +24,7 @@ import { ALL_TEACHER, CHANGE_CURRENT_PAGE_DETAILS, NUMBER_ROWS_DETAILS, SEARCHIN
 export default function TeachersDetails() {
 
   const LIMIT_NUMBER = 12
-  const x = useSelector( state => state.teacherDetailsPage)
-  console.log(x)
+  
   const {numberOfTeachers,searchField,currentPage,numberOfRows, totalPages ,teachers : showingTeachers ,dataFrom} = useSelector( state => state.teacherDetailsPage)
   const {currentLange} = useSelector( state => state.language)
   const {isAdmin} = useSelector( state => state.admin)
@@ -37,13 +36,10 @@ export default function TeachersDetails() {
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
   const [unAutherized,setUnAutherized] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
-  // const [currentPage,setCurrentPage] = useState(1)
   const [sendRequest,setSendRequest] = useState(false)
   const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest)
-
   const [teachers] = useTeachersInfo(LIMIT_NUMBER,currentPage,successDeleteTeacher)
   const { teachers : allTeachers , totalPages : totalPageOfAllTeachers , totalTeachers : totalNumberOfAllTeachers} = teachers
-
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
       id: null,
       name: "",
