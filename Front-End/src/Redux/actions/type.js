@@ -44,6 +44,18 @@ export const S_BILL_CURRENT_PAGE = 's_bill_current_page'
 export const S_BILL_TOTAL_PAGES = 's_bill_total_page'
 export const S_DATA_ORIGIN = 's_origin_data'
 
+// TEACHER BILLS SATETES
+export const TEACHER_BILLS = 'teacher_bills'
+export const TEACHER_BILLS_CURRENT_PAGE = 'teacher_bills_current_page'
+export const TEACHER_BILLS_TOTAL_PAGE = 'teacher_bills_total_page'
+export const TEACHER_BILLS_SEARCH_FIELD = 'teacher_bills_search_field'
+export const TEACHER_BILLS_DATA_ORIGIN = 'teacher_bills_data_origin'
+export const S_TEACHER_BILLS = 's_teacher_bills'
+export const S_TEACHER_BILLS_CURRENT_PAGE = 's_teacher_bills_current_page'
+export const S_TEACHER_BILLS_TOTAL_PAGE = 's_teacher_bills_total_page'
+export const S_TEACHER_BILLS_SEARCH_FIELD = 's_teacher_bills_search_field'
+export const S_TEACHER_BILLS_DATA_ORIGIN = 's_teacher_bills_data_origin'
+
 
 
 export const SEARCH_INPUT_CLASS = 'search_input_class'
