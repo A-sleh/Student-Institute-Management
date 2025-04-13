@@ -22,5 +22,6 @@ namespace DataAcess.Data
         Task<int> AddBill(BillModel bill);
         Task<int> GetRestOf(string type);
         Task<int> GetTotalByParam(DateTime? startDate, DateTime? endDate, string param);
+        Task<IEnumerable<dynamic>> GetExternalFiltered(string note = "", string billNo = "", string? type = null, DateTime? date = null);
     }
 }

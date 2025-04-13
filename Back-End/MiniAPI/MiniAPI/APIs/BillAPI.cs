@@ -48,9 +48,22 @@ public static class BillAPI
         // Get Rest Income or Outcome that will be gained/paid in future
         app.MapGet("/Bill/Rest/{type}", GetRestOf);
 
-        
+        app.MapGet("/Bill/External/Filter", GetExternalFiltered);
 
     }
+    private static async Task<IResult> GetExternalFiltered(IBillData data, string billNo = "", string note = "", string? billType = null, DateTime? date = null)
+    {
+        try
+        {
+            var bills = await data.GetExternalFiltered(note, billNo, billType, date);
+            return Results.Ok(bills);
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+    }
+
     private static async Task<IResult> GetRestOf(IBillData data, string type)
     {
         try

@@ -29,8 +29,7 @@ public class BillData : IBillData
 
     #region Data Request
 
-    public async Task<PaginatedModel<IEnumerable<BillModel>>> GetBills(
-        string? billType = null,
+    public async Task<PaginatedModel<IEnumerable<BillModel>>> GetBills(string? billType = null,
         BillModel.BillOwnership? billOwner = null,
         int limit = MaxLimit,
         int page = 1,
@@ -129,6 +128,15 @@ public class BillData : IBillData
         var bills = await GetBills(billType: billType, startDate: startDate, endDate: endDate);
         int total = bills.Data.Sum(s => s.Amount);
         return total;
+    }
+
+    public async Task<IEnumerable<dynamic>> GetExternalFiltered(string note = "",
+        string billNo = "",
+        string? type = null,
+        DateTime? date = null)
+    {
+        var externalBills = await _db.LoadData<BillModel, dynamic>("dbo.BillGetFilteredExternal", new { note, billNo, type, date });
+        return externalBills.Select(bill => bill.AsExternalBill());
     }
     
     #endregion
