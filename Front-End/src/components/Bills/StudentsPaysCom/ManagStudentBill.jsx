@@ -16,6 +16,8 @@ import { ALL_STUDENTS_BILLS, M_BILL_CURRENT_PAGE, M_BILL_TOTAL_PAGES, M_DATA_ORI
 import useGetStudentBillsByName from "../../../hooks/student_hooks/useGetStudentBillsByName"
 import Notification from "../../Global/Notification"
 import { ManageStudentBillsTEXT } from "../../../Data/static/Bills/StudentsPaysCom/ManageStudentBillsTEXT"
+import useSyncDataLogin from "../../../hooks/shared/useSyncDataLogin"
+import useSyncSearchingData from "../../../hooks/shared/useSyncSearchingData"
 
 
 export default function ManagStudentBill() {
@@ -70,39 +72,11 @@ export default function ManagStudentBill() {
         setTimeout(()=> setSendRequest(false),200)
     }
 
-    useEffect(() => {
-        if(studentsBillsFiltered?.length == 0 || studentsBillsFiltered == undefined ) return 
-        
-        if(studentsBills?.length == 0 ) {    
-            changeCurrentState(studentsBillsFiltered,totalPages,ALL_STUDENTS_BILLS)
-            setCurrentPage(1)
-            return 
-        }
-        
-        if(dataOrigin == ALL_STUDENTS_BILLS && studentsBills.length != 0 ) {
-            changeCurrentState(studentsBillsFiltered,totalPages,ALL_STUDENTS_BILLS)
-            return 
-        }
-    
-    },[currentPage,studentsBillsFiltered]) 
 
-    useEffect(() => {
-        // to advoid set undefine teachers when the user return from searching and the search input not empyt
-        if(studentsBills?.length != 0 && searchField != '' && studentBills == null ) {
-            return 
-        }
-        if(searchField != '' && studentBills?.length != 0 ) {
-            changeCurrentState(studentBills,1,SEARCHING_STUDENTS_BILLS)
-            setCurrentPage(1)
-            return 
-        }
-        if(dataOrigin == SEARCHING_STUDENTS_BILLS && searchField == '' ) {
-            changeCurrentState(studentsBillsFiltered,totalPages,ALL_STUDENTS_BILLS)
-            setCurrentPage(1)
-            return 
-        }
-    },[studentsBillsFiltered,searchField,studentBills]) 
-
+    useSyncDataLogin(studentsBillsFiltered,studentsBills,totalPages,currentPage,setCurrentPage,changeCurrentState,{dataOrigin:dataOrigin,oringinAction:ALL_STUDENTS_BILLS})
+    useSyncSearchingData(studentsBillsFiltered,studentBills,studentsBills,totalPages,searchField,setCurrentPage,changeCurrentState,{
+        dataOrigin: dataOrigin , originAll: ALL_STUDENTS_BILLS , oringinSearch: SEARCHING_STUDENTS_BILLS
+    })
     
     return (
         <>

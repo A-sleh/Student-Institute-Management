@@ -42,9 +42,8 @@ export function FillterBillsHeader({radioState,setRadioState,searchFiled,setSear
                         { currentLange == ARABIC ? "تاريخ الفاتوره": 'Bill Date'} 
                     </label>
                 </div>
-                
                 <input
-                    type="search"
+                    type={radioState.date ? 'date': 'search'}
                     style={{ backgroundColor: "#ddd", fontWeight: "500", color: "gray", padding: '10px', width:'100%', outline: 'none' , border: 'none'}}
                     placeholder={ (currentLange == ARABIC ? "بحث حسب ": 'search ')  + handlePlaceHolder() }
                     value={searchFiled || ''}

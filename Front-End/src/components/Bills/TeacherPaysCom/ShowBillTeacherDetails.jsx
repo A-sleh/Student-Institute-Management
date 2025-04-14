@@ -14,7 +14,7 @@ import { SEARCHING_TEACHER, S_TEACHER_BILLS, S_TEACHER_BILLS_CURRENT_PAGE, S_TEA
 
 export default function ShowBillTeacherDetails() {
 
-    const limitNumber = 2
+    const limitNumber = 10
     const [sendRequest,setSendRequest] = useState(false)
     const {currentPage , teachersBills , totalPage , dataOrigin, searchField } = useSelector( state => state.showTeacherBills)
     const {teachers,totalPages} = useGetTeachersBills({teachersBills,dataOrigin,setDataOrigin},limitNumber,currentPage,setCurrentPage,searchField,sendRequest)
