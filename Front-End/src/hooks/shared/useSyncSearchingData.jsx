@@ -19,8 +19,11 @@ export default async function useSyncSearchingData(
         }
         
         if(searchField != '' && searchingData?.length != 0 ) {
+            console.log('here')
             if(searchingData[0] == null )changeCurrentState([],1,oringinSearch)
-            else changeCurrentState(searchingData,1,oringinSearch)
+            else {
+                changeCurrentState(searchingData,1,oringinSearch)
+            }
             setCurrentPage(1)
             return 
         }

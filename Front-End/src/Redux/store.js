@@ -14,6 +14,7 @@ import manageTeacherBillsReducer from './Reducers/ManageTeacherBillsReducer';
 import showTeacherBillsReducer from './Reducers/showTeacherBillsReducer';
 import manageExternalBillsReducer from './Reducers/manageExternalBillsReducer';
 import showExternalBillsReducer from './Reducers/showExternalBillsReducer';
+import studentsDetails from './Reducers/studentsDetails';
 
 
 const store = createStore(combineReducers({
@@ -30,6 +31,7 @@ const store = createStore(combineReducers({
     showTeacherBills: showTeacherBillsReducer,
     manageExternalBills: manageExternalBillsReducer,
     showExternalBills: showExternalBillsReducer,
+    studentsDetails: studentsDetails
 
 })) ;
 

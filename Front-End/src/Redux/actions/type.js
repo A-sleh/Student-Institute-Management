@@ -19,6 +19,19 @@ export const SEARCHING_TEACHER = 'searching_teacher'
 export const SEARCH_INPUT_TEACHER = 'search_input_teacher'
 export const TEACHER_COUNT = 'teachers_number'
 
+// STUDENTS DETAILS STATES
+export const STUDENT_SEARCH_FIELD = 'student_search_field'
+export const STUDENT_DATA = 'student_data'
+export const STUDENT_DATA_ORIGIN = 'student_data_origin'
+export const STUDENT_FILTER_CLASS = 'student_filter_class'
+export const STUDENT_CURRENT_PAGE = 'student_current_page'
+export const STUDENT_TOTAL_PAGES = 'student_total_pages'
+export const STUDENT_ROWS_NUMBER= 'student_rows_number'
+export const ALL_STUDENTS = 'all_student'
+export const SEARCHING_STUDENTS = 'searching_student'
+
+
+
 // SHOWING TEACHER STATES 
 export const CHANGE_CURRENT_PAGE_DETAILS = 'change_current_page_details'
 export const NUMBER_ROWS_DETAILS = 'number_rows_details'

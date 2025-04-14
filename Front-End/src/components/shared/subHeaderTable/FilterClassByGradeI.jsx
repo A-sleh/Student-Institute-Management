@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import useClassGrade from "../../../hooks/class_hooks/useClassGrade"
 import { useSelector } from "react-redux"
 import { ARABIC } from "../../../Redux/actions/type"
@@ -8,9 +8,10 @@ export function FilterClassByGradeI({selectedClass,setSelectedClass,gradeId}) {
 
     const [classes] = useClassGrade(gradeId)
     const {currentLange} = useSelector( state => state.language)
+    const skipFirstRender = useRef(0)
 
     useEffect(() => {
-        setSelectedClass('all')
+        if(skipFirstRender.current++ )setSelectedClass('all')
     }, [gradeId])
     
     return (

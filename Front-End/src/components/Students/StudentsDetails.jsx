@@ -4,7 +4,7 @@
   USING REACT QURY : 
   
 */
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { COLUMNS } from "./column/Columns";
 import { Link, Outlet } from "react-router-dom";
 import Title from "../Global/Title";
@@ -15,34 +15,34 @@ import useStudentsInfo from "../../hooks/student_hooks/useStudentsInfo";
 import SubHeaderFilterClassByGrade from "../shared/subHeaderTable/SubHeaderFilterClassByGrade";
 import { FilterClassByGradeI } from "../shared/subHeaderTable/FilterClassByGradeI";
 import useGetStudentsByName from "../../hooks/student_hooks/useGetStudentsByName";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StudentsDetailsText } from "../../Data/static/Students/StudentsInformation/StudentsDetails";
+import { ALL_STUDENTS, SEARCHING_STUDENTS, STUDENT_CURRENT_PAGE, STUDENT_DATA, STUDENT_DATA_ORIGIN, STUDENT_FILTER_CLASS, STUDENT_ROWS_NUMBER, STUDENT_SEARCH_FIELD, STUDENT_TOTAL_PAGES } from "../../Redux/actions/type";
+import useSyncDataLogin from "../../hooks/shared/useSyncDataLogin";
+import useSyncSearchingData from "../../hooks/shared/useSyncSearchingData";
 
 export default function StudentsDetails() {
 
+  const LIMIT_NUMBER = 12
   const {currentLange} = useSelector( state => state.language)
   const {grade : selectedGrade} = useSelector(state => state.grade)
+  const {students ,currentPage ,totalPage ,searchField ,dataOrigin ,selectedClass ,rowsNuber} = useSelector(state => state.studentsDetails)
   const {notFoundStudentsMES,successDeleteStudentMES} = StudentsDetailsText[currentLange]
-
   const [deleteModal, setDeleteModal] = useState(false);
+  const [sendRequest,setSendRequest] = useState(false)
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
-  const [selectedClass,setSelectedClass] = useState('all')
-  const [searchField,setSearchField] = useState('')
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
-  const [sendRequest,setSendRequest] = useState(false)
+  const dispatch = useDispatch()
   const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest)
-  const [currentPage,setCurrentPage] = useState(1)
-  const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,15,currentPage,successDeleteStudent);
-  const { students, totalPages} = studentsInfo
-  
-  useEffect(() => {
-    if(selectedClass != 'all') 
-      setSearchField('')
-  },[selectedClass]) 
+  const searchedStudentsMemo = useMemo(() => mappingClassStudents(searchedStudents),[searchedStudents])
 
+  const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,LIMIT_NUMBER,currentPage,successDeleteStudent);
+  const { students : allStudents , totalPages } = studentsInfo
+  const { finalTotalPage ,filteringStudents } = useMemo(() => tableInfo() ,[allStudents,selectedClass])
+  
   function handleSearchClicked() {
     setSendRequest(true)
     setTimeout(()=> setSendRequest(false),200)
@@ -116,28 +116,71 @@ export default function StudentsDetails() {
   );
 
   function tableInfo() {
-    // data comes from search field
-    if(searchField != '' && searchedStudents?.length != 0) 
-      return {
-        data: mappingClassStudents(searchedStudents) ,
-        studentsNum: searchedStudents.length ,
-        totalPage: 1 
-      }
-    // data comes from selector filter
+
     if(selectedClass != 'all' ) {
       setCurrentPage(1)
-      return {
-        data: mappingClassStudents(selectedClass?.students,selectedClass?.title) ,
-        studentsNum: selectedClass?.students?.length ,
-        totalPage: 1 
-      }
+      setRowsNumber(selectedClass?.students?.length)
+      return {filteringStudents:mappingClassStudents(selectedClass?.students,selectedClass?.title) ,finalTotalPage: 1}
     }
     // all data 
-    return {
-      data: students ,
-      studentsNum: 15 ,
-      totalPage: totalPages
-    } 
+    setRowsNumber(LIMIT_NUMBER)
+    return {filteringStudents:allStudents ,finalTotalPage: totalPages}
+  }
+
+  function changePageState(students,totalPages,dataOringin){
+    dispatch({
+      type: STUDENT_DATA,
+      payload: students
+    })
+    dispatch({
+      type: STUDENT_TOTAL_PAGES,
+      payload: totalPages
+    })
+    dispatch({
+      type: STUDENT_DATA_ORIGIN,
+      payload: dataOringin
+    })
+  }
+
+  useSyncDataLogin(filteringStudents,students,finalTotalPage,currentPage,setCurrentPage,changePageState,{
+    oringinAction: ALL_STUDENTS ,
+    dataOrigin: dataOrigin
+  })
+
+  useSyncSearchingData(filteringStudents,searchedStudentsMemo,students,finalTotalPage,searchField,setCurrentPage,changePageState,{
+    dataOrigin: dataOrigin,
+    oringinSearch: SEARCHING_STUDENTS,
+    originAll: ALL_STUDENTS
+  })
+
+  // SEATER FUNCTION 
+
+  function setSearchField(value) {
+    dispatch({
+      type: STUDENT_SEARCH_FIELD,
+      payload: value
+    })
+  }
+
+  function setCurrentPage(value) {
+    dispatch({
+      type: STUDENT_CURRENT_PAGE,
+      payload: value
+    })
+  }
+
+  function setSelectedClass(value) {
+    dispatch({
+      type: STUDENT_FILTER_CLASS,
+      payload: value
+    })
+  }
+
+  function setRowsNumber(value) {
+    dispatch({
+      type: STUDENT_ROWS_NUMBER,
+      payload: value
+    })
   }
   
   return (
@@ -150,7 +193,7 @@ export default function StudentsDetails() {
       <Notification title={notFoundStudentsMES} type={"error"} state={notFoundMes} setState={setNotFoundMes} />
 
       <Title title={window.location.pathname} />
-      <TablePaginated data={(tableInfo().data) || []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={tableInfo().totalPage} currPage={currentPage} rowNumber={tableInfo().studentsNum } >
+      <TablePaginated data={students|| []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage} rowNumber={rowsNuber} >
         { searchField == '' ? <div>
           <SubHeaderFilterClassByGrade />
           <FilterClassByGradeI setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
