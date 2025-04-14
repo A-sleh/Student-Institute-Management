@@ -12,7 +12,7 @@ export default function useTeacherSubjects(teacherId,...reFetch) {
         DataServices.ShowAllTeacherSubjects(teacherId).then( subjects => {
             setTeacherSubjects(subjects) ; 
         })
-    } , [...reFetch])
+    } , [...reFetch,teacherId])
 
 
     return [teacherSubjects]   

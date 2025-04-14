@@ -23,7 +23,7 @@ export default function useTeacherClassDetails(teacherId,...reFetch) {
             })
             setClasses(classesMaping)
         })
-    } , [...reFetch])
+    } , [...reFetch,teacherId])
 
     return [classes]
 }

@@ -17,7 +17,6 @@ export default function ShowBillTeacherDetails() {
     const limitNumber = 2
     const [sendRequest,setSendRequest] = useState(false)
     const {currentPage , teachersBills , totalPage , dataOrigin, searchField } = useSelector( state => state.showTeacherBills)
-    console.log(totalPage,currentPage)
     const {teachers,totalPages} = useGetTeachersBills({teachersBills,dataOrigin,setDataOrigin},limitNumber,currentPage,setCurrentPage,searchField,sendRequest)
     const {isAdmin} = useSelector( state => state.admin)
     const dispatch = useDispatch()

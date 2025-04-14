@@ -17,14 +17,14 @@ export default function TeacherClassesTable({teacherId,setSuccessDeleteFromClass
   const {currentLange} = useSelector( state => state.language)
   const {isAdmin} = useSelector( state => state.admin)
   const {noClassesWOR} = TeacherNewSubjectTEXT[currentLange]
-    const [classes] = useTeacherClassDetails(teacherId,successDeleteFromClass) ;
-    const [deletModal,setDeleteModal] = useState(false)
-    const [currentClass,setCurrentClass] = useState({
-      id : {
-        teacherSubjectId : '' ,
-        classId : ''
-      },
-      title : ""
+  const [classes] = useTeacherClassDetails(teacherId,successDeleteFromClass) ;
+  const [deletModal,setDeleteModal] = useState(false)
+  const [currentClass,setCurrentClass] = useState({
+    id : {
+      teacherSubjectId : '' ,
+      classId : ''
+    },
+    title : ""
     })
 
     const columns = useMemo(() => [
