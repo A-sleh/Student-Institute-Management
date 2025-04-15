@@ -19,7 +19,7 @@ export default function FirstStudentInCurrentReport() {
     
     const data = {
         data : topOneStudents ,
-        title : currentLange == ARABIC ? selectedReport?.reportTitle + ' الطلاب الأوائل في التقرير' :'first one students in ' + selectedReport?.reportTitle + ' report' 
+        title : currentLange == ARABIC ?  ` الطلاب الأوائل في التقرير ${selectedReport?.reportTitle}` : `first one students in ${selectedReport?.reportTitle} report` 
     }
     
     useEffect(() => {

@@ -87,7 +87,7 @@ export default function ClassInfo({ classDetails }) {
           <FlexSpaceBetweenContainerStyle >
             <h3>{studentsTitle}</h3>
           </FlexSpaceBetweenContainerStyle >
-          <StudnetsTagsList students={students} classHasNoStudents={totalStudentsNumber == 0}/>
+          <StudnetsTagsList students={students} classId={classId} classHasNoStudents={totalStudentsNumber == 0}/>
         </section>
 
       </MainContainerStyle>

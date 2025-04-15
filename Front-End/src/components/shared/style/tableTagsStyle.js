@@ -96,18 +96,32 @@ export const TableHeaderStyle = styled.div`
         input {
             background-color: transparent;
             border: none;
-            outline: none   ;
+            outline: none;
             font-weight: 500;
         }
-
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+        
         span {
             padding: 3px 20px;
             border: none;
             color: white;
             background-color: rgb(6, 101, 153);
             border-radius: 2.4px;
-            margin-left: auto;
-            margin:0 6px;
+            margin: 0 5px;
+            cursor: pointer ;
+            
+        }
+        .delete-btn {
+            padding: 4px 7px;
+            background-color: red ;
+            margin: 2px;
+            font-size: 13px;
+            line-height: 10px;
         }
     }
 

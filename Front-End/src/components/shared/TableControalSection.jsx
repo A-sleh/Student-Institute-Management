@@ -10,19 +10,17 @@ export default function TableControalSection(props) {
   const {nextBtn ,previousBtn} = TableControalSectionTEXT[currentLange]
 
   function handleNextPageClicked() {
-    if( currPage < totalPages )
-      setNextPageState(nextPageState => {
-        gotoPage(nextPageState + 1)
-        return nextPageState + 1 
-      })
+    if( currPage < totalPages ){
+      gotoPage(currPage + 1)
+      setNextPageState(currPage + 1 )
+    }
   }
   
   function handlePreviousPageClicked() {
-    if( currPage > 1 )
-      setNextPageState(nextPageState => {
-        gotoPage(nextPageState - 1)
-        return nextPageState - 1 
-      })
+    if( currPage > 1 ) {
+      gotoPage(currPage - 1)
+      setNextPageState(currPage - 1 )
+    }
   }
 
   return (

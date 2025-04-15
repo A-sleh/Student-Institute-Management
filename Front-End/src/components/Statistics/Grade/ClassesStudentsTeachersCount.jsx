@@ -23,13 +23,12 @@ export default function ClassesStudentsTeachersCount() {
                 { type: currentLange == ARABIC? " الطلاب ": " Students ", value: gradeCount[0]?.StudentsNO },
                 { type: currentLange == ARABIC? " الشعب ": " Classes ", value: gradeCount[0]?.ClassesNO }
         ],
-        title: (currentLange == ARABIC? "  الأحصائيات في الفئه ": ' The statistics in ') + selectedGrade
+        title: (currentLange == ARABIC? "  الأحصائيات في فئه ": ' The statistics in ') + selectedGrade
     }
 
     return (
         <BackgroundLayoutStyle style={{flex: '1'}}>
             <SelectorStyle value={selectedGrade} onChange={(e) => setSelectedGrade(e.target.value)}>
-                {/* <option value={''} ></option> */}
                 {grades.map( (grade,index) => (<option key={index} value={grade.grade}>{grade.grade}</option>) )}
             </SelectorStyle>
             <SimpleHorizontalBar data={data}/>

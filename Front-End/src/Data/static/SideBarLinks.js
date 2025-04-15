@@ -25,16 +25,16 @@ export const links = [
           path: 'StudentsDetails', iconPath: "bi bi-person-video2" 
         },
         { 
+          title: {
+            'english' :"Students MissedDays",
+            'arabic': 'أخذ تفقد الطلاب' ,
+          } ,path: 'StudentMissedDays', iconPath: "bi bi-calendar2-day" 
+        },
+        { 
             title: {
             'english' :"New Student",
             'arabic': 'إضافة طالب' ,
           } ,path: 'NewStudent', iconPath: "bi bi-person-fill-add" 
-        },
-        { 
-            title: {
-            'english' :"Students MissedDays",
-            'arabic': 'أخذ تفقد الطلاب' ,
-          } ,path: 'StudentMissedDays', iconPath: "bi bi-calendar2-day" 
         },
       ],
     },

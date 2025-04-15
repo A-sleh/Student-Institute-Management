@@ -229,6 +229,10 @@ export const ShowCardContainerStyle = styled.div`
         overflow: hidden;
         border-radius: 10px;
         background-color: white;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         
         h3 {
             color: #066599;

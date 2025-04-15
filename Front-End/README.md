@@ -294,5 +294,11 @@ There are some bugs in the code :
 - [X] reoslve the error in new student form page 
 
 
+discuse a problem : 
+ - all teachers , searching teachers 
+ when searching teachers change i will change the data 
+ 
+
+
 
 

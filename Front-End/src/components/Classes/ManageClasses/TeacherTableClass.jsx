@@ -10,8 +10,9 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../../shared/Table";
 import useClassTeacher from "../../../hooks/class_hooks/useClassTeacher";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT";
+import { CLASS_SECTION } from "../../../Redux/actions/type";
 
 export default function TeacherTableCurrentClass({classId}) {
 
@@ -19,6 +20,7 @@ export default function TeacherTableCurrentClass({classId}) {
   const {removeBtn , noTeachersWOR  } = ManageClassesTEXT[currentLange]
 
   const [teachers] = useClassTeacher(classId)
+  const determainParentClass = useDispatch()
   const gotoPage = useNavigate()
 
   const columns = useMemo(() => [
@@ -41,13 +43,21 @@ export default function TeacherTableCurrentClass({classId}) {
       }
   ],[]);
 
+  const handleRemoveTeachersClicked = () => {
+    determainParentClass({
+      type: CLASS_SECTION ,
+      payload: classId
+    })
+    gotoPage(`/RemoveTeachersFromClass/${classId}`)
+  }
+
   return(
     <>
       {
-          teachers?.length == 0 ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>{noTeachersWOR}</span> :
+          teachers?.length == 0 ? <span style={{ color: "red", fontWeight: "600", fontSize: "16px" }}>{noTeachersWOR}</span> :
           <>
             <Table column={columns}  data={teachers} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
-            <GoBackBtnStyle onClick={()=>gotoPage(`/RemoveTeachersFromClass/${classId}`)}>{removeBtn}</GoBackBtnStyle>
+            <GoBackBtnStyle onClick={()=>handleRemoveTeachersClicked()}>{removeBtn}</GoBackBtnStyle>
           </>
       }
     </>

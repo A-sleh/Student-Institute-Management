@@ -11,12 +11,15 @@ import { ARABIC } from "../../../Redux/actions/type";
 import DataServices from "../../../Data/dynamic/DataServices";
 import { errorActionLogic, successActionLogic } from "../../shared/logic/logic";
 import Notification from "../../Global/Notification";
+import { studentMissDaysTEXT } from "../../../Data/static/Students/studentsMissDays/studentMissDaysTEXT";
+import useGetStudentAbsence from "../../../hooks/student_hooks/useGetStudentAbsence";
 
 
 export default function ClassStudents() {
 
     // page language
     const {currentLange} = useSelector( state => state.language)
+    const {errorInAddAbcenceToStudentMES,successAddAbcenceToStudentMES,confirmBtn,backBtn,currentStudentHasBeenTakenThierMissDayTEXT} = studentMissDaysTEXT[currentLange]
     // Get data from url
     const classDetailsEncode = useLocation().state
     const classDetailsDecode = JSON.parse(decodeURIComponent(classDetailsEncode))
@@ -29,7 +32,10 @@ export default function ClassStudents() {
     const [errorAddAbsence,setErrorAddAbsence] = useState(false)
     
     const [selectedFlatRows,setSelectedFlatRows] = useState([])
-    const [students] = useGetStudentsInCurrentClass({classId,classTitle},)
+    const [students] = useGetStudentsInCurrentClass({classId,classTitle})
+
+    // demo data to simulate the idea
+    const [studentWhoGetThierMissDay] = useGetStudentAbsence(classId,missedDaysDate)
     
     const unValidInputs = () => {
       return missedDaysDate == ''|| selectedFlatRows.length == 0 ;
@@ -46,9 +52,17 @@ export default function ClassStudents() {
         }
 
         DataServices.StudentsAbsence(studentIds,missedDaysDate).then( res => {
-          successActionLogic(setSuccessAddAbsence)
-          setTimeout(() => goBack(-1),2000)
+          if(res.status < 300 ) {
+            successActionLogic(setSuccessAddAbsence)
+            setTimeout(() => goBack(-1),2000)
+            return 
+          }
+          errorActionLogic(setErrorAddAbsence)
         })
+    }
+
+    function studentsMissDayWasTaken(studentId) {      
+      return  studentWhoGetThierMissDay.indexOf(studentId) != -1
     }
 
     const COLULMS = useMemo(() => [
@@ -60,23 +74,25 @@ export default function ClassStudents() {
         id: "selection",
         Cell: ({ row }) => {
           const {checked,onChange} = row.getToggleRowSelectedProps() 
-          return <input type="checkbox"  checked={checked} onChange={(e)=>onChange(e)} />
+          const studentId = row.original.studentId
+          return  studentsMissDayWasTaken(studentId) ? <span style={{color: '#ff0000'}}>{currentStudentHasBeenTakenThierMissDayTEXT}</span>
+                  :<input type="checkbox"  checked={checked} onChange={(e)=>onChange(e)} style={{cursor: 'pointer'}} />
         },
       },
 
-    ],[])
+    ],[currentLange,studentWhoGetThierMissDay,missedDaysDate])
 
     return (
         <>
             <Title  title={window.location.pathname} />
-            <Notification title={currentLange == ARABIC ? 'تم إضافة تفقد للطلاب': 'Add Absecnce to students'} type={"success"} state={successAddAbsence} setState={setSuccessAddAbsence} />
-            <Notification title={currentLange == ARABIC ? 'يجب تحديد التاريخ مع بعض الطلاب' : 'Select the data ,and some of students'} type={"error"} state={errorAddAbsence} setState={setErrorAddAbsence} />
+            <Notification title={successAddAbcenceToStudentMES} type={"success"} state={successAddAbsence} setState={setSuccessAddAbsence} />
+            <Notification title={errorInAddAbcenceToStudentMES} type={"error"} state={errorAddAbsence} setState={setErrorAddAbsence} />
             <Table column={COLULMS} data={students || []}  setSelectedRows={setSelectedFlatRows}>
                 <InputStyle type={'date'} value={missedDaysDate} onChange={(e) =>setMissedDaysDate(e.target.value) }/>
             </Table>
             <ButtonsContainerStyle>
-                <SubmitBtnStyle onClick={()=> handleAddClicked()}>{currentLange == ARABIC ? 'تأكيد': "Apply" }</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={() => goBack(-1)}>{currentLange == ARABIC ? 'عوده': "Back" }</GoBackBtnStyle>
+                <SubmitBtnStyle onClick={()=> handleAddClicked()}>{confirmBtn }</SubmitBtnStyle>
+                <GoBackBtnStyle onClick={() => goBack(-1)}>{backBtn }</GoBackBtnStyle>
             </ButtonsContainerStyle>
         </>
     )

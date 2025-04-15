@@ -12,7 +12,8 @@ import DataServices from "../../../Data/dynamic/DataServices.js"
 import Notification from "../../Global/Notification.jsx"
 import Table from "../../shared/Table.jsx"
 import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT.js"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { CLASS_SECTION } from "../../../Redux/actions/type.js"
 
 export default function StudentTable({students,setSuccessRemoveStudent,classID}) {
 
@@ -22,6 +23,8 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
   const [changeStudent, setChangeStudent] = useState(false);
   const [selectedFlatRows,setSelectedFlatRows] = useState([])
   const gotoMoveingStudentsPage = useNavigate() ;
+  const determainParentClass = useDispatch()
+
   const columns = useMemo(
     () => [
       ...COLUMNS,
@@ -98,6 +101,11 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
       return student.original ;
     })
 
+    determainParentClass({
+      type: CLASS_SECTION ,
+      payload: classID
+    })
+
     gotoMoveingStudentsPage(`/MoveStudentsToAnotherClass/${classID}`,{ replace: true , state: studentsSelectd });
   }
 
@@ -105,7 +113,7 @@ export default function StudentTable({students,setSuccessRemoveStudent,classID})
     <>
       <Notification title={errorInMoveStudentsMES} type={"error"} state={changeStudent} setState={setChangeStudent}/>
       {
-        TheClassHasNotStudents()  ? <span style={{ color: "red", fontWeight: "400", fontSize: "16px" }}>{noStudentsWOR}</span> :
+        TheClassHasNotStudents()  ? <span style={{ color: "red", fontWeight: "600", fontSize: "16px" }}>{noStudentsWOR}</span> :
         <>
           <Table column={columns} data={studentDetails || []} setSelectedRows={setSelectedFlatRows} showMainHeader={false} styleObj={{padding: '6px' , fontSize : '15px' , sameColor : false}} />
           <ButtonsContainerStyle>

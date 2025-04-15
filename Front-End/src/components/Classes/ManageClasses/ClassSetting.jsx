@@ -7,7 +7,7 @@ import { FlexSpaceBetweenContainerStyle, SubmitBtnStyle } from "../../shared/sty
 import { useDispatch, useSelector } from "react-redux";
 import { errorActionLogic } from "../../shared/logic/logic";
 import { MainContainerStyle } from "../../Teachers/style/styleTags";
-import { UPDATESUTENDSNUMBER } from "../../../Redux/actions/type"; // test case 
+import { CLASS_SECTION, UPDATESUTENDSNUMBER } from "../../../Redux/actions/type"; // test case 
 import React, { useState, useContext, lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "../../Global/Notification";
@@ -45,7 +45,19 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
       type: UPDATESUTENDSNUMBER , // test case 
       payload: totalStudentsNumber// test case 
     })// test case 
+    dispatch({
+      type: CLASS_SECTION ,
+      payload: ClassId
+    })
     gotoPage("InsertNewStudent", { state: encodeURIComponent(JSON.stringify(classDetails)) });
+  }
+
+  const handleAddNewTeachersClicked = () => {
+    dispatch({
+      payload: ClassId ,
+      type: CLASS_SECTION 
+    })
+    gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId,grade,classTitle}})
   }
 
   function handleDeleteClicked() {
@@ -111,7 +123,7 @@ export default function ClassSetting({ ClassId, setDeleteClass ,classTitle}) {
           <section>
                 <FlexSpaceBetweenContainerStyle >
                   <h3>{teacherstitle}</h3>
-                  <SubmitBtnStyle onClick={()=>gotoPage('/ManageTeacher/TeacherNewClass/all',{state:{ClassId,grade,classTitle}})}> {addNewTeacherBtn}</SubmitBtnStyle>
+                  <SubmitBtnStyle onClick={()=> handleAddNewTeachersClicked()}> {addNewTeacherBtn}</SubmitBtnStyle>
                 </FlexSpaceBetweenContainerStyle >
                 <TeacherTableCurrentClass classId={ClassId} /> 
           </section>

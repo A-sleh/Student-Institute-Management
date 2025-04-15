@@ -132,7 +132,7 @@ export default function StudentsPDF({data,currentLange}) {
     };
 
     const ToalResultFooter = ({student}) => {
-        return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 , marginBottom : 10 ,justifyContent: 'space-between',alignItems:'center'}}>
+        return <View style={{ width:'100%', flexDirection :'row-reverse',marginTop: 10 , marginBottom : 5 ,justifyContent: 'space-between',alignItems:'center'}}>
                 <View style={styles.toalResult}>
                     <Text style={[styles.arabicText,{textAlign: 'right',fontSize: 12}]} >{finalSumTEXT} : {student.mark} / {student.totalMark} </Text>
                 </View>
@@ -154,7 +154,7 @@ export default function StudentsPDF({data,currentLange}) {
     }
 
     const NoteSection = ({title}) => {
-        return <View style={{ width:'100%', flexDirection :'column',marginTop: 10 , marginBottom : 10 , textAlign: 'right'}}>
+        return <View style={{ width:'100%', flexDirection :'column', marginTop: 5  , textAlign: 'right'}}>
                 <View style={{margin: '5px 0'}}>
                     <Text style={styles.arabicText}>: {title}</Text>
                 </View>
@@ -179,7 +179,7 @@ export default function StudentsPDF({data,currentLange}) {
                                     <TableBody exams={student.testMark}/>
                                     <Image src={logo}  style={{position: 'absolute' , left: '50%' , top: '50%' , transform: 'translate(-50%,-50%)' , opacity: '.3' , width: '300px'}}/>
                                     <ToalResultFooter student={student}/>
-                                    <View style={{position: 'absolute' , bottom: 20 , right: 20 , left: 20}}>
+                                    <View style={{marginLeft: 20 , marginRight: 20}}>
                                         <NoteSection title={'السلوك وملاحظات الإداره والكادر التدريسي'}/>
                                         <NoteSection title={'ملاحظات ولي الأمر'}/>
                                     </View>

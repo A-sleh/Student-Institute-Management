@@ -14,6 +14,7 @@ export const NewStudentTEXT  = {
         femaleGender: 'إنثه' ,
         addBtn: 'إضافة' ,
         goBackBtn: 'عوده' ,
+        noGradeWasSelectedMES: 'الرجاء تحديد الفئه لعرض الشعب',
         updateBtn: 'تحديث' ,
         successAddStudentMES: "تم إضافة طالب بنجاح" ,
         successUpdateStudentMES: "تم تحديث بيانات الطالب بنجاح",
@@ -41,6 +42,7 @@ export const NewStudentTEXT  = {
         addBtn: 'Add' ,
         goBackBtn: 'Go Back' ,
         updateBtn: 'Update' ,
+        noGradeWasSelectedMES: 'Please ,select the grade to display the classes' ,
         successAddStudentMES: "Add New Student" ,
         successUpdateStudentMES: "Updata Student Information",
         validationMessages: {

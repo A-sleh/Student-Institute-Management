@@ -16,6 +16,7 @@ import useTeacherSubjects from "../../../hooks/teacher_hooks/useTeacherSubjects.
 import Table from "../../shared/Table.jsx";
 import { TeacherNewSubjectTEXT } from "../../../Data/static/teachers/ManageTeacher/TeacherNewSubjectTEXT.js";
 import { useSelector } from "react-redux";
+import addSpaceBetweenDigit from "../../Global/globalStyle.js";
 
 
 export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubject,successDeleteFromSubject}) {
@@ -51,7 +52,7 @@ export default function TeacherSubjectsTable({teacherId,setSuccessDeleteFromSubj
             accessor: 'salary',
             Cell : ({row}) => {
               return  updateBtn == row.id ? <input type='text' style={{ border: 'none' , outline: 'none' , borderBottom : '1px solid #066599' , textAlign: 'center', backgroundColor: 'transparent' }}
-              value={salary} onChange={(e) => setSalary(e.target.value)} ref={salaryInput}/> : row.original.salary
+              value={salary} onChange={(e) => setSalary(e.target.value)} ref={salaryInput}/> : addSpaceBetweenDigit( row.original.salary)
             }
         },
         {

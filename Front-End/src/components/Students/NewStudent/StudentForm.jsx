@@ -18,13 +18,16 @@ import useClasses from "../../../hooks/class_hooks/useClasses.jsx";
 import { NewStudentTEXT } from "../../../Data/static/Students/NewStudent/NewStudentTEXT.js";
 import { useSelector } from "react-redux";
 import { successActionLogic } from "../../shared/logic/logic.js";
+import addSpaceBetweenDigit from "../../Global/globalStyle.js";
 
 export default function StudentForm({title,requestType,studentInformation}) {
 
   const {currentLange} = useSelector( state => state.language)
   const {subTitle ,studentName ,lastName ,fatherName ,grade ,phone ,missedDay ,billRequired,updateBtn,goBackBtn,
-    gender ,classTitle ,maleGender ,femaleGender ,addBtn ,successAddStudentMES ,successUpdateStudentMES,validationMessages
+    gender ,classTitle ,maleGender ,femaleGender ,addBtn,noGradeWasSelectedMES ,successAddStudentMES ,successUpdateStudentMES,validationMessages
   } = NewStudentTEXT[currentLange]
+
+  console.log('noGradeWasSelectedMES:' ,noGradeWasSelectedMES)
 
   const {nameVal ,lastNameVal ,fatherNameVal ,phoneNumberVal ,requierBillVal} = validationMessages
 
@@ -42,7 +45,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
   });
 
   const [studentDetails, setStudentDetails] = useState(studentInformation);
-  const [ClassType, setClassType] = useState(studentInformation.class.gender);
+  const [ClassType, setClassType] = useState(studentInformation?.class?.gender || 'male');
   const [classes] = useClasses(studentDetails.class.grade?.grade || studentDetails.class?.grade)
   const filteringClasses = classes.filter((currentClass) => {
     return ClassType.toLowerCase() == currentClass?.gender.toLowerCase()
@@ -164,7 +167,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
               <FormSubRowStyle>
                 <LabelStyle color={'#056699'}>{grade}</LabelStyle>
                 <FormSelectdStyle value={encodeURIComponent(JSON.stringify({gradeId:studentDetails.class.gradeId,grade:studentDetails.class.grade}))} className={validation.grade ? "error" : ""} onChange={(e) =>handleInputChange({...studentDetails.class,...JSON.parse(decodeURIComponent(e.target.value))},'class')}>
-					<option value={encodeURIComponent(JSON.stringify({gradeId:'',grade: ''}))}></option>
+					          <option value={encodeURIComponent(JSON.stringify({gradeId:'',grade: ''}))}></option>
                     { grades.map((grade,index) => { return <option key={index} value={encodeURIComponent(JSON.stringify(grade))}>{grade.grade}</option> }) }
                 </FormSelectdStyle>
               </FormSubRowStyle>
@@ -211,14 +214,18 @@ export default function StudentForm({title,requestType,studentInformation}) {
 		
             <FormSubRowStyle width={'100%'}>
               <LabelStyle color={'#056699'}>{classTitle}</LabelStyle>
-              <FormSelectdStyle value={encodeURIComponent(JSON.stringify({classId:studentDetails.class.classId,title:studentDetails.class.title}))} onChange={(e) =>handleInputChange({...studentDetails?.class ,...JSON.parse(decodeURIComponent(e.target.value))},'class')}>
-                <option value={encodeURIComponent(JSON.stringify({classId:'',title: ''}))}></option>
-                {filteringClasses.map((currentClass, index) => {	
-                  return <option value={encodeURIComponent(JSON.stringify({classId:currentClass.classId,title:currentClass.title}))} key={index} style={{ padding: "20px" }}>
-                    {currentClass.title}
-                  </option>
-                })}
-              </FormSelectdStyle>
+              {
+                studentDetails.class.grade == '' ?  <h4 style={{color: 'red',backgroundColor: 'white' , padding: '10px'}}> {noGradeWasSelectedMES} ...</h4>
+                : <FormSelectdStyle value={encodeURIComponent(JSON.stringify({classId:studentDetails.class.classId,title:studentDetails.class.title}))} onChange={(e) =>handleInputChange({...studentDetails?.class ,...JSON.parse(decodeURIComponent(e.target.value))},'class')}>
+                  <option value={encodeURIComponent(JSON.stringify({classId:'',title: ''}))}></option>
+                  {filteringClasses.map((currentClass, index) => {	
+                    return <option value={encodeURIComponent(JSON.stringify({classId:currentClass.classId,title:currentClass.title}))} key={index} style={{ padding: "20px" }}>
+                      {currentClass.title}
+                    </option>
+                  })}
+                </FormSelectdStyle>
+              }
+
             </FormSubRowStyle>
 
             <ButtonsContainerStyle>
@@ -238,8 +245,7 @@ export default function StudentForm({title,requestType,studentInformation}) {
               <h3>{studentName} : <span> {studentDetails.name} {studentDetails.lastName}</span></h3>
               <h3>{fatherName} :  <span> {studentDetails.fatherName} </span></h3>
               <h3>{phone} : <span> {studentDetails.phone} </span></h3>
-              <h3>{billRequired} : <span> {studentDetails.billRequired} </span></h3>
-              <h3>{missedDay} : <span> {studentDetails.missedDays} </span></h3>
+              <h3>{billRequired} : <span>{addSpaceBetweenDigit( studentDetails.billRequired,currentLange)} </span></h3>
             </main>
           </ShowInputCard>
 

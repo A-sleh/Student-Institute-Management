@@ -23,11 +23,11 @@ export default function Statistics() {
 
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
             { isAdmin ? <IncomeOutComeBalanceInRangedMonth /> : <GradeCounter /> }
-            <ClassesStudentsTeachersCount />    
+            <FirstStudentInCurrentReport />
           </div>
           <LatestBills />
           <div style={{display: 'flex', gap: '10px' , flexWrap: 'wrap'}}> 
-            <FirstStudentInCurrentReport />
+            <ClassesStudentsTeachersCount />    
             {isAdmin && <GradeCounter />}
             <TeachersRate />
           </div>    

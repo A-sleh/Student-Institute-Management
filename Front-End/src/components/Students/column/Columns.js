@@ -1,3 +1,4 @@
+import addSpaceBetweenDigit from "../../Global/globalStyle";
 
 
 export const COLUMNS = [
@@ -42,5 +43,8 @@ export const COLUMNS = [
       english: "Bill Required"
     },
     accessor: "billRequired",
+    Cell : ({value}) => {
+      return addSpaceBetweenDigit(value)
+    }
   }
 ];

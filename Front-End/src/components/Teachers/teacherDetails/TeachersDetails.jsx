@@ -7,7 +7,7 @@
 */
 
 import { SubHeaderTableStyle } from "../../shared/style/tableTagsStyle";
-import {  useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { COLUMNS } from "../columns/Columns";  
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../../Global/Title";
@@ -16,28 +16,34 @@ import DeleteModal from "../../Modal/DeleteModal";
 import TablePaginated from "../../shared/TablePaginated";
 import useTeachersInfo from "../../../hooks/teacher_hooks/useTeachersInfo";
 import { TeachersDetailsTEXT } from "../../../Data/static/teachers/teachersDetails/TeachersDetailsTEXT";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
-import { errorActionLogic, successActionLogic } from "../../shared/logic/logic";
+import { errorActionLogic } from "../../shared/logic/logic";
+import { ALL_TEACHER, CHANGE_CURRENT_PAGE_DETAILS, NUMBER_ROWS_DETAILS, SEARCHING_TEACHER, SEARCHING_TEACHER_DETAILS, TEACHER_COUNT_DETAILS, TEACHER_SOURCE_DETAILS, TEACHERS_DETAILS, TOTAL_PAGES_DETAILS } from "../../../Redux/actions/type";
 
 export default function TeachersDetails() {
 
+  const LIMIT_NUMBER = 12
+  const x = useSelector( state => state.teacherDetailsPage)
+  console.log(x)
+  const {numberOfTeachers,searchField,currentPage,numberOfRows, totalPages ,teachers : showingTeachers ,dataFrom} = useSelector( state => state.teacherDetailsPage)
   const {currentLange} = useSelector( state => state.language)
   const {isAdmin} = useSelector( state => state.admin)
   const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES,notFoundMES,unAutherizedMES} = TeachersDetailsTEXT[currentLange]
   
   const goTo = useNavigate()
+  const changeState = useDispatch()
   const [deleteModal, setDeleteModal] = useState(false)
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
   const [unAutherized,setUnAutherized] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
-  const [currentPage,setCurrentPage] = useState(1)
-  const limitNumber = 12
+  // const [currentPage,setCurrentPage] = useState(1)
   const [sendRequest,setSendRequest] = useState(false)
-  const [searchField,setSearchField] = useState('')
   const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest)
-  const [teachers] = useTeachersInfo(limitNumber,currentPage,successDeleteTeacher)
-  const { teachers : teachersDetails , totalPages, totalTeachers} = teachers
+
+  const [teachers] = useTeachersInfo(LIMIT_NUMBER,currentPage,successDeleteTeacher)
+  const { teachers : allTeachers , totalPages : totalPageOfAllTeachers , totalTeachers : totalNumberOfAllTeachers} = teachers
+
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
       id: null,
       name: "",
@@ -70,6 +76,70 @@ export default function TeachersDetails() {
     },
   ], [isAdmin])
 
+  useEffect(() => {
+
+    if(allTeachers?.length == 0 || allTeachers == undefined ) return 
+
+    if(showingTeachers?.length == 0 ) {
+      dispatchTeacherInfo(allTeachers,totalPageOfAllTeachers,LIMIT_NUMBER,totalNumberOfAllTeachers,ALL_TEACHER)
+      setCurrentPage(1)
+      return 
+    }
+
+    if(dataFrom == ALL_TEACHER && showingTeachers.length != 0 ) {
+      dispatchTeacherInfo(allTeachers  ,totalPageOfAllTeachers,LIMIT_NUMBER,totalNumberOfAllTeachers,ALL_TEACHER)
+      return 
+    }
+  
+  },[currentPage,allTeachers]) 
+
+  useEffect(() => {
+    // to advoid set undefine teachers when the user return from searching and the search input not empyt
+    if(showingTeachers?.length != 0 && searchField != '' && teachersInfo == null ) {
+        return 
+    }
+    if(searchField != '' && teachersInfo?.length != 0 ) {
+        dispatchTeacherInfo(teachersInfo,1,teachersInfo?.length,teachersInfo?.length,SEARCHING_TEACHER)
+        setCurrentPage(1)
+        return 
+    }
+    if(dataFrom == SEARCHING_TEACHER && searchField == '' ) {
+      dispatchTeacherInfo(allTeachers,totalPageOfAllTeachers,LIMIT_NUMBER,totalNumberOfAllTeachers,ALL_TEACHER)
+      setCurrentPage(1)
+      return 
+    }
+  },[allTeachers,searchField,teachersInfo]) 
+
+  function dispatchTeacherInfo(teachers,totalPages,rowsNumber,teachersNumber,mode) {
+      changeState({
+          type: TOTAL_PAGES_DETAILS , 
+          payload: totalPages
+      })
+      changeState({
+          type: TEACHERS_DETAILS , 
+          payload: teachers
+      })
+      changeState({
+          type: TEACHER_SOURCE_DETAILS , 
+          payload: mode
+      })
+      changeState({
+          type: NUMBER_ROWS_DETAILS , 
+          payload: rowsNumber
+      })
+      changeState({
+          type: TEACHER_COUNT_DETAILS , 
+          payload: teachersNumber
+      })
+  }
+
+  function setCurrentPage(value) {
+    changeState({
+      type: CHANGE_CURRENT_PAGE_DETAILS , 
+      payload: value
+    })
+  }
+
   function handleClickedOnMoreTeacherDetails(teacherID) {
 
     if(isAdmin) 
@@ -91,26 +161,12 @@ export default function TeachersDetails() {
     setTimeout(()=> setSendRequest(false),200)
   }
   
-  function tableInfo() {
-    // data comes from search field
-    
-    if(searchField != '' && teachersInfo.length != 0 ) {
-      return {
-        data: teachersInfo ,
-        teacherNumPerRow: teachersInfo.length ,
-        totalTeacher: teachersInfo.length,
-        totalPage: 1 
-      }
-    }
-    // all data 
-    return {
-      data: teachersDetails ,
-      teacherNumPerRow: 15 ,
-      totalTeacher: totalTeachers,
-      totalPage: totalPages
-    } 
+  function setSearchField(value) {
+    changeState({
+      type: SEARCHING_TEACHER_DETAILS ,
+      payload: value
+    })
   }
-  
 
   return(
       <>
@@ -124,9 +180,9 @@ export default function TeachersDetails() {
           }
           <Title title={window.location.pathname} /> 
 
-          <TablePaginated data={tableInfo().data || []} column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={tableInfo().totalPage} currPage={currentPage} rowNumber={tableInfo().teacherNumPerRow}>
+          <TablePaginated data={showingTeachers || [] } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={totalPages} currPage={currentPage} rowNumber={numberOfRows}>
             <SubHeaderTableStyle >
-              {totalTeachersTitle} : <span>{tableInfo().totalTeacher || 0 }</span>
+              {totalTeachersTitle} : <span>{numberOfTeachers || 0 }</span>
             </SubHeaderTableStyle>
           </TablePaginated>
       </>

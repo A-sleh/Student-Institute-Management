@@ -5,7 +5,7 @@ export const TeachersDetailsTEXT  = {
         successDeleteTeacherMES: 'تم حذف الأستاذ بنجاح' ,
         successUpdateTeacherMES: 'تم تحديث بيانات الأستاذ بنجاح' ,
         errorDeleteTeacherMES: 'لايمكن حذف الأستاذ, لأنة يدرس في أحد الشعب',
-        unAutherizedMES: 'يجب انت تكون المدير',
+        unAutherizedMES: 'يجب انت تكون المدير للوصول',
         notFoundMES: 'لايوجد اساتذه بهذا الأسم'
     },
     english : {
