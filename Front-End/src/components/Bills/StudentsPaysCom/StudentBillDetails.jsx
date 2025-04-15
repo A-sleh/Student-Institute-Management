@@ -17,6 +17,7 @@ import useStudentBillsDetails from "../../../hooks/student_hooks/useStudentBills
 import useStudentInfo from "../../../hooks/student_hooks/useStudentInfo"
 import { ManageStudentBillsTEXT } from "../../../Data/static/Bills/StudentsPaysCom/ManageStudentBillsTEXT"
 import { useSelector } from "react-redux"
+import { getDateOnly } from "../../shared/logic/logic"
 
 export default function StudentBillDetails() {
 
@@ -74,7 +75,7 @@ export default function StudentBillDetails() {
             if(radioState.note && !`${note}`?.toLowerCase().includes(searchFiled.toLowerCase())) {
                 return false 
             }
-            if(radioState.date && !`${date}`?.toLowerCase().includes(searchFiled.toLowerCase())) {
+            if(radioState.date && ((getDateOnly(date) - getDateOnly(searchFiled)) < 0) ) {
                 return false
             }
             return true
@@ -82,6 +83,9 @@ export default function StudentBillDetails() {
     }
 
     const studentBillsFilterd = FillterBills()
+
+    console.log(studentBills)
+
 
     const StudentStatistics = [
         {
