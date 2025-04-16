@@ -298,6 +298,10 @@ discuse a problem :
  - all teachers , searching teachers 
  when searching teachers change i will change the data 
  
+ - [] fix teacher's bill state 
+ - [] fix student's state 
+ - [] fix external's state 
+ 
 
 
 

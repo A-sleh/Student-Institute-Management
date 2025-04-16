@@ -4,7 +4,7 @@
     USING REACT QURY : 
 */
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
 import { GoBackBtnStyle, InputStyle } from "../../../shared/style/styleTag"
@@ -14,6 +14,7 @@ import useReportOfClassStatistics from "../../../../hooks/report_hooks/useReport
 import Table from "../../../shared/Table"
 import { ReportDetailsTEXT } from "../../../../Data/static/test/CreateReportTools/ReportDetailsTEXT"
 import { useSelector } from "react-redux"
+import { getDateOnly } from "../../../shared/logic/logic"
 
 export default function ClassReports() {
 
@@ -25,6 +26,13 @@ export default function ClassReports() {
     const [searchByDate,setSearchByDate] = useState('')
     const gotoPage = useNavigate()
 
+    const filteringReportsByDate = useMemo(() => {
+        return reports?.filter( report => {
+            if(searchByDate == '') return true 
+            return ((getDateOnly(searchByDate) - getDateOnly(report.startDate)) <= 0) 
+        })
+    },[searchByDate,reports])
+
     return (
         <div>
 
@@ -32,8 +40,11 @@ export default function ClassReports() {
                 <span style={{width: '100%'}}>{Class.title} / {Class.grade}</span>
             </NavigateSubHeaderStyle >
 
-            <Table column={REPORTCOLUMNS || []} data={reports} url={'/CreateReport/ReportClassDetails'} idKeyParams={'classId'}>
-                <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+            <Table column={REPORTCOLUMNS } data={filteringReportsByDate || []} url={'/CreateReport/ReportClassDetails'} idKeyParams={'classId'}>
+                <div style={{display: 'flex'}}>
+                    <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                    <button style={{padding: '0 5px' , border: 'none' , color: 'white',backgroundColor: 'red',cursor: 'pointer'}} onClick={()=>setSearchByDate('')}>x</button>
+                </div>
                 <h3 style={{color: '#056699' }}>{classReportsTitle}</h3>
             </Table>
 

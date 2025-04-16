@@ -39,7 +39,6 @@ export default function NewBillExternal() {
     })
     const [formInput,setFormInput] = useState(initialFormInput)
     
-
     function validInputs() {
         const {billNo,date,amount} = formInput ;
 

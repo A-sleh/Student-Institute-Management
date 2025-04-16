@@ -28,6 +28,8 @@ export default function ManagStudentBill() {
     const {currentLange} = useSelector( state => state.language)
     const {notFoundMES} = ManageStudentBillsTEXT[currentLange]
     const {filterField ,studentsBills,searchField , currentPage , totalPage ,dataOrigin} = useSelector( state => state.studentsBill )
+    console.log(useSelector( state => state.studentsBill ))
+
     const [studentBills,notFoundMes,setNotFoundMes] = useGetStudentBillsByName(searchField,sendRequest)
     const {students : studentsBillsFiltered ,totalPages} = useGetStudentBills(filterField,limitNumber,currentPage,setCurrentPage)
 

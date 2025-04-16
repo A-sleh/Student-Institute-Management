@@ -4,7 +4,7 @@
   USING REACT QURY : 
   
 */
-import {  useMemo, useState } from "react";
+import {  useEffect, useMemo, useRef, useState } from "react";
 import { COLUMNS } from "./column/Columns";
 import { Link, Outlet } from "react-router-dom";
 import Title from "../Global/Title";
@@ -36,8 +36,10 @@ export default function StudentsDetails() {
     name: "",
   });
   const dispatch = useDispatch()
-  const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest)
-  const searchedStudentsMemo = useMemo(() => mappingClassStudents(searchedStudents),[searchedStudents])
+  const skipFirstRender = useRef(0)
+  const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest,successDeleteStudent)
+  const searchedStudentsMemo = useMemo(() =>mappingClassStudents(searchedStudents)
+  ,[searchedStudents])
 
   const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,LIMIT_NUMBER,currentPage,successDeleteStudent);
   const { students : allStudents , totalPages } = studentsInfo
@@ -127,7 +129,7 @@ export default function StudentsDetails() {
     return {filteringStudents:allStudents ,finalTotalPage: totalPages}
   }
 
-  function changePageState(students,totalPages,dataOringin){
+  function changePageState(students,totalPages,dataOringin,rowNumber){
     dispatch({
       type: STUDENT_DATA,
       payload: students
@@ -139,6 +141,10 @@ export default function StudentsDetails() {
     dispatch({
       type: STUDENT_DATA_ORIGIN,
       payload: dataOringin
+    })
+    dispatch({
+      type: STUDENT_DATA_ORIGIN,
+      payload: rowNumber
     })
   }
 
@@ -182,7 +188,13 @@ export default function StudentsDetails() {
       payload: value
     })
   }
-  
+
+  useEffect(() => {
+    if(skipFirstRender.current ++ ) 
+      handleSearchClicked()
+
+  },[successDeleteStudent])
+
   return (
     <>
       {
