@@ -147,6 +147,12 @@ export default {
   ShowInComeBillsBalance : () => {
     return API.Bill.get.inComeBillBalance()
   },
+  SearchingIncomBills: (query) => {
+    return API.Bill.get.searchExternalBills(`billType=in${query}`)
+  },
+  SearchingOutcomeBills: (query) => {
+    return API.Bill.get.searchExternalBills(`billType=out${query}`)
+  },
   ShowOutComeBillsBalance : () => {
     return API.Bill.get.outComeBillBalance()
   },

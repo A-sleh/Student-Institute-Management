@@ -27,8 +27,6 @@ export default function StudentForm({title,requestType,studentInformation}) {
     gender ,classTitle ,maleGender ,femaleGender ,addBtn,noGradeWasSelectedMES ,successAddStudentMES ,successUpdateStudentMES,validationMessages
   } = NewStudentTEXT[currentLange]
 
-  console.log('noGradeWasSelectedMES:' ,noGradeWasSelectedMES)
-
   const {nameVal ,lastNameVal ,fatherNameVal ,phoneNumberVal ,requierBillVal} = validationMessages
 
   const previousPage = useNavigate();

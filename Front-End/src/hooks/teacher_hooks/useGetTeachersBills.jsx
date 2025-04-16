@@ -1,12 +1,14 @@
 
 import DataServices from "../../Data/dynamic/DataServices"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { ALL_TEACHER, SEARCHING_TEACHER } from "../../Redux/actions/type"
 
-export default function useGetTeachersBills(limit,page,setPage,searchKey,pass) {
+export default function useGetTeachersBills(props,limit,page,setPage,searchKey,pass) {
     
     const [teachers,setTeachers] = useState([]) 
     const [resSet,setReset] = useState(-100000)
-    const [teachersBills,setTeachersBills] = useState([])
+    const [teachersBills,setTeachersBills] = useState(props.teachersBills || [] )
+    const skipFirstState = useRef(-2)
 
     async function getAllTeachersBills(teachers) {
         let teachersDetails = []
@@ -26,6 +28,9 @@ export default function useGetTeachersBills(limit,page,setPage,searchKey,pass) {
     }
 
     useEffect(() => {
+        
+        if(searchKey != '' && props.dataOrigin != ALL_TEACHER ) return 
+        if(props.dataOrigin != ALL_TEACHER ) props.setDataOrigin(ALL_TEACHER)
         DataServices.TeacherInformaion('',limit,page).then( teachers  => {
             setTeachers({...teachers,teachers:teachers.teachers.map( teacher => {
                 return {
@@ -39,13 +44,15 @@ export default function useGetTeachersBills(limit,page,setPage,searchKey,pass) {
 
      useEffect( () => {
     
-        if(searchKey == '' || searchKey == undefined  || !pass  ) return 
-        DataServices.SearchOnCurrentTeacherName(searchKey).then( (teachers) =>  {    
+        if(searchKey == '' || searchKey == undefined  || !pass || (skipFirstState.current++ < 0) ) return 
+        if(props.dataOrigin != SEARCHING_TEACHER ) props.setDataOrigin(SEARCHING_TEACHER)
+        DataServices.SearchOnCurrentTeacherName(searchKey).then( (teachers) =>  { 
             setTeachers({teachers:teachers,currPage:1,totalPages:1})
         }) 
     },[searchKey,pass]);
 
     useEffect( () => {
+        if(skipFirstState.current++ < 0) return 
         // reset teacher array when the search field is empty
         if(searchKey == '' ) {
             setReset(last => last + 1)
@@ -54,6 +61,9 @@ export default function useGetTeachersBills(limit,page,setPage,searchKey,pass) {
     },[searchKey]);
 
     useEffect(() => {
+
+        if(skipFirstState.current++ < 0) return 
+
         getAllTeachersBills(teachers.teachers).then( result => {
             setTeachersBills({...teachers,teachers: result})
         })

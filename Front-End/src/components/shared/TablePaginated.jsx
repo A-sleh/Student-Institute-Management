@@ -12,7 +12,7 @@ export default function TablePaginated(props) {
     
     const {currentLange} = useSelector( state => state.language)
     const { data = [], column , children , idKeyParams = false , url = 'unAble', showMainHeader = true , rowClickedFn , search = null } = props
-    const { unableId = false, currPage = 0 , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
+    const { unableId = false, currPage = 0 ,specialState = '' , totalPages = 0 , setNextPageState , rowNumber = 10 ,selectionRows,smallControalSection = false , styleObj = { padding: '15px' , fontSize : '14px' , sameColor : false}} = props
     const changePage = useNavigate()
     
     const { getTableProps, getTableBodyProps, headerGroups, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, page, prepareRow, state, setGlobalFilter, pageCount } = useTable({
@@ -32,7 +32,7 @@ export default function TablePaginated(props) {
             return 
         }
         if( url == 'unAble') return 
-        if(idKeyParams) changePage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify(row))})
+        if(idKeyParams) changePage(`${url}/${row[idKeyParams]}`,{state: encodeURIComponent(JSON.stringify({...row,specialState}))})
         else changePage(`${url}`,{state: encodeURIComponent(JSON.stringify(row))})
     }
     

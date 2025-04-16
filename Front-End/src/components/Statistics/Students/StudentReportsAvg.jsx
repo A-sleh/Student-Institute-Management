@@ -22,7 +22,7 @@ export default function StudentReportsAvg() {
     let filteringStudentReportsAvg = {
         data: studentReportsAvg.map( reports => {
             return {
-                date : new Date(reports.StartDate) ,
+                date : new Date(reports?.StartDate) ,
                 avg : reports.Average,
             }
         }) ,

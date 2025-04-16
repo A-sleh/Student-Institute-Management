@@ -4,23 +4,66 @@
     USING REACT QURY : 
 */
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetTeachersBills from "../../../hooks/teacher_hooks/useGetTeachersBills";
 import { COLUMNS } from "../style/COLUMNS.JS";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TablePaginated from "../../shared/TablePaginated";
+import { SEARCHING_TEACHER, TEACHER_BILLS, TEACHER_BILLS_CURRENT_PAGE, TEACHER_BILLS_DATA_ORIGIN, TEACHER_BILLS_SEARCH_FIELD, TEACHER_BILLS_TOTAL_PAGE } from "../../../Redux/actions/type";
 
 export default function ManagTeacherBill() {
 
-    const limitNumber = 12
-    const [page,setPage] = useState(1)
-    const [searchField,setSearchField] = useState('')
+    const limitNumber = 10
     const [sendRequest,setSendRequest] = useState(false)
-    const {teachers,currPage,totalPages} = useGetTeachersBills(limitNumber,page,setPage,searchField,sendRequest)
+    const {currentPage , teachersBills , totalPage , dataOrigin, searchField } = useSelector( state => state.manageTeacherBills)
+    const {teachers,totalPages} = useGetTeachersBills({teachersBills,dataOrigin,setDataOrigin},limitNumber,currentPage,setCurrentPage,searchField,sendRequest)
     const {isAdmin} = useSelector( state => state.admin)
+    const dispatch = useDispatch()
     const goTo = useNavigate()
 
+
+    function changeTeacherBillsState(teacherBills,totalPage) {
+        dispatch({
+            payload: teacherBills,
+            type: TEACHER_BILLS
+        })
+        dispatch({
+            payload: totalPage,
+            type: TEACHER_BILLS_TOTAL_PAGE
+        })
+
+        // reset the current page to avoid unknow behaviour
+        if(dataOrigin == SEARCHING_TEACHER ) 
+            setCurrentPage(1)
+    }
+
+    useEffect(() => {
+        changeTeacherBillsState(teachers || teachersBills,totalPages)
+    },[teachers])
+
+    function setCurrentPage(value) {
+        dispatch({
+            type: TEACHER_BILLS_CURRENT_PAGE ,
+            payload: value
+        })
+    }
+
+    function setSearchField(value) {
+        dispatch({
+            type: TEACHER_BILLS_SEARCH_FIELD ,
+            payload: value
+        })
+    }
+
+    function setDataOrigin(value) {
+        dispatch({
+            type: TEACHER_BILLS_DATA_ORIGIN ,
+            payload: value
+        })
+    }
+
+    // authentication section 
     useEffect(() => {
         if(!isAdmin) {
             goTo('/StudentsPays')
@@ -34,7 +77,7 @@ export default function ManagTeacherBill() {
 
     return(
         <>
-            <TablePaginated data={teachers || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={limitNumber} setNextPageState={setPage} totalPages={totalPages} currPage={currPage} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
+            <TablePaginated data={teachersBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage || 1} currPage={currentPage || 1 } idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
         </>
     )
 }

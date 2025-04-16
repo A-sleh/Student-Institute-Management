@@ -39,6 +39,8 @@ export default function LineChart({data}){
             {
               position: "left",
               type: "number",
+              min: 0 ,
+              max: 100,            
               title: {
                 text: currentLange == ARABIC ? "أعظم معدل": "Max Average",
               },

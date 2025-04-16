@@ -17,7 +17,7 @@ export default function Setting() {
             <FullScreen />
             <AdminLogin />
             {isAdmin && <ChangeAdminName /> }
-            <ChangePassword />
+            {isAdmin && <ChangePassword /> }
         </>
     )
 }

@@ -1,10 +1,11 @@
 
 import DataServices from "../../Data/dynamic/DataServices"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export default function useStudentsInfo(selectedGrade,setPage,limit,page,...reFetch) {
 
     const [studentInfo, setstudentInfo] = useState([]);
+    const skipFirstRender = useRef(0)
 
     useEffect(() => {
         const gradeId = selectedGrade ? `&gradeId=${selectedGrade?.gradeId}` : ''
@@ -19,10 +20,10 @@ export default function useStudentsInfo(selectedGrade,setPage,limit,page,...reFe
             })
             setstudentInfo({...StudentsInfo,students : mapingStudents});
         });
-    },[...reFetch,selectedGrade,page]);
+    },[selectedGrade,page,...reFetch]);
 
     useEffect(() => {
-        if(setPage)
+        if(setPage && skipFirstRender.current++)
             setPage(1)
     },[selectedGrade])
 

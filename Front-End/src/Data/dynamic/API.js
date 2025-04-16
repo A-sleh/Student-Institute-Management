@@ -296,6 +296,11 @@ export default {
           response.json()
         );
       },
+      searchExternalBills: (query) => {
+        return fetch(`${URL}/Bill/External/Filter?${query}`).then((response) =>
+          response.json()
+        );
+      },
       restInComeBill : () => {
         return fetch(`${URL}/Bill/Rest/in`).then((response) =>
           response.json()

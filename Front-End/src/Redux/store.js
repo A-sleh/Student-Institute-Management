@@ -9,6 +9,12 @@ import manageTeacherPageReducer from './Reducers/manageTeacherPageReducer';
 import classReducer from './Reducers/classReducer';
 import teacherDetailsReducer from './Reducers/teacherDetailsReducer';
 import studentsBillsReducer from './Reducers/studentsBillsReducer';
+import showStudentsBillsReducer from './Reducers/showStudentsBillsReducer';
+import manageTeacherBillsReducer from './Reducers/ManageTeacherBillsReducer';
+import showTeacherBillsReducer from './Reducers/showTeacherBillsReducer';
+import manageExternalBillsReducer from './Reducers/manageExternalBillsReducer';
+import showExternalBillsReducer from './Reducers/showExternalBillsReducer';
+import studentsDetails from './Reducers/studentsDetails';
 
 
 const store = createStore(combineReducers({
@@ -19,7 +25,14 @@ const store = createStore(combineReducers({
     pageCounter: manageTeacherPageReducer,
     classRd: classReducer,
     teacherDetailsPage: teacherDetailsReducer,
-    studentsBill: studentsBillsReducer
+    studentsBill: studentsBillsReducer,
+    showStudentBills: showStudentsBillsReducer,
+    manageTeacherBills: manageTeacherBillsReducer,
+    showTeacherBills: showTeacherBillsReducer,
+    manageExternalBills: manageExternalBillsReducer,
+    showExternalBills: showExternalBillsReducer,
+    studentsDetails: studentsDetails
+
 })) ;
 
 export default store
