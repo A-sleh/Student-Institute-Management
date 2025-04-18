@@ -7,6 +7,6 @@ BEGIN
 	BEGIN
 		INSERT INTO Bill(BillNo, Amount, Date, Type, Note) 
 		(SELECT CONCAT(N'#D', i.BillNo), Amount, GETDATE(), Type, CONCAT('(teacher deleted)', i.note) FROM inserted i)
-		DELETE FROM Bill WHERE id IN (SELECT Id FROM deleted);
+		DELETE FROM Bill WHERE Id IN (SELECT Id FROM deleted);
 	END
 END

@@ -10,7 +10,7 @@ AS
 	b.StudentId IS NULL 
 	AND b.TeacherId IS NULL
 	AND (@type IS NULL OR b.Type = @type)
-	AND b.BillNo LIKE(CONCAT(N'%', @BillNo, N'%'))
+	AND b.BillNo LIKE(CONCAT(N'%', @billNo, N'%'))
 	AND (@date IS NULL OR b.Date >= @date)
 	AND b.Note LIKE(CONCAT(N'%', @note, N'%'))
 RETURN 0
