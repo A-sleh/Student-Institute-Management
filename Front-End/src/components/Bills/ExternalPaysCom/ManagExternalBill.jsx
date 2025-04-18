@@ -6,7 +6,7 @@
 */
 
 import { CloseButtonStyle, SearchButtonStyle } from "../style/styleComponents";
-import { useState } from "react"  
+import { useEffect, useRef, useState } from "react"  
 import Notification from "../../Global/Notification";
 import BillsContainer from "./BillsContainer";
 import { FillterBillsHeader } from "../../shared/FillterBillsHeader";
@@ -37,6 +37,7 @@ export default function ManagExternalBill() {
     const [sendRequest,setSendRequest] = useState(false)
     const searchingIncomeBills = useSearchIncomBills(getSearchQuery(),sendRequest,searchField)
     const searchingOutcomeBills = useSearchOutcomBills(getSearchQuery(),sendRequest,searchField)
+    const skipFirstRender = useRef(0)
 
     function getSearchQuery() {
         if(radio.billNo) return `&billNo=${searchField}`
@@ -45,6 +46,11 @@ export default function ManagExternalBill() {
         return ''
     }
 
+    useEffect(() => {
+    if(skipFirstRender.current ++ ) 
+        handleSearchClicked()
+    },[successDelete])
+    
     function changeIncomState(bills,totalPages,dataOringin) {
         dispatch({
             payload: bills ,

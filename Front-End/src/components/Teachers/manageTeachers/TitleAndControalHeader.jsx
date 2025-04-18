@@ -8,7 +8,7 @@ import { useSelector } from "react-redux"
 import { ButtonsContainerStyle, GoBackBtnStyle, SubmitBtnStyle } from "../../shared/style/styleTag"
 import { ManageClassesTEXT } from "../../../Data/static/classes/ManageClass/ManageClassesTEXT"
 
-export default function TitleAndControalHeader({title,handleUpdataButtonClicked,handleDeleteClicked,children}) {
+export default function TitleAndControalHeader({title,handleUpdataButtonClicked,handleDeleteClicked,children,showDeleteBtn=true}) {
 
     const {currentLange} = useSelector( state => state.language)
     const { classTitle ,updateBtn ,delelteBtn } = ManageClassesTEXT[currentLange]
@@ -18,7 +18,7 @@ export default function TitleAndControalHeader({title,handleUpdataButtonClicked,
             <h1 style={{fontWeight: '500' , fontSize: '17px' , margin: '5px 0' , textTransform: 'uppercase'}}> <span style={{ fontWeight: '600' , color: '#056699'}}>{children ? children : classTitle} / </span> {title}</h1>
             <ButtonsContainerStyle>
                 <SubmitBtnStyle onClick={()=>{handleUpdataButtonClicked()}}>{updateBtn}</SubmitBtnStyle>
-                <GoBackBtnStyle onClick={()=>{handleDeleteClicked()}} >{delelteBtn}</GoBackBtnStyle>
+                { showDeleteBtn ? <GoBackBtnStyle onClick={()=>{handleDeleteClicked()}} >{delelteBtn}</GoBackBtnStyle> : null }
             </ButtonsContainerStyle>
         </div>
     )

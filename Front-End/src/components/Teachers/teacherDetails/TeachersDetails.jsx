@@ -7,7 +7,7 @@
 */
 
 import { SubHeaderTableStyle } from "../../shared/style/tableTagsStyle";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { COLUMNS } from "../columns/Columns";  
 import { Link, useNavigate } from "react-router-dom";
 import Title from "../../Global/Title";
@@ -19,7 +19,7 @@ import { TeachersDetailsTEXT } from "../../../Data/static/teachers/teachersDetai
 import { useDispatch, useSelector } from "react-redux";
 import useGetTeacherByName from "../../../hooks/teacher_hooks/useGetTeacherByName";
 import { errorActionLogic } from "../../shared/logic/logic";
-import { ALL_TEACHER, CHANGE_CURRENT_PAGE_DETAILS, NUMBER_ROWS_DETAILS, SEARCHING_TEACHER, SEARCHING_TEACHER_DETAILS, TEACHER_COUNT_DETAILS, TEACHER_SOURCE_DETAILS, TEACHERS_DETAILS, TOTAL_PAGES_DETAILS } from "../../../Redux/actions/type";
+import { ALL_TEACHER, CHANGE_CURRENT_PAGE, CHANGE_CURRENT_PAGE_DETAILS, NUMBER_ROWS_DETAILS, SEARCHING_TEACHER, SEARCHING_TEACHER_DETAILS, TEACHER_COUNT_DETAILS, TEACHER_SOURCE_DETAILS, TEACHERS_DETAILS, TOTAL_PAGES_DETAILS } from "../../../Redux/actions/type";
 
 export default function TeachersDetails() {
 
@@ -36,14 +36,23 @@ export default function TeachersDetails() {
   const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
   const [unAutherized,setUnAutherized] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
+  const skipFirstRender = useRef(0)
   const [sendRequest,setSendRequest] = useState(false)
-  const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest)
-  const [teachers] = useTeachersInfo(LIMIT_NUMBER,currentPage,successDeleteTeacher)
+  const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest,successDeleteTeacher)
+  const [teachers] = useTeachersInfo(LIMIT_NUMBER,{page:currentPage,setPage:setCurrentPage},successDeleteTeacher)
   const { teachers : allTeachers , totalPages : totalPageOfAllTeachers , totalTeachers : totalNumberOfAllTeachers} = teachers
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
       id: null,
       name: "",
   });
+
+  const teachersMemo = useMemo(() => {    
+    if(teachersInfo?.length != 0 && teachersInfo[0] != null ) { 
+      return teachersInfo 
+    }
+    return [null]
+  }
+  ,[teachersInfo])
 
   const column = useMemo(() => [
     ...COLUMNS ,
@@ -74,7 +83,7 @@ export default function TeachersDetails() {
 
   useEffect(() => {
 
-    if(allTeachers?.length == 0 || allTeachers == undefined ) return 
+    if(allTeachers == undefined ) return 
 
     if(showingTeachers?.length == 0 ) {
       dispatchTeacherInfo(allTeachers,totalPageOfAllTeachers,LIMIT_NUMBER,totalNumberOfAllTeachers,ALL_TEACHER)
@@ -82,20 +91,23 @@ export default function TeachersDetails() {
       return 
     }
 
-    if(dataFrom == ALL_TEACHER && showingTeachers.length != 0 ) {
+    if(dataFrom == ALL_TEACHER && showingTeachers != undefined && showingTeachers.length != 0 ) {
       dispatchTeacherInfo(allTeachers  ,totalPageOfAllTeachers,LIMIT_NUMBER,totalNumberOfAllTeachers,ALL_TEACHER)
       return 
     }
   
-  },[currentPage,allTeachers]) 
+  },[allTeachers]) 
 
   useEffect(() => {
     // to advoid set undefine teachers when the user return from searching and the search input not empyt
-    if(showingTeachers?.length != 0 && searchField != '' && teachersInfo == null ) {
+    if(showingTeachers?.length != 0 && searchField != '' && teachersMemo == null ) {
         return 
     }
-    if(searchField != '' && teachersInfo?.length != 0 ) {
-        dispatchTeacherInfo(teachersInfo,1,teachersInfo?.length,teachersInfo?.length,SEARCHING_TEACHER)
+    if(searchField != '' && teachersMemo?.length != 0 ) {
+        if(teachersMemo[0] == null ) {
+          dispatchTeacherInfo([],1,1,0,SEARCHING_TEACHER)
+        }else 
+          dispatchTeacherInfo(teachersMemo,1,teachersMemo?.length,teachersMemo?.length,SEARCHING_TEACHER)
         setCurrentPage(1)
         return 
     }
@@ -104,7 +116,14 @@ export default function TeachersDetails() {
       setCurrentPage(1)
       return 
     }
-  },[allTeachers,searchField,teachersInfo]) 
+  },[allTeachers,teachersMemo]) 
+
+  // this effect to reset current page in manage teacher's page ( to sync data )
+  useEffect(() => {
+    if(skipFirstRender.current ++) {
+      reSetManageTeacherPage()
+    }
+  },[successDeleteTeacher])
 
   function dispatchTeacherInfo(teachers,totalPages,rowsNumber,teachersNumber,mode) {
       changeState({
@@ -162,6 +181,13 @@ export default function TeachersDetails() {
       type: SEARCHING_TEACHER_DETAILS ,
       payload: value
     })
+  }
+
+  function reSetManageTeacherPage() {
+    changeState({
+        type: CHANGE_CURRENT_PAGE ,
+        payload: 1 
+    });
   }
 
   return(

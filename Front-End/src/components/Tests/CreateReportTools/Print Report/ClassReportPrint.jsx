@@ -19,6 +19,7 @@ import useGetClassReportsAvg from "../../../../hooks/class_hooks/useGetClassRepo
 import { REPORTCOLUMNS_2 } from "../columnsTools/reportCOUMN_2"
 import { PopupModalTEXT, PrintReportTEXT } from "../../../../Data/static/test/CreateReportTools/PrintReportTEXT"
 import { useSelector } from "react-redux"
+import { getDateOnly } from "../../../shared/logic/logic"
 
 export default function ClassReportPrint() {
     
@@ -84,6 +85,13 @@ export default function ClassReportPrint() {
         }
 
     ],[currentLange])
+
+    const filteringReportsByDate = useMemo(() => {
+        return reports?.filter( report => {
+            if(searchByDate == '') return true
+            return ((getDateOnly(searchByDate) - getDateOnly(report.startDate)) <= 0) 
+        })
+    },[searchByDate,reports])
     
     return (
         <>  
@@ -107,8 +115,12 @@ export default function ClassReportPrint() {
                 <NavigateSubHeaderStyle >
                     <span style={{width: '100%'}}>{classDetailsDecode.title} / {classDetailsDecode.grade}</span>
                 </NavigateSubHeaderStyle >
-                <Table column={TableHeader} data={reports || []}>
-                    <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                <Table column={TableHeader} data={filteringReportsByDate || []}>
+
+                    <div style={{display: 'flex'}}>
+                        <InputStyle type={'date'}  value={searchByDate} onChange={(e)=>{setSearchByDate(e.target.value)}}/>
+                        <button style={{padding: '0 5px' , border: 'none' , color: 'white',backgroundColor: 'red',cursor: 'pointer'}} onClick={()=>setSearchByDate('')}>x</button>
+                    </div>
                     <h3 style={{color: '#066599' }}>{reportsTitle}</h3>
                 </Table>
                 <GoBackBtnStyle onClick={()=>{gotoPage(-1)}} >{backBtn}</GoBackBtnStyle>

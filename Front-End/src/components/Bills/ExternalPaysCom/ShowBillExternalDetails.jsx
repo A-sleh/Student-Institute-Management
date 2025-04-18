@@ -39,6 +39,16 @@ export default function ShowBillExternalDetails() {
     const searchingIncomeBills = useSearchIncomBills(getSearchQuery(),sendRequest,searchField)
     const searchingOutcomeBills = useSearchOutcomBills(getSearchQuery(),sendRequest,searchField)
 
+
+    useEffect(() => {
+        return () => {
+            changeIncomState([],0,ALL_EXTERNAL_BILLS)
+            changeOutcomState([],0,ALL_EXTERNAL_BILLS)
+            setOutcomePage(1)
+            setIncomePage(1)
+        }
+    },[successDelete])
+
     function getSearchQuery() {
         if(radio.billNo) return `&billNo=${searchField}`
         if(radio.note) return `&note=${searchField}`

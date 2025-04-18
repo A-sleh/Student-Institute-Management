@@ -20,16 +20,6 @@ export const REPORTCOLUMNS_2 = [
     },
     {
         Header: {
-            arabic: 'تاريخ إغلاق تقرير' ,
-            english: 'Finish Date'
-        },
-        accessor: 'FinishDate',
-        Cell: ({ value }) => {
-            return format(new Date(value), "yyyy / MM / dd");
-        }
-    },
-    {
-        Header: {
             arabic: 'المعدل' ,
             english: 'Average'
         },

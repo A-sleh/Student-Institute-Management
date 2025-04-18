@@ -33,7 +33,10 @@ export default function DeleteModal(props) {
       switch (type) {
         case "student":
           DataServices.DeleteSutent(id).then((_) => {
-            handleSuccessDelete();
+            if(_.status > 299 ) {
+              handleUnSuccessDelete()
+            } 
+            else handleSuccessDelete();
           });
           break;
         case "class":

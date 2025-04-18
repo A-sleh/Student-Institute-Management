@@ -1,28 +1,36 @@
 
-import { errorActionLogic } from "../../components/shared/logic/logic";
 import DataServices from "../../Data/dynamic/DataServices"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 
-export default function useGetTeacherByName(searchKey,pass) {
+export default function useGetTeacherByName(searchKey,pass,...reFetch) {
 
     
-    const [teacherInfo, setTeacherInfo] = useState(null);
+    const [teacherInfo, setTeacherInfo] = useState([null]);
     const [notFoundMes,setNotFoundMes] = useState(false)
+    const skipFirstRender = useRef(0)
 
     useEffect( () => {
 
         if(searchKey == '' || searchKey == undefined  || !pass  ) return 
         
         DataServices.SearchOnCurrentTeacherName(searchKey).then( (teachers) =>  {
-
             if(teachers.length == 0 ) 
-                errorActionLogic(setNotFoundMes)
-            setTeacherInfo(teachers)
-
+                setTeacherInfo([null])
+            else 
+                setTeacherInfo(teachers)
         }) 
 
     },[searchKey,pass]);
+
+    useEffect(() => {
+        if(skipFirstRender.current ++ ) {
+            DataServices.SearchOnCurrentTeacherName(searchKey).then( (teachers) =>  {
+                if(teachers.length == 0 ) 
+                    setTeacherInfo([null])
+            }) 
+        }
+    },[...reFetch])
 
     useEffect( () => {
 

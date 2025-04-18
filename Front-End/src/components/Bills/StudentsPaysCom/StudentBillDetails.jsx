@@ -84,9 +84,6 @@ export default function StudentBillDetails() {
 
     const studentBillsFilterd = FillterBills()
 
-    console.log(studentBills)
-
-
     const StudentStatistics = [
         {
             title: {

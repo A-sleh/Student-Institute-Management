@@ -7,8 +7,8 @@ export const NewBillExternalTEXT  = {
         billNote: 'ملاحظات' ,
         addBtn: 'إضافه' ,
         billType: 'نوع الفاتوره' ,
-        inComeBill: 'فاتوره صادره',
-        outComeBill: 'فاتوره وارده' ,
+        inComeBill: 'فاتوره وارده',
+        outComeBill: 'فاتوره صادره' ,
         successAddStudentBillMES : 'تم إضافه الفاتوره بنجاح',
         errorAddStudentBillMES : 'رقم الفاتوره تم استخدامه , يجب عليك تغييره',        
         validationMessages: {

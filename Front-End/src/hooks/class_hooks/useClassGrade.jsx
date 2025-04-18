@@ -2,7 +2,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
-export default function useClassGrade(gradeId) {
+export default function useClassGrade(gradeId,...reFrech) {
 
     const [classesGrade,setClassesGrade] = useState([]) ;
 
@@ -12,7 +12,7 @@ export default function useClassGrade(gradeId) {
         DataServices.ShowClassWithSpecificGrade(gradeId).then( classes => {
             setClassesGrade(classes)
         })
-    } , [gradeId]) 
+    } , [gradeId,...reFrech]) 
 
     return [classesGrade]
 }
