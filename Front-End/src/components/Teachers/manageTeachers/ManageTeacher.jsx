@@ -3,7 +3,7 @@
     COMPONENTS OPTIMIZATION : DONE ,
     USING REACT QURY : 
 */
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Title from "../../Global/Title";
 import DataServices from "../../../Data/dynamic/DataServices";
 import Teacherinfo from "./TeacherInfo";
@@ -22,16 +22,15 @@ export default function ManageTeacher() {
     const limmitNumber = 1
     // page lang content
     const {currentLange} = useSelector( state => state.language)
+    const {notFoundMES} = ManageTeachersTEXT[currentLange]
     const {currentPage,teachers,totalPages,offSetTeacher,dataFrom,searchInput} = useSelector( state => state.pageCounter)
     const {isAdmin} = useSelector( state => state.admin)
     const changeCurrentPage = useDispatch()
     const goTo = useNavigate()
-    
-    const {successDeleteTeacherMES,notFoundMES} = ManageTeachersTEXT[currentLange]
+    const skipFirstRender = useRef(0)
     const [loading,setLoading] = useState(false)
     const [sendRequest,setSendRequest] = useState(false)
     const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchInput,sendRequest) 
-    const [successDeleteTeacher,setSuccessDeleteTeacher] = useState(false)
     // infinite scroll states
     const [fetchingData,setFetchingData] = useState(false)
     const observer = useRef();
@@ -55,7 +54,7 @@ export default function ManageTeacher() {
             payload: ''
         })
     }
-    
+
     useEffect(() => {
         if(!isAdmin) {
             goTo('/TeachersDetails')
@@ -66,28 +65,32 @@ export default function ManageTeacher() {
         // for the first state and if the user delete any teacher 
         if( currentPage == 1 ) {
             DataServices.TeacherInformaion('',limmitNumber,currentPage).then( teachers => { 
+                console.log('fofo')
                 dispatchTeacherInfo(teachers.teachers,teachers.totalPages,ALL_TEACHER)
             })
         }
     } ,[currentPage])
     
     useEffect(() => {
-        if( currentPage > totalPages ) return
-        // this case to avoid reapation data
-        if(teachers.length == currentPage  ) {
-            return 
-        }     
-        const loadMoreTeachers = async () => {
-            setFetchingData(true);
-            const newTeachers = await fetch(`https://localhost:7279/Teacher?listSize=${limmitNumber}&page=${currentPage}`);
-            const data = await newTeachers.json();
-            changeCurrentPage({
-                type: TEACHERS , 
-                payload: [...teachers,...data.teachers]
-            })
-            setFetchingData(false);
-        };
-        loadMoreTeachers()
+        if(skipFirstRender.current ++) {
+
+            if( currentPage > totalPages ) return
+            // this case to avoid reapation data
+            if(teachers.length == currentPage  ) {
+                return 
+            }     
+            const loadMoreTeachers = async () => {
+                setFetchingData(true);
+                const newTeachers = await fetch(`https://localhost:7279/Teacher?listSize=${limmitNumber}&page=${currentPage}`);
+                const data = await newTeachers.json();
+                changeCurrentPage({
+                    type: TEACHERS , 
+                    payload: [...teachers,...data.teachers]
+                })
+                setFetchingData(false);
+            };
+            loadMoreTeachers()
+        }   
     } , [currentPage,totalPages]); 
     
     useEffect(() => {
@@ -96,7 +99,11 @@ export default function ManageTeacher() {
             return 
         }
         if(searchInput != '' && teachersInfo?.length != 0 ) {
-            dispatchTeacherInfo(teachersInfo,teachersInfo?.length,SEARCHING_TEACHER)
+            if(teachersInfo[0] == null ) { 
+                dispatchTeacherInfo([],1,SEARCHING_TEACHER)
+            }else {
+                dispatchTeacherInfo(teachersInfo,teachersInfo?.length,SEARCHING_TEACHER)
+            }
             return 
         }
         if(dataFrom == SEARCHING_TEACHER && searchInput == '' ) {
@@ -147,7 +154,6 @@ export default function ManageTeacher() {
     return(
         <>
             <ScrollRestoration />
-            <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteTeacher} setState={setSuccessDeleteTeacher} />  
             <Notification title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />  
             <Title title={window.location.pathname}/> 
 
@@ -159,7 +165,7 @@ export default function ManageTeacher() {
                     
                     const {teacherId} = teacher ; 
                     return  <div id={`teacher_${teacherId}`} ref={ offSetTeacher == `teacher_${teacherId}` ? gotoSec : null } key={index}>
-                                <Teacherinfo  teacherId={teacherId}  setSuccessDeleteTeacher={setSuccessDeleteTeacher} refProp={teachers.length === index + 1 ? lastTeacherElementRef : null}/>
+                                <Teacherinfo  teacherId={teacherId} refProp={teachers.length === index + 1 ? lastTeacherElementRef : null}/>
                             </div>
                 })
             }

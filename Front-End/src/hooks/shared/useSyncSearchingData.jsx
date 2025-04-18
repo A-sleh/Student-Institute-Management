@@ -11,17 +11,17 @@ export default async function useSyncSearchingData(
     {dataOrigin,oringinSearch,originAll}
 ) {
 
-    useEffect(() => {
+    useEffect(() => {       
 
         // to advoid set undefine teachers when the user return from searching and the search input not empyt
-        if(storedData?.length != 0 && searchField != '' && searchingData == null ) {
+        if(storedData?.length != 0  && searchField != '' && searchingData == null ) {
             return 
         }
-        
-        if(searchField != '' && searchingData?.length != 0 ) {
-            console.log('here')
-            if(searchingData[0] == null )changeCurrentState([],1,oringinSearch)
-            else {
+            
+        if(searchField != '' && searchingData != undefined && searchingData?.length != 0 ) {
+            if(searchingData[0] == null ) { 
+                changeCurrentState([],1,oringinSearch)
+            }else {
                 changeCurrentState(searchingData,1,oringinSearch)
             }
             setCurrentPage(1)
@@ -33,5 +33,5 @@ export default async function useSyncSearchingData(
             setCurrentPage(1)
             return 
         }
-    },[newData,searchField,searchingData]) 
+    },[newData,searchingData,dataOrigin]) 
 }

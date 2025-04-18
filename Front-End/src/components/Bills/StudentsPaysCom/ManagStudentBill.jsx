@@ -5,7 +5,7 @@
   
 */
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { COLUMNS } from "../style/COLUMNS.JS" 
 import useGetStudentBills from "../../../hooks/student_hooks/useGetStudentBills"
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName"
@@ -28,8 +28,6 @@ export default function ManagStudentBill() {
     const {currentLange} = useSelector( state => state.language)
     const {notFoundMES} = ManageStudentBillsTEXT[currentLange]
     const {filterField ,studentsBills,searchField , currentPage , totalPage ,dataOrigin} = useSelector( state => state.studentsBill )
-    console.log(useSelector( state => state.studentsBill ))
-
     const [studentBills,notFoundMes,setNotFoundMes] = useGetStudentBillsByName(searchField,sendRequest)
     const {students : studentsBillsFiltered ,totalPages} = useGetStudentBills(filterField,limitNumber,currentPage,setCurrentPage)
 

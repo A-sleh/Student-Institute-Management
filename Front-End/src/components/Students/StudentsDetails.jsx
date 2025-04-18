@@ -1,4 +1,4 @@
-/***  
+/***  searchedStudents
   CSS-OPTIMAIZATION : DONE , 
   COMPONENTS OPTIMIZATION : DONE ,
   USING REACT QURY : 
@@ -27,21 +27,28 @@ export default function StudentsDetails() {
   const {currentLange} = useSelector( state => state.language)
   const {grade : selectedGrade} = useSelector(state => state.grade)
   const {students ,currentPage ,totalPage ,searchField ,dataOrigin ,selectedClass ,rowsNuber} = useSelector(state => state.studentsDetails)
-  const {notFoundStudentsMES,successDeleteStudentMES} = StudentsDetailsText[currentLange]
+  const {successDeleteStudentMES ,errorDeleteStudentMES} = StudentsDetailsText[currentLange]
   const [deleteModal, setDeleteModal] = useState(false);
   const [sendRequest,setSendRequest] = useState(false)
   const [successDeleteStudent, setSuccessDeleteStudent] = useState(false);
+  const [unSuccessDeleteStudent, setUnSuccessDeleteStudent] = useState(false);
   const [currentStudentInfo, setCurrentStudentInfo] = useState({
     id: null,
     name: "",
   });
   const dispatch = useDispatch()
   const skipFirstRender = useRef(0)
-  const [searchedStudents,notFoundMes,setNotFoundMes] = useGetStudentsByName(searchField,sendRequest,successDeleteStudent)
-  const searchedStudentsMemo = useMemo(() =>mappingClassStudents(searchedStudents)
+  const [searchedStudents] = useGetStudentsByName(searchField,sendRequest,successDeleteStudent)
+  const searchedStudentsMemo = useMemo(() => {    
+    if(searchedStudents?.length != 0 && searchedStudents[0] != null ) { 
+      setRowsNumber(searchedStudents?.length )
+      return mappingClassStudents(searchedStudents) 
+    }
+    return [null]
+  }
   ,[searchedStudents])
-
-  const [studentsInfo] = useStudentsInfo(selectedGrade,setCurrentPage,LIMIT_NUMBER,currentPage,successDeleteStudent);
+  const [studentsInfo] = useStudentsInfo({selectedGrade,setSelectedClass},setCurrentPage,LIMIT_NUMBER,currentPage,successDeleteStudent);
+  console.log(studentsInfo)
   const { students : allStudents , totalPages } = studentsInfo
   const { finalTotalPage ,filteringStudents } = useMemo(() => tableInfo() ,[allStudents,selectedClass])
   
@@ -119,17 +126,18 @@ export default function StudentsDetails() {
 
   function tableInfo() {
 
-    if(selectedClass != 'all' ) {
+    if(selectedClass != 'all' && selectedClass?.students?.length != 0 ) {
       setCurrentPage(1)
       setRowsNumber(selectedClass?.students?.length)
       return {filteringStudents:mappingClassStudents(selectedClass?.students,selectedClass?.title) ,finalTotalPage: 1}
     }
     // all data 
+    setSelectedClass('all')
     setRowsNumber(LIMIT_NUMBER)
     return {filteringStudents:allStudents ,finalTotalPage: totalPages}
   }
 
-  function changePageState(students,totalPages,dataOringin,rowNumber){
+  function changePageState(students,totalPages,dataOringin){
     dispatch({
       type: STUDENT_DATA,
       payload: students
@@ -141,10 +149,6 @@ export default function StudentsDetails() {
     dispatch({
       type: STUDENT_DATA_ORIGIN,
       payload: dataOringin
-    })
-    dispatch({
-      type: STUDENT_DATA_ORIGIN,
-      payload: rowNumber
     })
   }
 
@@ -199,16 +203,16 @@ export default function StudentsDetails() {
     <>
       {
         deleteModal && 
-        <DeleteModal element={currentStudentInfo.name} type={"student"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} />
+        <DeleteModal element={currentStudentInfo.name} type={"student"} id={currentStudentInfo.id} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteStudent} setUnSuccessDelete={setUnSuccessDeleteStudent} />
       }
       <Notification title={successDeleteStudentMES} type={"success"} state={successDeleteStudent} setState={setSuccessDeleteStudent} />
-      <Notification title={notFoundStudentsMES} type={"error"} state={notFoundMes} setState={setNotFoundMes} />
+      <Notification title={errorDeleteStudentMES} type={"error"} state={unSuccessDeleteStudent} setState={setUnSuccessDeleteStudent} />
 
       <Title title={window.location.pathname} />
       <TablePaginated data={students|| []  } column={column} search ={{searchField,setSearchField,handleSearchClicked}} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage} rowNumber={rowsNuber} >
         { searchField == '' ? <div>
           <SubHeaderFilterClassByGrade />
-          <FilterClassByGradeI setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
+          <FilterClassByGradeI reFrech={successDeleteStudent} setSelectedClass={setSelectedClass} selectedClass={selectedClass} gradeId={selectedGrade?.gradeId} />
         </div> : null}
       </TablePaginated> 
 

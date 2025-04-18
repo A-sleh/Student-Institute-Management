@@ -21,7 +21,7 @@ import { ManageTeachersTEXT } from "../../../Data/static/teachers/ManageTeacher/
 import { TEACHER_SECTION } from "../../../Redux/actions/type";
 
 
-export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurrentPage,refProp}) {
+export default function Teacherinfo({teacherId,refProp}) {
 
   const {currentLange} = useSelector( state => state.language)
   const {subjectsTitle ,classesTitle ,teacherTitleInfo ,teacherSubTitle ,addNewSubjectBtn ,addNewClassBtn,
@@ -34,15 +34,7 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
   const [successDeleteFromSubject,setSuccessDeleteFromSubject] = useState(false)
   const [successDeleteFromClass,setSuccessDeleteFromClass] = useState(false)
   const [teacherInfo] = useTeacherInfo(teacherId,successDeleteFromSubject,successDeleteFromClass,successUpdataTeacher)
-  const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [updataButtonClicked ,setUpdataButtonClicked] = useState(false)
-  const [currentTeacherInfo, setCurrentTeacherInfo] = useState({
-    id: null,
-    name: "",
-  });
-
-  
+  const [updataButtonClicked ,setUpdataButtonClicked] = useState(false)  
   const { name = '' , lastName = '', phone = '' ,teacherClasses = 0 ,totalSalary = 0 } = teacherInfo
   
   const teacherDetailsList = [
@@ -84,68 +76,54 @@ export default function Teacherinfo({teacherId,setSuccessDeleteTeacher,setCurren
     setUpdataButtonClicked(true)
   }
 
-  function handleDeleteClicked() {
-    setCurrentTeacherInfo({
-      name: `${teacherInfo.name} ${teacherInfo.lastName}`,
-      id: teacherInfo.teacherId,
-    });
-    setDeleteModal(true);
-  }
+  return(
+    <>
+      <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
+      <Notification title={successDeleteTeacherSubjectMES} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
+      <Notification title={successUpdateTeacherMES} type={'success'} state ={successUpdataTeacher} setState={setSuccessUpdataTeacher}/>
+      {   
+        updataButtonClicked  ? 
+          <TeacherForm initialSatate={teacherInfo} requestType={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
+        : 
+        <MainContainerStyle ref={refProp} >
+          <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  showDeleteBtn={false}>
+            {teacherSubTitle}
+          </TitleAndControalHeader>
 
-  function handleConfirmDeleteTearch() {
-    setCurrentPage(1)    
-  }
+          <HeaderInformation data={teacherDetailsList} title={teacherTitleInfo}/>
 
-    return(
-      <>
-        <Notification title={successDeleteTeacherMES} type={'success'} state ={successDeleteFromClass} setState={setSuccessDeleteFromClass}/>
-        <Notification title={successDeleteTeacherSubjectMES} type={'success'} state ={successDeleteFromSubject} setState={setSuccessDeleteFromSubject}/>
-        <Notification title={successUpdateTeacherMES} type={'success'} state ={successUpdataTeacher} setState={setSuccessUpdataTeacher}/>
-        <Notification  title={errorDeleteTeacherMES} type={'error'} state ={NotDeletTeacher} setState={setNotDeleteTeacher} />
-        {deleteModal &&  <DeleteModal element={currentTeacherInfo.name} type={"Teacher"} id={currentTeacherInfo.id} handleDeleteTeacherOPT={handleConfirmDeleteTearch} setDeleteModal={setDeleteModal} setSuccessDelete={setSuccessDeleteTeacher} setUnSuccessDelete={setNotDeleteTeacher} />}
-        {   
-          updataButtonClicked  ? 
-            <TeacherForm initialSatate={teacherInfo} requestType={'PUT'} setSuccessAction={setSuccessUpdataTeacher} setUpdataBtnClicked={setUpdataButtonClicked} /> 
-          : 
-          <MainContainerStyle ref={refProp} >
-            <TitleAndControalHeader title={ name + ' ' + lastName }  handleUpdataButtonClicked={handleUpdataButtonClicked}  handleDeleteClicked={handleDeleteClicked}>
-              {teacherSubTitle}
-            </TitleAndControalHeader>
+          <section>
+              <FlexSpaceBetweenContainerStyle >
+                <h3>{subjectsTitle}</h3>
+                <SubmitBtnStyle onClick={()=> {
+                  changePageTo(`TeacherNewSubject/` + teacherId )
+                  dispatch({
+                    type: TEACHER_SECTION ,
+                    payload: `teacher_${teacherId}`
+                  })                    
+                }}>{addNewSubjectBtn}</SubmitBtnStyle>
+              </FlexSpaceBetweenContainerStyle >
+              <TeacherSubjectsTable teacherId={teacherId} setSuccessDeleteFromSubject={setSuccessDeleteFromSubject} successDeleteFromSubject={successDeleteFromSubject}/>
+          </section>
 
-            <HeaderInformation data={teacherDetailsList} title={teacherTitleInfo}/>
+          <section>
+              <FlexSpaceBetweenContainerStyle >
+                <h3>{classesTitle}</h3>
+                <SubmitBtnStyle onClick={()=>{
+                  dispatch({
+                    type: TEACHER_SECTION ,
+                    payload: `teacher_${teacherId}`
+                  })
+                  changePageTo(`TeacherNewClass/` + teacherId )
+                }}>{addNewClassBtn}</SubmitBtnStyle>
+              </FlexSpaceBetweenContainerStyle >
+              <TeacherClassesTable teacherId={teacherId} successDeleteFromClass={successDeleteFromClass}setSuccessDeleteFromClass={setSuccessDeleteFromClass}/>
+          </section>
+        </MainContainerStyle >
 
-            <section>
-                <FlexSpaceBetweenContainerStyle >
-                  <h3>{subjectsTitle}</h3>
-                  <SubmitBtnStyle onClick={()=> {
-                    changePageTo(`TeacherNewSubject/` + teacherId )
-                    dispatch({
-                      type: TEACHER_SECTION ,
-                      payload: `teacher_${teacherId}`
-                    })                    
-                  }}>{addNewSubjectBtn}</SubmitBtnStyle>
-                </FlexSpaceBetweenContainerStyle >
-                <TeacherSubjectsTable teacherId={teacherId} setSuccessDeleteFromSubject={setSuccessDeleteFromSubject} successDeleteFromSubject={successDeleteFromSubject}/>
-            </section>
-
-            <section>
-                <FlexSpaceBetweenContainerStyle >
-                  <h3>{classesTitle}</h3>
-                  <SubmitBtnStyle onClick={()=>{
-                    dispatch({
-                      type: TEACHER_SECTION ,
-                      payload: `teacher_${teacherId}`
-                    })
-                    changePageTo(`TeacherNewClass/` + teacherId )
-                  }}>{addNewClassBtn}</SubmitBtnStyle>
-                </FlexSpaceBetweenContainerStyle >
-                <TeacherClassesTable teacherId={teacherId} successDeleteFromClass={successDeleteFromClass}setSuccessDeleteFromClass={setSuccessDeleteFromClass}/>
-            </section>
-          </MainContainerStyle >
-
-        }
-      </>
-    )
+      }
+    </>
+  )
 }
 
 

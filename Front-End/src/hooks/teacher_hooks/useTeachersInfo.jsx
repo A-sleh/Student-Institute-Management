@@ -1,6 +1,6 @@
 
 import DataServices from "../../Data/dynamic/DataServices"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export async function getTeachersSubjectsClassesNumber(teachers) {
     return new Promise((resolve) => {
@@ -20,13 +20,18 @@ export async function getTeachersSubjectsClassesNumber(teachers) {
     })
 }
 
-export default function useTeachersInfo(limit,page,...reFetch) {
+export default function useTeachersInfo(limit,{page,setPage},...reFetch) {
 
     const [teachers,setTeachers] = useState([])
     const [teachersDetails,setTeachersDetails] = useState([])
   
     useEffect(() => {
         DataServices.TeacherInformaion('',limit,page).then( teacherDetails => {
+            // this case in paginated table when the user delete the last item from last page in this case we should fetch data from previous page 
+            if(teacherDetails?.teachers?.length == 0 && page != 1 ) {
+                setPage(page - 1 )
+                return 
+            }
             setTeachers(teacherDetails)
         })
     },[page,...reFetch])
