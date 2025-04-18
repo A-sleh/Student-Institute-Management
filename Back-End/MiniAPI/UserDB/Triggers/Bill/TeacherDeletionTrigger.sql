@@ -5,8 +5,8 @@ AS
 BEGIN
 	IF(UPDATE(TeacherId) AND (SELECT DISTINCT TeacherId FROM inserted) is null)
 	BEGIN
-		DECLARE @teacherName NVARCHAR(128) = (SELECT DISTINCT CONCAT(t.Name, N' ', t.LastName) FROM deleted d JOIN Teacher t ON d.TeacherId = t.Id)
-		DECLARE @BillNo NVARCHAR(128) = (SELECT CONCAT(COALESCE(BillNo,''), '#D') FROM deleted)
-		INSERT INTO Bill(BillNo, Amount, Date, Type, Note) SELECT @BillNo, Amount, Date, Type, CONCAT(Note, N' ', @teacherName) FROM inserted
+		INSERT INTO Bill(BillNo, Amount, Date, Type, Note) 
+		(SELECT CONCAT(N'#D', i.BillNo), Amount, GETDATE(), Type, CONCAT('(teacher deleted)', i.note) FROM inserted i)
+		DELETE FROM Bill WHERE Id IN (SELECT Id FROM deleted);
 	END
 END

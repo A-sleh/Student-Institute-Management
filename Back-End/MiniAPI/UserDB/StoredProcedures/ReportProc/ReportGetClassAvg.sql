@@ -6,7 +6,7 @@ AS
 	SELECT 
 	c.id as ClassId, c.title, c.gender, g.gradeId, g.grade, c.capacity,
 	r.Id as ReportId, r.ReportTitle, r.StartDate, r.FinishDate,
-	SUM(ts.Mark) * 100 / SUM(sb.MaximumMark) as Average
+	ROUND(SUM(ts.Mark) * 100.0 / SUM(sb.MaximumMark), 2) as Average
 	FROM Class c
 	JOIN Student s ON c.id = s.classId
 	JOIN TestMark ts ON s.id = ts.StudentId

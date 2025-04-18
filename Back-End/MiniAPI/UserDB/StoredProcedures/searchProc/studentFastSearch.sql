@@ -13,8 +13,7 @@ AS
 	LEFT JOIN Grade g ON c.gradeId = g.gradeId
 	LEFT JOIN studentAbsences a ON s.id = a.studentId
 	WHERE (@classId IS NULL OR s.classId = @classId)
-	AND ( name LIKE (CONCAT(N'%', @content, N'%'))
-	OR lastName LIKE (CONCAT(N'%', @content, N'%')))
+	AND ( CONCAT(name, N' ', lastName) LIKE (CONCAT(N'%', @content, N'%')))
 	ORDER BY name
 	OFFSET ((@Page-1)*@pageSize) ROWS
 	FETCH NEXT @PageSize ROWS ONLY
