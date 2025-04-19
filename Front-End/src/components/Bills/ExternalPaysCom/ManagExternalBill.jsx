@@ -47,8 +47,15 @@ export default function ManagExternalBill() {
     }
 
     useEffect(() => {
-    if(skipFirstRender.current ++ ) 
-        handleSearchClicked()
+        if(skipFirstRender.current  && ( inComeDataOrigin == EXTERNAL_SEARCHING_BILLS || outComeDataOrigin == EXTERNAL_SEARCHING_BILLS)) 
+            handleSearchClicked()
+        if(skipFirstRender.current  && ( inComeDataOrigin == ALL_EXTERNAL_BILLS || outComeDataOrigin == ALL_EXTERNAL_BILLS)) {
+            if(inComeAllBills.length == 0 && incomeBills?.length != 0 )
+                changeIncomState([],1,inComeDataOrigin) 
+            if(outComeAllBills.length == 0 && outcomeBills?.length != 0)
+                changeOutcomState([],1,outComeDataOrigin) 
+        }           
+        skipFirstRender.current ++ 
     },[successDelete])
     
     function changeIncomState(bills,totalPages,dataOringin) {

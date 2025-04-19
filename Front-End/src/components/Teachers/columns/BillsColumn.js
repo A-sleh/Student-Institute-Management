@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
+import { getDateOnly } from "../../shared/logic/logic";
 
 
 export const BILLSCOLUMNS = [
@@ -27,7 +28,7 @@ export const BILLSCOLUMNS = [
         },
         accessor: "date",
         Cell : ({value}) => {
-            return format(new Date(value) ,'yyyy / MM / dd')
+            return format(getDateOnly(value) ,'yyyy / MM / dd')
         }
     },
     {

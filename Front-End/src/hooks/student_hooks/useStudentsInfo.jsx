@@ -2,7 +2,7 @@
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useRef, useState } from "react"
 
-export default function useStudentsInfo({selectedGrade,setSelectedClass},setPage,limit,page,...reFetch) {
+export default function useStudentsInfo({selectedGrade = '',setSelectedClass = ''} = {},setPage,limit,page,...reFetch) {
 
     const [studentInfo, setstudentInfo] = useState([]);
     const skipFirstRender = useRef(0)

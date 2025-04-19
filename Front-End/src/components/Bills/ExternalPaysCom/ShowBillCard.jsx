@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import DeleteModal from "../../Modal/DeleteModal";
 import addSpaceBetweenDigit from "../../Global/globalStyle";
 import { useSelector } from "react-redux";
+import { getDateOnly } from "../../shared/logic/logic";
 
 export default function ShowBillCard({type,bill,setSuccessDelete}) {
 
@@ -36,7 +37,7 @@ export default function ShowBillCard({type,bill,setSuccessDelete}) {
                 </section>
                 <section>
                     <span style={{fontWeight: '500'}}> <span style={{fontSize: '16px',fontWeight: '600',direction: currentLange == 'arabic' ? 'rtl': 'ltr'}}>{currentLange == 'arabic' ? 'المبلغ': 'Amount'} </span> <span style={{direction: 'rtl'}}>{addSpaceBetweenDigit(amount,currentLange)}</span></span>
-                    <span>{ format(new Date(date) , 'yyyy / MM / dd')}</span>
+                    <span>{ format(getDateOnly(date) , 'yyyy / MM / dd')}</span>
                 </section>
                 <footer>
                     {note || 'Bill note...'} 

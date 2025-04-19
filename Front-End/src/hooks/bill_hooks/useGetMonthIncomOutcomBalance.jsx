@@ -1,6 +1,7 @@
 
 
 
+import { getDateOnly } from "../../components/shared/logic/logic"
 import DataServices from "../../Data/dynamic/DataServices"
 import { useEffect, useState } from "react"
 
@@ -9,7 +10,7 @@ export default function useGetMonthIncomOutcomBalance(startDate,endDate) {
     const [inComeBalance,setInComeBalance] = useState(0)
     const [outComeBalance,setOutComeBalance] = useState(0)
     
-    if( (new Date(startDate) - new Date(endDate)) > 0 ) {
+    if( (getDateOnly(startDate) - getDateOnly(endDate)) >= 0 ) {
         const tempDate = startDate 
         startDate = endDate 
         endDate = tempDate

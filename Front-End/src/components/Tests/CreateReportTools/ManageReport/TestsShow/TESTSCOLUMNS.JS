@@ -1,4 +1,5 @@
 import { format } from "date-fns"
+import { getDateOnly } from "../../../../shared/logic/logic"
 
 export const TESTSCOLUMNS = [
     {
@@ -22,7 +23,7 @@ export const TESTSCOLUMNS = [
         },
         accessor: 'date',
         Cell : ({value}) => {
-            return format(new Date(value), "yyyy / MM / dd")
+            return format(getDateOnly(value), "yyyy / MM / dd")
         }
     }
 

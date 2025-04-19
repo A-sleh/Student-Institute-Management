@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export default async function useSyncSearchingData(    
     newData,
@@ -10,9 +10,8 @@ export default async function useSyncSearchingData(
     changeCurrentState,
     {dataOrigin,oringinSearch,originAll}
 ) {
-
-    useEffect(() => {       
-
+    const skipFirstRender = useRef(0)
+    useEffect(() => {
         // to advoid set undefine teachers when the user return from searching and the search input not empyt
         if(storedData?.length != 0  && searchField != '' && searchingData == null ) {
             return 
@@ -33,5 +32,13 @@ export default async function useSyncSearchingData(
             setCurrentPage(1)
             return 
         }
-    },[newData,searchingData,dataOrigin]) 
+    },[newData,searchingData]) 
+
+    useEffect(() => {
+        if(skipFirstRender.current++) {
+            if(dataOrigin == oringinSearch && searchField == '' ) {
+                changeCurrentState(newData,totalPages,originAll)
+            }
+        }
+    },[searchField])
 }

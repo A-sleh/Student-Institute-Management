@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { ClassReportStructurTEXT } from '../../../../Data/static/test/CreateReportTools/PrintReportTEXT';
 import { ARABIC } from '../../../../Redux/actions/type';
+import { getDateOnly } from '../../../shared/logic/logic';
 
 export default function ClassPdfPage({data,currentLange}) {
 
@@ -73,7 +74,7 @@ export default function ClassPdfPage({data,currentLange}) {
                 <View style={{display: 'flex' , flexDirection: 'column' , justifyContent: 'center' , alignItems: currentLange == ARABIC ? 'flex-end' : 'flex-start'}}>
                     <Text style={[styles.reportTitle,styles.arabicText,{fontSize: '20px',marginBottom: '5'}]}>{instituteNameTEXT}</Text>
                     <Text style={[styles.reportTitle,styles.arabicText]}>{reportTitleTEXT} : {data.ReportTitle}  </Text>
-                    <Text style={[styles.reportTitle,styles.arabicText]}>{reportDateTEXT} : {format( new Date( data.StartDate) , 'yyyy / MM / dd')}   </Text>
+                    <Text style={[styles.reportTitle,styles.arabicText]}>{reportDateTEXT} : {format(getDateOnly( data.StartDate) , 'yyyy / MM / dd')}   </Text>
                 </View>
             </View>
         </View>

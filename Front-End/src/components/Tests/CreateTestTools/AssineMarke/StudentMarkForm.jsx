@@ -9,7 +9,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { add, format } from "date-fns"
 import { ButtonsContainerStyle, GoBackBtnStyle, InputStyle, SubmitBtnStyle } from "../../../shared/style/styleTag"
 import { TESTMARKCOLUMN } from "../columnsTools/TestMarlColumn"
-import { errorActionLogic, successActionLogic } from "../../../shared/logic/logic"
+import { errorActionLogic, getDateOnly, successActionLogic } from "../../../shared/logic/logic"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
 import DataServices from "../../../../Data/dynamic/DataServices"
 import Notification from "../../../Global/Notification"
@@ -105,7 +105,7 @@ export default function StudentMarkForm() {
     function handleInputChange(newValue,testMarkId) {
         let newMaksObj = new Map() 
         newMaksObj = {...marks}
-        newMaksObj[testMarkId] = newValue
+        newMaksObj[testMarkId] = (newValue[0] == 0 && newValue?.length > 1 ) ? newValue.substring(1) :  newValue
         setMarks(newMaksObj)
     }
 
@@ -119,7 +119,7 @@ export default function StudentMarkForm() {
                 <NavigateSubHeaderStyle>
                     {subject.grade?.toLowerCase()} / {classTitle?.toLowerCase()} / {testType?.toLowerCase()} / {subject.subject?.toLowerCase()}
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >{studentsTitle}</span>
-                    <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
+                    <span style={{float: 'right' }} >{format( getDateOnly(date) , ' yyyy / MM / dd') }</span>
                 </NavigateSubHeaderStyle>
                 <InputStyle type={'date'} style={{width: '100%'}} value={testDate} onChange={(e) => setTestDate(e.target.value)}/>
             </Table>

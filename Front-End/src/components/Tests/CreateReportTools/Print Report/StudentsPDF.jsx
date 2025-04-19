@@ -13,6 +13,7 @@ import { Image, Text, View, Page, Document, StyleSheet,Font } from '@react-pdf/r
 import { format } from 'date-fns';
 import { StudentReportStructurTEXT } from '../../../../Data/static/test/CreateReportTools/PrintReportTEXT';
 import { ARABIC } from '../../../../Redux/actions/type';
+import { getDateOnly } from '../../../shared/logic/logic';
 
 export default function StudentsPDF({data,currentLange}) {
 
@@ -87,7 +88,7 @@ export default function StudentsPDF({data,currentLange}) {
                     </View>
                     
                     <View>
-                        <Text style={[styles.invoiceNumber,styles.arabicText]}>{reportDateTEXT}: {format( new Date(data.StartDate) , 'yyyy / MM / dd')}  </Text>
+                        <Text style={[styles.invoiceNumber,styles.arabicText]}>{reportDateTEXT}: {format( getDateOnly(data.StartDate) , 'yyyy / MM / dd')}  </Text>
                     </View>
 
                     <View>
@@ -154,13 +155,13 @@ export default function StudentsPDF({data,currentLange}) {
     }
 
     const NoteSection = ({title}) => {
-        return <View style={{ width:'100%', flexDirection :'column', marginTop: 5  , textAlign: 'right'}}>
+        return <View style={{ flexDirection :'column', marginTop: 5 ,textAlign: 'right' }}>
                 <View style={{margin: '5px 0'}}>
                     <Text style={styles.arabicText}>: {title}</Text>
                 </View>
                 <view style={{display: 'flex' , flexDirection: 'column' , gap: 5}}>
-                    <Text style={{width: '100%'}}>..............................................................................................................................................................................................</Text>
-                    <Text style={{width: '100%'}}>..............................................................................................................................................................................................</Text>
+                    <Text style={{width: '100%'}}>................................................................................................................................................................................</Text>
+                    <Text style={{width: '100%'}}>................................................................................................................................................................................</Text>
                 </view>
         </View>
     }
@@ -179,7 +180,7 @@ export default function StudentsPDF({data,currentLange}) {
                                     <TableBody exams={student.testMark}/>
                                     <Image src={logo}  style={{position: 'absolute' , left: '50%' , top: '50%' , transform: 'translate(-50%,-50%)' , opacity: '.3' , width: '300px'}}/>
                                     <ToalResultFooter student={student}/>
-                                    <View style={{marginLeft: 20 , marginRight: 20}}>
+                                    <View style={{marginLeft: 10 , marginRight: 10}}>
                                         <NoteSection title={'السلوك وملاحظات الإداره والكادر التدريسي'}/>
                                         <NoteSection title={'ملاحظات ولي الأمر'}/>
                                     </View>

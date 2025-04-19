@@ -38,19 +38,20 @@ export default function StudentsDetails() {
   });
   const dispatch = useDispatch()
   const skipFirstRender = useRef(0)
+  const runOnlyInFirstRender = useRef(0)
   const [searchedStudents] = useGetStudentsByName(searchField,sendRequest,successDeleteStudent)
-  const searchedStudentsMemo = useMemo(() => {    
+  const searchedStudentsMemo = useMemo(() => {  
     if(searchedStudents?.length != 0 && searchedStudents[0] != null ) { 
       setRowsNumber(searchedStudents?.length )
       return mappingClassStudents(searchedStudents) 
     }
     return [null]
   }
-  ,[searchedStudents])
+  ,[searchedStudents,dataOrigin])
+
   const [studentsInfo] = useStudentsInfo({selectedGrade,setSelectedClass},setCurrentPage,LIMIT_NUMBER,currentPage,successDeleteStudent);
-  console.log(studentsInfo)
   const { students : allStudents , totalPages } = studentsInfo
-  const { finalTotalPage ,filteringStudents } = useMemo(() => tableInfo() ,[allStudents,selectedClass])
+  const { finalTotalPage ,filteringStudents } = useMemo(() => tableInfo() ,[allStudents,selectedClass,dataOrigin])
   
   function handleSearchClicked() {
     setSendRequest(true)
@@ -196,8 +197,11 @@ export default function StudentsDetails() {
   useEffect(() => {
     if(skipFirstRender.current ++ ) 
       handleSearchClicked()
-
+    
+    if(searchField != ''&& dataOrigin == SEARCHING_STUDENTS && !(runOnlyInFirstRender.current++))
+      handleSearchClicked()
   },[successDeleteStudent])
+
 
   return (
     <>
