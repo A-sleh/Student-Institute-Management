@@ -56,6 +56,11 @@ export default function ManageTeacher() {
     }
 
     useEffect(() => {
+        if(searchInput != '' && dataFrom == SEARCHING_TEACHER )
+            handleSearchClicked()
+    },[])
+
+    useEffect(() => {
         if(!isAdmin) {
             goTo('/TeachersDetails')
         }
@@ -65,7 +70,6 @@ export default function ManageTeacher() {
         // for the first state and if the user delete any teacher 
         if( currentPage == 1 ) {
             DataServices.TeacherInformaion('',limmitNumber,currentPage).then( teachers => { 
-                console.log('fofo')
                 dispatchTeacherInfo(teachers.teachers,teachers.totalPages,ALL_TEACHER)
             })
         }

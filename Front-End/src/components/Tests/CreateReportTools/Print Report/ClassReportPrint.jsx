@@ -89,7 +89,7 @@ export default function ClassReportPrint() {
     const filteringReportsByDate = useMemo(() => {
         return reports?.filter( report => {
             if(searchByDate == '') return true
-            return ((getDateOnly(searchByDate) - getDateOnly(report.startDate)) <= 0) 
+            return ((getDateOnly(searchByDate) - getDateOnly(report?.StartDate)) <= 0 ) 
         })
     },[searchByDate,reports])
     

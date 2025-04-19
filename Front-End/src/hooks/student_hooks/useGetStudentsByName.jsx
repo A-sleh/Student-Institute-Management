@@ -13,11 +13,11 @@ export default function useGetStudentsByName(searchKey,pass,...reFetch) {
 
         if(searchKey == '' || searchKey == undefined  || !pass  ) return 
         else {
-            console.log('here')
             DataServices.SearchOnCurrentSutdentName(searchKey).then((StudentsInfo) =>  {
                 
                 if(StudentsInfo.length == 0 ) {
                     setstudentInfo([null])
+                    errorActionLogic(setNotFoundMes)
                 }
                 setstudentInfo(StudentsInfo )
             }) 
@@ -35,7 +35,6 @@ export default function useGetStudentsByName(searchKey,pass,...reFetch) {
     },[...reFetch])
 
     useEffect( () => {
-
         // reset teacher array when the search field is empty
         if(searchKey == '' ) 
             setstudentInfo([])

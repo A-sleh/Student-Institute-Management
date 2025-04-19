@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { getDateOnly } from "../../../shared/logic/logic";
 
 export const TESTCOLUMNS = [
   {
@@ -22,7 +23,7 @@ export const TESTCOLUMNS = [
     },
     accessor: "date",
     Cell: ({ value }) => {
-      return format(new Date(value), "yyyy / MM / dd");
+      return format(getDateOnly(value), "yyyy / MM / dd");
     },
   },
   {
@@ -33,7 +34,7 @@ export const TESTCOLUMNS = [
     accessor: "correctionDate",
     Cell: ({ value }) => {
         if(value == null ) return '---'
-        return format(new Date(value), "yyyy / MM / dd");
+        return format(getDateOnly(value), "yyyy / MM / dd");
     },
   },
   {
@@ -44,7 +45,7 @@ export const TESTCOLUMNS = [
     accessor: 'delay',
     Cell: ({ row }) => {
       const {date,correctionDate} = row.original
-      const delay = Math.floor((new Date(correctionDate) - new Date(date)) / (60 * 60 *  60 * 365) )
+      const delay = Math.floor((getDateOnly(correctionDate) -getDateOnly(date)) / (60 * 60 *  60 * 365) )
       return delay < 0 ? '---' : delay
     },
   },

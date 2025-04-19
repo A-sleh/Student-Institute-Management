@@ -6,6 +6,7 @@ import LineChart from "../charts/LineChart";
 import { BackgroundLayoutStyle, SelectorStyle } from "../services/style";
 import { useEffect, useMemo, useState } from "react";
 import { ARABIC } from "../../../Redux/actions/type";
+import { getDateOnly } from "../../shared/logic/logic";
 
 export default function StudentReportsAvg() {
 
@@ -22,7 +23,7 @@ export default function StudentReportsAvg() {
     let filteringStudentReportsAvg = {
         data: studentReportsAvg.map( reports => {
             return {
-                date : new Date(reports?.StartDate) ,
+                date : getDateOnly(reports?.StartDate) ,
                 avg : reports.Average,
             }
         }) ,

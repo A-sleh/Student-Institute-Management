@@ -29,7 +29,6 @@ export default function TeachersDetails() {
   const {currentLange} = useSelector( state => state.language)
   const {isAdmin} = useSelector( state => state.admin)
   const {totalTeachersTitle ,successDeleteTeacherMES  ,errorDeleteTeacherMES,notFoundMES,unAutherizedMES} = TeachersDetailsTEXT[currentLange]
-  
   const goTo = useNavigate()
   const changeState = useDispatch()
   const [deleteModal, setDeleteModal] = useState(false)
@@ -37,6 +36,7 @@ export default function TeachersDetails() {
   const [unAutherized,setUnAutherized] = useState(false)
   const [NotDeletTeacher, setNotDeleteTeacher] = useState(false);
   const skipFirstRender = useRef(0)
+  const runOnlyInFirstRender = useRef(0)
   const [sendRequest,setSendRequest] = useState(false)
   const [teachersInfo,notFoundMes,setNotFoundMes] = useGetTeacherByName(searchField,sendRequest,successDeleteTeacher)
   const [teachers] = useTeachersInfo(LIMIT_NUMBER,{page:currentPage,setPage:setCurrentPage},successDeleteTeacher)
@@ -57,7 +57,10 @@ export default function TeachersDetails() {
   const column = useMemo(() => [
     ...COLUMNS ,
     {
-      Header: "Action",
+      Header: {
+        arabic: 'الإعدادات',
+        english: "Action"
+      },
       id: "selection",
       Cell: ({ row }) => (
         <div style={{ justifyContent: "space-evenly", display: "flex", fontSize: "20px", alignItems: "center" }} >
@@ -123,6 +126,8 @@ export default function TeachersDetails() {
     if(skipFirstRender.current ++) {
       reSetManageTeacherPage()
     }
+    if(!(runOnlyInFirstRender.current++) && searchField != '' && dataFrom == SEARCHING_TEACHER) 
+      handleSearchClicked()
   },[successDeleteTeacher])
 
   function dispatchTeacherInfo(teachers,totalPages,rowsNumber,teachersNumber,mode) {
@@ -164,6 +169,11 @@ export default function TeachersDetails() {
   }
 
   function handleDleteClicked(teacher) {
+
+      if(!isAdmin) {
+        errorActionLogic(setUnAutherized)
+        return 
+      }
       setCurrentStudentInfo({
         name: `${teacher.name} ${teacher.lastName}`,
         id: teacher.teacherId,

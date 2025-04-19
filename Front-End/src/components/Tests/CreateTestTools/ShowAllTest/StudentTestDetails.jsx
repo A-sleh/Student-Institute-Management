@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { useMemo } from "react";
 import { ShowAllTestTEXT } from "../../../../Data/static/test/CreateTestTools/ShowAllTestTEXT";
 import { useSelector } from "react-redux";
+import { getDateOnly } from "../../../shared/logic/logic";
 
 export default function StudentTestDetails() {
 
@@ -35,7 +36,7 @@ export default function StudentTestDetails() {
                 <h3 style={{backgroundColor: '#066599',position: 'relative',padding: '20px 10px 5px 10px' , textAlign: 'left' , color: 'white' , fontSize: '1.3em',fontWeight: '400'}}>
                     {subject.grade?.toLowerCase()} / {classTitle?.toLowerCase()} / {testType?.toLowerCase()} / {subject.subject?.toLowerCase()}
                     <span style={{position: 'absolute' , bottom: '0' , left: '50%'}} >{studentTitle}</span>
-                    <span style={{float: 'right' }} >{format( new Date(date) , ' yyyy / MM / dd') }</span>
+                    <span style={{float: 'right' }} >{format( getDateOnly(date) , ' yyyy / MM / dd') }</span>
                 </h3>
             </Table>
 

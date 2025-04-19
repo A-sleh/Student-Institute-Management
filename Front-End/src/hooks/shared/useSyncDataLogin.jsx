@@ -12,7 +12,7 @@ export default async function useSyncDataLogin(
 
     useEffect(() => {
 
-        if( newData == undefined ) return 
+        if( newData == undefined || (newData?.length == 0 && storedData?.length != 0 && dataOrigin == oringinAction)) return 
         
         if(storedData?.length == 0 ) {    
             changeCurrentState(newData,totalPages,oringinAction)

@@ -8,7 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { format } from "date-fns"
 import { NavigateSubHeaderStyle } from "../../style/styleTage"
 import { STUDENTCOLMN } from "../columnsTools/STUDENTTESTCOL"
-import { separateTesetsAccordingToType } from "../../../shared/logic/logic"
+import { getDateOnly, separateTesetsAccordingToType } from "../../../shared/logic/logic"
 import { GoBackBtnStyle } from "../../../shared/style/styleTag"
 import useGetStudentsTestsInCurrentClassAndReport from "../../../../hooks/student_hooks/useGetStudentsTestsInCurrentClassAndReport"
 import Table from "../../../shared/Table"
@@ -34,7 +34,7 @@ export default function ReportClassDetails() {
         <div>
             <NavigateSubHeaderStyle >
                 <span style={{width: '100%'}}>{Class.title} / {Class.grade} / {reportTitle} </span>
-                <span style={{float: 'right'}}>{format(new Date(startDate) , 'yyyy / MM / dd')}</span>
+                <span style={{float: 'right'}}>{format(getDateOnly(startDate) , 'yyyy / MM / dd')}</span>
             </NavigateSubHeaderStyle >
 
             <ReportTests quiz={quiz} exam={exam}/>
