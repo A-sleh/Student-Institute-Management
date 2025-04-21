@@ -77,7 +77,7 @@ export default function ManagTeacherBill() {
 
     return(
         <>
-            <TablePaginated data={teachersBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage || 1} currPage={currentPage || 1 } idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
+            <TablePaginated data={teachersBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={dataOrigin == SEARCHING_TEACHER ? teachersBills.length : limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage || 1} currPage={currentPage || 1 } idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} specialState='manage' />
         </>
     )
 }

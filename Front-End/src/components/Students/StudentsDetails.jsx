@@ -127,6 +127,7 @@ export default function StudentsDetails() {
 
   function tableInfo() {
 
+    if( dataOrigin == SEARCHING_STUDENTS ) return {filteringStudents: [] ,finalTotalPage: 0}
     if(selectedClass != 'all' && selectedClass?.students?.length != 0 ) {
       setCurrentPage(1)
       setRowsNumber(selectedClass?.students?.length)
@@ -201,7 +202,6 @@ export default function StudentsDetails() {
     if(searchField != ''&& dataOrigin == SEARCHING_STUDENTS && !(runOnlyInFirstRender.current++))
       handleSearchClicked()
   },[successDeleteStudent])
-
 
   return (
     <>

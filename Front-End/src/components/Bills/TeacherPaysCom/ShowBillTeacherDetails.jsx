@@ -22,7 +22,6 @@ export default function ShowBillTeacherDetails() {
     const dispatch = useDispatch()
     const goTo = useNavigate()
 
-
     function changeTeacherBillsState(teacherBills,totalPage) {
         dispatch({
             payload: teacherBills,
@@ -75,7 +74,7 @@ export default function ShowBillTeacherDetails() {
     }   
     
     return (
-        <TablePaginated data={teachersBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage || 1} currPage={currentPage || 1} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} />
+        <TablePaginated data={teachersBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}  rowNumber={dataOrigin == SEARCHING_TEACHER ? teachersBills.length: limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage || 1} currPage={currentPage || 1} idKeyParams={'teacherId'} url={`/TeachersSalaries/TeacherBillDetails`} />
     )
 }
 
