@@ -79,7 +79,7 @@ export default function ShowBillStudentDetails() {
     
     return (<>
             <Notification  title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />
-            <TablePaginated data={studentsBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}} rowNumber={filterField != 'All' ? studentsBills?.length : limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage}  idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} >
+            <TablePaginated data={studentsBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}} rowNumber={filterField != 'All' || dataOrigin == SEARCHING_STUDENTS_BILLS ? studentsBills?.length : limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage}  idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} >
                 {   
                     searchField === '' ? <>
                         <SubeHeaderFilterByClassName fileterByClass={filterField} setFileterByClass={setFileterByClass}/>

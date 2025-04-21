@@ -23,6 +23,8 @@ export default function FullScreen() {
         else openAsNormalScreen()
     }
 
+
+
     return(
         <>
             <h3 style={{margin: '10px 0'}}><i className={currentLange == ARABIC ? "bi bi-caret-left-fill": "bi bi-caret-right-fill"} style={{color: '#056699'}}></i>{currentLange == ARABIC ? ' عرض بملئ الشاشة : ': " Full Screen : "}</h3>

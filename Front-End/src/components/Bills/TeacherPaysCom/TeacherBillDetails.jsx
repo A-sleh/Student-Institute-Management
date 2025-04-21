@@ -124,7 +124,7 @@ export default function TeacherBillDetails() {
 
     useEffect(() => {
         if(!isAdmin) {
-            goTo('/StudentsPays')
+            goTo('/TeachersSalaries')
         }
     },[isAdmin])
     

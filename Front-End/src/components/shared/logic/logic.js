@@ -15,7 +15,7 @@ export const errorActionLogic = (setAction) => {
 
 export const openAsFullScreen = () => {
 
-    const elem = document.getElementsByTagName('body')[0]
+    const elem = document.documentElement
 
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -27,6 +27,7 @@ export const openAsFullScreen = () => {
 }
 
 export const openAsNormalScreen = () => {
+
     if (document.exitFullscreen) {
         document.exitFullscreen();
     } else if (document.webkitExitFullscreen) { /* Safari */

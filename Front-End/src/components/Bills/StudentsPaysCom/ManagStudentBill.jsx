@@ -5,7 +5,7 @@
   
 */
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { COLUMNS } from "../style/COLUMNS.JS" 
 import useGetStudentBills from "../../../hooks/student_hooks/useGetStudentBills"
 import SubeHeaderFilterByClassName from "../../shared/subHeaderTable/SubeHeaderFilterByClassName"
@@ -81,7 +81,7 @@ export default function ManagStudentBill() {
     return (
         <>
             <Notification  title={notFoundMES} type={'error'} state ={notFoundMes} setState={setNotFoundMes} />
-            <TablePaginated data={studentsBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}rowNumber={filterField != 'All' ? studentsBills?.length : limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage}  idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
+            <TablePaginated data={studentsBills || []} column={COLUMNS} search={{searchField,setSearchField,handleSearchClicked}}rowNumber={filterField != 'All' || dataOrigin == SEARCHING_STUDENTS_BILLS  ? studentsBills?.length : limitNumber} setNextPageState={setCurrentPage} totalPages={totalPage} currPage={currentPage}  idKeyParams={'studentId'} url={`/StudentsPays/StudentBillDetails`} specialState='manage'>
                 {   
                     searchField === '' ? <>
                         <SubeHeaderFilterByClassName fileterByClass={filterField} setFileterByClass={setFileterByClass}/>
